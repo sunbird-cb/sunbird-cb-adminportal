@@ -1,0 +1,17 @@
+
+<mat-sidenav-container autosize name="discuss-menu">
+  <mat-sidenav [mode]="mode$ | async" [(opened)]="sideNavBarOpened">
+    <div #stickyMenu>
+      <ng-container [wsResolverWidget]="widgetData"></ng-container>
+    </div>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <div class="container-balanced">
+      <!-- <div  class="left-menu-bread">
+        <ws-widget-breadcrumbs-org [widgetData]="{titles:[{title:'Directory', url:'/app/home/directory'},{title:'Department',url:'none'}] }">
+        </ws-widget-breadcrumbs-org>
+      </div> -->
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>
