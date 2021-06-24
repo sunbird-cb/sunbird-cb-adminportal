@@ -3,7 +3,7 @@
 set -eo pipefail
 
 build_tag=$1
-name='sun-ui-spv-igot'
+name='ui-spv-igot'
 node=$2
 org=$3
 
