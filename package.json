@@ -41,7 +41,7 @@
     "@angular/service-worker": "~8.2.1",
     "@sunbird-cb/collection": "^0.0.22",
     "@sunbird-cb/resolver": "^0.0.3",
-    "@sunbird-cb/utils": "^1.0.0",
+    "@sunbird-cb/utils": "^1.0.1",
     "@types/file-saver": "^2.0.1",
     "@types/lodash": "^4.14.161",
     "@types/video.js": "7.2.12",
