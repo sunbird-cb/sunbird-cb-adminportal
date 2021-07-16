@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  sitePath: 'spv-sb.idc.tarento.com',
-  karmYogiPath: 'https://igot-dev.in',
+  sitePath: (window as { [key: string]: any })['env']['sitePath'] || '',
+  karmYogiPath: (window as { [key: string]: any })['env']['karmYogiPath'] || '',
 }

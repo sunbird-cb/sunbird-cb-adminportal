@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  sitePath: 'spv.igot-stage.in',
-  karmYogiPath: 'https://igot-stage.in',
+  sitePath: (window as { [key: string]: any })['env']['sitePath'] || '',
+  karmYogiPath: (window as { [key: string]: any })['env']['karmYogiPath'] || '',
 }
