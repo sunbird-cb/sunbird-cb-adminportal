@@ -62,11 +62,6 @@ export class DirectoryViewComponent implements OnInit {
     })
 
   }
-  ngOnDestroy() {
-    if (this.tabs) {
-      this.tabs.unsubscribe()
-    }
-  }
 
   ngOnInit() {
     // int left blank
@@ -152,7 +147,7 @@ export class DirectoryViewComponent implements OnInit {
       // })
       this.wholeData2.forEach((element: any) => {
 
-        var department = 'CBP'
+        let department = 'CBP'
         if (element.isMdo) {
           department = 'MDO'
         } else if (element.isCbp) {
@@ -164,9 +159,9 @@ export class DirectoryViewComponent implements OnInit {
           id: element.id,
           mdo: element.channel,
           currentDepartment: department,
-          type: "MDO",
+          type: 'MDO',
           user: element.noOfMembers || 0,
-          head: "head",
+          head: 'head',
           typeid: 6,
         }
         if (obj.currentDepartment === this.currentFilter) {
@@ -183,7 +178,6 @@ export class DirectoryViewComponent implements OnInit {
           typeid: dept.typeid,
         }
       })
-      console.log(this.data)
       // this.data = filteredData.map((dept: any) => {
       //   return {
       //     id: dept.id,
@@ -196,7 +190,6 @@ export class DirectoryViewComponent implements OnInit {
       // })
 
     }
-
 
     this.tabsData = []
     this.tabledata = {

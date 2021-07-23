@@ -20,13 +20,13 @@ export class DirectoryService {
     const req = {
       request: {
         filters: {
-          isTenant: true
+          isTenant: true,
         },
         sortBy: {
-          createdDate: "Asc"
+          createdDate: 'Asc',
         },
-        limit: 1000
-      }
+        limit: 1000,
+      },
     }
     return this.http.post<any>(`${API_END_POINTS.GET_ALL_DEPARTMENT_KONG}`, req)
   }

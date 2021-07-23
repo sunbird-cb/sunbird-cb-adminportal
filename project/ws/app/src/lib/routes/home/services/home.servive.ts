@@ -12,7 +12,7 @@ const API_END_POINTS = {
   getUserdetailsV2FromRegistry: '/apis/protected/v8/user/profileDetails/getUserRegistryById',
   GET_MY_DEPARTMENT: '/apis/protected/v8/portal/spv/mydepartment?allUsers=true',
   GET_ALL_DEPARTMENT: '/apis/proxies/v8/org/v1/search',
-  checkValidLogin: '/apis/proxies/v8/api/user/v2/read'
+  checkValidLogin: '/apis/proxies/v8/api/user/v2/read',
 }
 
 @Injectable({

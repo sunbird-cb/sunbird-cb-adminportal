@@ -1,5 +1,4 @@
 import { APP_BASE_HREF } from '@angular/common'
-// import { retry } from 'rxjs/operators'
 import { HttpClient, HttpHeaders } from '@angular/common/http'
 import { Inject, Injectable } from '@angular/core'
 import { MatIconRegistry } from '@angular/material'
@@ -21,9 +20,8 @@ import {
   UserPreferenceService,
 } from '@sunbird-cb/utils'
 import { environment } from '../../environments/environment'
-import { Omit } from 'lodash'
-import _ from 'lodash'
 import { map } from 'rxjs/operators'
+import * as _ from 'lodash'
 
 interface IDetailsResponse {
   tncStatus: boolean
@@ -437,11 +435,11 @@ export class InitService {
     const tourGuide = appsConfig.tourGuide
     const features: { [id: string]: NsAppsConfig.IFeature } = Object.values(
       appsConfig.features,
-    ).reduce((map: { [id: string]: NsAppsConfig.IFeature }, feature: NsAppsConfig.IFeature) => {
+    ).reduce((maped: { [id: string]: NsAppsConfig.IFeature }, feature: NsAppsConfig.IFeature) => {
       if (hasUnitPermission(feature.permission, this.configSvc.restrictedFeatures, true)) {
-        map[feature.id] = feature
+        maped[feature.id] = feature
       }
-      return map
+      return maped
       // tslint:disable-next-line: align
     }, {})
     const groups = appsConfig.groups
@@ -511,7 +509,7 @@ export class InitService {
     }
   }
   private async fetchStartUpDetails(): Promise<IDetailsResponse> {
-    let userRoles: string[] = []
+    const userRoles: string[] = []
 
     if (this.configSvc.instanceConfig && !Boolean(this.configSvc.instanceConfig.disablePidCheck)) {
       let completeProdata: any | null = null
@@ -586,7 +584,6 @@ export class InitService {
 
       this.configSvc.userGroups = new Set(details.group)
       this.configSvc.userRoles = new Set((details.roles || []).map((v: string) => v.toLowerCase()))
-      console.log(this.configSvc.userRoles)
       if (this.configSvc.userRoles.has('spv_admin')) {
         // this.router.navigate(['error-access-forbidden'])
         // this.authSvc.logout()

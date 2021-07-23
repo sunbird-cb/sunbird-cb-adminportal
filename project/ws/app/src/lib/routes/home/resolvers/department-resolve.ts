@@ -5,7 +5,6 @@ import { map, catchError } from 'rxjs/operators'
 import { AuthKeycloakService, IResolveResponse } from '@sunbird-cb/utils'
 import { NSProfileDataV2 } from '../../home/models/profile-v2.model'
 import { ProfileV2Service } from '../services/home.servive'
-import _ from 'lodash'
 
 @Injectable()
 export class DepartmentResolve
@@ -31,7 +30,7 @@ export class DepartmentResolve
     return this.profileService.checkValidLogin().pipe(
       map((data => ({
         data,
-        error: null
+        error: null,
       }))),
       catchError(() => {
         this.router.navigate(['error-access-forbidden'])
