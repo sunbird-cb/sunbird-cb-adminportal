@@ -11,12 +11,15 @@ const API_END_POINTS = {
   SOCIAL_VIEW_CONVERSATION: `${PROTECTED_SLAG_V8}/social/post/viewConversation`,
   getUserdetailsV2FromRegistry: '/apis/protected/v8/user/profileDetails/getUserRegistryById',
   GET_MY_DEPARTMENT: '/apis/protected/v8/portal/spv/mydepartment?allUsers=true',
+  GET_ALL_DEPARTMENT: '/apis/proxies/v8/org/v1/search',
+  checkValidLogin: '/apis/proxies/v8/api/user/v2/read'
 }
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProfileV2Service {
+
   constructor(private http: HttpClient) { }
   fetchDiscussProfile(wid: string): Observable<any> {
     return this.http.get<any>(`${API_END_POINTS.DISCUSS_PROFILE}/${wid}`)
@@ -30,5 +33,11 @@ export class ProfileV2Service {
   }
   getMyDepartment(): Observable<any> {
     return this.http.get<any>(`${API_END_POINTS.GET_MY_DEPARTMENT}`)
+  }
+  getAllDepartment(): Observable<any> {
+    return this.http.get<any>(`${API_END_POINTS.GET_ALL_DEPARTMENT}`)
+  }
+  checkValidLogin(): Observable<any> {
+    return this.http.get<any>(`${API_END_POINTS.checkValidLogin}`)
   }
 }

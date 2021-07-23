@@ -1,5 +1,5 @@
 
-import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core'
+import { Component, OnInit } from '@angular/core'
 import { NSProfileDataV2 } from '../../models/profile-v2.model'
 import { MatDialog } from '@angular/material/dialog'
 import { ActivatedRoute, Router } from '@angular/router'
@@ -16,7 +16,7 @@ import { DirectoryService } from './directory.services'
   host: { class: 'flex flex-1 margin-top-l' },
   /* tslint:enable */
 })
-export class DirectoryViewComponent implements OnInit, AfterViewInit, OnDestroy {
+export class DirectoryViewComponent implements OnInit {
   /* tslint:disable */
   Math: any
   /* tslint:enable */
@@ -34,7 +34,9 @@ export class DirectoryViewComponent implements OnInit, AfterViewInit, OnDestroy 
   currentDepartment!: string
   data: any = []
   wholeData: any = []
+  wholeData2: any = []
   departmentHearders: any = []
+  departmentHeaderArray: any = []
 
   constructor(
     public dialog: MatDialog,
@@ -51,7 +53,6 @@ export class DirectoryViewComponent implements OnInit, AfterViewInit, OnDestroy 
         && data.profile.data
         && data.profile.data.length > 0
         && data.profile.data[0]
-      this.decideAPICall()
     })
     this.route.params.subscribe(params => {
       this.currentFilter = params['department']
@@ -61,8 +62,6 @@ export class DirectoryViewComponent implements OnInit, AfterViewInit, OnDestroy 
     })
 
   }
-  decideAPICall() {
-  }
   ngOnDestroy() {
     if (this.tabs) {
       this.tabs.unsubscribe()
@@ -71,29 +70,30 @@ export class DirectoryViewComponent implements OnInit, AfterViewInit, OnDestroy 
 
   ngOnInit() {
     // int left blank
-    this.getAllDepartmentsAPI()
+    // this.getAllDepartmentsAPI()
+    // this.getDepartmentHeader()
+    this.getAllDepartmentsHeaderAPI()
+    this.getAllDepartments()
+  }
+  getAllDepartmentsHeaderAPI() {
+    this.directoryService.getDepartmentTitles().subscribe(res => {
+      this.departmentHeaderArray = JSON.parse(res.result.response.value)
+      this.departmentHeaderArray.orgTypeList.forEach((ele: { name: any }) => {
+        this.departmentHearders.push(ele.name)
+      })
+      this.getDepartDataByKey(this.departmentHearders[0])
+      this.createTableHeader()
+    })
   }
   getDepartmentHeader() {
     this.wholeData.forEach((head: { deptTypeInfos: [{ deptType: void }] }) => {
       head.deptTypeInfos.forEach(dept => {
         if (this.departmentHearders.indexOf(dept.deptType) === -1) {
-
           this.departmentHearders.push(dept.deptType)
         }
       })
 
     })
-    const index = this.departmentHearders.indexOf('SPV')
-    if (index > -1) {
-      this.departmentHearders.splice(index, 1)
-    }
-    const deptIndex = this.departmentHearders.indexOf(this.currentFilter)
-    if (deptIndex > -1) {
-      this.getDepartDataByKey(this.departmentHearders[deptIndex])
-    } else {
-      this.getDepartDataByKey(this.departmentHearders[0])
-    }
-    this.createTableHeader()
   }
   createTableHeader() {
     this.tabledata = []
@@ -110,20 +110,16 @@ export class DirectoryViewComponent implements OnInit, AfterViewInit, OnDestroy 
       sortState: 'asc',
     }
   }
-  getAllDepartmentsAPI() {
-    this.directoryService.getAllDepartments().subscribe(res => {
-      this.wholeData = res
-      this.getDepartmentHeader()
+  // getAllDepartmentsAPI() {
+  //   this.directoryService.getAllDepartments().subscribe(res => {
+  //     this.wholeData = res
+  //     this.getDepartmentHeader()
+  //   })
+  // }
+  getAllDepartments() {
+    this.directoryService.getAllDepartmentsKong().subscribe(res => {
+      this.wholeData2 = res.result.response.content
     })
-  }
-  ngAfterViewInit() {
-  }
-  tEIDTableTableAction() {
-
-  }
-  fetchUserDetails() {
-  }
-  fetchConnectionDetails() {
   }
   onRoleClick(role: any) {
     this.router.navigate([`/app/roles/${role.id}/users`, { currentDept: this.currentFilter, roleId: role.id, depatName: role.mdo }])
@@ -135,24 +131,49 @@ export class DirectoryViewComponent implements OnInit, AfterViewInit, OnDestroy 
     if (key) {
       this.currentFilter = key
       this.currentDepartment = key
-      const filteredData: any[] = []
+      // const filteredData: any[] = []
+      const filteredData2: any[] = []
 
-      this.wholeData.map((dept: any) => {
-        dept.deptTypeInfos.forEach((deptsub: { deptType: any, deptSubType: string, id: string }) => {
-          if (deptsub.deptType === this.currentFilter) {
-            const obj = {
-              id: dept.id,
-              mdo: dept.deptName,
-              type: deptsub.deptSubType,
-              user: dept.noOfUsers,
-              head: dept.headquarters,
-              typeid: deptsub.id,
-            }
-            filteredData.push(obj)
-          }
-        })
+      // this.wholeData.map((dept: any) => {
+      //   dept.deptTypeInfos.forEach((deptsub: { deptType: any, deptSubType: string, id: string }) => {
+      //     if (deptsub.deptType === this.currentFilter) {
+      //       const obj = {
+      //         id: dept.id,
+      //         mdo: dept.deptName,
+      //         type: deptsub.deptSubType,
+      //         user: dept.noOfUsers,
+      //         head: dept.headquarters,
+      //         typeid: deptsub.id,
+      //       }
+
+      //       filteredData.push(obj)
+      //     }
+      //   })
+      // })
+      this.wholeData2.forEach((element: any) => {
+
+        var department = 'CBP'
+        if (element.isMdo) {
+          department = 'MDO'
+        } else if (element.isCbp) {
+          department = 'CBP'
+        } else if (element.isCbc) {
+          department = 'CBC'
+        }
+        const obj = {
+          id: element.id,
+          mdo: element.channel,
+          currentDepartment: department,
+          type: "MDO",
+          user: element.noOfMembers || 0,
+          head: "head",
+          typeid: 6,
+        }
+        if (obj.currentDepartment === this.currentFilter) {
+          filteredData2.push(obj)
+        }
       })
-      this.data = filteredData.map((dept: any) => {
+      this.data = filteredData2.map((dept: any) => {
         return {
           id: dept.id,
           mdo: dept.mdo,
@@ -162,22 +183,36 @@ export class DirectoryViewComponent implements OnInit, AfterViewInit, OnDestroy 
           typeid: dept.typeid,
         }
       })
+      console.log(this.data)
+      // this.data = filteredData.map((dept: any) => {
+      //   return {
+      //     id: dept.id,
+      //     mdo: dept.mdo,
+      //     type: dept.type,
+      //     user: dept.user,
+      //     head: dept.head,
+      //     typeid: dept.typeid,
+      //   }
+      // })
 
     }
-    this.tabsData =  []
-      this.tabledata = {actions: [{ name: 'Edit', label: 'Edit info', icon: 'remove_red_eye', type: 'button' }],
-        columns: [
-          { displayName: this.currentFilter, key: 'mdo' },
-          { displayName: 'Type', key: 'type' },
-          { displayName: 'Users', key: 'user' },
-        ],
-        needCheckBox: false,
-        needHash: false,
-        sortColumn: '',
-        sortState: 'asc',
 
-      }
+
+    this.tabsData = []
+    this.tabledata = {
+      actions: [{ name: 'Edit', label: 'Edit info', icon: 'remove_red_eye', type: 'button' }],
+      columns: [
+        { displayName: this.currentFilter, key: 'mdo' },
+        { displayName: 'Type', key: 'type' },
+        { displayName: 'Users', key: 'user' },
+      ],
+      needCheckBox: false,
+      needHash: false,
+      sortColumn: '',
+      sortState: 'asc',
+
     }
+  }
 
   actionClick(clickedData: any) {
     this.router.navigate([`/app/home/${this.currentFilter}/create-department`, { data: JSON.stringify(clickedData) }])

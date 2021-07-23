@@ -5,6 +5,7 @@ import { map, catchError } from 'rxjs/operators'
 import { AuthKeycloakService, IResolveResponse } from '@sunbird-cb/utils'
 import { NSProfileDataV2 } from '../../home/models/profile-v2.model'
 import { ProfileV2Service } from '../services/home.servive'
+import _ from 'lodash'
 
 @Injectable()
 export class DepartmentResolve
@@ -12,17 +13,31 @@ export class DepartmentResolve
   Resolve<Observable<IResolveResponse<NSProfileDataV2.IProfile>> | IResolveResponse<NSProfileDataV2.IProfile>> {
   constructor(private profileService: ProfileV2Service, private router: Router, private authSvc: AuthKeycloakService) { }
 
-  resolve(
+  async resolve(
     _route: ActivatedRouteSnapshot,
     _state: RouterStateSnapshot,
-  ): Observable<IResolveResponse<NSProfileDataV2.IProfile>> {
+  ): Promise<Observable<IResolveResponse<NSProfileDataV2.IProfile>>> {
 
-    return this.profileService.getMyDepartment().pipe(
-      map(data => ({ data, error: null })),
+    // (await this.profileSer.checkValidLogin()).subscribe(whole => {
+    //   let temArr = []
+    //   temArr = whole.result.response.roles
+    //   if (!(temArr.toString().indexOf('SPV_ADMIN') > -1 && whole.result.response.rootOrg.isSpv)) {
+    //     this.router.navigate(['error-access-forbidden'])
+    //     this.authSvc.logout()
+    //     return EMPTY
+    //   }
+    // })
+
+    return this.profileService.checkValidLogin().pipe(
+      map((data => ({
+        data,
+        error: null
+      }))),
       catchError(() => {
         this.router.navigate(['error-access-forbidden'])
         this.authSvc.logout()
         return EMPTY
       }))
+
   }
 }
