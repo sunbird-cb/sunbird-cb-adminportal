@@ -1,4 +1,4 @@
-import { DirectoryService } from './../../../home/routes/directory/directory.services'
+import { DirectoryService } from '../../../home/services/directory.services'
 import { AfterViewInit, Component, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 // import { RolesAccessService } from '../../services/roles-access.service'

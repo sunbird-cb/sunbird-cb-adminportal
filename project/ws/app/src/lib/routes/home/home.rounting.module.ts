@@ -1,3 +1,4 @@
+import { ConfigResolveService } from './resolvers/config-resolver.service'
 import { NgModule } from '@angular/core'
 import { Routes, RouterModule } from '@angular/router'
 // import { InitResolver } from './resol./routes/profile-v2/discuss-all.component'
@@ -10,6 +11,7 @@ import { DirectoryViewComponent } from './routes/directory/directroy.component'
 import { CreateMdoComponent } from './routes/create-mdo/create-mdo.component'
 import { CreateUserComponent } from './routes/create-user/create-user.component'
 import { DepartmentResolve } from './resolvers/department-resolve'
+import { RolesResolver } from './resolvers/roles-resolver.service'
 // import { PageResolve } from '@sunbird-cb/utils'
 const routes: Routes = [
   {
@@ -22,6 +24,7 @@ const routes: Routes = [
     component: HomeComponent,
     resolve: {
       department: DepartmentResolve,
+      configService: ConfigResolveService,
     },
     children: [
       {
@@ -36,6 +39,9 @@ const routes: Routes = [
       {
         path: 'roles-access',
         component: RolesAccessComponent,
+        resolve: {
+          rolesList: RolesResolver,
+        }
       },
       {
         path: 'directory',
@@ -59,6 +65,8 @@ const routes: Routes = [
   providers: [
     HomeResolve,
     DepartmentResolve,
+    ConfigResolveService,
+    RolesResolver,
   ],
 })
 export class HomeRoutingModule { }

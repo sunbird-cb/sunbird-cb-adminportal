@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, OnInit, OnDestroy } from '@angular/core'
-import { Router } from '@angular/router'
-import { ProfileV2Service } from '../../services/home.servive'
+import { ActivatedRoute, Router } from '@angular/router'
+import _ from 'lodash'
 // import { RolesAccessService } from '../../services/roles-access.service'
 @Component({
   selector: 'ws-app-roles-access',
@@ -11,7 +11,7 @@ export class RolesAccessComponent implements OnInit, AfterViewInit, OnDestroy {
   tabledata: any = []
   data: any = []
 
-  constructor(private router: Router, private homeResolver: ProfileV2Service) {
+  constructor(private router: Router, private activeRoute: ActivatedRoute) {
 
   }
 
@@ -40,20 +40,21 @@ export class RolesAccessComponent implements OnInit, AfterViewInit, OnDestroy {
 
   /* API call to get all roles*/
   fetchRoles() {
-    const rolesAndAccessData: any[] = []
-    this.homeResolver.getMyDepartment().subscribe(roles => {
-      roles.rolesInfo.forEach((role: { roleName: string }) => {
-        if (role.roleName === 'SPV ADMIN') {
-          rolesAndAccessData.push({
-            role: role.roleName,
-            count: roles.noOfUsers,
-          })
+    const roles = _.sortBy(_.uniq(_.flatten(_.map(_.get(this.activeRoute.snapshot, 'data.rolesList.data.orgTypeList'), 'roles')))) || []
+    console.log(roles)
+    // this.homeResolver.getMyDepartment().subscribe(roles => {
+    //   roles.rolesInfo.forEach((role: { roleName: string }) => {
+    //     if (role.roleName === 'SPV ADMIN') {
+    //       rolesAndAccessData.push({
+    //         role: role.roleName,
+    //         count: roles.noOfUsers,
+    //       })
 
-        }
+    //     }
 
-      })
-      this.data = rolesAndAccessData
-    })
+    //   })
+    //   this.data = rolesAndAccessData
+    // })
     // this.roleSvc.getRoles().subscribe(roles => {
     //   this.data = roles.data
     // })

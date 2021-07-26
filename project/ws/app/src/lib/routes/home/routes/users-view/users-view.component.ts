@@ -1,5 +1,5 @@
 
-import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core'
+import { Component, OnInit } from '@angular/core'
 import { NSProfileDataV2 } from '../../models/profile-v2.model'
 import { MatDialog } from '@angular/material/dialog'
 import { ActivatedRoute, Router } from '@angular/router'
@@ -9,7 +9,9 @@ import _ from 'lodash'
 import { UsersService } from '../../services/users.service'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { environment } from 'src/environments/environment'
-
+interface USER {
+  profiledetails: any; isDeleted: boolean; userId: string | null; firstName: any; lastName: any; email: any; active: any; blocked: any; roles: any[]
+}
 @Component({
   selector: 'ws-app-users-view',
   templateUrl: './users-view.component.html',
@@ -19,7 +21,8 @@ import { environment } from 'src/environments/environment'
   /* tslint:enable */
 })
 
-export class UsersViewComponent implements OnInit, AfterViewInit, OnDestroy {
+
+export class UsersViewComponent implements OnInit {
 
   /* tslint:disable */
   Math: any
@@ -28,16 +31,18 @@ export class UsersViewComponent implements OnInit, AfterViewInit, OnDestroy {
   discussionList!: any
   discussProfileData!: any
   portalProfile!: NSProfileDataV2.IProfile
-  userDetails: any
-  location!: string | null
+  // userDetails: any
+  // location!: string | null
   tabs: any
   tabsData: NSProfileDataV2.IProfileTab[]
   currentUser!: string | null
-  connectionRequests!: any[]
+  // connectionRequests!: any[]
   tabledata: any = []
   data: any = []
+  userWholeData: any = []
   usersData!: any
-  fullUserData: any = []
+
+  // fullUserData: any = []
 
   constructor(
     public dialog: MatDialog,
@@ -56,14 +61,10 @@ export class UsersViewComponent implements OnInit, AfterViewInit, OnDestroy {
         && data.profile.data
         && data.profile.data.length > 0
         && data.profile.data[0]
-      this.decideAPICall()
     })
-  }
-  decideAPICall() {
-  }
-  ngOnDestroy() {
-    if (this.tabs) {
-      this.tabs.unsubscribe()
+    console.log(this.route)
+    if (_.get(this.route, 'snapshot.data.configService.userRoles')) {
+      console.log(_.get(this.route, 'snapshot.data.configService.userRoles'))
     }
   }
   ngOnInit() {
@@ -81,25 +82,10 @@ export class UsersViewComponent implements OnInit, AfterViewInit, OnDestroy {
       needUserMenus: true,
     }
     this.getAllUsers()
-  }
-
-  ngAfterViewInit() {
-    // this.elementPosition = this.menuElement.nativeElement.parentElement.offsetTop
-  }
-  tEIDTableTableAction() {
-
-  }
-  fetchUserDetails() {
-  }
-  fetchConnectionDetails() {
-
+    this.getAllKongUsers()
   }
   onCreateClick() {
     this.router.navigate([`/app/users/create-user`])
-  }
-
-  onRoleClick() {
-    // this.router.navigate([`/app/users/${user.userId}/details`])
   }
   menuActions($event: { action: string, row: any }) {
     const user = { userId: _.get($event.row, 'userId') }
@@ -162,67 +148,97 @@ export class UsersViewComponent implements OnInit, AfterViewInit, OnDestroy {
       this.filter(this.currentFilter)
     })
   }
+  getAllKongUsers() {
+    const deptId = "01325419073593344035"
+    this.usersService.getAllKongUsers(deptId).subscribe(data => {
+      if (data.result.response.content) {
+        this.userWholeData = data.result.response.content || []
+        console.log(this.configSvc.userProfileV2)
+        console.log(data.result.response.content)
+      }
+    })
+  }
   filter(key: string) {
-    const activeUsersData: any[] = []
-    const blockedUsersData: any[] = []
-    const inactiveUsersData: any[] = []
-    if (this.usersData.active_users && this.usersData.active_users.length > 0) {
-      this.usersData.active_users.forEach((user: any) => {
-        if (this.currentUser !== user.userId) {
-          activeUsersData.push({
-            fullname: user ? `${user.firstName} ${user.lastName}` : null,
-            email: user.emailId,
-            position: this.getUserRole(user),
-            userId: user.userId,
-            active: user.active,
-            blocked: user.blocked,
-          })
-        }
-      })
-    }
+    const usersData: any[] = []
 
-    if (this.usersData.blocked_users && this.usersData.blocked_users.length > 0) {
-      this.usersData.blocked_users.forEach((user: any) => {
-        if (this.currentUser !== user.userId) {
-          blockedUsersData.push({
-            fullname: user ? `${user.firstName} ${user.lastName}` : null,
-            email: user.emailId,
-            position: this.getUserRole(user),
-            userId: user.userId,
-            active: user.active,
-            blocked: user.blocked,
-          })
-        }
-      })
-    }
-    if (this.usersData.inActive_users && this.usersData.inActive_users.length > 0) {
-      this.usersData.inActive_users.forEach((user: any) => {
-        if (this.currentUser !== user.userId) {
-          inactiveUsersData.push({
-            fullname: user ? `${user.firstName} ${user.lastName}` : null,
-            email: user.emailId,
-            position: this.getUserRole(user),
-            userId: user.userId,
-            active: user.active,
-            blocked: user.blocked,
-          })
-        }
-      })
-    }
+
+    // if (this.usersData.active_users && this.usersData.active_users.length > 0) {
+    //   this.usersData.active_users.forEach((user: any) => {
+    //     if (this.currentUser !== user.userId) {
+    //       activeUsersData.push({
+    //         fullname: user ? `${user.firstName} ${user.lastName}` : null,
+    //         email: user.emailId,
+    //         position: this.getUserRole(user),
+    //         userId: user.userId,
+    //         active: user.active,
+    //         blocked: user.blocked,
+    //       })
+    //     }
+    //   })
+    // }
+
+    // if (this.usersData.blocked_users && this.usersData.blocked_users.length > 0) {
+    //   this.usersData.blocked_users.forEach((user: any) => {
+    //     if (this.currentUser !== user.userId) {
+    //       blockedUsersData.push({
+    //         fullname: user ? `${user.firstName} ${user.lastName}` : null,
+    //         email: user.emailId,
+    //         position: this.getUserRole(user),
+    //         userId: user.userId,
+    //         active: user.active,
+    //         blocked: user.blocked,
+    //       })
+    //     }
+    //   })
+    // }
+    // if (this.usersData.inActive_users && this.usersData.inActive_users.length > 0) {
+    //   this.usersData.inActive_users.forEach((user: any) => {
+    //     if (this.currentUser !== user.userId) {
+    //       inactiveUsersData.push({
+    //         fullname: user ? `${user.firstName} ${user.lastName}` : null,
+    //         email: user.emailId,
+    //         position: this.getUserRole(user),
+    //         userId: user.userId,
+    //         active: user.active,
+    //         blocked: user.blocked,
+    //       })
+    //     }
+    //   })
+    // }
     if (key) {
       this.currentFilter = key
       switch (key) {
         case 'active':
-          this.data = activeUsersData
+          this.userWholeData.forEach((user: USER) => {
+            if (!(user.isDeleted)) {
+              usersData.push({
+                fullname: user ? `${user.firstName} ${user.lastName}` : null,
+                email: user.profiledetails && user.profiledetails.personalDetails.primaryEmail || '',
+                position: user.roles,
+                userId: user.userId,
+              })
+            }
+          })
+          this.data = usersData
           break
         case 'inactive':
-          this.data = inactiveUsersData
+          this.userWholeData.forEach((user: USER) => {
+            if (user.isDeleted) {
+              usersData.push({
+                fullname: user ? `${user.firstName} ${user.lastName}` : null,
+                email: user.profiledetails.personalDetails.primaryEmail,
+                position: user.roles,
+                userId: user.userId,
+              })
+            }
+          })
+          this.data = usersData
           break
         case 'blocked':
-          this.data = blockedUsersData
+          this.data = usersData
           break
         default:
-          this.data = activeUsersData
+          this.data = usersData
           break
       }
     }

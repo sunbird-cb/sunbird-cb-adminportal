@@ -52,12 +52,14 @@
                     </div>
                   </label>
                   <div class="margin-top-s">
+                    {{subDepartments | json}}
                     <mat-form-field appearance="outline" class="margin-top-xs"
                       [ngClass]="{ 'mat-form-field-invalid': showError('depatmentType') }">
                       <mat-select formControlName="deptSubTypeId" i18n-placeholder placeholder="--Select--"
-                        [required]="checkCondition('subTitle', 'required') ? true : null">
-                        <mat-option *ngFor="let subDepartment of subDepartments" [value]="subDepartment.id" i18n>
-                          {{capitalizeFirstLetter(subDepartment.deptSubType)}}</mat-option>
+                        [required]="checkCondition('subTitle', 'required') ? true : null"
+                        (selectionChange)="selectedType($event.value)">
+                        <mat-option *ngFor="let subDepartment of subDepartments" [value]="subDepartment" i18n>
+                          {{capitalizeFirstLetter(subDepartment)}}</mat-option>
                       </mat-select>
                       <mat-error *ngIf="showError('deptSubTypeId')" i18n>Department type is mandatory
                       </mat-error>
@@ -73,13 +75,14 @@
                     </div>
                   </label>
                   <div class="margin-top-s">
+                    {{subMDODepartments | json}}
                     <mat-form-field appearance="outline" class="margin-top-xs" [hidden]="hideMDOField"
                       [ngClass]="{ 'mat-form-field-invalid': showError('mdoDepatmentType') }">
                       <mat-select formControlName="deptMdoSubTypeId" i18n-placeholder placeholder="--Select--"
+                        (selectionChange)="selectedSubType($event.value)"
                         [required]="checkCondition('subTitle', 'required') ? true : null">
-                        <mat-option *ngFor="let subMDODepartment of subMDODepartments" [value]="subMDODepartment.id"
-                          i18n>
-                          {{capitalizeFirstLetter(subMDODepartment.deptSubType)}}</mat-option>
+                        <mat-option *ngFor="let subMDODepartment of subMDODepartments" [value]="subMDODepartment" i18n>
+                          {{capitalizeFirstLetter(subMDODepartment)}}</mat-option>
                       </mat-select>
                       <mat-error *ngIf="showError('mdoDepatmentType')" i18n>MDO department type is mandatory
                       </mat-error>
