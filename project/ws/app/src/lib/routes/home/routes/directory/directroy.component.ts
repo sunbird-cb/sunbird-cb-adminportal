@@ -59,7 +59,7 @@ export class DirectoryViewComponent implements OnInit {
   }
   getAllDepartmentsHeaderAPI() {
     this.directoryService.getDepartmentTitles().subscribe(res => {
-      var departmentHeaderArray = JSON.parse(res.result.response.value)
+      const departmentHeaderArray = JSON.parse(res.result.response.value)
       departmentHeaderArray.orgTypeList.forEach((ele: { name: any }) => {
         this.departmentHearders.push(ele.name)
       })

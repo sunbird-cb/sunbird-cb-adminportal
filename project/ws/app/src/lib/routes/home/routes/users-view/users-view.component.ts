@@ -21,7 +21,6 @@ interface USER {
   /* tslint:enable */
 })
 
-
 export class UsersViewComponent implements OnInit {
 
   /* tslint:disable */
@@ -62,10 +61,6 @@ export class UsersViewComponent implements OnInit {
         && data.profile.data.length > 0
         && data.profile.data[0]
     })
-    console.log(this.route)
-    if (_.get(this.route, 'snapshot.data.configService.userRoles')) {
-      console.log(_.get(this.route, 'snapshot.data.configService.userRoles'))
-    }
   }
   ngOnInit() {
     this.tabledata = {
@@ -149,18 +144,15 @@ export class UsersViewComponent implements OnInit {
     })
   }
   getAllKongUsers() {
-    const deptId = "01325419073593344035"
+    const deptId = '01325419073593344035'
     this.usersService.getAllKongUsers(deptId).subscribe(data => {
       if (data.result.response.content) {
         this.userWholeData = data.result.response.content || []
-        console.log(this.configSvc.userProfileV2)
-        console.log(data.result.response.content)
       }
     })
   }
   filter(key: string) {
     const usersData: any[] = []
-
 
     // if (this.usersData.active_users && this.usersData.active_users.length > 0) {
     //   this.usersData.active_users.forEach((user: any) => {

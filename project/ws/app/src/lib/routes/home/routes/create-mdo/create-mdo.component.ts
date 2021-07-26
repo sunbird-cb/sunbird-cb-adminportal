@@ -65,12 +65,12 @@ export class CreateMdoComponent implements OnInit {
   { isActive: false, isCompleted: false, name: 'Classification', step: 1 },
   { isActive: false, isCompleded: false, name: 'Intended for', step: 2 }]
   constructor(public dialog: MatDialog,
-    private snackBar: MatSnackBar,
-    private createMdoService: CreateMDOService,
-    private router: Router,
-    private directoryService: DirectoryService,
-    private valueSvc: ValueService,
-    private activatedRoute: ActivatedRoute) {
+              private snackBar: MatSnackBar,
+              private createMdoService: CreateMDOService,
+              private router: Router,
+              private directoryService: DirectoryService,
+              private valueSvc: ValueService,
+              private activatedRoute: ActivatedRoute) {
     {
 
       this.contentForm = new FormGroup({
@@ -92,13 +92,15 @@ export class CreateMdoComponent implements OnInit {
           // this.departmentRole = `${params['currentDept']} ADMIN`
           this.departmentRole = `MDO ADMIN`
         }
-        if (data)
+        if (data) {
           data = JSON.parse(data)
+        }
 
         if (this.data !== undefined || this.data !== null) {
           // this.isUpdate = true
-          if (data)
+          if (data) {
             this.updateId = data.row.id
+          }
           if (this.department === 'CBP') {
             // this.getMdoSubDepartment(this.updateId)
           } else {
@@ -225,7 +227,7 @@ export class CreateMdoComponent implements OnInit {
             this.snackBar.open('Admin assigned Successfully')
             this.router.navigate(['/app/home/directory', { department: this.department }])
           }
-        }, (err: { error: any }) => {
+        },                                                                                                              (err: { error: any }) => {
           this.openSnackbar(err.error.errors[0].message)
         })
       })
@@ -250,15 +252,13 @@ export class CreateMdoComponent implements OnInit {
   }
   getAllDepartmentsHeaderAPI() {
     this.directoryService.getDepartmentTitles().subscribe(res => {
-      var department = JSON.parse(res.result.response.value)
+      const department = JSON.parse(res.result.response.value)
       department.orgTypeList.forEach((types: any) => {
         if (types.name = 'MDO') {
           this.subMDODepartments = types.subTypeList
-          console.log(this.subMDODepartments)
         }
         if (types.name = 'CBP') {
           this.subDepartments = types.subTypeList
-          console.log(this.subDepartments)
         }
       })
     })
@@ -288,7 +288,7 @@ export class CreateMdoComponent implements OnInit {
           this.submittedForm = false
           this.openSnackbar('Success')
         }
-      }, (err: { error: any }) => {
+      },                                                                                                        (err: { error: any }) => {
         this.openSnackbar(err.error.message)
       })
 

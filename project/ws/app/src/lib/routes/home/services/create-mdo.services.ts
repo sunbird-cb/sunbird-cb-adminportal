@@ -27,10 +27,10 @@ export class CreateMDOService {
           orgName: deptData.name,
           channel: deptData.name,
           isTenant: true,
-          organisationType: "cbp",
+          organisationType: 'cbp',
           organisationSubType: deptType,
-          requestedBy: "1238b2e6-8ac1-4462-b36a-19a9b48a7e94"
-        }
+          requestedBy: '1238b2e6-8ac1-4462-b36a-19a9b48a7e94',
+        },
       }
       return this.http.post<any>(`${API_END_POINTS.CREATE_DEPARTMENT}`, departmentData)
     }
@@ -40,10 +40,10 @@ export class CreateMDOService {
           orgName: deptData.name,
           channel: deptData.name,
           isTenant: true,
-          organisationType: "mdo",
+          organisationType: 'mdo',
           organisationSubType: deptSubType,
-          requestedBy: "1238b2e6-8ac1-4462-b36a-19a9b48a7e94"
-        }
+          requestedBy: '1238b2e6-8ac1-4462-b36a-19a9b48a7e94',
+        },
       }
       return this.http.post<any>(`${API_END_POINTS.CREATE_DEPARTMENT}`, departmentData)
     }

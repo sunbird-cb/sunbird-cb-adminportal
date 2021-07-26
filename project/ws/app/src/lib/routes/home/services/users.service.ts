@@ -28,9 +28,9 @@ export class UsersService {
     const reqBody = {
       request: {
         filters: {
-          rootOrgId: depId
-        }
-      }
+          rootOrgId: depId,
+        },
+      },
     }
     return this.http.post<any>(`${API_END_POINTS.GET_ALL_KONG_USER}`, reqBody)
   }

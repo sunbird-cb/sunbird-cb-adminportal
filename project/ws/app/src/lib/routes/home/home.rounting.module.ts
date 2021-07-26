@@ -41,7 +41,7 @@ const routes: Routes = [
         component: RolesAccessComponent,
         resolve: {
           rolesList: RolesResolver,
-        }
+        },
       },
       {
         path: 'directory',
