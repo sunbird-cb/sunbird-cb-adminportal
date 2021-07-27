@@ -61,7 +61,6 @@ export class UsersViewComponent implements OnInit {
         && data.profile.data.length > 0
         && data.profile.data[0]
     })
-    console.log(this.route.snapshot.parent)
   }
   ngOnInit() {
     this.tabledata = {
