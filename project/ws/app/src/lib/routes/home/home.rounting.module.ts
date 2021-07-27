@@ -54,6 +54,7 @@ const routes: Routes = [
       {
         path: 'create-user',
         component: CreateUserComponent,
+        children: [],
       },
     ],
   },

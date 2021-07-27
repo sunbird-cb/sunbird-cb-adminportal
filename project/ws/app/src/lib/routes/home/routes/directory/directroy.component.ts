@@ -101,7 +101,7 @@ export class DirectoryViewComponent implements OnInit {
 
       this.wholeData2.forEach((element: any) => {
 
-        let department = 'CBP'
+        let department = ''
         if (element.isMdo) {
           department = 'MDO'
         } else if (element.isCbp) {

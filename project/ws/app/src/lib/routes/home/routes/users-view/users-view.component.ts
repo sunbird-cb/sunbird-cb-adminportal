@@ -61,6 +61,7 @@ export class UsersViewComponent implements OnInit {
         && data.profile.data.length > 0
         && data.profile.data[0]
     })
+    console.log(this.route.snapshot.parent)
   }
   ngOnInit() {
     this.tabledata = {
@@ -76,7 +77,7 @@ export class UsersViewComponent implements OnInit {
       sortState: 'asc',
       needUserMenus: true,
     }
-    this.getAllUsers()
+    // this.getAllUsers()
     this.getAllKongUsers()
   }
   onCreateClick() {
@@ -98,7 +99,7 @@ export class UsersViewComponent implements OnInit {
         _.set(user, 'roles', _.map(_.get($event.row, 'role'), i => i.roleName))
         this.usersService.blockUser(user).subscribe(response => {
           if (response) {
-            this.getAllUsers()
+            // this.getAllUsers()
             this.snackBar.open('Updated successfully !')
           }
         })
@@ -109,7 +110,7 @@ export class UsersViewComponent implements OnInit {
         _.set(user, 'roles', _.map(_.get($event.row, 'role'), i => i.roleName))
         this.usersService.blockUser(user).subscribe(response => {
           if (response) {
-            this.getAllUsers()
+            // this.getAllUsers()
             this.snackBar.open('Updated successfully !')
           }
         })
@@ -119,7 +120,7 @@ export class UsersViewComponent implements OnInit {
         _.set(user, 'roles', _.map(_.get($event.row, 'role'), i => i.roleName))
         this.usersService.deActiveUser(user).subscribe(response => {
           if (response) {
-            this.getAllUsers()
+            // this.getAllUsers()
             this.snackBar.open('Updated successfully !')
           }
         })
@@ -130,22 +131,22 @@ export class UsersViewComponent implements OnInit {
         _.set(user, 'roles', _.map(_.get($event.row, 'role'), i => i.roleName))
         this.usersService.deActiveUser(user).subscribe(response => {
           if (response) {
-            this.getAllUsers()
+            // this.getAllUsers()
             this.snackBar.open('Updated successfully !')
           }
         })
         break
     }
   }
-  getAllUsers() {
-    this.usersService.getAllUsers().subscribe(data => {
-      this.usersData = data
-      this.filter(this.currentFilter)
-    })
-  }
+  // getAllUsers() {
+  //   this.usersService.getAllUsers().subscribe(data => {
+  //     this.usersData = data
+  //     this.filter(this.currentFilter)
+  //   })
+  // }
   getAllKongUsers() {
-    const deptId = '01325419073593344035'
-    this.usersService.getAllKongUsers(deptId).subscribe(data => {
+    const rootOrgId = _.get(this.route.snapshot.parent, 'data.configService.unMappedUser.rootOrg.rootOrgId')
+    this.usersService.getAllKongUsers(rootOrgId).subscribe(data => {
       if (data.result.response.content) {
         this.userWholeData = data.result.response.content || []
       }

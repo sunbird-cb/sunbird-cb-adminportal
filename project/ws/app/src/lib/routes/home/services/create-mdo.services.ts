@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
-import { EMPTY, Observable } from 'rxjs'
+import { Observable } from 'rxjs'
 
 const API_END_POINTS = {
   GET_ALL_DEPARTMENTS: '/apis/protected/v8/portal/departmentType/',
@@ -20,34 +20,18 @@ export class CreateMDOService {
   getAllSubDepartments(deptName: string): Observable<any> {
     return this.http.get<any>(`${API_END_POINTS.GET_ALL_DEPARTMENTS}${deptName}`)
   }
-  createDepartment(deptData: any, deptType: string, deptSubType: string): Observable<any> {
-    if (deptType) {
-      const departmentData = {
-        request: {
-          orgName: deptData.name,
-          channel: deptData.name,
-          isTenant: true,
-          organisationType: 'cbp',
-          organisationSubType: deptType,
-          requestedBy: '1238b2e6-8ac1-4462-b36a-19a9b48a7e94',
-        },
-      }
-      return this.http.post<any>(`${API_END_POINTS.CREATE_DEPARTMENT}`, departmentData)
+  createDepartment(deptData: any, deptType: string, depatment: string, loggedInUserId: string): Observable<any> {
+    const departmentData = {
+      request: {
+        orgName: deptData.name,
+        channel: deptData.name,
+        isTenant: true,
+        organisationType: depatment.toLowerCase(),
+        organisationSubType: deptType.toLowerCase(),
+        requestedBy: loggedInUserId,
+      },
     }
-    if (deptSubType) {
-      const departmentData = {
-        request: {
-          orgName: deptData.name,
-          channel: deptData.name,
-          isTenant: true,
-          organisationType: 'mdo',
-          organisationSubType: deptSubType,
-          requestedBy: '1238b2e6-8ac1-4462-b36a-19a9b48a7e94',
-        },
-      }
-      return this.http.post<any>(`${API_END_POINTS.CREATE_DEPARTMENT}`, departmentData)
-    }
-    return EMPTY
+    return this.http.post<any>(`${API_END_POINTS.CREATE_DEPARTMENT}`, departmentData)
   }
   updateDepartment(deptData: any, updateId: number): Observable<any> {
     const departmentData = {

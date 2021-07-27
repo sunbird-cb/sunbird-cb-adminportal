@@ -52,7 +52,7 @@
                     </div>
                   </label>
                   <div class="margin-top-s">
-                    {{subDepartments | json}}
+                    <!-- {{subDepartments | json}} -->
                     <mat-form-field appearance="outline" class="margin-top-xs"
                       [ngClass]="{ 'mat-form-field-invalid': showError('depatmentType') }">
                       <mat-select formControlName="deptSubTypeId" i18n-placeholder placeholder="--Select--"
@@ -75,7 +75,7 @@
                     </div>
                   </label>
                   <div class="margin-top-s">
-                    {{subMDODepartments | json}}
+                    <!-- {{subMDODepartments | json}} -->
                     <mat-form-field appearance="outline" class="margin-top-xs" [hidden]="hideMDOField"
                       [ngClass]="{ 'mat-form-field-invalid': showError('mdoDepatmentType') }">
                       <mat-select formControlName="deptMdoSubTypeId" i18n-placeholder placeholder="--Select--"

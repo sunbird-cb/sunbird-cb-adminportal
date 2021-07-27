@@ -12,6 +12,7 @@ import { ValueService } from '@sunbird-cb/utils'
 import { NsWidgetResolver } from '@sunbird-cb/resolver'
 import { ILeftMenu } from '@sunbird-cb/collection'
 import { map } from 'rxjs/operators'
+import _ from 'lodash'
 interface IUser { userId: string, fullName: string; email: string; role: string }
 @Component({
   selector: 'ws-app-create-mdo',
@@ -61,18 +62,20 @@ export class CreateMdoComponent implements OnInit {
   deptType!: string
   deptSubType!: string
   mdoDepartmentID!: number
+  loggedInUserId!: string
   workFlow = [{ isActive: true, isCompleted: false, name: 'Basic Details', step: 0 },
   { isActive: false, isCompleted: false, name: 'Classification', step: 1 },
   { isActive: false, isCompleded: false, name: 'Intended for', step: 2 }]
   constructor(public dialog: MatDialog,
-              private snackBar: MatSnackBar,
-              private createMdoService: CreateMDOService,
-              private router: Router,
-              private directoryService: DirectoryService,
-              private valueSvc: ValueService,
-              private activatedRoute: ActivatedRoute) {
+    private snackBar: MatSnackBar,
+    private createMdoService: CreateMDOService,
+    private router: Router,
+    private directoryService: DirectoryService,
+    private valueSvc: ValueService,
+    private activatedRoute: ActivatedRoute) {
     {
 
+      this.loggedInUserId = _.get(this.activatedRoute, 'snapshot.parent.data.configService.userProfileV2.userId')
       this.contentForm = new FormGroup({
         name: new FormControl(),
         head: new FormControl(),
@@ -227,7 +230,7 @@ export class CreateMdoComponent implements OnInit {
             this.snackBar.open('Admin assigned Successfully')
             this.router.navigate(['/app/home/directory', { department: this.department }])
           }
-        },                                                                                                              (err: { error: any }) => {
+        }, (err: { error: any }) => {
           this.openSnackbar(err.error.errors[0].message)
         })
       })
@@ -254,10 +257,11 @@ export class CreateMdoComponent implements OnInit {
     this.directoryService.getDepartmentTitles().subscribe(res => {
       const department = JSON.parse(res.result.response.value)
       department.orgTypeList.forEach((types: any) => {
-        if (types.name = 'MDO') {
+        console.log(types)
+        if (types.name == 'MDO') {
           this.subMDODepartments = types.subTypeList
         }
-        if (types.name = 'CBP') {
+        if (types.name == 'CBP') {
           this.subDepartments = types.subTypeList
         }
       })
@@ -281,17 +285,33 @@ export class CreateMdoComponent implements OnInit {
       // if (subMDOdepartment) {
       //   deptArr.push(subMDOdepartment)
       // }
-      this.createMdoService.createDepartment(this.contentForm.value, this.deptType, this.deptSubType).subscribe(res => {
-        this.departmentId = res.id
-        this.departmentRole = this.getRole()
-        if (this.departmentId && this.departmentRole) {
-          this.submittedForm = false
-          this.openSnackbar('Success')
-        }
-      },                                                                                                        (err: { error: any }) => {
-        this.openSnackbar(err.error.message)
-      })
-
+      if (this.department == 'CBP') {
+        this.createMdoService.createDepartment(this.contentForm.value, this.deptType, 'mdo', this.loggedInUserId).subscribe(res => {
+          if (res.result.response == 'SUCCESS') {
+            this.submittedForm = false
+            this.openSnackbar('Success')
+          }
+        }, (err: { error: any }) => {
+          this.openSnackbar(err.error.message)
+        })
+        this.createMdoService.createDepartment(this.contentForm.value, this.deptSubType, this.department, this.loggedInUserId).subscribe(res => {
+          if (res.result.response == 'SUCCESS') {
+            this.submittedForm = false
+            this.openSnackbar('Success')
+          }
+        }, (err: { error: any }) => {
+          this.openSnackbar(err.error.message)
+        })
+      } else if (this.department == 'MDO') {
+        this.createMdoService.createDepartment(this.contentForm.value, this.deptType, this.department, this.loggedInUserId).subscribe(res => {
+          if (res.result.response == 'SUCCESS') {
+            this.submittedForm = false
+            this.openSnackbar('Success')
+          }
+        }, (err: { error: any }) => {
+          this.openSnackbar(err.error.message)
+        })
+      }
     }
     // } else {
     //   if (this.contentForm.value.name !== null && this.contentForm.value.head !== null
