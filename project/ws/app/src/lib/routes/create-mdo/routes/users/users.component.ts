@@ -1,10 +1,11 @@
 import { AfterViewInit, Component, OnInit, OnDestroy, ElementRef, HostListener, ViewChild } from '@angular/core'
 import { Router, ActivatedRoute } from '@angular/router'
-import _ from 'lodash'
+import * as _ from 'lodash'
 import { ProfileV2Service } from '../../../home/services/home.servive'
 import { UsersService } from '../../services/users.service'
-interface USER {
-  profiledetails: any; isDeleted: boolean; userId: string | null; firstName: any; lastName: any; email: any; active: any; blocked: any; roles: any[]
+interface IUSER {
+  profiledetails: any; isDeleted: boolean; userId: string | null; firstName: any
+  lastName: any; email: any; active: any; blocked: any; roles: any[]
 }
 @Component({
   selector: 'ws-app-users',
@@ -37,8 +38,10 @@ export class UsersComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  constructor(private usersSvc: UsersService, private router: Router, private route: ActivatedRoute, private profile: ProfileV2Service,
-    private usersService: UsersService,) {
+  constructor(private usersSvc: UsersService, private router: Router,
+              private route: ActivatedRoute,
+              private profile: ProfileV2Service,
+              private usersService: UsersService) {
   }
   ngOnInit() {
     this.tabsData = [
@@ -173,7 +176,7 @@ export class UsersComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   newKongUser() {
     const usersData: any[] = []
-    this.userWholeData.forEach((user: USER) => {
+    this.userWholeData.forEach((user: IUSER) => {
       if (!(user.isDeleted)) {
         usersData.push({
           fullName: user ? `${user.firstName} ${user.lastName}` : null,

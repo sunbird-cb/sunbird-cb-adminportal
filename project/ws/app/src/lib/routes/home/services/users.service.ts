@@ -77,11 +77,10 @@ export class UsersService {
     return this.http.patch<any>(`${API_END_POINTS.USER_BDD}/`, user)
   }
   getAllDepartmentsKong(organaizationId: string): Observable<any> {
-    console.log(organaizationId)
     const orgId = {
       request: {
-        organisationId: organaizationId
-      }
+        organisationId: organaizationId,
+      },
     }
     return this.http.post<any>(`${API_END_POINTS.GET_ALL_DEPARTMENTS_KONG}`, orgId)
   }
