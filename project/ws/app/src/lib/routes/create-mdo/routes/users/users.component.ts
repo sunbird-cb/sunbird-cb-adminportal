@@ -1,8 +1,11 @@
 import { AfterViewInit, Component, OnInit, OnDestroy, ElementRef, HostListener, ViewChild } from '@angular/core'
 import { Router, ActivatedRoute } from '@angular/router'
+import _ from 'lodash'
 import { ProfileV2Service } from '../../../home/services/home.servive'
 import { UsersService } from '../../services/users.service'
-
+interface USER {
+  profiledetails: any; isDeleted: boolean; userId: string | null; firstName: any; lastName: any; email: any; active: any; blocked: any; roles: any[]
+}
 @Component({
   selector: 'ws-app-users',
   templateUrl: './users.component.html',
@@ -20,6 +23,7 @@ export class UsersComponent implements OnInit, AfterViewInit, OnDestroy {
   basicInfo: any
   id!: string
   currentDept!: string
+  userWholeData!: any
   private defaultSideNavBarOpenedSubscription: any
   @ViewChild('stickyMenu', { static: true }) menuElement!: ElementRef
 
@@ -33,7 +37,8 @@ export class UsersComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  constructor(private usersSvc: UsersService, private router: Router, private route: ActivatedRoute, private profile: ProfileV2Service) {
+  constructor(private usersSvc: UsersService, private router: Router, private route: ActivatedRoute, private profile: ProfileV2Service,
+    private usersService: UsersService,) {
   }
   ngOnInit() {
     this.tabsData = [
@@ -59,7 +64,8 @@ export class UsersComponent implements OnInit, AfterViewInit, OnDestroy {
       if (this.id === 'SPV ADMIN') {
         this.getAllActiveUsers()
       } else {
-        this.getAllActiveUsersByDepartmentId(this.id)
+        // this.getAllActiveUsersByDepartmentId(this.id)
+        this.getAllKongUsers()
       }
 
     })
@@ -156,5 +162,27 @@ export class UsersComponent implements OnInit, AfterViewInit, OnDestroy {
       }))
       this.data = rolesAndAccessData
     })
+  }
+  getAllKongUsers() {
+    this.usersService.getAllKongUsers(this.id).subscribe(data => {
+      if (data.result.response.content) {
+        this.userWholeData = data.result.response.content || []
+        this.newKongUser()
+      }
+    })
+  }
+  newKongUser() {
+    const usersData: any[] = []
+    this.userWholeData.forEach((user: USER) => {
+      if (!(user.isDeleted)) {
+        usersData.push({
+          fullName: user ? `${user.firstName} ${user.lastName}` : null,
+          email: user.profiledetails && user.profiledetails.personalDetails.primaryEmail || '',
+          position: user.roles,
+          userId: user.userId,
+        })
+      }
+    })
+    this.data = usersData
   }
 }

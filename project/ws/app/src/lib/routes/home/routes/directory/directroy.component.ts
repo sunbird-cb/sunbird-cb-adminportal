@@ -85,6 +85,7 @@ export class DirectoryViewComponent implements OnInit {
   getAllDepartments() {
     this.directoryService.getAllDepartmentsKong().subscribe(res => {
       this.wholeData2 = res.result.response.content
+      this.getDepartDataByKey('CBC')
     })
   }
   onRoleClick(role: any) {
@@ -98,30 +99,62 @@ export class DirectoryViewComponent implements OnInit {
       this.currentFilter = key
       this.currentDepartment = key
       const filteredData2: any[] = []
-
-      this.wholeData2.forEach((element: any) => {
-
-        let department = ''
-        if (element.isMdo) {
-          department = 'MDO'
-        } else if (element.isCbp) {
-          department = 'CBP'
-        } else if (element.isCbc) {
-          department = 'CBC'
-        }
-        const obj = {
-          id: element.id,
-          mdo: element.channel,
-          currentDepartment: department,
-          type: department,
-          user: element.noOfMembers || 0,
-          head: department,
-          typeid: 6,
-        }
-        if (obj.currentDepartment === this.currentFilter) {
-          filteredData2.push(obj)
-        }
-      })
+      switch (key) {
+        case 'MDO':
+          this.wholeData2.forEach((element: any) => {
+            let department = ''
+            if (element.isMdo) {
+              department = key
+              const obj = {
+                id: element.id,
+                mdo: element.channel,
+                currentDepartment: department,
+                type: department,
+                user: element.noOfMembers || 0,
+                head: department,
+                typeid: 6,
+              }
+              filteredData2.push(obj)
+            }
+          })
+          break
+        case 'CBP':
+          this.wholeData2.forEach((element: any) => {
+            let department = ''
+            if (element.isCbp) {
+              department = key
+              const obj = {
+                id: element.id,
+                mdo: element.channel,
+                currentDepartment: department,
+                type: department,
+                user: element.noOfMembers || 0,
+                head: department,
+                typeid: 6,
+              }
+              filteredData2.push(obj)
+            }
+          })
+          break
+        case 'CBC':
+          this.wholeData2.forEach((element: any) => {
+            let department = ''
+            if (element.isCbc) {
+              department = key
+              const obj = {
+                id: element.id,
+                mdo: element.channel,
+                currentDepartment: department,
+                type: department,
+                user: element.noOfMembers || 0,
+                head: department,
+                typeid: 6,
+              }
+              filteredData2.push(obj)
+            }
+          })
+          break
+      }
       this.data = filteredData2.map((dept: any) => {
         return {
           id: dept.id,

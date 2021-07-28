@@ -78,6 +78,7 @@ export class UsersViewComponent implements OnInit {
     }
     // this.getAllUsers()
     this.getAllKongUsers()
+
   }
   onCreateClick() {
     this.router.navigate([`/app/users/create-user`])
@@ -148,55 +149,12 @@ export class UsersViewComponent implements OnInit {
     this.usersService.getAllKongUsers(rootOrgId).subscribe(data => {
       if (data.result.response.content) {
         this.userWholeData = data.result.response.content || []
+        this.filter('active')
       }
     })
   }
   filter(key: string) {
     const usersData: any[] = []
-
-    // if (this.usersData.active_users && this.usersData.active_users.length > 0) {
-    //   this.usersData.active_users.forEach((user: any) => {
-    //     if (this.currentUser !== user.userId) {
-    //       activeUsersData.push({
-    //         fullname: user ? `${user.firstName} ${user.lastName}` : null,
-    //         email: user.emailId,
-    //         position: this.getUserRole(user),
-    //         userId: user.userId,
-    //         active: user.active,
-    //         blocked: user.blocked,
-    //       })
-    //     }
-    //   })
-    // }
-
-    // if (this.usersData.blocked_users && this.usersData.blocked_users.length > 0) {
-    //   this.usersData.blocked_users.forEach((user: any) => {
-    //     if (this.currentUser !== user.userId) {
-    //       blockedUsersData.push({
-    //         fullname: user ? `${user.firstName} ${user.lastName}` : null,
-    //         email: user.emailId,
-    //         position: this.getUserRole(user),
-    //         userId: user.userId,
-    //         active: user.active,
-    //         blocked: user.blocked,
-    //       })
-    //     }
-    //   })
-    // }
-    // if (this.usersData.inActive_users && this.usersData.inActive_users.length > 0) {
-    //   this.usersData.inActive_users.forEach((user: any) => {
-    //     if (this.currentUser !== user.userId) {
-    //       inactiveUsersData.push({
-    //         fullname: user ? `${user.firstName} ${user.lastName}` : null,
-    //         email: user.emailId,
-    //         position: this.getUserRole(user),
-    //         userId: user.userId,
-    //         active: user.active,
-    //         blocked: user.blocked,
-    //       })
-    //     }
-    //   })
-    // }
     if (key) {
       this.currentFilter = key
       switch (key) {

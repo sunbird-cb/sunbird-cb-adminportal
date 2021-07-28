@@ -7,8 +7,8 @@
     </div>
   </div>
   <div class="flex-display">
-    <ws-widget-ui-user-table [hidden]="currentTab==='rolesandaccess'" [tableData]="tabledata" [data]="data" [needAddAdmin]="false"
-      [needCreateUser]="true">
+    <ws-widget-ui-user-table [hidden]="currentTab==='rolesandaccess'" [tableData]="tabledata" [data]="data"
+      [needAddAdmin]="false" [needCreateUser]="true">
     </ws-widget-ui-user-table>
     <ws-app-roles-access [hidden]="currentTab==='users'" (clickedDepartment)="fClickedDepartment($event)">
     </ws-app-roles-access>
