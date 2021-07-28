@@ -84,7 +84,7 @@ export class CreateUserComponent implements OnInit {
     this.usersSvc.getAllDepartmentsKong(this.deptId).subscribe(res => {
       this.createUserForm.patchValue({
         deptType: res.result.response.channel,
-        dept: this.currentDept
+        dept: this.currentDept,
       })
     })
   }
@@ -126,7 +126,7 @@ export class CreateUserComponent implements OnInit {
       if (userdata) {
         this.router.navigate(['/app/home/users'])
       }
-    }, (err) => {
+    },                                          err => {
       this.openSnackbar(err)
     })
   }

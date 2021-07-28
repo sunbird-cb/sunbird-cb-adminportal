@@ -67,12 +67,12 @@ export class CreateMdoComponent implements OnInit {
   { isActive: false, isCompleted: false, name: 'Classification', step: 1 },
   { isActive: false, isCompleded: false, name: 'Intended for', step: 2 }]
   constructor(public dialog: MatDialog,
-    private snackBar: MatSnackBar,
-    private createMdoService: CreateMDOService,
-    private router: Router,
-    private directoryService: DirectoryService,
-    private valueSvc: ValueService,
-    private activatedRoute: ActivatedRoute) {
+              private snackBar: MatSnackBar,
+              private createMdoService: CreateMDOService,
+              private router: Router,
+              private directoryService: DirectoryService,
+              private valueSvc: ValueService,
+              private activatedRoute: ActivatedRoute) {
     {
 
       this.loggedInUserId = _.get(this.activatedRoute, 'snapshot.parent.data.configService.userProfileV2.userId')
@@ -180,7 +180,7 @@ export class CreateMdoComponent implements OnInit {
             this.snackBar.open('Admin assigned Successfully')
             this.router.navigate(['/app/home/directory', { department: this.department }])
           }
-        }, (err: { error: any }) => {
+        },                                                                                                              (err: { error: any }) => {
           this.openSnackbar(err.error.errors[0].message)
         })
       })
@@ -223,12 +223,12 @@ export class CreateMdoComponent implements OnInit {
     if (this.contentForm.value.name !== null && this.contentForm.value.head !== null
       && this.contentForm.value.deptSubTypeId !== null) {
       this.createMdoService.createDepartment(this.contentForm.value, this.deptType,
-        this.department, this.loggedInUserId).subscribe(res => {
+                                             this.department, this.loggedInUserId).subscribe(res => {
           if (res.result.response === 'SUCCESS') {
             this.submittedForm = false
             this.openSnackbar('Success')
           }
-        }, (err: { error: any }) => {
+        },                                                                                   (err: { error: any }) => {
           this.openSnackbar(err.error.message)
         })
     }

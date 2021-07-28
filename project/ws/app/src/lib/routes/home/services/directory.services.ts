@@ -23,7 +23,7 @@ export class DirectoryService {
           isTenant: true,
         },
         sortBy: {
-          orgName: "asc",
+          orgName: 'asc',
         },
         limit: 1000,
       },
