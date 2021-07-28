@@ -14,6 +14,7 @@ const API_END_POINTS = {
   SEARCH_USER: 'apis/protected/v8/user/autocomplete',
   USER_BDD: '/apis/protected/v8/portal/spv/deptAction/userrole',
   GET_ALL_KONG_USER: '/apis/proxies/v8/user/v1/search',
+  GET_ALL_DEPARTMENTS_KONG: '/apis/proxies/v8/org/v1/read',
 }
 
 @Injectable({
@@ -74,5 +75,14 @@ export class UsersService {
   }
   deleteUser(user: object): Observable<any> {
     return this.http.patch<any>(`${API_END_POINTS.USER_BDD}/`, user)
+  }
+  getAllDepartmentsKong(organaizationId: string): Observable<any> {
+    console.log(organaizationId)
+    const orgId = {
+      request: {
+        organisationId: organaizationId
+      }
+    }
+    return this.http.post<any>(`${API_END_POINTS.GET_ALL_DEPARTMENTS_KONG}`, orgId)
   }
 }

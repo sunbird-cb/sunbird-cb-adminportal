@@ -207,10 +207,7 @@ export class CreateMdoComponent implements OnInit {
     this.directoryService.getDepartmentTitles().subscribe(res => {
       const department = JSON.parse(res.result.response.value)
       department.orgTypeList.forEach((types: any) => {
-        if (types.name === 'MDO') {
-          this.subMDODepartments = types.subTypeList
-        }
-        if (types.name === 'CBP') {
+        if (types.name === this.department) {
           this.subDepartments = types.subTypeList
         }
       })
@@ -223,19 +220,10 @@ export class CreateMdoComponent implements OnInit {
     this.deptSubType = val
   }
   onSubmit() {
-    // if (!this.isUpdate) {
-
     if (this.contentForm.value.name !== null && this.contentForm.value.head !== null
       && this.contentForm.value.deptSubTypeId !== null) {
-      // const deptArr = []
-      // const subdepartment = this.getSubDepartmennt(this.contentForm.value.deptSubTypeId)
-      // deptArr.push(subdepartment)
-      // const subMDOdepartment = this.getMdoSubDepartmennt(this.contentForm.value.deptMdoSubTypeId)
-      // if (subMDOdepartment) {
-      //   deptArr.push(subMDOdepartment)
-      // }
-      if (this.department === 'CBP') {
-        this.createMdoService.createDepartment(this.contentForm.value, this.deptType, 'mdo', this.loggedInUserId).subscribe(res => {
+      this.createMdoService.createDepartment(this.contentForm.value, this.deptType,
+        this.department, this.loggedInUserId).subscribe(res => {
           if (res.result.response === 'SUCCESS') {
             this.submittedForm = false
             this.openSnackbar('Success')
@@ -243,24 +231,6 @@ export class CreateMdoComponent implements OnInit {
         }, (err: { error: any }) => {
           this.openSnackbar(err.error.message)
         })
-        this.createMdoService.createDepartment(this.contentForm.value, this.deptSubType, this.department, this.loggedInUserId).subscribe(res => {
-          if (res.result.response === 'SUCCESS') {
-            this.submittedForm = false
-            this.openSnackbar('Success')
-          }
-        }, (err: { error: any }) => {
-          this.openSnackbar(err.error.message)
-        })
-      } else if (this.department === 'MDO') {
-        this.createMdoService.createDepartment(this.contentForm.value, this.deptType, this.department, this.loggedInUserId).subscribe(res => {
-          if (res.result.response === 'SUCCESS') {
-            this.submittedForm = false
-            this.openSnackbar('Success')
-          }
-        }, (err: { error: any }) => {
-          this.openSnackbar(err.error.message)
-        })
-      }
     }
   }
   getMdoSubDepartmennt(id: number) {

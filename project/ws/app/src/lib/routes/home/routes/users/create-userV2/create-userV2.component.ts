@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/co
 import { FormGroup, FormControl, Validators } from '@angular/forms'
 import { Subscription } from 'rxjs'
 import { MatSnackBar } from '@angular/material'
-import { TenantAdminService } from '../../../tenant-admin.service'
+import { TenantAdminService } from '../../../services/tenant-admin.service'
 
 @Component({
   selector: 'ws-admin-create-user',
