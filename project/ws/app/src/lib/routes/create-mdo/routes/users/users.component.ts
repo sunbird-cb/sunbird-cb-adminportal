@@ -3,10 +3,10 @@ import { Router, ActivatedRoute } from '@angular/router'
 import * as _ from 'lodash'
 import { ProfileV2Service } from '../../../home/services/home.servive'
 import { UsersService } from '../../services/users.service'
-interface IUSER {
-  profiledetails: any; isDeleted: boolean; userId: string | null; firstName: any
-  lastName: any; email: any; active: any; blocked: any; roles: any[]
-}
+// interface IUSER {
+//   profileDetails: any; isDeleted: boolean; userId: string | null; firstName: any
+//   lastName: any; email: any; active: any; blocked: any; roles: any[]
+// }
 @Component({
   selector: 'ws-app-users',
   templateUrl: './users.component.html',
@@ -176,11 +176,12 @@ export class UsersComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   newKongUser() {
     const usersData: any[] = []
-    this.userWholeData.forEach((user: IUSER) => {
+    this.userWholeData.forEach((user: any) => {
+      // const email = _.get(user, 'profileDetails.personalDetails.primaryEmail')
       if (!(user.isDeleted)) {
         usersData.push({
           fullName: user ? `${user.firstName} ${user.lastName}` : null,
-          email: user.profiledetails && user.profiledetails.personalDetails.primaryEmail || '',
+          email: user.profileDetails && user.profileDetails.personalDetails.primaryEmail || 'NA',
           position: user.roles,
           userId: user.userId,
         })

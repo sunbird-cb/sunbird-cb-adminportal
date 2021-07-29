@@ -10,7 +10,7 @@ import { UsersService } from '../../services/users.service'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { environment } from 'src/environments/environment'
 interface USER {
-  profiledetails: any; isDeleted: boolean; userId: string | null; firstName: any; lastName: any; email: any; active: any; blocked: any; roles: any[]
+  profileDetails: any; isDeleted: boolean; userId: string | null; firstName: any; lastName: any; email: any; active: any; blocked: any; roles: any[]
 }
 @Component({
   selector: 'ws-app-users-view',
@@ -157,14 +157,15 @@ export class UsersViewComponent implements OnInit {
     const usersData: any[] = []
     if (key) {
       this.currentFilter = key
+      this.data = []
       switch (key) {
         case 'active':
           this.userWholeData.forEach((user: USER) => {
             if (!(user.isDeleted)) {
               usersData.push({
                 fullname: user ? `${user.firstName} ${user.lastName}` : null,
-                email: user.profiledetails && user.profiledetails.personalDetails.primaryEmail || '',
-                position: user.roles,
+                email: user.profileDetails && user.profileDetails.personalDetails.primaryEmail || 'NA',
+                position: user.roles || 'NA',
                 userId: user.userId,
               })
             }
@@ -176,8 +177,8 @@ export class UsersViewComponent implements OnInit {
             if (user.isDeleted) {
               usersData.push({
                 fullname: user ? `${user.firstName} ${user.lastName}` : null,
-                email: user.profiledetails.personalDetails.primaryEmail,
-                position: user.roles,
+                email: user.profileDetails.personalDetails.primaryEmail,
+                position: user.roles || 'NA',
                 userId: user.userId,
               })
             }

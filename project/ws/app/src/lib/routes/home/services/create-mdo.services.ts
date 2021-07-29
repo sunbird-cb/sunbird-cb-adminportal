@@ -5,12 +5,10 @@ import { Observable } from 'rxjs'
 const API_END_POINTS = {
   GET_ALL_DEPARTMENTS: '/apis/protected/v8/portal/departmentType/',
   CREATE_DEPARTMENT: '/apis/proxies/v8/org/v1/create',
-  UPDATE_DEPARTMENT: '/apis/protected/v8/portal/spv/department',
+  UPDATE_DEPARTMENT: '/apis/proxies/v8/org/v1/update',
   ASSIGN_ADMIN_TO_CREATED_DEPARTMENT: '/apis/protected/v8/portal/spv/deptAction/',
   GET_DEPARTMENT_BY_ID: '/apis/protected/v8/portal/deptAction/',
 }
-
-const DEPARTMENT_NAME = 'igot'
 
 @Injectable({
   providedIn: 'root',
@@ -33,15 +31,20 @@ export class CreateMDOService {
     }
     return this.http.post<any>(`${API_END_POINTS.CREATE_DEPARTMENT}`, departmentData)
   }
-  updateDepartment(deptData: any, updateId: number): Observable<any> {
+  updateDepartment(updateId: number, deptType: string, depatment: string, loggedInUserId: string): Observable<any> {
     const departmentData = {
-      id: updateId,
-      rootOrg: DEPARTMENT_NAME,
-      deptName: deptData.name,
-      deptTypeIds: '',
-      description: '',
-      headquarters: deptData.head,
-      logo: deptData.fileUpload,
+      request: {
+        // orgName: deptData.name,
+        // channel: deptData.name,
+        // isTenant: true,
+        // organisationType: depatment.toLowerCase(),
+        // organisationSubType: deptType.toLowerCase(),
+        // requestedBy: loggedInUserId,
+        organisationId: updateId,
+        organisationType: depatment.toLowerCase(),
+        organisationSubType: deptType.toLowerCase(),
+        requestedBy: loggedInUserId,
+      },
     }
     return this.http.patch<any>(`${API_END_POINTS.UPDATE_DEPARTMENT}`, departmentData)
   }
