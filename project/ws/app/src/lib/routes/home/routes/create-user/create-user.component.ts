@@ -40,8 +40,8 @@ export class CreateUserComponent implements OnInit {
       fname: new FormControl('', [Validators.required]),
       lname: new FormControl('', [Validators.required]),
       email: new FormControl('', [Validators.required, Validators.email]),
-      deptType: new FormControl('', [Validators.required]),
-      dept: new FormControl('', [Validators.required]),
+      deptType: new FormControl('iGOT', [Validators.required]),
+      dept: new FormControl('Karmayogi', [Validators.required]),
     })
 
   }
@@ -49,6 +49,7 @@ export class CreateUserComponent implements OnInit {
   ngOnInit() {
     // this.getAllDept()
     this.getAllDepartmentsKong()
+    // this.getAllDepartmentSubType()
 
     this.dropdownSettings = {
       singleSelection: true,
@@ -112,6 +113,12 @@ export class CreateUserComponent implements OnInit {
       this.userRoles.add(role)
     }
   }
+  // getAllDepartmentSubType() {
+  //   this.directoryService.getDepartmentTitles().subscribe(res => {
+  //     const departmentHeaderArray = JSON.parse(res.result.response.value)
+  //     // console.log(departmentHeaderArray)
+  //   })
+  // }
   onSubmit(form: any) {
     // form.value.department = this.selectedDept ? this.selectedDept.deptName : this.receivedDept.deptName
     const userreq = {

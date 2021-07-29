@@ -112,7 +112,7 @@ export class DirectoryViewComponent implements OnInit {
                 type: department,
                 user: element.noOfMembers || 0,
                 head: department,
-                typeid: 6,
+                typeid: element.organisationSubType,
               }
               filteredData2.push(obj)
             }
@@ -130,7 +130,7 @@ export class DirectoryViewComponent implements OnInit {
                 type: department,
                 user: element.noOfMembers || 0,
                 head: department,
-                typeid: 6,
+                typeid: element.organisationSubType,
               }
               filteredData2.push(obj)
             }
@@ -148,7 +148,7 @@ export class DirectoryViewComponent implements OnInit {
                 type: department,
                 user: element.noOfMembers || 0,
                 head: department,
-                typeid: 6,
+                typeid: element.organisationSubType,
               }
               filteredData2.push(obj)
             }
