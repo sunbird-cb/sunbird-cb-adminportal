@@ -186,8 +186,12 @@ export class UIAdminUserTableComponent implements OnInit, AfterViewInit, OnChang
 
   }
   gotoCreateUser() {
-    console.log(this.otherInput)
     this.router.navigate([`/app/home/create-user`],
-      { queryParams: { id: this.departmentId, currentDept: this.departmentRole, createDept: JSON.stringify(this.otherInput) } })
+                         {
+        queryParams: {
+          id: this.departmentId, currentDept: this.departmentRole,
+          createDept: JSON.stringify(this.otherInput),
+        },
+      })
   }
 }

@@ -52,13 +52,14 @@ export class CreateMDOService {
     //   isBlocked: false,
     // }
     const departmentData = {
+
       request: {
+        userId,
         organisationId: deptId,
-        userId: userId,
         roles: [
-          deptRole
-        ]
-      }
+          deptRole,
+        ],
+      },
     }
     return this.http.post<any>(`${API_END_POINTS.ASSIGN_ADMIN_TO_CREATED_DEPARTMENT}`, departmentData)
   }
