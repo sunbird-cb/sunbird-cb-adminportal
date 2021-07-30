@@ -1,8 +1,11 @@
+import { CreateMDOService } from './../../services/create-mdo.services'
 import { Component, OnInit } from '@angular/core'
 import { FormControl, FormGroup, Validators } from '@angular/forms'
 import { UsersService } from '../../services/users.service'
 import { MatSnackBar } from '@angular/material'
 import { ActivatedRoute, Router } from '@angular/router'
+import { DirectoryService } from '../../services/directory.services'
+import * as _ from 'lodash'
 
 @Component({
   selector: 'ws-app-create-user',
@@ -23,31 +26,53 @@ export class CreateUserComponent implements OnInit {
   queryParam: any
   deptId: any
   currentDept: any
-
+  createdDepartment!: any
+  selected!: string
+  roles = ['SPV_ADMIN']
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private snackBar: MatSnackBar,
+    private directoryService: DirectoryService,
+    private createMDOService: CreateMDOService,
+    private activatedRoute: ActivatedRoute,
     private usersSvc: UsersService) {
     this.route.queryParams.subscribe(params => {
       this.queryParam = params['id']
       this.deptId = params['id']
       this.currentDept = params['currentDept']
+      const dept = params['createDept']
+      if (dept) {
+        this.createdDepartment = JSON.parse(dept)
+      }
       // tslint:disable-next-line:radix
       this.queryParam = parseInt(this.queryParam)
     })
-    this.createUserForm = new FormGroup({
-      fname: new FormControl('', [Validators.required]),
-      lname: new FormControl('', [Validators.required]),
-      email: new FormControl('', [Validators.required, Validators.email]),
-      deptType: new FormControl('iGOT', [Validators.required]),
-      dept: new FormControl('Karmayogi', [Validators.required]),
-    })
+    if (this.createdDepartment) {
+      this.createUserForm = new FormGroup({
+        fname: new FormControl('', [Validators.required]),
+        lname: new FormControl('', [Validators.required]),
+        email: new FormControl('', [Validators.required, Validators.email]),
+        role: new FormControl('', [Validators.required, Validators.required]),
+        deptType: new FormControl(this.createdDepartment.depName, [Validators.required]),
+        dept: new FormControl(this.createdDepartment.depType, [Validators.required]),
+      })
+    } else {
+      this.createUserForm = new FormGroup({
+        fname: new FormControl('', [Validators.required]),
+        lname: new FormControl('', [Validators.required]),
+        email: new FormControl('', [Validators.required, Validators.email]),
+        role: new FormControl('', [Validators.required, Validators.required]),
+        deptType: new FormControl('iGOT', [Validators.required]),
+        dept: new FormControl('Karmayogi', [Validators.required]),
+      })
+    }
 
   }
 
   ngOnInit() {
     // this.getAllDept()
+    this.getAllDepartmentsHeaderAPI()
     this.getAllDepartmentsKong()
     // this.getAllDepartmentSubType()
 
@@ -59,6 +84,18 @@ export class CreateUserComponent implements OnInit {
       itemsShowLimit: 10000,
       allowSearchFilter: true,
     }
+  }
+  getAllDepartmentsHeaderAPI() {
+    this.directoryService.getDepartmentTitles().subscribe(res => {
+      const departmentHeaderArray = JSON.parse(res.result.response.value)
+      departmentHeaderArray.orgTypeList.forEach((ele: { name: any, isHidden: any, roles: [] }) => {
+        if (ele.name === this.currentDept) {
+          if (!(ele.isHidden)) {
+            this.roles = ele.roles
+          }
+        }
+      })
+    })
   }
 
   // getAllDept() {
@@ -82,6 +119,7 @@ export class CreateUserComponent implements OnInit {
   // }
 
   getAllDepartmentsKong() {
+    this.deptId = _.get(this.activatedRoute, 'snapshot.parent.data.configService.userProfile.userId')
     this.usersSvc.getAllDepartmentsKong(this.deptId).subscribe(res => {
       this.createUserForm.patchValue({
         deptType: res.result.response.channel,
@@ -130,11 +168,19 @@ export class CreateUserComponent implements OnInit {
       },
     }
     this.usersSvc.createUser(userreq).subscribe(userdata => {
-      if (userdata) {
-        this.router.navigate(['/app/home/users'])
+      if (userdata.userId) {
+        this.createMDOService.assignAdminToDepartment(this.deptId, userdata.userId,
+                                                      this.createUserForm.value.role).subscribe(data => {
+            this.openSnackbar(`Success ${data}`)
+            this.router.navigate(['/app/home/users'])
+          },                                                                                    err => {
+            this.router.navigate([`/app/home/users`])
+            this.openSnackbar(`Error in assign roles ${err}`)
+          })
       }
     },                                          err => {
-      this.openSnackbar(err)
+      this.router.navigate([`/app/home/users`])
+      this.openSnackbar(`Error in assign roles ${err}`)
     })
   }
 

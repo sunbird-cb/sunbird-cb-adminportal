@@ -13,6 +13,7 @@ import {
 import {
   // AuthKeycloakService,
   // AuthKeycloakService,
+  // AuthKeycloakService,
   ConfigurationsService,
   LoggerService,
   NsAppsConfig,
@@ -22,6 +23,7 @@ import {
 import { environment } from '../../environments/environment'
 import { map } from 'rxjs/operators'
 import * as _ from 'lodash'
+// import { Router } from '@angular/router'
 
 interface IDetailsResponse {
   tncStatus: boolean
@@ -59,12 +61,12 @@ export class InitService {
     private settingsSvc: BtnSettingsService,
     private userPreference: UserPreferenceService,
     private http: HttpClient,
-    // private router: Router,
-
+    // private router: Router, private authSvc: AuthKeycloakService,
     @Inject(APP_BASE_HREF) private baseHref: string,
     // private router: Router,
     domSanitizer: DomSanitizer,
     iconRegistry: MatIconRegistry,
+
     // private authSvc: AuthKeycloakService,
   ) {
     this.configSvc.isProduction = environment.production
@@ -584,7 +586,7 @@ export class InitService {
 
       this.configSvc.userGroups = new Set(details.group)
       this.configSvc.userRoles = new Set((details.roles || []).map((v: string) => v.toLowerCase()))
-      if (this.configSvc.userRoles.has('spv_admin')) {
+      if (!this.configSvc.userRoles.has('SPV_ADMIN')) {
         // this.router.navigate(['error-access-forbidden'])
         // this.authSvc.logout()
       }

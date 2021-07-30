@@ -30,7 +30,7 @@
                   </div>
 
                 </div>
-                <div class="margin-top-s">
+                <!-- <div class="margin-top-s">
                   <p class="margin-remove-bottom" [ngClass]="{ required: checkCondition('subTitle', 'required') }">
                     Head quarters
                   </p>
@@ -43,7 +43,7 @@
                       Head quaters not valid
                     </mat-error>
                   </mat-form-field>
-                </div>
+                </div> -->
                 <div class="margin-top-s">
                   <label>
                     <div class="margin-top-s flex flex-middle">
@@ -64,23 +64,6 @@
                       <mat-error *ngIf="showError('deptSubTypeId')" i18n>Department type is mandatory
                       </mat-error>
                     </mat-form-field>
-                    <!-- <mat-form-field appearance="outline" class="margin-top-xs"
-                      [ngClass]="{ 'mat-form-field-invalid': showError('depatmentType') }">
-                      <mat-select formControlName="deptSubTypeId" i18n-placeholder placeholder="--Select--"
-                        [required]="checkCondition('subTitle', 'required') ? true : null"
-                        (selectionChange)="selectedType($event.value)">
-                        <mat-option *ngFor="let subDepartment of subDepartments" [value]="subDepartment" i18n>
-                          {{capitalizeFirstLetter(subDepartment)}}</mat-option>
-                      </mat-select>
-                      <mat-error *ngIf="showError('deptSubTypeId')" i18n>Department type is mandatory
-                      </mat-error>
-                    </mat-form-field> -->
-                    <!-- <mat-form-field>
-                      <mat-select [(value)]="selected" placeholder="Mode">
-                        <mat-option *ngFor="let dep of depts" value='{{dep}}'>{{dep}}
-                        </mat-option>
-                      </mat-select>
-                    </mat-form-field> -->
                   </div>
                 </div>
               </div>
@@ -110,7 +93,7 @@
             one user
             as admin</p>
           <ws-widget-ui-user-table [tableData]="tabledata" [data]="data" [needAddAdmin]="true" [needCreateUser]="true"
-            [inputDepartmentId]="departmentId">
+            [otherInput]="createdDepartment" [inputDepartmentId]="departmentId">
           </ws-widget-ui-user-table>
         </mat-card>
       </ng-container>

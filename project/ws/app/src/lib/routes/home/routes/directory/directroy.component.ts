@@ -60,8 +60,10 @@ export class DirectoryViewComponent implements OnInit {
   getAllDepartmentsHeaderAPI() {
     this.directoryService.getDepartmentTitles().subscribe(res => {
       const departmentHeaderArray = JSON.parse(res.result.response.value)
-      departmentHeaderArray.orgTypeList.forEach((ele: { name: any }) => {
-        this.departmentHearders.push(ele.name)
+      departmentHeaderArray.orgTypeList.forEach((ele: { name: any, isHidden: any }) => {
+        if (!(ele.isHidden)) {
+          this.departmentHearders.push(ele.name)
+        }
       })
       this.getDepartDataByKey(this.departmentHearders[0])
       this.createTableHeader()
@@ -74,7 +76,6 @@ export class DirectoryViewComponent implements OnInit {
       columns: [
         { displayName: this.currentFilter, key: 'mdo' },
         { displayName: 'Type', key: 'type' },
-        { displayName: 'Users', key: 'user' },
       ],
       needCheckBox: false,
       needHash: false,
