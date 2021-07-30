@@ -69,6 +69,24 @@
                 Email field is not valid
               </mat-error>
             </mat-form-field>
+            <label for="dept" class="margin-remove-bottom margin-top-xs form-label required"
+              i18n="Email label|Label which explains the user to enter email" i18n-aria-label aria-label="Email label">
+              Department
+            </label>
+            <mat-form-field appearance="outline" class="margin-top-xs">
+              <input id="dept" matInput #dept formControlName="dept" i18n-placeholder placeholder="Type here"
+                i18n-aria-label aria-label="Department" class="form-input" autocomplete="off" />
+            </mat-form-field>
+            <label for="deptType" class="margin-remove-bottom margin-top-xs form-label required"
+              i18n="Email label|Label which explains the user to enter email" i18n-aria-label aria-label="Email label">
+              Department type
+            </label>
+            <mat-form-field appearance="outline" class="margin-top-xs">
+              <input id="deptType" matInput #deptType formControlName="deptType" i18n-placeholder
+                placeholder="Type here" i18n-aria-label aria-label="Department Type" class="form-input"
+                autocomplete="off" />
+            </mat-form-field>
+
 
             <label for="email" class="margin-remove-bottom margin-top-xs form-label required"
               i18n="Email label|Label which explains the user to enter email" i18n-aria-label aria-label="Email label">

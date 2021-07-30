@@ -73,6 +73,7 @@ export class CreateUserComponent implements OnInit {
   ngOnInit() {
     // this.getAllDept()
     this.getAllDepartmentsHeaderAPI()
+
     this.getAllDepartmentsKong()
     // this.getAllDepartmentSubType()
 
