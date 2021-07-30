@@ -19,8 +19,8 @@ export class RolesAccessComponent implements OnInit, AfterViewInit, OnDestroy {
   count!: number
 
   constructor(private router: Router,
-    private activeRoute: ActivatedRoute,
-    private usersService: UsersService,
+              private activeRoute: ActivatedRoute,
+              private usersService: UsersService,
   ) {
     this.getAllKongUsers()
 
@@ -32,7 +32,7 @@ export class RolesAccessComponent implements OnInit, AfterViewInit, OnDestroy {
 
       data.result.response.content.forEach((element: { roles: any }) => {
         if (element.roles.includes('SPV_ADMIN')) {
-          this.count++
+          this.count = this.count + 1
         }
       })
 
@@ -51,10 +51,10 @@ export class RolesAccessComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     this.fetchRoles()
 
-    var data = []
+    const data = []
     data.push({
       role: 'SPV_ADMIN',
-      count: this.count
+      count: this.count,
     })
     this.data = data
   }
