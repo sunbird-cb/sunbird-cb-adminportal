@@ -12,23 +12,15 @@
     <mat-card-content>
       <div class="flex flex-1 flex-column margin-fix">
         <div class="flex flex-1 filter max-height-60">
-          <!-- <a href="javascript:void(0)" class="filter-option" [ngClass]="{'ws-mat-accent-border-active' : currentFilter === 'underreview',
-              'ws-mat-accent-border font-medium':currentFilter !== 'underreview'}" mat-button
-            (click)="filter('underreview')" role="button">Under review</a> -->
           <a href="javascript:void(0)" class="filter-option" [ngClass]="{'ws-mat-accent-border-active' : currentFilter === 'active',
               'ws-mat-accent-border font-medium':currentFilter !== 'active'}" mat-button (click)="filter('active')"
             role="button">Active</a>
           <a href="javascript:void(0)" class="filter-option" [ngClass]="{'ws-mat-accent-border-active' : currentFilter === 'inactive',
                           'ws-mat-accent-border font-medium':currentFilter !== 'inactive'}" mat-button
             (click)="filter('inactive')" role="button">Inactive</a>
-          <a href="javascript:void(0)" class="filter-option" [ngClass]="{'ws-mat-accent-border-active' : currentFilter === 'blocked',
-                          'ws-mat-accent-border font-medium':currentFilter !== 'blocked'}" mat-button
-            (click)="filter('blocked')" role="button">Blocked</a>
         </div>
       </div>
       <ng-container>
-        <!-- <ws-widget-ui-user-table [tableData]='tabledata' [data]='data'>
-        </ws-widget-ui-user-table> -->
         <ws-widget-ui-user-table [tableData]='tabledata' [data]='data' isUpload=true isCreate=true
           [needCreateUser]="true" (eOnCreateClick)="onCreateClick()" (actionsClick)="menuActions($event)">
         </ws-widget-ui-user-table>

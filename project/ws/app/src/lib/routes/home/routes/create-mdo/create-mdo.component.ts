@@ -25,6 +25,7 @@ export class CreateMdoComponent implements OnInit {
   @Input() nextAction = 'done'
   @Input() stage = 1
   @Input() type = ''
+  createdDepartment: any
   fracData: any = []
   contentForm!: FormGroup
 
@@ -234,30 +235,32 @@ export class CreateMdoComponent implements OnInit {
   }
   onSubmit() {
     if (!this.isUpdate) {
-      if (this.contentForm.value.name !== null && this.contentForm.value.head !== null
+      if (this.contentForm.value.name !== null
         && this.contentForm.value.deptSubTypeId !== null) {
         this.createMdoService.createDepartment(this.contentForm.value, this.deptType,
                                                this.department, this.loggedInUserId).subscribe(res => {
             if (res.result.response === 'SUCCESS') {
               this.submittedForm = false
-              this.openSnackbar('Success')
+              const obj = {
+                depName: this.contentForm.value.name,
+                depType: this.department,
+              }
+              this.createdDepartment = obj
+              this.openSnackbar(`Success`)
             }
-          },                                                                                   (err: { error: any }) => {
-            this.openSnackbar(err.error.message)
           })
       }
     } else {
-      if (this.contentForm.value.name !== null && this.contentForm.value.head !== null
+      if (this.contentForm.value.name !== null
         && this.contentForm.value.deptSubTypeId !== null) {
         this.createMdoService.updateDepartment(this.updateId, this.deptType,
                                                this.department, this.loggedInUserId).subscribe(res => {
             if (res.result.response === 'SUCCESS') {
-              this.submittedForm = false
-              this.openSnackbar('Success')
+              this.openSnackbar(`Success`)
+              this.router.navigate([`/app/home/directory`])
             }
-          },                                                                                   (err: { error: any }) => {
-            this.openSnackbar(err.error.message)
-          })
+          }
+          )
       }
     }
 

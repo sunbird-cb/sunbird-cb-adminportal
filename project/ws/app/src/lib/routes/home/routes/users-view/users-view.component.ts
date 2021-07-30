@@ -68,7 +68,6 @@ export class UsersViewComponent implements OnInit {
       columns: [
         { displayName: 'Full name', key: 'fullname' },
         { displayName: 'Email', key: 'email' },
-        { displayName: 'Roles', key: 'position' },
       ],
       needCheckBox: false,
       needHash: false,

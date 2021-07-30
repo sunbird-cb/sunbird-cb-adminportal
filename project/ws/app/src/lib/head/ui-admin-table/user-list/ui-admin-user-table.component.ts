@@ -25,6 +25,7 @@ export class UIAdminUserTableComponent implements OnInit, AfterViewInit, OnChang
   @Input() needAddAdmin?: boolean
   @Input() isUpload?: boolean
   @Input() isCreate?: boolean
+  @Input() otherInput?: any
   @Input() inputDepartmentId?: string | undefined
   @Output() clicked?: EventEmitter<any>
   @Output() actionsClick?: EventEmitter<any>
@@ -133,7 +134,7 @@ export class UIAdminUserTableComponent implements OnInit, AfterViewInit, OnChang
     dialogRef.afterClosed().subscribe((response: any) => {
       response.data.forEach((user: { userId: string }) => {
         if (this.departmentId) {
-          const role = `MDO ADMIN`
+          const role = `${this.departmentRole}_ADMIN`
           this.createMDOService.assignAdminToDepartment(user.userId, this.departmentId, role).subscribe(res => {
             if (res) {
               this.snackBar.open('Admin assigned Successfully')
@@ -185,6 +186,12 @@ export class UIAdminUserTableComponent implements OnInit, AfterViewInit, OnChang
 
   }
   gotoCreateUser() {
-    this.router.navigate([`/app/home/create-user`], { queryParams: { id: this.departmentId, currentDept: this.departmentRole } })
+    this.router.navigate([`/app/home/create-user`],
+                         {
+        queryParams: {
+          id: this.departmentId, currentDept: this.departmentRole,
+          createDept: JSON.stringify(this.otherInput),
+        },
+      })
   }
 }

@@ -76,7 +76,7 @@ export class UIUserTablePopUpComponent implements OnInit, AfterViewInit, OnChang
   }
 
   applyFilter(filterValue: any) {
-    this.isSearched =  true
+    this.isSearched = true
     if (filterValue) {
       let fValue = filterValue.trim()
       fValue = filterValue.toLowerCase()
@@ -99,7 +99,7 @@ export class UIUserTablePopUpComponent implements OnInit, AfterViewInit, OnChang
   }
   getAllActiveUsersAPI(searchString: string) {
     this.userViewPopUpService.getAllUsersByDepartments(searchString).subscribe(res => {
-      this.getAllUserByKey(res)
+      this.getAllUserByKey(res.result.response.content)
     })
 
   }
@@ -108,9 +108,9 @@ export class UIUserTablePopUpComponent implements OnInit, AfterViewInit, OnChang
       this.dataSource.data = []
       userObj.forEach((users: any) => {
         const obj: IUser = {
-          userId: users.wid,
-          fullname: `${users.first_name} ${users.last_name}`,
-          email: users.email,
+          userId: users.id,
+          fullname: `${users.firstName} ${users.lastName}`,
+          email: users.profileDetails.personalDetails.primaryEmail,
         }
         this.dataSource.data.push(obj)
         this.dataSource.data = this.dataSource.data.slice()

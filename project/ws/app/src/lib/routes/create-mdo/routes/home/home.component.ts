@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core'
-import { Router, Event, NavigationEnd, NavigationError, ActivatedRoute } from '@angular/router'
-import { NsWidgetResolver } from '@sunbird-cb/resolver'
-import { ILeftMenu } from '@sunbird-cb/collection'
+import { Router } from '@angular/router'
+// import { NsWidgetResolver } from '@sunbird-cb/resolver'
+// import { ILeftMenu } from '@sunbird-cb/collection'
 import { ValueService } from '@sunbird-cb/utils'
 import { map } from 'rxjs/operators'
 
@@ -12,7 +12,7 @@ import { map } from 'rxjs/operators'
 })
 export class HomeComponent implements OnInit, OnDestroy {
   currentRoute = 'users'
-  widgetData!: NsWidgetResolver.IWidgetData<ILeftMenu>
+  // widgetData!: NsWidgetResolver.IWidgetData<ILeftMenu>
   isLtMedium$ = this.valueSvc.isLtMedium$
   mode$ = this.isLtMedium$.pipe(map(isMedium => (isMedium ? 'over' : 'side')))
   private defaultSideNavBarOpenedSubscription: any
@@ -21,17 +21,17 @@ export class HomeComponent implements OnInit, OnDestroy {
   mydept!: string
   role: any
   dept!: string
-  constructor(private valueSvc: ValueService, private router: Router, private activeRoute: ActivatedRoute) {
-    this.router.events.subscribe((event: Event) => {
-      if (event instanceof NavigationEnd) {
-        this.bindUrl(event.urlAfterRedirects.replace('/app/roles-access/', ''))
-        this.widgetData = this.activeRoute.snapshot.data &&
-          this.activeRoute.snapshot.data.pageData.data.menus || []
-      }
-      if (event instanceof NavigationError) {
+  constructor(private valueSvc: ValueService, private router: Router) {
+    // this.router.events.subscribe((event: Event) => {
+    //   if (event instanceof NavigationEnd) {
+    //     this.bindUrl(event.urlAfterRedirects.replace('/app/roles-access/', ''))
+    //     this.widgetData = this.activeRoute.snapshot.data &&
+    //       this.activeRoute.snapshot.data.pageData.data.menus || []
+    //   }
+    //   if (event instanceof NavigationError) {
 
-      }
-    })
+    //   }
+    // })
   }
 
   ngOnInit() {

@@ -6,7 +6,7 @@ const API_END_POINTS = {
   GET_ALL_DEPARTMENTS: '/apis/protected/v8/portal/departmentType/',
   CREATE_DEPARTMENT: '/apis/proxies/v8/org/v1/create',
   UPDATE_DEPARTMENT: '/apis/proxies/v8/org/v1/update',
-  ASSIGN_ADMIN_TO_CREATED_DEPARTMENT: '/apis/protected/v8/portal/spv/deptAction/',
+  ASSIGN_ADMIN_TO_CREATED_DEPARTMENT: '/apis/proxies/v8/user/private/v1/assign/role',
   GET_DEPARTMENT_BY_ID: '/apis/protected/v8/portal/deptAction/',
 }
 
@@ -51,11 +51,9 @@ export class CreateMDOService {
   assignAdminToDepartment(userId: string, deptId: string, deptRole: string): Observable<any> {
     const departmentData = {
       userId,
-      deptId,
+      organisationId: deptId,
       roles: [deptRole],
-      isActive: true,
-      isBlocked: false,
     }
-    return this.http.post<any>(`${API_END_POINTS.ASSIGN_ADMIN_TO_CREATED_DEPARTMENT}/userrole`, departmentData)
+    return this.http.post<any>(`${API_END_POINTS.ASSIGN_ADMIN_TO_CREATED_DEPARTMENT}`, departmentData)
   }
 }

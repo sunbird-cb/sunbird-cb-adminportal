@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http'
 import { Observable } from 'rxjs'
 
 const API_END_POINTS = {
-  GET_ALL_USER_BY_DEPARTMENT: '/apis/protected/v8/user/autocomplete/',
+  GET_ALL_USER_BY_DEPARTMENT: '/apis/proxies/v8/user/v1/autocomplete/',
 }
 
 @Injectable({

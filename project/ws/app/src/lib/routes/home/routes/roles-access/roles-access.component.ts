@@ -1,5 +1,9 @@
 import { AfterViewInit, Component, OnInit, OnDestroy } from '@angular/core'
-import { Router } from '@angular/router'
+import {
+  Router,
+
+  // , ActivatedRoute
+} from '@angular/router'
 import * as _ from 'lodash'
 // import { RolesAccessService } from '../../services/roles-access.service'
 @Component({
@@ -11,7 +15,9 @@ export class RolesAccessComponent implements OnInit, AfterViewInit, OnDestroy {
   tabledata: any = []
   data: any = []
 
-  constructor(private router: Router) {
+  constructor(private router: Router,
+    // private activeRoute: ActivatedRoute
+  ) {
 
   }
 
