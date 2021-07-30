@@ -1,10 +1,12 @@
 import { AfterViewInit, Component, OnInit, OnDestroy } from '@angular/core'
 import {
+  ActivatedRoute,
   Router,
 
   // , ActivatedRoute
 } from '@angular/router'
 import * as _ from 'lodash'
+import { UsersService } from '../../services/users.service'
 // import { RolesAccessService } from '../../services/roles-access.service'
 @Component({
   selector: 'ws-app-roles-access',
@@ -14,13 +16,28 @@ import * as _ from 'lodash'
 export class RolesAccessComponent implements OnInit, AfterViewInit, OnDestroy {
   tabledata: any = []
   data: any = []
+  count!: number
 
   constructor(private router: Router,
-    // private activeRoute: ActivatedRoute
+    private activeRoute: ActivatedRoute,
+    private usersService: UsersService,
   ) {
+    this.getAllKongUsers()
 
   }
+  getAllKongUsers() {
+    const rootOrgId = _.get(this.activeRoute.snapshot.parent, 'data.configService.unMappedUser.rootOrg.rootOrgId')
+    this.count = 0
+    this.usersService.getAllKongUsers(rootOrgId).subscribe(data => {
 
+      data.result.response.content.forEach((element: { roles: any }) => {
+        if (element.roles.includes('SPV_ADMIN')) {
+          this.count++
+        }
+      })
+
+    })
+  }
   ngOnInit() {
     this.tabledata = {
       columns: [
@@ -33,6 +50,13 @@ export class RolesAccessComponent implements OnInit, AfterViewInit, OnDestroy {
       sortState: 'asc',
     }
     this.fetchRoles()
+
+    var data = []
+    data.push({
+      role: 'SPV_ADMIN',
+      count: this.count
+    })
+    this.data = data
   }
 
   ngAfterViewInit() {
