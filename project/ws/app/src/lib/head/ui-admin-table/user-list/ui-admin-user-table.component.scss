@@ -638,14 +638,15 @@ $title-line-count: 2;
   flex: 1 1 auto;
 
 }
-
+.w-100{
+  width: 100%;
+}
 .sinput {
-  width: 200%;
+  width: 300px;
   border-radius: 4px;
   border: 1px solid #d5d0d0;
   padding: 4px 8px 8px;
   margin-bottom: 20px;
-  margin-top: 10px;
   min-height: 20px;
 
   .material-icons {

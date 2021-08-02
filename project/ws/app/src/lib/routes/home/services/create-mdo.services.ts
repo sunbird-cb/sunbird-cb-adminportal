@@ -50,9 +50,11 @@ export class CreateMDOService {
   }
   assignAdminToDepartment(userId: string, deptId: string, deptRole: string): Observable<any> {
     const departmentData = {
-      userId,
-      organisationId: deptId,
-      roles: [deptRole],
+      request: {
+        userId,
+        organisationId: deptId,
+        roles: [deptRole],
+      },
     }
     return this.http.post<any>(`${API_END_POINTS.ASSIGN_ADMIN_TO_CREATED_DEPARTMENT}`, departmentData)
   }

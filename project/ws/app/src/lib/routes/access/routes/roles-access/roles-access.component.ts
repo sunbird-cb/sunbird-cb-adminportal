@@ -1,19 +1,23 @@
-import { DirectoryService } from '../../../home/services/directory.services'
-import { AfterViewInit, Component, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core'
+import { AfterViewInit, Component, OnInit, Output, EventEmitter } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
+import { UsersService } from '../../../home/services/users.service'
+import * as _ from 'lodash'
 // import { RolesAccessService } from '../../services/roles-access.service'
 @Component({
   selector: 'ws-app-roles-access',
   templateUrl: './roles-access.component.html',
   styleUrls: ['./roles-access.component.scss'],
 })
-export class RolesAccessComponent implements OnInit, AfterViewInit, OnDestroy {
+export class RolesAccessComponent implements OnInit, AfterViewInit {
   tabledata: any = []
   data: any = []
   deparmentId!: string
   deparmentName!: string
+  userWholeData!: any
+  counts: any = []
   @Output() clickedDepartment = new EventEmitter<string>()
-  constructor(private directoryService: DirectoryService, private activatedRoute: ActivatedRoute,
+  constructor(private activatedRoute: ActivatedRoute,
+              private usersService: UsersService
   ) {
 
     this.activatedRoute.params.subscribe(params => {
@@ -33,7 +37,7 @@ export class RolesAccessComponent implements OnInit, AfterViewInit, OnDestroy {
       sortColumn: '',
       sortState: 'asc',
     }
-    this.fetchRoles()
+    this.getAllKongUsers()
   }
 
   ngAfterViewInit() {
@@ -47,24 +51,41 @@ export class RolesAccessComponent implements OnInit, AfterViewInit, OnDestroy {
 
   /* API call to get all roles*/
   fetchRoles() {
+    const usersData: any[] = []
+    this.userWholeData.forEach((user: any) => {
+      user.organisations.forEach((org: { organisationId: string, roles: any }) => {
+        org.roles.forEach((r: any) => {
+          usersData.push(r)
+        })
 
-    const rolesAndAccessData: any[] = []
-    this.directoryService.getAllDepartments().subscribe(res => {
-      res.forEach((dept: { id: number, rolesInfo: any }) => {
-        if (dept.id === parseInt(this.deparmentId, 10)) {
-          dept.rolesInfo.forEach((role: { roleName: string, noOfUsers: string }) => {
-            rolesAndAccessData.push({
-              role: role.roleName,
-              count: role.noOfUsers,
-            })
-
-          })
-        }
       })
-      this.data = rolesAndAccessData
     })
+    usersData.forEach((x: any) => {
+      this.counts[x] = (this.counts[x] || 0) + 1
+    })
+    const role = Object.keys(this.counts)
+    const count = Object.values(this.counts)
+    const roleAndAccess: any[] = []
+    for (let i = 0; i <= role.length; i = i + 1) {
+      if (role[i]) {
+        const roleAndCount = {
+          role: role[i],
+          count: count[i],
+        }
+        roleAndAccess.push(roleAndCount)
+      }
+
+    }
+    this.data = roleAndAccess
   }
 
-  ngOnDestroy() {
+  getAllKongUsers() {
+    // const rootOrgId = _.get(this.activatedRoute.snapshot.parent, 'data.configService.unMappedUser.rootOrg.rootOrgId')
+    this.usersService.getAllKongUsers(this.deparmentId).subscribe(data => {
+      if (data.result.response.content) {
+        this.userWholeData = data.result.response.content || []
+        this.fetchRoles()
+      }
+    })
   }
 }

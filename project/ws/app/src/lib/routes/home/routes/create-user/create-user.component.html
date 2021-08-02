@@ -94,7 +94,7 @@
             </label>
             <mat-form-field appearance="outline" class="margin-top-xs">
 
-              <mat-select [(value)]="selected" formControlName="role" placeholder="Mode">
+              <mat-select [(value)]="selected" formControlName="role" placeholder="Roles">
                 <mat-option *ngFor="let role of roles" value='{{role}}' i18n>
                   {{role}}</mat-option>
               </mat-select>
@@ -103,7 +103,7 @@
             </mat-form-field>
 
 
-            <label for="dept" class="margin-remove-bottom margin-top-xs form-label required"
+            <!-- <label for="dept" class="margin-remove-bottom margin-top-xs form-label required"
               i18n="Email label|Label which explains the user to enter email" i18n-aria-label aria-label="Email label">
               Department
             </label>
@@ -119,7 +119,7 @@
               <input id="deptType" matInput #deptType formControlName="deptType" i18n-placeholder
                 placeholder="Type here" i18n-aria-label aria-label="Department Type" class="form-input"
                 autocomplete="off" />
-            </mat-form-field>
+            </mat-form-field> -->
 
             <!-- <div class="input-wrapper margin-top-s">
               <label for="department" class="margin-remove-bottom form-label required" i18n-aria-label

@@ -64,7 +64,7 @@ export class CreateUserComponent implements OnInit {
         email: new FormControl('', [Validators.required, Validators.email]),
         role: new FormControl('', [Validators.required, Validators.required]),
         deptType: new FormControl('iGOT', [Validators.required]),
-        dept: new FormControl('Karmayogi', [Validators.required]),
+        dept: new FormControl('Karmayogi Bharat', [Validators.required]),
       })
     }
 
@@ -172,7 +172,7 @@ export class CreateUserComponent implements OnInit {
       if (userdata.userId) {
         this.createMDOService.assignAdminToDepartment(this.deptId, userdata.userId,
                                                       this.createUserForm.value.role).subscribe(data => {
-            this.openSnackbar(`Success ${data}`)
+            this.openSnackbar(`${data.result.response}`)
             this.router.navigate(['/app/home/users'])
           },                                                                                    err => {
             this.router.navigate([`/app/home/users`])
@@ -180,8 +180,7 @@ export class CreateUserComponent implements OnInit {
           })
       }
     },                                          err => {
-      this.router.navigate([`/app/home/users`])
-      this.openSnackbar(`Error in assign roles ${err}`)
+      this.openSnackbar(`User reation ${err}`)
     })
   }
 

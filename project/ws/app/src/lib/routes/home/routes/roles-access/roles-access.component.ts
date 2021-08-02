@@ -17,6 +17,8 @@ export class RolesAccessComponent implements OnInit, AfterViewInit, OnDestroy {
   tabledata: any = []
   data: any = []
   count!: number
+  userWholeData!: any
+  counts: any = []
 
   constructor(private router: Router,
               private activeRoute: ActivatedRoute,
@@ -25,17 +27,48 @@ export class RolesAccessComponent implements OnInit, AfterViewInit, OnDestroy {
     this.getAllKongUsers()
 
   }
-  getAllKongUsers() {
-    const rootOrgId = _.get(this.activeRoute.snapshot.parent, 'data.configService.unMappedUser.rootOrg.rootOrgId')
-    this.count = 0
-    this.usersService.getAllKongUsers(rootOrgId).subscribe(data => {
+  fetchRoles() {
+    const usersData: any[] = []
+    if (this.userWholeData) {
+      this.userWholeData.forEach((user: any) => {
+        user.organisations.forEach((org: { organisationId: string, roles: any }) => {
+          org.roles.forEach((r: any) => {
+            usersData.push(r)
+          })
 
-      data.result.response.content.forEach((element: { roles: any }) => {
-        if (element.roles.includes('SPV_ADMIN')) {
-          this.count = this.count + 1
-        }
+        })
       })
+      usersData.forEach((x: any) => {
+        this.counts[x] = (this.counts[x] || 0) + 1
+      })
+      const role = Object.keys(this.counts)
+      const count = Object.values(this.counts)
+      const roleAndAccess: any[] = []
+      for (let i = 0; i <= role.length; i = i + 1) {
+        if (role[i]) {
+          if (role[i] === 'SPV_ADMIN') {
+            const roleAndCount = {
+              role: role[i],
+              count: count[i],
+            }
+            roleAndAccess.push(roleAndCount)
+          }
 
+        }
+
+      }
+
+      this.data = roleAndAccess
+    }
+  }
+
+  getAllKongUsers() {
+    const rootOrgId = _.get(this.activeRoute, 'snapshot.parent.data.configService.unMappedUser.rootOrg.rootOrgId')
+    this.usersService.getAllKongUsers(rootOrgId).subscribe(data => {
+      if (data.result.response.content) {
+        this.userWholeData = data.result.response.content || []
+        this.fetchRoles()
+      }
     })
   }
   ngOnInit() {
@@ -50,13 +83,6 @@ export class RolesAccessComponent implements OnInit, AfterViewInit, OnDestroy {
       sortState: 'asc',
     }
     this.fetchRoles()
-
-    const data = []
-    data.push({
-      role: 'SPV_ADMIN',
-      count: this.count,
-    })
-    this.data = data
   }
 
   ngAfterViewInit() {
@@ -66,12 +92,6 @@ export class RolesAccessComponent implements OnInit, AfterViewInit, OnDestroy {
   /* Click event to navigate to a particular role */
   onRoleClick() {
     this.router.navigate([`/app/home/users`])
-  }
-
-  /* API call to get all roles*/
-  fetchRoles() {
-    // const test = _.sortBy(_.uniq(_.flatten(_.map(_.get(this.activeRoute.snapshot, 'data.rolesList.data.orgTypeList'), 'roles')))) || []
-
   }
 
   ngOnDestroy() { }
