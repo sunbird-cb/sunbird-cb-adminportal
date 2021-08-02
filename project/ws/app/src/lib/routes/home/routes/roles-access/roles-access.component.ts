@@ -2,8 +2,6 @@ import { AfterViewInit, Component, OnInit, OnDestroy } from '@angular/core'
 import {
   ActivatedRoute,
   Router,
-
-  // , ActivatedRoute
 } from '@angular/router'
 import * as _ from 'lodash'
 import { UsersService } from '../../services/users.service'

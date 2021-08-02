@@ -93,7 +93,6 @@
               Roles
             </label>
             <mat-form-field appearance="outline" class="margin-top-xs">
-
               <mat-select [(value)]="selected" formControlName="role" placeholder="Roles">
                 <mat-option *ngFor="let role of roles" value='{{role}}' i18n>
                   {{role}}</mat-option>
@@ -120,6 +119,7 @@
                 placeholder="Type here" i18n-aria-label aria-label="Department Type" class="form-input"
                 autocomplete="off" />
             </mat-form-field> -->
+
 
             <!-- <div class="input-wrapper margin-top-s">
               <label for="department" class="margin-remove-bottom form-label required" i18n-aria-label
