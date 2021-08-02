@@ -24,7 +24,9 @@ export class UsersComponent implements OnInit, AfterViewInit, OnDestroy {
   basicInfo: any
   id!: string
   currentDept!: string
+  deptName!: string
   userWholeData!: any
+  createdDepartment!: any
   private defaultSideNavBarOpenedSubscription: any
   @ViewChild('stickyMenu', { static: true }) menuElement!: ElementRef
 
@@ -64,6 +66,15 @@ export class UsersComponent implements OnInit, AfterViewInit, OnDestroy {
       this.id = params['id']
       this.id = params['roleId']
       this.currentDept = params['currentDept']
+      this.deptName = params['depatName']
+      if (this.currentDept && this.deptName) {
+        const obj = {
+          depName: this.deptName,
+          depType: this.currentDept,
+        }
+        this.createdDepartment = obj
+      }
+
       if (this.id === 'SPV ADMIN') {
         this.getAllActiveUsers()
       } else {
@@ -175,14 +186,22 @@ export class UsersComponent implements OnInit, AfterViewInit, OnDestroy {
     })
   }
   newKongUser() {
+    // const rootOrgId = _.get(this.route.snapshot.parent, 'data.configService.unMappedUser.rootOrg.rootOrgId')
     const usersData: any[] = []
+    let roles: any[] = []
     this.userWholeData.forEach((user: any) => {
-      // const email = _.get(user, 'profileDetails.personalDetails.primaryEmail')
+      user.organisations.forEach((org: { organisationId: string, roles: any }) => {
+        // if (org.organisationId === rootOrgId) {
+        roles = org.roles
+        // }
+
+      })
+      const email = _.get(user, 'profileDetails.personalDetails.primaryEmail')
       if (!(user.isDeleted)) {
         usersData.push({
           fullName: user ? `${user.firstName} ${user.lastName}` : null,
-          email: user.profileDetails && user.profileDetails.personalDetails.primaryEmail || 'NA',
-          position: user.roles,
+          email: email || 'NA',
+          position: roles,
           userId: user.userId,
         })
       }

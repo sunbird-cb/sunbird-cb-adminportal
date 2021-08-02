@@ -12,6 +12,7 @@ import {
 } from '@sunbird-cb/resolver'
 import {
   // AuthKeycloakService,
+  AuthKeycloakService,
   // AuthKeycloakService,
   // AuthKeycloakService,
   ConfigurationsService,
@@ -56,7 +57,7 @@ export class InitService {
   constructor(
     private logger: LoggerService,
     private configSvc: ConfigurationsService,
-    // private authSvc: AuthKeycloakService,
+    private authSvc: AuthKeycloakService,
     private widgetResolverService: WidgetResolverService,
     private settingsSvc: BtnSettingsService,
     private userPreference: UserPreferenceService,
@@ -524,7 +525,7 @@ export class InitService {
         this.configSvc.userProfile = null
         throw new Error('Invalid user')
       }
-      if (completeProdata) {
+      if (completeProdata && completeProdata.roles.includes('SPV_ADMIN')) {
         this.configSvc.unMappedUser = completeProdata
         const profileV2 = _.get(completeProdata, 'profiledetails')
         this.configSvc.userProfile = {
@@ -572,6 +573,8 @@ export class InitService {
           isManager: false,
         }
 
+      } else {
+        this.authSvc.logout()
       }
       const details = {
         group: [], profileDetailsStatus: completeProdata.profileDetailStatus, roles: (completeProdata.roles || [])

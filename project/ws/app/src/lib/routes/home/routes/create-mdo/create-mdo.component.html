@@ -58,14 +58,13 @@
                       <mat-select [(value)]="selected" formControlName="deptSubTypeId"
 
                         [required]="checkCondition('subTitle', 'required') ? true : null"
-                        (selectionChange)="selectedType($event.value)" placeholder="Mode">
+                        (selectionChange)="selectedType($event.value)" placeholder="Roles">
                         <mat-option *ngFor="let subDepartment of subDepartments" value='{{subDepartment}}' i18n>
                           {{subDepartment}}</mat-option>
                       </mat-select>
                       <mat-error *ngIf="showError('deptSubTypeId')" i18n>Department type is mandatory
                       </mat-error>
                     </mat-form-field>
-             
                   </div>
                 </div>
               </div>

@@ -2,8 +2,14 @@
 
     <!-- <div>{{JSON.stringfy(dataSource)}}</div> -->
     <div class="example-table-container">
+        <div class=rsearch>
+            <div class="w-100">
+                <div class="sinput">
+                    <span class="material-icons"> search </span>
+                    <input type="Standard" label="" (input)="applyFilter($event.target.value)" placeholder="Search">
+                </div>
+            </div>
 
-        <div style="display: flex; justify-content: flex-end;">
             <div style="margin-right: 7px;">
                 <button mat-raised-button type="button" *ngIf="needCreateUser"
                     class="text-white ws-mat-primary-background text-white margin-right-l custom-btn"
@@ -24,7 +30,9 @@
 
 
 
-        <!-- </mat-form-field> -->
+        <div class="search">
+
+        </div>
 
         <mat-table #table matSort [ngStyle]="{'height': bodyHeight}" [matSortActive]="tableData!.sortColumn"
             [matSortDirection]="tableData!.sortState" [dataSource]="dataSource" *ngIf="dataSource.data.length > 0"
