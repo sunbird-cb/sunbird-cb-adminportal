@@ -9,9 +9,6 @@ import _ from 'lodash'
 import { UsersService } from '../../services/users.service'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { environment } from 'src/environments/environment'
-interface USER {
-  profileDetails: any; isDeleted: boolean; userId: string | null; firstName: any; lastName: any; email: any; active: any; blocked: any; organisations: any[]
-}
 @Component({
   selector: 'ws-app-users-view',
   templateUrl: './users-view.component.html',
