@@ -156,26 +156,27 @@ export class UsersComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
   fClickedDepartment(data: any) {
-    this.currentTab = 'users'
-    const rolesAndAccessData: any[] = []
-    this.usersSvc.getUsersByDepartment(this.id).subscribe(res => {
-      res.active_users.forEach(((user: any) => {
-        user.roleInfo.forEach((role: { roleName: any }) => {
-          if (role.roleName === data) {
-            const userRole: any[] = []
-            user.roleInfo.forEach((r: { roleName: any }) => {
-              userRole.push(r.roleName)
-            })
-            rolesAndAccessData.push({
-              fullName: `${user.firstName} ${user.lastName}`,
-              email: user.emailId,
-              position: userRole,
-            })
-          }
+    const usersData: any[] = []
+    let roles: any[] = []
+    this.userWholeData.forEach((user: any) => {
+      user.organisations.forEach((org: { organisationId: string, roles: any }) => {
+        // if (org.organisationId === rootOrgId) {
+        roles = org.roles
+        // }
+
+      })
+      const email = _.get(user, 'profileDetails.personalDetails.primaryEmail')
+      if (!user.isDeleted && roles.includes(data)) {
+        usersData.push({
+          fullName: user ? `${user.firstName} ${user.lastName}` : null,
+          email: email || 'NA',
+          position: roles,
+          userId: user.userId,
         })
-      }))
-      this.data = rolesAndAccessData
+      }
     })
+    this.data = usersData
+    this.currentTab = 'users'
   }
   getAllKongUsers() {
     this.usersService.getAllKongUsers(this.id).subscribe(data => {

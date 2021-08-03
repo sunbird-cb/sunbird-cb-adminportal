@@ -104,7 +104,7 @@
                   </mat-checkbox>
                 </mat-option>
               </mat-select> -->
-              <mat-select placeholder="Languages" formControlName="role" #role multiple>
+              <mat-select placeholder="Roles" formControlName="role" class="select-back" #role multiple>
                 <mat-option *ngFor="let role of roles" [value]="role">{{role}}</mat-option>
               </mat-select>
               <mat-error *ngIf="createUserForm?.controls['email'].errors?.invalid" i18n>Role mandatory

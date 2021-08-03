@@ -47,7 +47,7 @@
                 <div class="margin-top-s">
                   <label>
                     <div class="margin-top-s flex flex-middle">
-                      <span [ngClass]="{ required: checkCondition('deptSubTypeId', 'required') }" i18n>Sub department
+                      <span [ngClass]="{ required: checkCondition('deptSubTypeId', 'required') }" i18n>Department
                         type</span>
                     </div>
                   </label>
@@ -56,9 +56,8 @@
                     <mat-form-field appearance="outline" class="margin-top-xs"
                       [ngClass]="{ 'mat-form-field-invalid': showError('depatmentType') }">
                       <mat-select [(value)]="selected" formControlName="deptSubTypeId"
-
                         [required]="checkCondition('subTitle', 'required') ? true : null"
-                        (selectionChange)="selectedType($event.value)" placeholder="Roles">
+                        (selectionChange)="selectedType($event.value)" placeholder="Department type">
                         <mat-option *ngFor="let subDepartment of subDepartments" value='{{subDepartment}}' i18n>
                           {{subDepartment}}</mat-option>
                       </mat-select>

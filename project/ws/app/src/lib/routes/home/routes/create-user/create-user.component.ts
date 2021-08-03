@@ -171,7 +171,7 @@ export class CreateUserComponent implements OnInit {
         if (!(this.deptId)) {
           this.deptId = _.get(this.route, 'snapshot.parent.data.configService.unMappedUser.rootOrg.rootOrgId')
         }
-        this.createMDOService.assignAdminToDepartment(this.deptId, userdata.userId,
+        this.createMDOService.assignAdminToDepartment(userdata.userId, this.deptId,
                                                       this.createUserForm.value.role)
           .subscribe(data => {
 
