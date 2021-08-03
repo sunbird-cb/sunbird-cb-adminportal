@@ -174,6 +174,7 @@ export class CreateUserComponent implements OnInit {
         this.createMDOService.assignAdminToDepartment(this.deptId, userdata.userId,
                                                       this.createUserForm.value.role)
           .subscribe(data => {
+
             this.openSnackbar(`${data.result.response}`)
 
             this.router.navigate(['/app/home/users'])
