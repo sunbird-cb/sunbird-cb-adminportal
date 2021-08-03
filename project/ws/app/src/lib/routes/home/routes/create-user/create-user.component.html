@@ -77,7 +77,7 @@
               <input id="dept" matInput #dept formControlName="dept" i18n-placeholder placeholder="Type here"
                 i18n-aria-label aria-label="Department" class="form-input" autocomplete="off" />
             </mat-form-field>
-            <label for="deptType" class="margin-remove-bottom margin-top-xs form-label required"
+            <!-- <label for="deptType" class="margin-remove-bottom margin-top-xs form-label required"
               i18n="Email label|Label which explains the user to enter email" i18n-aria-label aria-label="Email label">
               Department type
             </label>
@@ -85,7 +85,7 @@
               <input id="deptType" matInput #deptType formControlName="deptType" i18n-placeholder
                 placeholder="Type here" i18n-aria-label aria-label="Department Type" class="form-input"
                 autocomplete="off" />
-            </mat-form-field>
+            </mat-form-field> -->
 
 
             <label for="email" class="margin-remove-bottom margin-top-xs form-label required"
@@ -93,9 +93,19 @@
               Roles
             </label>
             <mat-form-field appearance="outline" class="margin-top-xs">
-              <mat-select [(value)]="selected" formControlName="role" placeholder="Roles">
-                <mat-option *ngFor="let role of roles" value='{{role}}' i18n>
+              <!-- <mat-select [(value)]="selected" formControlName="role" placeholder="Roles">
+                <mat-option multiple *ngFor="let role of roles" value='{{role}}' i18n>
                   {{role}}</mat-option>
+              </mat-select> -->
+              <!-- <mat-select [(value)]="selected" formControlName="role" placeholder="Roles">
+                <mat-option *ngFor="let role of roles; let i =index" [value]="role">
+                  <mat-checkbox value='{{role}}' [checked]="selectedMulti === i" (change)="onChange(role);selected = i">
+                    {{role}}
+                  </mat-checkbox>
+                </mat-option>
+              </mat-select> -->
+              <mat-select placeholder="Languages" formControlName="role" #role multiple>
+                <mat-option *ngFor="let role of roles" [value]="role">{{role}}</mat-option>
               </mat-select>
               <mat-error *ngIf="createUserForm?.controls['email'].errors?.invalid" i18n>Role mandatory
               </mat-error>
