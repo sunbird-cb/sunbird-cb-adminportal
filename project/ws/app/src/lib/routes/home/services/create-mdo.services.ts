@@ -53,7 +53,7 @@ export class CreateMDOService {
       request: {
         userId,
         organisationId: deptId,
-        roles: [deptRole],
+        roles: deptRole,
       },
     }
     return this.http.post<any>(`${API_END_POINTS.ASSIGN_ADMIN_TO_CREATED_DEPARTMENT}`, departmentData)

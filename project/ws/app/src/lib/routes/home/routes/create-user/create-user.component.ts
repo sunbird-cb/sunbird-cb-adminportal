@@ -25,17 +25,18 @@ export class CreateUserComponent implements OnInit {
   public userRoles: Set<string> = new Set()
   queryParam: any
   deptId: any
+  selectedMulti = -1
   currentDept: any
   createdDepartment!: any
   selected!: string
   roles = ['SPV_ADMIN']
+  selectedRoles: string[] = []
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private snackBar: MatSnackBar,
     private directoryService: DirectoryService,
     private createMDOService: CreateMDOService,
-    private activatedRoute: ActivatedRoute,
     private usersSvc: UsersService) {
     this.route.queryParams.subscribe(params => {
       this.queryParam = params['id']
@@ -54,8 +55,7 @@ export class CreateUserComponent implements OnInit {
         lname: new FormControl('', [Validators.required]),
         email: new FormControl('', [Validators.required, Validators.email]),
         role: new FormControl('', [Validators.required, Validators.required]),
-        deptType: new FormControl(this.createdDepartment.depName, [Validators.required]),
-        dept: new FormControl(this.createdDepartment.depType, [Validators.required]),
+        dept: new FormControl(this.createdDepartment.depName, [Validators.required]),
       })
     } else {
       this.createUserForm = new FormGroup({
@@ -63,7 +63,6 @@ export class CreateUserComponent implements OnInit {
         lname: new FormControl('', [Validators.required]),
         email: new FormControl('', [Validators.required, Validators.email]),
         role: new FormControl('', [Validators.required, Validators.required]),
-        deptType: new FormControl('iGOT', [Validators.required]),
         dept: new FormControl('Karmayogi Bharat', [Validators.required]),
       })
     }
@@ -74,7 +73,7 @@ export class CreateUserComponent implements OnInit {
     // this.getAllDept()
     this.getAllDepartmentsHeaderAPI()
 
-    this.getAllDepartmentsKong()
+    // this.getAllDepartmentsKong()
     // this.getAllDepartmentSubType()
 
     this.dropdownSettings = {
@@ -98,7 +97,6 @@ export class CreateUserComponent implements OnInit {
       })
     })
   }
-
   // getAllDept() {
   //   this.usersSvc.getAllDepartments().subscribe(res => {
   //     this.departmentoptions = res
@@ -119,15 +117,15 @@ export class CreateUserComponent implements OnInit {
   //   })
   // }
 
-  getAllDepartmentsKong() {
-    this.deptId = _.get(this.activatedRoute, 'snapshot.parent.data.configService.userProfile.userId')
-    this.usersSvc.getAllDepartmentsKong(this.deptId).subscribe(res => {
-      this.createUserForm.patchValue({
-        deptType: res.result.response.channel,
-        dept: this.currentDept,
-      })
-    })
-  }
+  // getAllDepartmentsKong() {
+  //   this.deptId = _.get(this.activatedRoute, 'snapshot.parent.data.configService.userProfile.userId')
+  //   this.usersSvc.getAllDepartmentsKong(this.deptId).subscribe(res => {
+  //     this.createUserForm.patchValue({
+  //       deptType: res.result.response.channel,
+  //       dept: this.currentDept,
+  //     })
+  //   })
+  // }
 
   /** methods related to Dropdown */
   onItemSelect(item: any[]) {
@@ -165,17 +163,22 @@ export class CreateUserComponent implements OnInit {
         email: form.value.email,
         firstName: form.value.fname,
         lastName: form.value.lname,
-        channel: form.value.deptType,
+        channel: form.value.dept,
       },
     }
     this.usersSvc.createUser(userreq).subscribe(userdata => {
       if (userdata.userId) {
+        if (!(this.deptId)) {
+          this.deptId = _.get(this.route, 'snapshot.parent.data.configService.unMappedUser.rootOrg.rootOrgId')
+        }
         this.createMDOService.assignAdminToDepartment(this.deptId, userdata.userId,
-                                                      this.createUserForm.value.role).subscribe(data => {
+                                                      this.createUserForm.value.role)
+          .subscribe(data => {
+
             this.openSnackbar(`${data.result.response}`)
 
             this.router.navigate(['/app/home/users'])
-          },                                                                                    err => {
+          },         err => {
             this.router.navigate([`/app/home/users`])
             this.openSnackbar(`Error in assign roles ${err}`)
           })
