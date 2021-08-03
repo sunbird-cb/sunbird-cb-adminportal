@@ -10,7 +10,7 @@ import { UsersService } from '../../services/users.service'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { environment } from 'src/environments/environment'
 interface USER {
-  profileDetails: any; isDeleted: boolean; userId: string | null; firstName: any; lastName: any; email: any; active: any; blocked: any; roles: any[]
+  profileDetails: any; isDeleted: boolean; userId: string | null; firstName: any; lastName: any; email: any; active: any; blocked: any; organisations: any[]
 }
 @Component({
   selector: 'ws-app-users-view',
@@ -68,6 +68,7 @@ export class UsersViewComponent implements OnInit {
       columns: [
         { displayName: 'Full name', key: 'fullname' },
         { displayName: 'Email', key: 'email' },
+        { displayName: 'Roles', key: 'roles' },
       ],
       needCheckBox: false,
       needHash: false,
@@ -159,30 +160,10 @@ export class UsersViewComponent implements OnInit {
       this.data = []
       switch (key) {
         case 'active':
-          this.userWholeData.forEach((user: USER) => {
-            if (!(user.isDeleted)) {
-              usersData.push({
-                fullname: user ? `${user.firstName} ${user.lastName}` : null,
-                email: user.profileDetails && user.profileDetails.personalDetails.primaryEmail || 'NA',
-                position: user.roles || 'NA',
-                userId: user.userId,
-              })
-            }
-          })
-          this.data = usersData
+          this.newKongUser(false)
           break
         case 'inactive':
-          this.userWholeData.forEach((user: USER) => {
-            if (user.isDeleted) {
-              usersData.push({
-                fullname: user ? `${user.firstName} ${user.lastName}` : null,
-                email: user.profileDetails.personalDetails.primaryEmail,
-                position: user.roles || 'NA',
-                userId: user.userId,
-              })
-            }
-          })
-          this.data = usersData
+          this.newKongUser(true)
           break
         case 'blocked':
           this.data = usersData
@@ -192,6 +173,26 @@ export class UsersViewComponent implements OnInit {
           break
       }
     }
+  }
+  newKongUser(active: boolean) {
+    // const rootOrgId = _.get(this.route.snapshot.parent, 'data.configService.unMappedUser.rootOrg.rootOrgId')
+    const usersData: any[] = []
+    let roles: any[] = []
+    this.userWholeData.forEach((user: any) => {
+      user.organisations.forEach((org: { organisationId: string, roles: any }) => {
+        roles = org.roles
+      })
+      const email = _.get(user, 'profileDetails.personalDetails.primaryEmail')
+      if (active === user.isDeleted) {
+        usersData.push({
+          fullname: user ? `${user.firstName} ${user.lastName}` : null,
+          email: email || 'NA',
+          roles: roles.toString().replace(',', ', '),
+          userId: user.userId,
+        })
+      }
+    })
+    this.data = usersData
   }
   getUserRole(user: any) {
     const userRole: any[] = []

@@ -134,7 +134,7 @@ export class UIAdminUserTableComponent implements OnInit, AfterViewInit, OnChang
     dialogRef.afterClosed().subscribe((response: any) => {
       response.data.forEach((user: { userId: string }) => {
         if (this.departmentId) {
-          const role = `${this.departmentRole}_ADMIN`
+          const role = `MDO_ADMIN`
           this.createMDOService.assignAdminToDepartment(user.userId, this.departmentId, role).subscribe(res => {
             if (res) {
               this.snackBar.open('Admin assigned Successfully')
@@ -187,7 +187,7 @@ export class UIAdminUserTableComponent implements OnInit, AfterViewInit, OnChang
   }
   gotoCreateUser() {
     this.router.navigate([`/app/home/create-user`],
-                         {
+      {
         queryParams: {
           id: this.departmentId, currentDept: this.departmentRole,
           createDept: JSON.stringify(this.otherInput),
