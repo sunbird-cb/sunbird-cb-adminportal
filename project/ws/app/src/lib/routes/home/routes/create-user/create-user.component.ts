@@ -25,7 +25,7 @@ export class CreateUserComponent implements OnInit {
   public userRoles: Set<string> = new Set()
   queryParam: any
   deptId: any
-  selectedMulti = -1;
+  selectedMulti = -1
   currentDept: any
   createdDepartment!: any
   selected!: string
@@ -172,16 +172,17 @@ export class CreateUserComponent implements OnInit {
           this.deptId = _.get(this.route, 'snapshot.parent.data.configService.unMappedUser.rootOrg.rootOrgId')
         }
         this.createMDOService.assignAdminToDepartment(this.deptId, userdata.userId,
-          this.createUserForm.value.role).subscribe(data => {
+                                                      this.createUserForm.value.role)
+          .subscribe(data => {
             this.openSnackbar(`${data.result.response}`)
 
             this.router.navigate(['/app/home/users'])
-          }, err => {
+          },         err => {
             this.router.navigate([`/app/home/users`])
             this.openSnackbar(`Error in assign roles ${err}`)
           })
       }
-    }, err => {
+    },                                          err => {
       this.openSnackbar(`User reation ${err}`)
 
     })
