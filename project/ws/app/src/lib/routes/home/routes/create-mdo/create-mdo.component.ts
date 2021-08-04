@@ -242,6 +242,7 @@ export class CreateMdoComponent implements OnInit {
             if (res.result.response === 'SUCCESS') {
               this.submittedForm = false
               const obj = {
+                id: res.result.organisationId,
                 depName: this.contentForm.value.name,
                 depType: this.department,
               }

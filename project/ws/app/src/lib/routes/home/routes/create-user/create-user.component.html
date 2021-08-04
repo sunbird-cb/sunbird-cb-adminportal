@@ -92,25 +92,35 @@
               i18n="Email label|Label which explains the user to enter email" i18n-aria-label aria-label="Email label">
               Roles
             </label>
-            <mat-form-field appearance="outline" class="margin-top-xs">
-              <!-- <mat-select [(value)]="selected" formControlName="role" placeholder="Roles">
+
+            <!-- <mat-form-field appearance="outline" class="margin-top-xs">
+                  <!-- <mat-select [(value)]="selected" formControlName="role" placeholder="Roles">
                 <mat-option multiple *ngFor="let role of roles" value='{{role}}' i18n>
                   {{role}}</mat-option>
               </mat-select> -->
-              <!-- <mat-select [(value)]="selected" formControlName="role" placeholder="Roles">
+            <!-- <mat-select [(value)]="selected" formControlName="role" placeholder="Roles">
                 <mat-option *ngFor="let role of roles; let i =index" [value]="role">
                   <mat-checkbox value='{{role}}' [checked]="selectedMulti === i" (change)="onChange(role);selected = i">
                     {{role}}
                   </mat-checkbox>
                 </mat-option>
-              </mat-select> -->
-              <mat-select placeholder="Roles" formControlName="role" class="select-back" #role multiple>
+              </mat-select>
+
+               <mat-select placeholder="Roles" formControlName="role" class="select-back" #role multiple>
                 <mat-option *ngFor="let role of roles" [value]="role">{{role}}</mat-option>
               </mat-select>
-              <mat-error *ngIf="createUserForm?.controls['email'].errors?.invalid" i18n>Role mandatory
-              </mat-error>
-            </mat-form-field>
 
+
+                  <mat-error *ngIf="createUserForm?.controls['email'].errors?.invalid" i18n>Role mandatory
+                  </mat-error>
+                </mat-form-field>
+ -->
+            <mat-selection-list id="role" formControlName="role" #role>
+              <mat-list-option *ngFor="let role of roles" (click)="modifyUserRoles(role)"
+                [selected]="userRoles.has(role)" [value]="role">
+                {{role}}
+              </mat-list-option>
+            </mat-selection-list>
 
             <!-- <label for="dept" class="margin-remove-bottom margin-top-xs form-label required"
               i18n="Email label|Label which explains the user to enter email" i18n-aria-label aria-label="Email label">
