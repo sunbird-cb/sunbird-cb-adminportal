@@ -500,7 +500,7 @@ export class InitService {
         // .toPromise()
         this.configSvc.userGroups = new Set(details.group)
         this.configSvc.userRoles = new Set((details.roles || []).map((v: string) => v.toLowerCase()))
-        this.configSvc.isActive = details.isActive
+        // this.configSvc.isActive = details.isActive
         return details
       } catch (e) {
         this.configSvc.userProfile = null
