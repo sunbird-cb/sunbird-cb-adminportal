@@ -136,7 +136,6 @@ export class UIAdminUserTableComponent implements OnInit, AfterViewInit, OnChang
     dialogRef.afterClosed().subscribe((response: any) => {
       response.data.forEach((user: { userId: string }) => {
         if (this.departmentId) {
-
           this.createMDOService2.migrateDepartment(user.userId, this.departmentId).subscribe(res => {
             if (res) {
               this.assignAdmin(user)
