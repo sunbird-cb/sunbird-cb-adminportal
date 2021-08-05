@@ -58,6 +58,7 @@ export class CreateMDOService {
         organisationId: deptId,
         roles: [
           deptRole,
+          'PUBLIC',
         ],
       },
     }

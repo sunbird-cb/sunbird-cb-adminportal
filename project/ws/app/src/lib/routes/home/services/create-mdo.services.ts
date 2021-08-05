@@ -8,6 +8,7 @@ const API_END_POINTS = {
   UPDATE_DEPARTMENT: '/apis/proxies/v8/org/v1/update',
   ASSIGN_ADMIN_TO_CREATED_DEPARTMENT: '/apis/proxies/v8/user/private/v1/assign/role',
   GET_DEPARTMENT_BY_ID: '/apis/protected/v8/portal/deptAction/',
+  MIGRATE_DEPARTMENT: '/apis/proxies/v8/user/private/v1/migrate',
 }
 
 @Injectable({
@@ -57,5 +58,17 @@ export class CreateMDOService {
       },
     }
     return this.http.post<any>(`${API_END_POINTS.ASSIGN_ADMIN_TO_CREATED_DEPARTMENT}`, departmentData)
+  }
+  migrateDepartment(userId: string, deptId: string): Observable<any> {
+    const departmentData = {
+      request: {
+        userId,
+        rootOrgId: deptId,
+        forceMigration: true,
+        softDeleteOldOrg: true,
+        notifyMigration: false,
+      },
+    }
+    return this.http.patch<any>(`${API_END_POINTS.MIGRATE_DEPARTMENT}`, departmentData)
   }
 }

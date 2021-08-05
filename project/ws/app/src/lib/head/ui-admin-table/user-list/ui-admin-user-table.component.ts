@@ -11,7 +11,8 @@ import * as _ from 'lodash'
 import { ITableData, IColums } from '../interface/interfaces'
 import { Router, ActivatedRoute } from '@angular/router'
 import { UserPopupComponent } from '../user-popup/user-popup'
-import { CreateMDOService } from '../create-mdo.services'
+import { CreateMDOService as MDO1 } from '../create-mdo.services'
+import { CreateMDOService as MDO2 } from '../../../routes/home/services/create-mdo.services'
 
 @Component({
   selector: 'ws-widget-ui-user-table',
@@ -46,7 +47,8 @@ export class UIAdminUserTableComponent implements OnInit, AfterViewInit, OnChang
   constructor(
     private router: Router, public dialog: MatDialog,
     private activatedRoute: ActivatedRoute,
-    private createMDOService: CreateMDOService,
+    private createMDOService: MDO1,
+    private createMDOService2: MDO2,
     private snackBar: MatSnackBar) {
     this.dataSource = new MatTableDataSource<any>()
     this.actionsClick = new EventEmitter()
@@ -134,21 +136,39 @@ export class UIAdminUserTableComponent implements OnInit, AfterViewInit, OnChang
     dialogRef.afterClosed().subscribe((response: any) => {
       response.data.forEach((user: { userId: string }) => {
         if (this.departmentId) {
-          const role = `MDO_ADMIN`
-          this.createMDOService.assignAdminToDepartment(user.userId, this.departmentId, role).subscribe(res => {
+          this.createMDOService2.migrateDepartment(user.userId, this.departmentId).subscribe(res => {
             if (res) {
-              this.snackBar.open('Admin assigned Successfully')
-              this.router.navigate(['/app/home/directory', { department: this.departmentRole }])
+              this.assignAdmin(user)
             }
           },
-            // tslint:disable-next-line: align
-            (err: { error: any }) => {
+                                                                                             (err: { error: any }) => {
               this.openSnackbar(err.error.message)
             })
         }
       })
 
     })
+
+  }
+  assignAdmin(user: any) {
+    if (this.departmentId) {
+      let role
+      if (this.departmentRole === 'CBC') {
+        role = `CBC_ADMIN`
+      } else {
+        role = `MDO_ADMIN`
+      }
+      const dept = this.departmentId
+      this.createMDOService.assignAdminToDepartment(user.userId, dept, role).subscribe(res => {
+        if (res) {
+          this.snackBar.open('Admin assigned Successfully')
+          this.router.navigate(['/app/home/directory', { department: this.departmentRole }])
+        }
+      },
+                                                                                       (err: { error: any }) => {
+          this.openSnackbar(err.error.message)
+        })
+    }
 
   }
   private openSnackbar(primaryMsg: string, duration: number = 5000) {

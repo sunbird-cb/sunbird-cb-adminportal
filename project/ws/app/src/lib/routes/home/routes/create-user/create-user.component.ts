@@ -29,7 +29,7 @@ export class CreateUserComponent implements OnInit {
   currentDept: any
   createdDepartment!: any
   selected!: string
-  roles = ['SPV_ADMIN']
+  roles = []
   selectedRoles: string[] = []
   constructor(
     private route: ActivatedRoute,
@@ -49,6 +49,16 @@ export class CreateUserComponent implements OnInit {
       // tslint:disable-next-line:radix
       this.queryParam = parseInt(this.queryParam)
     })
+    if (!this.currentDept) {
+      if (this.route.snapshot.queryParams.createDept) {
+        const deptObj = JSON.parse(this.route.snapshot.queryParams.createDept)
+        this.currentDept = deptObj.depType
+      } else {
+        this.currentDept = 'SPV'
+      }
+
+    }
+
     if (this.createdDepartment) {
       this.createUserForm = new FormGroup({
         fname: new FormControl('', [Validators.required]),
@@ -90,9 +100,7 @@ export class CreateUserComponent implements OnInit {
       const departmentHeaderArray = JSON.parse(res.result.response.value)
       departmentHeaderArray.orgTypeList.forEach((ele: { name: any, isHidden: any, roles: [] }) => {
         if (ele.name === this.currentDept) {
-          if (!(ele.isHidden)) {
-            this.roles = ele.roles
-          }
+          this.roles = ele.roles
         }
       })
     })
@@ -168,6 +176,7 @@ export class CreateUserComponent implements OnInit {
     }
     this.usersSvc.createUser(userreq).subscribe(userdata => {
       if (userdata.userId) {
+        this.deptId = this.createdDepartment.id
         if (!(this.deptId)) {
           this.deptId = _.get(this.route, 'snapshot.parent.data.configService.unMappedUser.rootOrg.rootOrgId')
         }
