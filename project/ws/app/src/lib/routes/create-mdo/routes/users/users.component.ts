@@ -41,9 +41,9 @@ export class UsersComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   constructor(private usersSvc: UsersService, private router: Router,
-              private route: ActivatedRoute,
-              private profile: ProfileV2Service,
-              private usersService: UsersService) {
+    private route: ActivatedRoute,
+    private profile: ProfileV2Service,
+    private usersService: UsersService) {
   }
   ngOnInit() {
     this.tabsData = [
@@ -201,7 +201,7 @@ export class UsersComponent implements OnInit, AfterViewInit, OnDestroy {
       if (!(user.isDeleted)) {
         usersData.push({
           fullName: user ? `${user.firstName} ${user.lastName}` : null,
-          email: email || 'NA',
+          email: email || user.email,
           position: roles,
           userId: user.userId,
         })
