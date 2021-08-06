@@ -201,7 +201,7 @@ export class UsersComponent implements OnInit, AfterViewInit, OnDestroy {
       if (!(user.isDeleted)) {
         usersData.push({
           fullName: user ? `${user.firstName} ${user.lastName}` : null,
-          email: email || 'NA',
+          email: email || user.email,
           position: roles,
           userId: user.userId,
         })
