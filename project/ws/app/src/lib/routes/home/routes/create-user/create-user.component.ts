@@ -42,6 +42,9 @@ export class CreateUserComponent implements OnInit {
       this.queryParam = params['id']
       this.deptId = params['id']
       this.currentDept = params['currentDept']
+      if (this.currentDept === 'CBP Providers') {
+        this.currentDept = 'CBP'
+      }
       const dept = params['createDept']
       if (dept) {
         this.createdDepartment = JSON.parse(dept)
@@ -176,9 +179,11 @@ export class CreateUserComponent implements OnInit {
     }
     this.usersSvc.createUser(userreq).subscribe(userdata => {
       if (userdata.userId) {
-        this.deptId = this.createdDepartment.id
+        if (this.createdDepartment && this.createdDepartment.id) {
+          this.deptId = this.createdDepartment.id
+        }
         if (!this.deptId) {
-          this.deptId = this.route.snapshot.queryParams.id
+          this.deptId = this.route.snapshot.queryParams && this.route.snapshot.queryParams.id
         }
         if (!this.deptId) {
           this.deptId = _.get(this.route, 'snapshot.parent.data.configService.unMappedUser.rootOrg.rootOrgId')

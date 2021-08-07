@@ -90,6 +90,9 @@ export class CreateMdoComponent implements OnInit {
       this.activatedRoute.params.subscribe(params => {
         let data = params['data']
         this.department = params['department']
+        if (this.department === 'CBP Providers') {
+          this.department = 'CBP'
+        }
         this.isFromDirectory = params['isFromDirectory']
         this.isAddAdmin = params['addAdmin']
         if (this.isAddAdmin) {

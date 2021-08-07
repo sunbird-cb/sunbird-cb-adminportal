@@ -99,6 +99,14 @@
             class="ws-mat-primary-text" i18n-aria-label aria-label="Analytics">
             <mat-icon>input</mat-icon> <span>Show on karmayogi</span>
         </button>
+        <button (click)="buttonClick('block',rowData)" mat-menu-item name="channel-analytics-button"
+            class="ws-mat-primary-text" i18n-aria-label aria-label="Analytics">
+            <mat-icon>block</mat-icon> <span>Block</span>
+        </button>
+        <button (click)="buttonClick('unblock',rowData)" mat-menu-item name="channel-analytics-button"
+            class="ws-mat-primary-text" i18n-aria-label aria-label="Analytics">
+            <mat-icon>add_circle_outline</mat-icon> <span>Un Block</span>
+        </button>
         <!-- </div> -->
         <!-- <div mat-menu-item> -->
         <!-- <button (click)="rowData && rowData.blocked ? buttonClick('unblock',rowData): buttonClick('block',rowData)"

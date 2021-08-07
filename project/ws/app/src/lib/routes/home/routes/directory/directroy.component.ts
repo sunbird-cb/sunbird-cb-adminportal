@@ -62,7 +62,11 @@ export class DirectoryViewComponent implements OnInit {
       const departmentHeaderArray = JSON.parse(res.result.response.value)
       departmentHeaderArray.orgTypeList.forEach((ele: { name: any, isHidden: any }) => {
         if (!(ele.isHidden)) {
-          this.departmentHearders.push(ele.name)
+          if (ele.name === 'CBP') {
+            this.departmentHearders.push('CBP Providers')
+          } else {
+            this.departmentHearders.push(ele.name)
+          }
         }
       })
       this.getDepartDataByKey(this.departmentHearders[0])
@@ -74,7 +78,7 @@ export class DirectoryViewComponent implements OnInit {
     this.tabledata = {
       actions: [{ name: 'Edit', label: 'Edit info', icon: 'remove_red_eye', type: 'button' }],
       columns: [
-        { displayName: this.currentFilter, key: 'mdo' },
+        { displayName: 'Department', key: 'mdo' },
         { displayName: 'Type', key: 'type' },
       ],
       needCheckBox: false,
@@ -119,7 +123,7 @@ export class DirectoryViewComponent implements OnInit {
             }
           })
           break
-        case 'CBP':
+        case 'CBP Providers':
           this.wholeData2.forEach((element: any) => {
             let department = ''
             if (element.isCbp) {

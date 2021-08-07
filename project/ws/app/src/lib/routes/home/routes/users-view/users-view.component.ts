@@ -81,6 +81,7 @@ export class UsersViewComponent implements OnInit {
     this.router.navigate([`/app/users/create-user`])
   }
   menuActions($event: { action: string, row: any }) {
+    const loggedInUserId = _.get(this.route, 'snapshot.parent.data.configService.userProfile.userId')
     const user = { userId: _.get($event.row, 'userId') }
     _.set(user, 'deptId', _.get(this.usersData, 'id'))
     _.set(user, 'isBlocked', _.get($event.row, 'blocked'))
@@ -94,10 +95,10 @@ export class UsersViewComponent implements OnInit {
         _.set(user, 'isBlocked', true)
         _.set(user, 'isActive', false)
         _.set(user, 'roles', _.map(_.get($event.row, 'role'), i => i.roleName))
-        this.usersService.blockUser(user).subscribe(response => {
+        this.usersService.newBlockUserKong(loggedInUserId, user.userId).subscribe(response => {
           if (response) {
             // this.getAllUsers()
-            this.snackBar.open('Updated successfully !')
+            this.snackBar.open(response.params.errmsg)
           }
         })
         break
@@ -105,20 +106,20 @@ export class UsersViewComponent implements OnInit {
         _.set(user, 'isBlocked', false)
         _.set(user, 'isActive', true)
         _.set(user, 'roles', _.map(_.get($event.row, 'role'), i => i.roleName))
-        this.usersService.blockUser(user).subscribe(response => {
+        this.usersService.newUnBlockUserKong(loggedInUserId, user.userId).subscribe(response => {
           if (response) {
             // this.getAllUsers()
-            this.snackBar.open('Updated successfully !')
+            this.snackBar.open(response.params.errmsg)
           }
         })
         break
       case 'deactive':
         _.set(user, 'isActive', false)
         _.set(user, 'roles', _.map(_.get($event.row, 'role'), i => i.roleName))
-        this.usersService.deActiveUser(user).subscribe(response => {
+        this.usersService.newUnBlockUserKong(loggedInUserId, user.userId).subscribe(response => {
           if (response) {
             // this.getAllUsers()
-            this.snackBar.open('Updated successfully !')
+            this.snackBar.open(response.params.errmsg)
           }
         })
         break

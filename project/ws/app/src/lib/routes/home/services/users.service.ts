@@ -15,6 +15,8 @@ const API_END_POINTS = {
   USER_BDD: '/apis/protected/v8/portal/spv/deptAction/userrole',
   GET_ALL_KONG_USER: '/apis/proxies/v8/user/v1/search',
   GET_ALL_DEPARTMENTS_KONG: '/apis/proxies/v8/org/v1/read',
+  NEW_USER_BLOCK_API: '/apis/proxies/v8/user/v1/block',
+  NEW_USER_UN_BLOCK_API: '/apis/proxies/v8/user/v1/unblock',
 }
 
 @Injectable({
@@ -83,5 +85,23 @@ export class UsersService {
       },
     }
     return this.http.post<any>(`${API_END_POINTS.GET_ALL_DEPARTMENTS_KONG}`, orgId)
+  }
+  newBlockUserKong(loggedInUser: string, userId: string): Observable<any> {
+    const org = {
+      request: {
+        userId,
+        requestedBy: loggedInUser,
+      },
+    }
+    return this.http.post<any>(`${API_END_POINTS.NEW_USER_BLOCK_API}`, org)
+  }
+  newUnBlockUserKong(loggedInUser: string, userId: string): Observable<any> {
+    const org = {
+      request: {
+        userId,
+        requestedBy: loggedInUser,
+      },
+    }
+    return this.http.post<any>(`${API_END_POINTS.NEW_USER_UN_BLOCK_API}`, org)
   }
 }
