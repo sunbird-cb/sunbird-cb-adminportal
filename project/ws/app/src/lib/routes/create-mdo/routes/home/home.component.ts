@@ -56,7 +56,9 @@ export class HomeComponent implements OnInit, OnDestroy {
       } else {
         this.mydept = 'Basic Information'
       }
-
+      if (this.dept.length > 6) {
+        this.dept = 'CBP Providers'
+      }
       this.role = url[url.length - 2]
     }
   }
