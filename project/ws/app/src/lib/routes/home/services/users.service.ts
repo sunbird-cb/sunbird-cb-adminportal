@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
-import { Observable, of } from 'rxjs'
-import { catchError, map } from 'rxjs/operators'
+import { Observable } from 'rxjs'
 
 const API_END_POINTS = {
   GET_ALL_USERS: '/apis/protected/v8/portal/spv/mydepartment?allUsers=true',
