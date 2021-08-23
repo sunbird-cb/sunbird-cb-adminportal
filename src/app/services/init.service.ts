@@ -47,7 +47,7 @@ const endpoint = {
   providedIn: 'root',
 })
 export class InitService {
-  private baseUrl = this.configSvc.baseUrl
+  private baseUrl = 'assets/configurations';
   httpOptions = {
     headers: new HttpHeaders({
       wid: 'cc0c1749-4c47-49c8-9f46-2bbdd42ef877',
@@ -436,6 +436,7 @@ export class InitService {
   // }
   private async fetchStartUpDetails(): Promise<any> {
     // const userRoles: string[] = []
+    debugger
     if (this.configSvc.instanceConfig && !Boolean(this.configSvc.instanceConfig.disablePidCheck)) {
       let userPidProfile: any | null = null
       try {
@@ -520,6 +521,7 @@ export class InitService {
   hasRole(role: string[]): boolean {
     let returnValue = false
     const rolesForCBP = environment.portalRoles
+    console.log('>>.', environment)
     role.forEach(v => {
       if ((rolesForCBP).includes(v)) {
         returnValue = true
