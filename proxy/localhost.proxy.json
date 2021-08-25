@@ -8,8 +8,8 @@
       "/apis": "/apis"
     },
     "headers": {
-      "Cookie":"connect.sid=s%3A17DoAWDWxySkltCcVFhtfLYACn_MHKlz.oiZcQ8rrfJe9SH4gAD5SzbZMEeKA054zjhJ8wjqnYP8"
-      }
+      "Cookie":"connect.sid=s%3AzQff3au4ApnEAT9GyN-jzRoPCOYhZHPE.BjFqRXfdGJdmNoPM5q5R0wMbA2lcRcoFydh%2FWR8RDUI"
+    }
   },
   "/content-api/*": {
     "target": "http://localhost:3004",
@@ -57,7 +57,7 @@
     }
   },
   "/assets/*": {
-    "target": "https://aastrika-sb-cbp.idc.tarento.com",
+    "target": "http://localhost:8080",
     "secure": false,
     "logLevel": "debug",
     "changeOrigin": true,
