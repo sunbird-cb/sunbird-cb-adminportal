@@ -7,8 +7,8 @@
     "pathRewrite": {
       "/apis": "/apis"
     },
-    "headers": {
-      "Cookie":"connect.sid=s%3AzQff3au4ApnEAT9GyN-jzRoPCOYhZHPE.BjFqRXfdGJdmNoPM5q5R0wMbA2lcRcoFydh%2FWR8RDUI"
+     "headers": {
+      "Cookie": "connect.sid=s%3AqcCsqbhZpw6VdqydPGElGIgQGcx6B7uJ.pKSv8c9%2F2VksgehD1gHHcEx638oZVui%2Blx3i6WEn4eE"
     }
   },
   "/content-api/*": {
