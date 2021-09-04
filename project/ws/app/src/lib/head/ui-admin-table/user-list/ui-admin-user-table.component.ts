@@ -141,7 +141,7 @@ export class UIAdminUserTableComponent implements OnInit, AfterViewInit, OnChang
               this.assignAdmin(user)
             }
           },
-                                                                                             (err: { error: any }) => {
+            (err: { error: any }) => {
               this.openSnackbar(err.error.message)
             })
         }
@@ -165,7 +165,7 @@ export class UIAdminUserTableComponent implements OnInit, AfterViewInit, OnChang
           this.router.navigate(['/app/home/directory', { department: this.departmentRole }])
         }
       },
-                                                                                       (err: { error: any }) => {
+        (err: { error: any }) => {
           this.openSnackbar(err.error.message)
         })
     }
@@ -207,10 +207,11 @@ export class UIAdminUserTableComponent implements OnInit, AfterViewInit, OnChang
   }
   gotoCreateUser() {
     this.router.navigate([`/app/home/create-user`],
-                         {
+      {
         queryParams: {
           id: this.departmentId, currentDept: this.departmentRole,
           createDept: JSON.stringify(this.otherInput),
+          redirectionPath: window.location.href
         },
       })
   }

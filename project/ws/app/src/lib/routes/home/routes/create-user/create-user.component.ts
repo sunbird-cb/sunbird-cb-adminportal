@@ -25,12 +25,15 @@ export class CreateUserComponent implements OnInit {
   public userRoles: Set<string> = new Set()
   queryParam: any
   deptId: any
+  redirectionPath!: string
   selectedMulti = -1
   currentDept: any
   createdDepartment!: any
   selected!: string
   roles = []
   selectedRoles: string[] = []
+  exact!: string[]
+  exactPath!: String
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -42,6 +45,7 @@ export class CreateUserComponent implements OnInit {
       this.queryParam = params['id']
       this.deptId = params['id']
       this.currentDept = params['currentDept']
+      this.redirectionPath = params['redirectionPath']
       if (this.currentDept === 'CBP Providers') {
         this.currentDept = 'CBP'
       }
@@ -189,18 +193,26 @@ export class CreateUserComponent implements OnInit {
           this.deptId = _.get(this.route, 'snapshot.parent.data.configService.unMappedUser.rootOrg.rootOrgId')
         }
         this.createMDOService.assignAdminToDepartment(userdata.userId, this.deptId,
-                                                      this.createUserForm.value.role)
+          this.createUserForm.value.role)
           .subscribe(data => {
 
             this.openSnackbar(`${data.result.response}`)
+            if (this.redirectionPath.indexOf("/app/home/") < 0) {
+              // this.exact = this.redirectionPath.split("/app")
+              // this.exactPath = "/app" + this.exact[1]
+              // this.exactPath = this.exactPath.replace("%3B", ";")
+              // this.exactPath = this.exactPath.replace("%3D", "=")
+              location.replace(this.redirectionPath)
+            } else {
+              this.router.navigate(['/app/home/directory'])
+            }
 
-            this.router.navigate(['/app/home/users'])
-          },         err => {
+          }, err => {
             this.router.navigate([`/app/home/users`])
             this.openSnackbar(`Error in assign roles ${err}`)
           })
       }
-    },                                          err => {
+    }, err => {
       this.openSnackbar(`User reation ${err}`)
 
     })
