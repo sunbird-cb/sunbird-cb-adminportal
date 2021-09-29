@@ -44,6 +44,7 @@ export class UIAdminUserTableComponent implements OnInit, AfterViewInit, OnChang
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator
   @ViewChild(MatSort, { static: true }) sort?: MatSort
   selection = new SelectionModel<any>(true, [])
+  departmentName: any
   constructor(
     private router: Router, public dialog: MatDialog,
     private activatedRoute: ActivatedRoute,
@@ -66,7 +67,9 @@ export class UIAdminUserTableComponent implements OnInit, AfterViewInit, OnChang
     this.dataSource.sort = this.sort
     this.viewPaginator = true
     this.activatedRoute.params.subscribe(params => {
+      console.log(params)
       this.departmentRole = params['currentDept']
+      this.departmentName = params['depatName']
       this.departmentId = params['roleId']
       if (this.needCreateUser !== false && this.departmentRole && this.departmentId) {
         this.needAddAdmin = true
@@ -136,7 +139,7 @@ export class UIAdminUserTableComponent implements OnInit, AfterViewInit, OnChang
     dialogRef.afterClosed().subscribe((response: any) => {
       response.data.forEach((user: { userId: string }) => {
         if (this.departmentId) {
-          this.createMDOService2.migrateDepartment(user.userId, this.departmentId).subscribe(res => {
+          this.createMDOService2.migrateDepartment(user.userId, this.departmentName).subscribe(res => {
             if (res) {
               this.assignAdmin(user)
             }

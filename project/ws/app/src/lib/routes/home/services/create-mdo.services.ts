@@ -59,11 +59,11 @@ export class CreateMDOService {
     }
     return this.http.post<any>(`${API_END_POINTS.ASSIGN_ADMIN_TO_CREATED_DEPARTMENT}`, departmentData)
   }
-  migrateDepartment(userId: string, deptId: string): Observable<any> {
+  migrateDepartment(userId: string, deptName: string): Observable<any> {
     const departmentData = {
       request: {
         userId,
-        rootOrgId: deptId,
+        channel: deptName,
         forceMigration: true,
         softDeleteOldOrg: true,
         notifyMigration: false,
