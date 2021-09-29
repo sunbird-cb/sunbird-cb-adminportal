@@ -67,7 +67,6 @@ export class UIAdminUserTableComponent implements OnInit, AfterViewInit, OnChang
     this.dataSource.sort = this.sort
     this.viewPaginator = true
     this.activatedRoute.params.subscribe(params => {
-      console.log(params)
       this.departmentRole = params['currentDept']
       this.departmentName = params['depatName']
       this.departmentId = params['roleId']
