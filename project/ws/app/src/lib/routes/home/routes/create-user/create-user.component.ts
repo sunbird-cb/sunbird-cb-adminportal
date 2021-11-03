@@ -193,11 +193,11 @@ export class CreateUserComponent implements OnInit {
           this.deptId = _.get(this.route, 'snapshot.parent.data.configService.unMappedUser.rootOrg.rootOrgId')
         }
         this.createMDOService.assignAdminToDepartment(userdata.userId, this.deptId,
-          this.createUserForm.value.role)
+                                                      this.createUserForm.value.role)
           .subscribe(data => {
 
             this.openSnackbar(`${data.result.response}`)
-            if (this.redirectionPath.indexOf("/app/home/") < 0) {
+            if (this.redirectionPath.indexOf('/app/home/') < 0) {
               // this.exact = this.redirectionPath.split("/app")
               // this.exactPath = "/app" + this.exact[1]
               // this.exactPath = this.exactPath.replace("%3B", ";")
@@ -207,12 +207,12 @@ export class CreateUserComponent implements OnInit {
               this.router.navigate(['/app/home/directory'])
             }
 
-          }, err => {
+          },         err => {
             this.router.navigate([`/app/home/users`])
             this.openSnackbar(`Error in assign roles ${err}`)
           })
       }
-    }, err => {
+    },                                          err => {
       this.openSnackbar(`User reation ${err}`)
 
     })
