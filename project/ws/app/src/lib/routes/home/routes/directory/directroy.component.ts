@@ -3,10 +3,11 @@ import { Component, OnInit } from '@angular/core'
 import { NSProfileDataV2 } from '../../models/profile-v2.model'
 import { MatDialog } from '@angular/material/dialog'
 import { ActivatedRoute, Router } from '@angular/router'
-import { ConfigurationsService } from '@sunbird-cb/utils'
+import { ConfigurationsService, EventService } from '@sunbird-cb/utils'
 /* tslint:disable */
 import _ from 'lodash'
 import { DirectoryService } from '../../services/directory.services'
+import { IBreadcrumbPath } from '@sunbird-cb/collection'
 
 @Component({
   selector: 'ws-app-directory',
@@ -34,7 +35,8 @@ export class DirectoryViewComponent implements OnInit {
     private route: ActivatedRoute,
     private configSvc: ConfigurationsService,
     private directoryService: DirectoryService,
-    private router: Router
+    private router: Router,
+    private events: EventService,
   ) {
     this.currentUser = this.configSvc.userProfile && this.configSvc.userProfile.userId
     this.tabsData = this.route.parent && this.route.parent.snapshot.data.pageData.data.tabs || []
@@ -56,6 +58,12 @@ export class DirectoryViewComponent implements OnInit {
   ngOnInit() {
     this.getAllDepartmentsHeaderAPI()
     this.getAllDepartments()
+    const teleData: IBreadcrumbPath = {
+      text: 'Directory Event',
+      clickUrl: '/app/home/directory',
+    }
+
+    this.raiseTelemetry(teleData)
   }
   getAllDepartmentsHeaderAPI() {
     this.directoryService.getDepartmentTitles().subscribe(res => {
@@ -179,4 +187,15 @@ export class DirectoryViewComponent implements OnInit {
     this.router.navigate([`/app/home/${this.currentFilter}/create-department`, { data: JSON.stringify(clickedData) }])
   }
 
+  raiseTelemetry(clickedItem: IBreadcrumbPath) {
+    this.events.raiseInteractTelemetry(
+      'click',
+      'breadcrumb',
+      {
+        clickedItem,
+        path: '/home/directory'
+        ,
+      },
+    )
+  }
 }

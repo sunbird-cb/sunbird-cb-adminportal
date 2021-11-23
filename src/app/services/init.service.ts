@@ -4,6 +4,7 @@ import { Inject, Injectable } from '@angular/core'
 import { MatIconRegistry } from '@angular/material'
 import { DomSanitizer } from '@angular/platform-browser'
 import { BtnSettingsService } from '@sunbird-cb/collection'
+import { v4 as uuid } from 'uuid'
 import {
   hasPermissions,
   hasUnitPermission,
@@ -449,6 +450,10 @@ export class InitService {
           //   const organisationData = userPidProfile.result.response.organisations
           //   userRoles = (organisationData[0].roles.length > 0) ? organisationData[0].roles : []
           // }
+          if (localStorage.getItem('telemetrySessionId')) {
+            localStorage.removeItem('telemetrySessionId')
+          }
+          localStorage.setItem('telemetrySessionId', uuid())
           this.configSvc.unMappedUser = userPidProfile
           const profileV2 = _.get(userPidProfile, 'profiledetails')
           this.configSvc.userProfile = {

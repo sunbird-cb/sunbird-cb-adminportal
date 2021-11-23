@@ -1,7 +1,7 @@
 
 import { Component, OnInit, OnDestroy, AfterViewInit, ElementRef, HostListener, ViewChild } from '@angular/core'
 import { Router, Event, NavigationEnd, NavigationError, ActivatedRoute } from '@angular/router'
-import { ValueService } from '@sunbird-cb/utils'
+import { TelemetryService, ValueService } from '@sunbird-cb/utils'
 import { map } from 'rxjs/operators'
 /* tslint:disable */
 import _ from 'lodash'
@@ -46,12 +46,14 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
       this.sticky = false
     }
   }
-  constructor(private valueSvc: ValueService, private router: Router, private activeRoute: ActivatedRoute) {
+  constructor(private valueSvc: ValueService, private router: Router, private activeRoute: ActivatedRoute,
+              private telemetrySvc: TelemetryService) {
     this.router.events.subscribe((event: Event) => {
       if (event instanceof NavigationEnd) {
         // Hide loading indicator
         // console.log(event.url)
         this.bindUrl(event.urlAfterRedirects.replace('/app/home/', ''))
+        this.telemetrySvc.impression()
         // this.widgetData = this.activeRoute.snapshot.data &&
         //   this.activeRoute.snapshot.data.pageData.data.menus || []
         if (this.activeRoute.snapshot.data.department.data) {
@@ -83,6 +85,8 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
       this.sideNavBarOpened = !isLtMedium
       this.screenSizeIsLtMedium = isLtMedium
     })
+    // Application start telemetry
+    this.telemetrySvc.start('app', 'view', '')
   }
   ngAfterViewInit() {
     // this.elementPosition = this.menuElement.nativeElement.offsetTop

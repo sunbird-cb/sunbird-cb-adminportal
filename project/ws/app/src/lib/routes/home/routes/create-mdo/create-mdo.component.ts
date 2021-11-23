@@ -8,9 +8,9 @@ import { LoaderService } from '../../services/loader.service'
 import { AuthInitService } from '../../services/init.service'
 import { ActivatedRoute, Router } from '@angular/router'
 import { CreateMDOService } from '../../services/create-mdo.services'
-import { ValueService } from '@sunbird-cb/utils'
+import { EventService, ValueService } from '@sunbird-cb/utils'
 import { NsWidgetResolver } from '@sunbird-cb/resolver'
-import { ILeftMenu } from '@sunbird-cb/collection'
+import { IBreadcrumbPath, ILeftMenu } from '@sunbird-cb/collection'
 import { map } from 'rxjs/operators'
 import * as _ from 'lodash'
 interface IUser { userId: string, fullName: string; email: string; role: string }
@@ -76,7 +76,8 @@ export class CreateMdoComponent implements OnInit {
               private router: Router,
               private directoryService: DirectoryService,
               private valueSvc: ValueService,
-              private activatedRoute: ActivatedRoute) {
+              private activatedRoute: ActivatedRoute,
+              private events: EventService) {
     {
 
       this.loggedInUserId = _.get(this.activatedRoute, 'snapshot.parent.data.configService.userProfile.userId')
@@ -238,6 +239,13 @@ export class CreateMdoComponent implements OnInit {
   }
   onSubmit() {
     if (!this.isUpdate) {
+
+      const teleData: IBreadcrumbPath = {
+        text: 'Create Department',
+        clickUrl: '/app/home/' + `${this.department}` + 'create-department',
+      }
+
+      this.raiseTelemetry(teleData)
       if (this.contentForm.value.name !== null
         && this.contentForm.value.deptSubTypeId !== null) {
         this.createMdoService.createDepartment(this.contentForm.value, this.deptType,
@@ -255,6 +263,12 @@ export class CreateMdoComponent implements OnInit {
           })
       }
     } else {
+      const teleData: IBreadcrumbPath = {
+        text: 'Update Department',
+        clickUrl: '/app/home/' + `${this.department}` + 'update-department',
+      }
+
+      this.raiseTelemetry(teleData)
       if (this.contentForm.value.name !== null
         && this.contentForm.value.deptSubTypeId !== null) {
         this.createMdoService.updateDepartment(this.updateId, this.deptType,
@@ -304,6 +318,18 @@ export class CreateMdoComponent implements OnInit {
     if (this.bannerSubscription) {
       this.bannerSubscription.unsubscribe()
     }
+  }
+
+  raiseTelemetry(clickedItem: IBreadcrumbPath) {
+    this.events.raiseInteractTelemetry(
+      'click',
+      'button',
+      {
+        clickedItem,
+        path: '/app/home/create-directory'
+        ,
+      },
+    )
   }
 
 }

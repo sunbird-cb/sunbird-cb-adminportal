@@ -12,6 +12,8 @@ import { ITableData, IColums } from '../interface/interfaces'
 import { Router, ActivatedRoute } from '@angular/router'
 import { UserPopupComponent } from '../user-popup/user-popup'
 import { CreateMDOService as MDO2 } from '../../../routes/home/services/create-mdo.services'
+import { EventService } from '@sunbird-cb/utils'
+import { IBreadcrumbPath } from '@sunbird-cb/collection'
 
 @Component({
   selector: 'ws-widget-ui-user-table',
@@ -48,6 +50,7 @@ export class UIAdminUserTableComponent implements OnInit, AfterViewInit, OnChang
     private router: Router, public dialog: MatDialog,
     private activatedRoute: ActivatedRoute,
     private createMDOService2: MDO2,
+    private events: EventService,
     private snackBar: MatSnackBar) {
     this.dataSource = new MatTableDataSource<any>()
     this.actionsClick = new EventEmitter()
@@ -190,6 +193,13 @@ export class UIAdminUserTableComponent implements OnInit, AfterViewInit, OnChang
 
   }
   gotoCreateUser() {
+    const teleData: IBreadcrumbPath = {
+      text: 'Create user Click',
+      clickUrl: '/app/home/create-user',
+    }
+
+    this.raiseTelemetry(teleData)
+
     this.router.navigate([`/app/home/create-user`],
                          {
         queryParams: {
@@ -198,5 +208,17 @@ export class UIAdminUserTableComponent implements OnInit, AfterViewInit, OnChang
           redirectionPath: window.location.href,
         },
       })
+  }
+
+  raiseTelemetry(clickedItem: IBreadcrumbPath) {
+    this.events.raiseInteractTelemetry(
+      'click',
+      'button',
+      {
+        clickedItem,
+        path: '/app/home/create-user'
+        ,
+      },
+    )
   }
 }

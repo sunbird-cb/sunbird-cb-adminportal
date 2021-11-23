@@ -6,6 +6,8 @@ import { MatSnackBar } from '@angular/material'
 import { ActivatedRoute, Router } from '@angular/router'
 import { DirectoryService } from '../../services/directory.services'
 import * as _ from 'lodash'
+import { IBreadcrumbPath } from '@sunbird-cb/collection'
+import { EventService } from '@sunbird-cb/utils'
 
 @Component({
   selector: 'ws-app-create-user',
@@ -40,7 +42,8 @@ export class CreateUserComponent implements OnInit {
     private snackBar: MatSnackBar,
     private directoryService: DirectoryService,
     private createMDOService: CreateMDOService,
-    private usersSvc: UsersService) {
+    private usersSvc: UsersService,
+    private events: EventService) {
     this.route.queryParams.subscribe(params => {
       this.queryParam = params['id']
       this.deptId = params['id']
@@ -173,6 +176,13 @@ export class CreateUserComponent implements OnInit {
   // }
   onSubmit(form: any) {
     // form.value.department = this.selectedDept ? this.selectedDept.deptName : this.receivedDept.deptName
+
+    const teleData: IBreadcrumbPath = {
+      text: 'Create User',
+      clickUrl: '/app/user/create-user',
+    }
+
+    this.raiseTelemetry(teleData)
     const userreq = {
       personalDetails: {
         email: form.value.email,
@@ -222,5 +232,16 @@ export class CreateUserComponent implements OnInit {
     this.snackBar.open(primaryMsg, 'X', {
       duration,
     })
+  }
+  raiseTelemetry(clickedItem: IBreadcrumbPath) {
+    this.events.raiseInteractTelemetry(
+      'click',
+      'button',
+      {
+        clickedItem,
+        path: '/app/home/create-directory'
+        ,
+      },
+    )
   }
 }
