@@ -48,7 +48,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
   constructor(private valueSvc: ValueService, private router: Router, private activeRoute: ActivatedRoute,
-    private telemetrySvc: TelemetryService) {
+              private telemetrySvc: TelemetryService) {
     this.router.events.subscribe((event: Event) => {
       if (event instanceof NavigationEnd) {
         // Hide loading indicator

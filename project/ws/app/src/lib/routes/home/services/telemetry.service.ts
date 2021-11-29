@@ -36,7 +36,7 @@ export class TelemetryService {
         ...this.telemetryConfig,
         pdata: {
           ...this.telemetryConfig.pdata,
-          // pid: navigator.userAgent,
+          pid: navigator.userAgent,
           id: `${environment.name}.${this.telemetryConfig.pdata.id}`,
         },
         uid: this.configSvc.userProfile && this.configSvc.userProfile.userId,
@@ -67,7 +67,6 @@ export class TelemetryService {
   }
 
   start(type: string, mode: string, id: string, data?: any) {
-    console.log("Start events")
     try {
       if (this.telemetryConfig) {
         $t.start(
