@@ -63,7 +63,7 @@ export class DirectoryViewComponent implements OnInit {
       clickUrl: '/app/home/directory',
     }
 
-    this.raiseTelemetry(teleData)
+    this.raiseTelemetry(teleData, 'breadcrump')
   }
   getAllDepartmentsHeaderAPI() {
     this.directoryService.getDepartmentTitles().subscribe(res => {
@@ -111,9 +111,16 @@ export class DirectoryViewComponent implements OnInit {
     if (key) {
       this.currentFilter = key
       this.currentDepartment = key
+      const teleData: IBreadcrumbPath = {
+        text: 'Department List',
+        clickUrl: '/app/home/department' + `${key}`,
+      }
+
+      this.raiseTelemetry(teleData, key)
       const filteredData2: any[] = []
       switch (key) {
         case 'MDO':
+
           this.wholeData2.forEach((element: any) => {
             let department = ''
             if (element.isMdo) {
@@ -187,10 +194,10 @@ export class DirectoryViewComponent implements OnInit {
     this.router.navigate([`/app/home/${this.currentFilter}/create-department`, { data: JSON.stringify(clickedData) }])
   }
 
-  raiseTelemetry(clickedItem: IBreadcrumbPath) {
+  raiseTelemetry(clickedItem: IBreadcrumbPath, sub: string) {
     this.events.raiseInteractTelemetry(
       'click',
-      'breadcrumb',
+      sub,
       {
         clickedItem,
         path: '/home/directory'
@@ -198,4 +205,5 @@ export class DirectoryViewComponent implements OnInit {
       },
     )
   }
+
 }

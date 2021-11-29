@@ -67,6 +67,7 @@ export class TelemetryService {
   }
 
   start(type: string, mode: string, id: string, data?: any) {
+    console.log("Start events")
     try {
       if (this.telemetryConfig) {
         $t.start(
