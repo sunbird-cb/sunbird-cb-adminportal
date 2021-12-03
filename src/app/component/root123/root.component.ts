@@ -19,16 +19,11 @@ import { BtnPageBackService } from '@sunbird-cb/collection'
 import {
   // AuthKeycloakService,
   ConfigurationsService,
-  TelemetryService,
   ValueService,
 } from '@sunbird-cb/utils'
 import { delay } from 'rxjs/operators'
 import { MobileAppsService } from '../../services/mobile-apps.service'
 import { RootService } from './root.service'
-// import { SwUpdate } from '@angular/service-worker'
-// import { environment } from '../../../environments/environment'
-// import { MatDialog } from '@angular/material'
-// import { DialogConfirmComponent } from '../dialog-confirm/dialog-confirm.component'
 
 @Component({
   selector: 'ws-root',
@@ -56,7 +51,6 @@ export class RootComponent implements OnInit, AfterViewInit {
     // public authSvc: AuthKeycloakService,
     public configSvc: ConfigurationsService,
     private valueSvc: ValueService,
-    private telemetrySvc: TelemetryService,
     private mobileAppsSvc: MobileAppsService,
     private rootSvc: RootService,
     private btnBackSvc: BtnPageBackService,
@@ -74,7 +68,7 @@ export class RootComponent implements OnInit, AfterViewInit {
 
     this.btnBackSvc.initialize()
     // Application start telemetry
-    this.telemetrySvc.start('app', 'view', '')
+    // this.telemetrySvc.start('app', 'view', '')
     this.appStartRaised = true
     // if (this.authSvc.isAuthenticated) {
     //   this.telemetrySvc.start('app', 'view', '')
@@ -119,47 +113,6 @@ export class RootComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    // this.initAppUpdateCheck()
-  }
 
-  // initAppUpdateCheck() {
-  //   this.logger.log('LOGGING IN ROOT FOR PWA INIT CHECK')
-  //   if (environment.production) {
-  //     const appIsStable$ = this.appRef.isStable.pipe(
-  //       first(isStable => isStable),
-  //     )
-  //     const everySixHours$ = interval(6 * 60 * 60 * 1000)
-  //     const everySixHoursOnceAppIsStable$ = concat(appIsStable$, everySixHours$)
-  //     everySixHoursOnceAppIsStable$.subscribe(() => this.swUpdate.checkForUpdate())
-  //     if (this.swUpdate.isEnabled) {
-  //       this.swUpdate.available.subscribe(() => {
-  //         const dialogRef = this.dialog.open(DialogConfirmComponent, {
-  //           data: {
-  //             title: (this.appUpdateTitleRef && this.appUpdateTitleRef.nativeElement.value) || '',
-  //             body: (this.appUpdateBodyRef && this.appUpdateBodyRef.nativeElement.value) || '',
-  //           },
-  //         })
-  //         dialogRef.afterClosed().subscribe(
-  //           result => {
-  //             if (result) {
-  //               this.swUpdate.activateUpdate().then(() => {
-  //                 if ('caches' in window) {
-  //                   caches.keys()
-  //                     .then(keyList => {
-  //                       timer(2000).subscribe(
-  //                         _ => window.location.reload(),
-  //                       )
-  //                       return Promise.all(keyList.map(key => {
-  //                         return caches.delete(key)
-  //                       }))
-  //                     })
-  //                 }
-  //               })
-  //             }
-  //           },
-  //         )
-  //       })
-  //     }
-  //   }
-  // }
+  }
 }

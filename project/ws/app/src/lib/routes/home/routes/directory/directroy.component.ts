@@ -62,7 +62,6 @@ export class DirectoryViewComponent implements OnInit {
       text: 'Directory Event',
       clickUrl: '/app/home/directory',
     }
-
     this.raiseTelemetry(teleData, 'breadcrump')
   }
   getAllDepartmentsHeaderAPI() {
@@ -78,6 +77,11 @@ export class DirectoryViewComponent implements OnInit {
         }
       })
       this.getDepartDataByKey(this.departmentHearders[0])
+      const teleData: IBreadcrumbPath = {
+        text: 'Department List',
+        clickUrl: '/app/home/department' + `${this.departmentHearders[0]}`,
+      }
+      this.raiseTelemetry(teleData, this.departmentHearders[0])
       this.createTableHeader()
     })
   }
@@ -105,22 +109,20 @@ export class DirectoryViewComponent implements OnInit {
     this.router.navigate([`/app/roles/${role.id}/users`, { currentDept: this.currentFilter, roleId: role.id, depatName: role.mdo }])
   }
   filter(key: string | 'timestamp' | 'best' | 'saved') {
+    const teleData: IBreadcrumbPath = {
+      text: 'Department List',
+      clickUrl: '/app/home/department' + `${key}`,
+    }
+    this.raiseTelemetry(teleData, 'click')
     this.getDepartDataByKey(key)
   }
   getDepartDataByKey(key: string) {
     if (key) {
       this.currentFilter = key
       this.currentDepartment = key
-      const teleData: IBreadcrumbPath = {
-        text: 'Department List',
-        clickUrl: '/app/home/department' + `${key}`,
-      }
-
-      this.raiseTelemetry(teleData, key)
       const filteredData2: any[] = []
       switch (key) {
         case 'MDO':
-
           this.wholeData2.forEach((element: any) => {
             let department = ''
             if (element.isMdo) {
