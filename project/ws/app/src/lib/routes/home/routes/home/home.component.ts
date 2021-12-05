@@ -1,11 +1,11 @@
 
 import { Component, OnInit, OnDestroy, AfterViewInit, ElementRef, HostListener, ViewChild } from '@angular/core'
 import { Router, Event, NavigationEnd, NavigationError, ActivatedRoute } from '@angular/router'
-import { TelemetryService, ValueService } from '@sunbird-cb/utils'
+import { EventService, TelemetryService, ValueService } from '@sunbird-cb/utils'
 import { map } from 'rxjs/operators'
 /* tslint:disable */
 import _ from 'lodash'
-import { ILeftMenu } from '@sunbird-cb/collection'
+import { IBreadcrumbPath, ILeftMenu } from '@sunbird-cb/collection'
 import { NsWidgetResolver } from '@sunbird-cb/resolver'
 /* tslint:enable */
 
@@ -24,6 +24,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   widgetData!: NsWidgetResolver.IWidgetData<ILeftMenu>
   unread = 0
   currentRoute = 'home'
+  currentPath!: string
   myRoles!: Set<string>
   banner!: NsWidgetResolver.IWidgetData<any>
   private bannerSubscription: any
@@ -47,7 +48,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
   constructor(private valueSvc: ValueService, private router: Router, private activeRoute: ActivatedRoute,
-              private telemetrySvc: TelemetryService) {
+    private telemetrySvc: TelemetryService, private events: EventService) {
     this.router.events.subscribe((event: Event) => {
       if (event instanceof NavigationEnd) {
         // Hide loading indicator
@@ -103,6 +104,29 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.bannerSubscription) {
       this.bannerSubscription.unsubscribe()
     }
+  }
+  sidenavClick() {
+    if (this.currentPath !== window.location.href) {
+      this.currentPath = window.location.href
+      const teleData: IBreadcrumbPath = {
+        text: 'SideNav Event',
+        clickUrl: this.currentPath,
+      }
+      this.raiseTelemetry(teleData, 'breadcrump')
+    }
+
+  }
+
+  raiseTelemetry(clickedItem: IBreadcrumbPath, sub: string) {
+    this.events.raiseInteractTelemetry(
+      'click',
+      sub,
+      {
+        clickedItem,
+        path: clickedItem.clickUrl
+        ,
+      },
+    )
   }
 
 }

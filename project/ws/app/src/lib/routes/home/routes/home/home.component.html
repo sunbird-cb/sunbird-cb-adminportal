@@ -1,5 +1,5 @@
 <mat-sidenav-container autosize name="discuss-menu">
-  <mat-sidenav [mode]="mode$ | async" [(opened)]="sideNavBarOpened">
+  <mat-sidenav [mode]="mode$ | async" [(opened)]="sideNavBarOpened" (click)="sidenavClick()">
     <div #stickyMenu>
       <ng-container [wsResolverWidget]="widgetData"></ng-container>
     </div>

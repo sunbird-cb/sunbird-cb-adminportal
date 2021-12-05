@@ -58,11 +58,6 @@ export class DirectoryViewComponent implements OnInit {
   ngOnInit() {
     this.getAllDepartmentsHeaderAPI()
     this.getAllDepartments()
-    const teleData: IBreadcrumbPath = {
-      text: 'Directory Event',
-      clickUrl: '/app/home/directory',
-    }
-    this.raiseTelemetry(teleData, 'breadcrump')
   }
   getAllDepartmentsHeaderAPI() {
     this.directoryService.getDepartmentTitles().subscribe(res => {
