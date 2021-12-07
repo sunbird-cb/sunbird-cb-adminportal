@@ -13,7 +13,6 @@ import { Router, ActivatedRoute } from '@angular/router'
 import { UserPopupComponent } from '../user-popup/user-popup'
 import { CreateMDOService as MDO2 } from '../../../routes/home/services/create-mdo.services'
 import { EventService } from '@sunbird-cb/utils'
-import { IBreadcrumbPath } from '@sunbird-cb/collection'
 
 @Component({
   selector: 'ws-widget-ui-user-table',
@@ -148,7 +147,7 @@ export class UIAdminUserTableComponent implements OnInit, AfterViewInit, OnChang
               this.router.navigate(['/app/home/directory', { department: this.departmentRole }])
             }
           },
-                                                                                               (err: { error: any }) => {
+            (err: { error: any }) => {
               this.openSnackbar(err.error.message)
             })
         }
@@ -193,15 +192,9 @@ export class UIAdminUserTableComponent implements OnInit, AfterViewInit, OnChang
 
   }
   gotoCreateUser() {
-    const teleData: IBreadcrumbPath = {
-      text: 'Create user Click',
-      clickUrl: '/app/home/create-user',
-    }
-
-    this.raiseTelemetry(teleData)
-
+    this.raiseTelemetry('button')
     this.router.navigate([`/app/home/create-user`],
-                         {
+      {
         queryParams: {
           id: this.departmentId, currentDept: this.departmentRole,
           createDept: JSON.stringify(this.otherInput),
@@ -210,15 +203,11 @@ export class UIAdminUserTableComponent implements OnInit, AfterViewInit, OnChang
       })
   }
 
-  raiseTelemetry(clickedItem: IBreadcrumbPath) {
+  raiseTelemetry(sub: string) {
     this.events.raiseInteractTelemetry(
       'click',
-      'button',
-      {
-        clickedItem,
-        path: '/app/home/create-user'
-        ,
-      },
+      sub,
+      {},
     )
   }
 }

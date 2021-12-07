@@ -7,7 +7,6 @@ import { ConfigurationsService, EventService } from '@sunbird-cb/utils'
 /* tslint:disable */
 import _ from 'lodash'
 import { DirectoryService } from '../../services/directory.services'
-import { IBreadcrumbPath } from '@sunbird-cb/collection'
 
 @Component({
   selector: 'ws-app-directory',
@@ -72,11 +71,7 @@ export class DirectoryViewComponent implements OnInit {
         }
       })
       this.getDepartDataByKey(this.departmentHearders[0])
-      const teleData: IBreadcrumbPath = {
-        text: 'Department List',
-        clickUrl: '/app/home/department' + `${this.departmentHearders[0]}`,
-      }
-      this.raiseTelemetry(teleData, this.departmentHearders[0])
+      this.raiseTelemetry('tabClick')
       this.createTableHeader()
     })
   }
@@ -104,11 +99,7 @@ export class DirectoryViewComponent implements OnInit {
     this.router.navigate([`/app/roles/${role.id}/users`, { currentDept: this.currentFilter, roleId: role.id, depatName: role.mdo }])
   }
   filter(key: string | 'timestamp' | 'best' | 'saved') {
-    const teleData: IBreadcrumbPath = {
-      text: 'Department List',
-      clickUrl: '/app/home/department' + `${key}`,
-    }
-    this.raiseTelemetry(teleData, 'click')
+    this.raiseTelemetry('tabClick')
     this.getDepartDataByKey(key)
   }
   getDepartDataByKey(key: string) {
@@ -191,14 +182,11 @@ export class DirectoryViewComponent implements OnInit {
     this.router.navigate([`/app/home/${this.currentFilter}/create-department`, { data: JSON.stringify(clickedData) }])
   }
 
-  raiseTelemetry(clickedItem: IBreadcrumbPath, sub: string) {
+  raiseTelemetry(sub: string) {
     this.events.raiseInteractTelemetry(
       'click',
       sub,
       {
-        clickedItem,
-        path: '/home/directory'
-        ,
       },
     )
   }

@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core'
 import { Routes, RouterModule } from '@angular/router'
 // import { InitResolver } from './resol./routes/profile-v2/discuss-all.component'
 import { HomeResolve } from './resolvers/home-resolve'
-import { AboutComponent } from './routes/about/about.component'
 import { HomeComponent } from './routes/home/home.component'
 import { UsersViewComponent } from './routes/users-view/users-view.component'
 import { RolesAccessComponent } from './routes/roles-access/roles-access.component'
@@ -16,25 +15,24 @@ import { RolesResolver } from './resolvers/roles-resolver.service'
 const routes: Routes = [
   {
     path: '',
-    pathMatch: 'full',
-    redirectTo: 'directory',
-  },
-  {
-    path: '',
     component: HomeComponent,
     resolve: {
       department: DepartmentResolve,
       configService: ConfigResolveService,
+    },
+    data: {
+      pageId: 'app/directory',
+      module: 'Directory',
     },
     children: [
       {
         path: 'users',
         component: UsersViewComponent,
         children: [],
-      },
-      {
-        path: 'about',
-        component: AboutComponent,
+        data: {
+          pageId: 'app/users',
+          module: 'user',
+        },
       },
       {
         path: 'roles-access',
@@ -42,19 +40,35 @@ const routes: Routes = [
         resolve: {
           rolesList: RolesResolver,
         },
+        data: {
+          pageId: 'app/roles-access',
+          module: 'roles-access',
+        },
       },
       {
         path: 'directory',
         component: DirectoryViewComponent,
+        data: {
+          pageId: 'app/directory',
+          module: 'directory',
+        },
       },
       {
         path: ':department/create-department',
         component: CreateMdoComponent,
+        data: {
+          pageId: 'app/create-department',
+          module: 'create-department',
+        },
       },
       {
         path: 'create-user',
         component: CreateUserComponent,
         children: [],
+        data: {
+          pageId: 'app/create-user',
+          module: 'create-user',
+        },
       },
     ],
   },

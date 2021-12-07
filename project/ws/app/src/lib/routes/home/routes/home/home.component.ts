@@ -5,7 +5,7 @@ import { EventService, TelemetryService, ValueService } from '@sunbird-cb/utils'
 import { map } from 'rxjs/operators'
 /* tslint:disable */
 import _ from 'lodash'
-import { IBreadcrumbPath, ILeftMenu } from '@sunbird-cb/collection'
+import { ILeftMenu } from '@sunbird-cb/collection'
 import { NsWidgetResolver } from '@sunbird-cb/resolver'
 /* tslint:enable */
 
@@ -48,7 +48,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
   constructor(private valueSvc: ValueService, private router: Router, private activeRoute: ActivatedRoute,
-              private telemetrySvc: TelemetryService, private events: EventService) {
+    private telemetrySvc: TelemetryService, private events: EventService) {
     this.router.events.subscribe((event: Event) => {
       if (event instanceof NavigationEnd) {
         // Hide loading indicator
@@ -108,24 +108,17 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   sidenavClick() {
     if (this.currentPath !== window.location.href) {
       this.currentPath = window.location.href
-      const teleData: IBreadcrumbPath = {
-        text: 'SideNav Event',
-        clickUrl: this.currentPath,
-      }
-      this.raiseTelemetry(teleData, 'breadcrump')
+
+      this.raiseTelemetry('NavMenuClick')
     }
 
   }
 
-  raiseTelemetry(clickedItem: IBreadcrumbPath, sub: string) {
+  raiseTelemetry(sub: string) {
     this.events.raiseInteractTelemetry(
       'click',
       sub,
-      {
-        clickedItem,
-        path: clickedItem.clickUrl
-        ,
-      },
+      {},
     )
   }
 

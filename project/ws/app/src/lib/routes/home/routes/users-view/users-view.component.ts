@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core'
 import { NSProfileDataV2 } from '../../models/profile-v2.model'
 import { MatDialog } from '@angular/material/dialog'
 import { ActivatedRoute, Router } from '@angular/router'
-import { ConfigurationsService } from '@sunbird-cb/utils'
+import { ConfigurationsService, EventService } from '@sunbird-cb/utils'
 /* tslint:disable */
 import _ from 'lodash'
 import { UsersService } from '../../services/users.service'
@@ -48,6 +48,7 @@ export class UsersViewComponent implements OnInit {
     private usersService: UsersService,
     private configSvc: ConfigurationsService,
     private snackBar: MatSnackBar,
+    private events: EventService,
   ) {
     this.Math = Math
     this.currentUser = this.configSvc.userProfile && this.configSvc.userProfile.userId
@@ -100,7 +101,7 @@ export class UsersViewComponent implements OnInit {
             // this.getAllUsers()
             this.snackBar.open(response.params.errmsg)
           }
-        },                                                                        _err => this.snackBar.open('Error in inactive'))
+        }, _err => this.snackBar.open('Error in inactive'))
         break
       case 'unblock':
         _.set(user, 'isBlocked', false)
@@ -111,7 +112,7 @@ export class UsersViewComponent implements OnInit {
             // this.getAllUsers()
             this.snackBar.open(response.params.errmsg)
           }
-        },                                                                          _err => this.snackBar.open('Error in active'))
+        }, _err => this.snackBar.open('Error in active'))
         break
       case 'deactive':
         _.set(user, 'isActive', false)
@@ -121,7 +122,7 @@ export class UsersViewComponent implements OnInit {
             // this.getAllUsers()
             this.snackBar.open(response.params.errmsg)
           }
-        },                                                                          _err => this.snackBar.open('Error in Active'))
+        }, _err => this.snackBar.open('Error in Active'))
         break
       case 'active':
         _.set(user, 'isActive', true)
@@ -151,11 +152,19 @@ export class UsersViewComponent implements OnInit {
       }
     })
   }
+  raiseTelemetry(sub: string) {
+    this.events.raiseInteractTelemetry(
+      'click',
+      sub,
+      {},
+    )
+  }
   filter(key: string) {
     const usersData: any[] = []
     if (key) {
       this.currentFilter = key
       this.data = []
+      this.raiseTelemetry('tabClick')
       switch (key) {
         case 'active':
           this.newKongUser(false)
