@@ -6,7 +6,6 @@ import { MatSnackBar } from '@angular/material'
 import { ActivatedRoute, Router } from '@angular/router'
 import { DirectoryService } from '../../services/directory.services'
 import * as _ from 'lodash'
-import { IBreadcrumbPath } from '@sunbird-cb/collection'
 import { EventService } from '@sunbird-cb/utils'
 
 @Component({
@@ -177,12 +176,7 @@ export class CreateUserComponent implements OnInit {
   onSubmit(form: any) {
     // form.value.department = this.selectedDept ? this.selectedDept.deptName : this.receivedDept.deptName
 
-    const teleData: IBreadcrumbPath = {
-      text: 'Create User',
-      clickUrl: '/app/user/create-user',
-    }
-
-    this.raiseTelemetry(teleData)
+    this.raiseTelemetry()
     const userreq = {
       personalDetails: {
         email: form.value.email,
@@ -233,15 +227,11 @@ export class CreateUserComponent implements OnInit {
       duration,
     })
   }
-  raiseTelemetry(clickedItem: IBreadcrumbPath) {
+  raiseTelemetry() {
     this.events.raiseInteractTelemetry(
       'click',
       'button',
-      {
-        clickedItem,
-        path: '/app/home/create-directory'
-        ,
-      },
+      {},
     )
   }
 }
