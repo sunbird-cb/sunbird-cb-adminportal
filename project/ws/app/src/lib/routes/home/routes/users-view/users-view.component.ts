@@ -154,8 +154,10 @@ export class UsersViewComponent implements OnInit {
   }
   raiseTelemetry(sub: string) {
     this.events.raiseInteractTelemetry(
-      'click',
-      sub,
+      {
+        type: 'click',
+        subType: sub,
+      },
       {},
     )
   }

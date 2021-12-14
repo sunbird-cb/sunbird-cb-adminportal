@@ -229,8 +229,10 @@ export class CreateUserComponent implements OnInit {
   }
   raiseTelemetry() {
     this.events.raiseInteractTelemetry(
-      'click',
-      'button',
+      {
+        type: 'click',
+        subType: 'button',
+      },
       {},
     )
   }

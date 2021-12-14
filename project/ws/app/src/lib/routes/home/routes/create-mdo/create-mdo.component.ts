@@ -311,8 +311,11 @@ export class CreateMdoComponent implements OnInit {
 
   raiseTelemetry() {
     this.events.raiseInteractTelemetry(
-      'click',
-      'button',
+
+      {
+        type: 'click',
+        subType: 'button',
+      },
       {
       },
     )

@@ -116,8 +116,10 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
 
   raiseTelemetry(sub: string) {
     this.events.raiseInteractTelemetry(
-      'click',
-      sub,
+      {
+        type: 'click',
+        subType: sub,
+      },
       {},
     )
   }

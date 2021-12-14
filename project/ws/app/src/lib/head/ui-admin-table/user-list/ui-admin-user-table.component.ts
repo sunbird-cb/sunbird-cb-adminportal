@@ -204,10 +204,11 @@ export class UIAdminUserTableComponent implements OnInit, AfterViewInit, OnChang
   }
 
   raiseTelemetry(sub: string) {
-    this.events.raiseInteractTelemetry(
-      'click',
-      sub,
-      {},
+    this.events.raiseInteractTelemetry({
+      type: 'click',
+      subType: sub,
+    },
+                                       {},
     )
   }
 }
