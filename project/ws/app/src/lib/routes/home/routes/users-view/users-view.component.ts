@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core'
 import { NSProfileDataV2 } from '../../models/profile-v2.model'
 import { MatDialog } from '@angular/material/dialog'
 import { ActivatedRoute, Router } from '@angular/router'
-import { ConfigurationsService, EventService } from '@sunbird-cb/utils'
+import { ConfigurationsService, EventService, WsEvents } from '@sunbird-cb/utils'
 /* tslint:disable */
 import _ from 'lodash'
 import { UsersService } from '../../services/users.service'
@@ -152,26 +152,33 @@ export class UsersViewComponent implements OnInit {
       }
     })
   }
-  raiseTelemetry(sub: string) {
-    this.events.raiseInteractTelemetry(
-      {
-        type: 'click',
-        subType: sub,
-      },
-      {},
-    )
+  raiseTabTelemetry(sub: string, data: WsEvents.ITelemetryTabData) {
+    this.events.handleTabTelemetry(sub, data)
   }
   filter(key: string) {
     const usersData: any[] = []
+    let index = 0
+    let data: any
     if (key) {
       this.currentFilter = key
       this.data = []
-      this.raiseTelemetry('tabClick')
       switch (key) {
         case 'active':
+          index = 1
+          data = {
+            index,
+            label: key,
+          }
+          this.raiseTabTelemetry(key, data)
           this.newKongUser(false)
           break
         case 'inactive':
+          index = 2
+          data = {
+            index,
+            label: key,
+          }
+          this.raiseTabTelemetry(key, data)
           this.newKongUser(true)
           break
         case 'blocked':

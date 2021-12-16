@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core'
 import { NSProfileDataV2 } from '../../models/profile-v2.model'
 import { MatDialog } from '@angular/material/dialog'
 import { ActivatedRoute, Router } from '@angular/router'
-import { ConfigurationsService, EventService } from '@sunbird-cb/utils'
+import { ConfigurationsService, EventService, WsEvents } from '@sunbird-cb/utils'
 /* tslint:disable */
 import _ from 'lodash'
 import { DirectoryService } from '../../services/directory.services'
@@ -71,7 +71,6 @@ export class DirectoryViewComponent implements OnInit {
         }
       })
       this.getDepartDataByKey(this.departmentHearders[0])
-      this.raiseTelemetry('tabClick')
       this.createTableHeader()
     })
   }
@@ -99,7 +98,19 @@ export class DirectoryViewComponent implements OnInit {
     this.router.navigate([`/app/roles/${role.id}/users`, { currentDept: this.currentFilter, roleId: role.id, depatName: role.mdo }])
   }
   filter(key: string | 'timestamp' | 'best' | 'saved') {
-    this.raiseTelemetry('tabClick')
+    let index = 1
+    if (key === 'CBC') {
+      index = 1
+    } else if (key === 'CBP') {
+      index = 2
+    } else if (key === 'SPV') {
+      index = 3
+    }
+    const data = {
+      index,
+      label: key,
+    }
+    this.raiseTabTelemetry(key, data)
     this.getDepartDataByKey(key)
   }
   getDepartDataByKey(key: string) {
@@ -181,16 +192,8 @@ export class DirectoryViewComponent implements OnInit {
   actionClick(clickedData: any) {
     this.router.navigate([`/app/home/${this.currentFilter}/create-department`, { data: JSON.stringify(clickedData) }])
   }
-
-  raiseTelemetry(sub: string) {
-    this.events.raiseInteractTelemetry(
-      {
-        type: 'click',
-        subType: sub,
-      },
-      {
-      },
-    )
+  raiseTabTelemetry(sub: string, data: WsEvents.ITelemetryTabData) {
+    this.events.handleTabTelemetry(sub, data)
   }
 
 }
