@@ -260,8 +260,11 @@ export class CreateMdoComponent implements OnInit {
       this.raiseTelemetry()
       if (this.contentForm.value.name !== null
         && this.contentForm.value.deptSubTypeId !== null) {
+        if (this.deptType) {
+          this.deptType = this.deptType.toLowerCase()
+        }
         this.createMdoService.updateDepartment(this.updateId, this.deptType,
-                                               this.department, this.loggedInUserId).subscribe(res => {
+                                               this.department, this.loggedInUserId, this.contentForm.value).subscribe(res => {
             if (res.result.response === 'SUCCESS') {
               this.openSnackbar(`Success`)
               this.router.navigate([`/app/home/directory`])
