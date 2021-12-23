@@ -23,6 +23,8 @@ const routes: Routes = [
     data: {
       pageId: 'app/directory',
       module: 'Directory',
+      pageType: 'feature',
+      pageKey: 'directory',
     },
     children: [
       {
@@ -32,6 +34,8 @@ const routes: Routes = [
         data: {
           pageId: 'app/users',
           module: 'user',
+          pageType: 'feature',
+          pageKey: 'Users',
         },
       },
       {
@@ -43,6 +47,8 @@ const routes: Routes = [
         data: {
           pageId: 'app/roles-access',
           module: 'roles-access',
+          pageType: 'feature',
+          pageKey: 'RolesAndAccess',
         },
       },
       {
@@ -51,6 +57,8 @@ const routes: Routes = [
         data: {
           pageId: 'app/directory',
           module: 'directory',
+          pageType: 'feature',
+          pageKey: 'Directory',
         },
       },
       {
@@ -59,6 +67,8 @@ const routes: Routes = [
         data: {
           pageId: 'app/create-department',
           module: 'create-department',
+          pageType: 'feature',
+          pageKey: 'createDepartment',
         },
       },
       {
@@ -68,6 +78,8 @@ const routes: Routes = [
         data: {
           pageId: 'app/create-user',
           module: 'create-user',
+          pageType: 'feature',
+          pageKey: 'createUser',
         },
       },
     ],

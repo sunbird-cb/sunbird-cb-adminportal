@@ -1,7 +1,7 @@
 
 import { Component, OnInit, OnDestroy, AfterViewInit, ElementRef, HostListener, ViewChild } from '@angular/core'
 import { Router, Event, NavigationEnd, NavigationError, ActivatedRoute } from '@angular/router'
-import { EventService, TelemetryService, ValueService } from '@sunbird-cb/utils'
+import { EventService, TelemetryService, UtilityService, ValueService } from '@sunbird-cb/utils'
 import { map } from 'rxjs/operators'
 /* tslint:disable */
 import _ from 'lodash'
@@ -48,12 +48,21 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
   constructor(private valueSvc: ValueService, private router: Router, private activeRoute: ActivatedRoute,
-              private telemetrySvc: TelemetryService, private events: EventService) {
+              private telemetrySvc: TelemetryService, private events: EventService, private utilitySvc: UtilityService) {
     this.router.events.subscribe((event: Event) => {
       if (event instanceof NavigationEnd) {
         // Hide loading indicator
         // console.log(event.url)
-        this.telemetrySvc.impression()
+        const pageContext = this.utilitySvc.routeData
+        const data = {
+          pageContext,
+        }
+        // console.log('data: ', data)
+        if (data.pageContext.pageId && data.pageContext.module) {
+          this.telemetrySvc.impression(data)
+        } else {
+          this.telemetrySvc.impression()
+        }
         // this.widgetData = this.activeRoute.snapshot.data &&
         //   this.activeRoute.snapshot.data.pageData.data.menus || []
         if (this.activeRoute.snapshot.data.department.data) {
@@ -109,9 +118,8 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.currentPath !== window.location.href) {
       this.currentPath = window.location.href
 
-      this.raiseTelemetry('NavMenuClick')
+      this.raiseTelemetry('MainNavigation')
     }
-
   }
 
   raiseTelemetry(sub: string) {
@@ -119,6 +127,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
       {
         type: 'click',
         subType: sub,
+        id: `${_.camelCase(sub)}-menu`,
       },
       {},
     )

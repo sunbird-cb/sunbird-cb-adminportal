@@ -45,6 +45,8 @@ const routes: Routes = [
     data: {
       pageType: 'feature',
       pageKey: 'home',
+      pageId: 'app',
+      module: 'Home',
     },
     resolve: {
       pageData: PageResolve,
@@ -57,6 +59,8 @@ const routes: Routes = [
     data: {
       pageType: 'feature',
       pageKey: 'roles-access',
+      pageId: 'app',
+      module: 'Roles-Access',
     },
     resolve: {
       pageData: PageResolve,

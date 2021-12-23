@@ -95,7 +95,7 @@ export class DirectoryViewComponent implements OnInit {
     })
   }
   onRoleClick(role: any) {
-    this.router.navigate([`/app/roles/${role.id}/users`, { currentDept: this.currentFilter, roleId: role.id, depatName: role.mdo }])
+    this.router.navigate([`/app/roles/${role.id}/users`], { queryParams: { currentDept: this.currentFilter, roleId: role.id, depatName: role.mdo } })
   }
   filter(key: string | 'timestamp' | 'best' | 'saved') {
     let index = 1
