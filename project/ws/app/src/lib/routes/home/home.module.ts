@@ -38,6 +38,7 @@ import { EditDepartmentDialogComponent } from './routes/users/components/edit-de
 import { CreateUserComponent } from './routes/create-user/create-user.component'
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown'
 import { UIAdminTableModule } from '../../head/ui-admin-table/ui-admin-table.module'
+import { LeftMenuModule } from '../../head/left-menu/left-menu.module'
 @NgModule({
   declarations: [
     HomeComponent,
@@ -88,13 +89,14 @@ import { UIAdminTableModule } from '../../head/ui-admin-table/ui-admin-table.mod
     UserAutocompleteModule,
     ImageCropModule,
     UIAdminTableModule,
+    LeftMenuModule,
     NgMultiSelectDropDownModule.forRoot(),
   ],
   entryComponents: [UserPopupComponent, OpenRolesDialogComponent, EditDepartmentDialogComponent],
   providers: [
     // CKEditorService,
     // LoaderService,
-    InitResolver,
+    InitResolver
   ],
 })
 export class HomeModule {

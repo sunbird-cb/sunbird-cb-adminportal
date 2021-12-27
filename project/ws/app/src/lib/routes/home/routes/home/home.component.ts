@@ -5,8 +5,9 @@ import { EventService, TelemetryService, UtilityService, ValueService } from '@s
 import { map } from 'rxjs/operators'
 /* tslint:disable */
 import _ from 'lodash'
-import { ILeftMenu } from '@sunbird-cb/collection'
+import { ILeftMenu, LeftMenuService } from '@sunbird-cb/collection'
 import { NsWidgetResolver } from '@sunbird-cb/resolver'
+import { Subscription } from 'rxjs'
 /* tslint:enable */
 
 @Component({
@@ -26,6 +27,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   currentRoute = 'home'
   currentPath!: string
   myRoles!: Set<string>
+  subscription: Subscription
   banner!: NsWidgetResolver.IWidgetData<any>
   private bannerSubscription: any
   public screenSizeIsLtMedium = false
@@ -48,7 +50,15 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
   constructor(private valueSvc: ValueService, private router: Router, private activeRoute: ActivatedRoute,
-              private telemetrySvc: TelemetryService, private events: EventService, private utilitySvc: UtilityService) {
+    private telemetrySvc: TelemetryService, private events: EventService, private utilitySvc: UtilityService,
+    private leftMenuService: LeftMenuService) {
+    this.subscription = this.leftMenuService.onMessage().subscribe(message => {
+      if (message) {
+        this.raiseTelemetry(message.text.name)
+      } else {
+        // clear messages when empty message received
+      }
+    })
     this.router.events.subscribe((event: Event) => {
       if (event instanceof NavigationEnd) {
         // Hide loading indicator
@@ -88,6 +98,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     })
 
+
   }
   ngOnInit() {
     this.defaultSideNavBarOpenedSubscription = this.isLtMedium$.subscribe(isLtMedium => {
@@ -117,8 +128,6 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   sidenavClick() {
     if (this.currentPath !== window.location.href) {
       this.currentPath = window.location.href
-
-      this.raiseTelemetry('MainNavigation')
     }
   }
 
