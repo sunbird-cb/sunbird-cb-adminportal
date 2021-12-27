@@ -50,8 +50,8 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
   constructor(private valueSvc: ValueService, private router: Router, private activeRoute: ActivatedRoute,
-    private telemetrySvc: TelemetryService, private events: EventService, private utilitySvc: UtilityService,
-    private leftMenuService: LeftMenuService) {
+              private telemetrySvc: TelemetryService, private events: EventService, private utilitySvc: UtilityService,
+              private leftMenuService: LeftMenuService) {
     this.subscription = this.leftMenuService.onMessage().subscribe(message => {
       if (message) {
         this.raiseTelemetry(message.text.name)
@@ -97,7 +97,6 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
         // console.log(event.error)
       }
     })
-
 
   }
   ngOnInit() {
