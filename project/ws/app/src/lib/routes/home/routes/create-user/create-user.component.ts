@@ -62,6 +62,9 @@ export class CreateUserComponent implements OnInit {
       if (this.route.snapshot.queryParams.createDept) {
         const deptObj = JSON.parse(this.route.snapshot.queryParams.createDept)
         this.currentDept = deptObj.depType
+        if (this.currentDept === 'CBP Providers') {
+          this.currentDept = 'CBP'
+        }
       } else {
         this.currentDept = 'SPV'
       }

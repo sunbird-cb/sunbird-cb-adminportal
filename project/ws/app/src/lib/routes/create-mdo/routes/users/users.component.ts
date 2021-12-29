@@ -62,7 +62,7 @@ export class UsersComponent implements OnInit, AfterViewInit, OnDestroy {
 
     const url = this.router.url.split('/')
     this.role = url[url.length - 2]
-    this.route.params.subscribe(params => {
+    this.route.queryParams.subscribe(params => {
       this.id = params['id']
       this.id = params['roleId']
       this.currentDept = params['currentDept']
