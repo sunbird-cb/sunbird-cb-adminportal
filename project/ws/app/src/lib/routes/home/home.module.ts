@@ -38,6 +38,8 @@ import { EditDepartmentDialogComponent } from './routes/users/components/edit-de
 import { CreateUserComponent } from './routes/create-user/create-user.component'
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown'
 import { UIAdminTableModule } from '../../head/ui-admin-table/ui-admin-table.module'
+import { ModerationViewComponent } from './routes/moderation/moderation.component'
+
 @NgModule({
   declarations: [
     HomeComponent,
@@ -51,6 +53,7 @@ import { UIAdminTableModule } from '../../head/ui-admin-table/ui-admin-table.mod
     OpenRolesDialogComponent,
     EditDepartmentDialogComponent,
     CreateUserComponent,
+    ModerationViewComponent
   ],
   imports: [
     CommonModule,

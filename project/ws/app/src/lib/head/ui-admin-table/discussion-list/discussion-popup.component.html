@@ -1,0 +1,86 @@
+<h1 mat-dialog-title style="font-weight: 600;
+    font-size: 20px; font-family: Montserrat;">Reason for rejection</h1>
+<div mat-dialog-content>
+  <p style="font-family: Lato; font-weight: 700; font-size: 14px; color: RGBA(0, 0, 0, 0.87);">Please select profane
+    words</p>
+  <mat-form-field appearance="outline">
+
+    <textarea readonly matInput rows='5'
+      style="font-family: Lato; font-weight: 400; font-size: 14px; line-height: 1.5; color: RGBA(0, 0, 0, 0.87);"> {{data.text}}
+    </textarea>
+    <!-- </mat-form-field> -->
+  </mat-form-field>
+
+
+</div>
+
+<div>
+  <mat-form-field class="input" appearance="none">
+    <!--this contains the list of tags-->
+
+    <mat-chip-list #taglist style="font-family: Lato; font-weight: 400; font-size: 14px; color: RGBA(0, 0, 0, 0.87);">
+      <!--set the properties for the tags-->
+
+      <mat-chip selected color="primary" class='mat-chip-background' *ngFor="let Tag of Tags" [selectable]="selectable"
+        [removable]="removable" (removed)="remove(Tag)" style="background-color: #e0e0e0;">
+        {{Tag}}
+        <!--add icon with matChipRemove
+                             directive to remove any tag-->
+
+        <mat-icon matChipRemove *ngIf="removable">cancel
+        </mat-icon>
+      </mat-chip>
+      <input type='text' class='input-tag' placeholder="Enter the profane words and press enter"
+        [matChipInputFor]="taglist" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+        (matChipInputTokenEnd)="add($event)"
+        style="font-family: Lato; font-weight: 400; font-size: 14px; color: RGBA(0, 0, 0, 0.87);" />
+    </mat-chip-list>
+  </mat-form-field>
+</div>
+<div>
+  <label id="profane-category"
+    style="font-family: Lato; font-weight: 700; font-size: 14px; color: RGBA(0, 0, 0, 0.87);">Please chose a reason for
+    rejecting
+    this content.</label>
+  <mat-radio-group aria-labelledby="profane-category" class="profane-radio-group" [(ngModel)]="profaneCategorySelected">
+    <mat-radio-button color="primary" class="profane-radio-button"
+      *ngFor="let profaneCategory of data.profaneCategories" [value]="profaneCategory"
+      style="font-family: Lato; font-weight: 400; font-size: 14px; color: RGBA(0, 0, 0, 0.87);">
+      {{profaneCategory}}
+
+    </mat-radio-button>
+    <br>
+    <!-- <br> -->
+  </mat-radio-group>
+  <!-- <mat-form-field appearance="none"> -->
+  <div>
+    <input type='text' placeholder="Comment (Optional)"
+      style="font-family: Lato; font-weight: 400; font-size: 14px; color: RGBA(0, 0, 0, 0.87);" [(ngModel)]="comment" />
+  </div>
+  <!-- </mat-form-field> -->
+</div>
+
+<div class=" col-12">
+  <div class="clearfix">
+    <div style="padding-top: 3%; padding-bottom: 7%; padding-left: 2%;">
+      <!-- <div class="float-start " style="  color: RGB(29, 137, 35);font-size: 14px;">
+        <b>Published</b>
+      </div> -->
+      <div class="float-end d-flex flex-row">
+
+        <button mat-raised-button type="button" class=" but"
+          style="border: 2px solid #0074b6; color:#0074b6; margin-right: 15px !important;font-family: Lato; font-size: 14px;"
+          (click)="onNoClick()">
+          <b i18n>Cancel</b>
+        </button>
+
+        <button mat-raised-button type="button" class=" ws-mat-primary-background  but"
+          style="border: 2px solid #0074b6; font-family: Lato; font-size: 14px;"
+          [mat-dialog-close]="{id: data.id, profaneStrings: Tags, category: profaneCategorySelected, comment: comment}">
+          <b class=" text-white" i18n>Submit</b>
+        </button>
+
+      </div>
+    </div>
+  </div>
+</div>
