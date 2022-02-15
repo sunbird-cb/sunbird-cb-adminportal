@@ -53,7 +53,7 @@ import { ModerationViewComponent } from './routes/moderation/moderation.componen
     OpenRolesDialogComponent,
     EditDepartmentDialogComponent,
     CreateUserComponent,
-    ModerationViewComponent
+    ModerationViewComponent,
   ],
   imports: [
     CommonModule,
