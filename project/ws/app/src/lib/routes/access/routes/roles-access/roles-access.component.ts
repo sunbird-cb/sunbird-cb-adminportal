@@ -17,7 +17,7 @@ export class RolesAccessComponent implements OnInit, AfterViewInit {
   counts: any = []
   @Output() clickedDepartment = new EventEmitter<string>()
   constructor(private activatedRoute: ActivatedRoute,
-    private usersService: UsersService
+              private usersService: UsersService
   ) {
 
     this.activatedRoute.queryParams.subscribe(params => {
