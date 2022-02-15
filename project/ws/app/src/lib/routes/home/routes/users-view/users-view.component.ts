@@ -105,12 +105,12 @@ export class UsersViewComponent implements OnInit {
         this.usersService.newBlockUserKong(loggedInUserId, user.userId).subscribe(response => {
           if (response.params.status === 'success') {
             this.getAllKongUsers()
-            this.snackBar.open('Updated successfully!')
+            this.snackBar.open('Deactivated successfully!')
           } else {
             this.loaderService.changeLoad.next(false)
-            this.snackBar.open('Updated unsuccess!')
+            this.snackBar.open('Update unsuccess!')
           }
-        },                                                                        _err => this.snackBar.open('Error in inactive'))
+        }, _err => this.snackBar.open('Error in inactive'))
         break
       case 'unblock':
         _.set(user, 'isBlocked', false)
@@ -119,15 +119,15 @@ export class UsersViewComponent implements OnInit {
         this.usersService.newUnBlockUserKong(loggedInUserId, user.userId).subscribe(response => {
           if (response.params.status === 'success') {
             this.getAllKongUsers()
-            this.snackBar.open('Updated successfully!')
+            this.snackBar.open('Activated successfully!')
             // this.getAllKongUsers()
             // // this.getAllUsers()
             // this.snackBar.open(response.params.errmsg)
           } else {
             this.loaderService.changeLoad.next(false)
-            this.snackBar.open('Updated unsuccess!')
+            this.snackBar.open('Updat unsuccess!')
           }
-        },                                                                          _err => this.snackBar.open('Error in active'))
+        }, _err => this.snackBar.open('Error in active'))
         break
       case 'deactive':
         _.set(user, 'isActive', false)
@@ -137,7 +137,7 @@ export class UsersViewComponent implements OnInit {
             // this.getAllUsers()
             this.snackBar.open(response.params.errmsg)
           }
-        },                                                                          _err => this.snackBar.open('Error in Active'))
+        }, _err => this.snackBar.open('Error in Active'))
         break
       case 'active':
         _.set(user, 'isActive', true)
