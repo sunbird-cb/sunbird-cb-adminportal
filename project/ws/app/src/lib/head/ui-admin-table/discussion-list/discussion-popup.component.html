@@ -1,12 +1,12 @@
-<h1 mat-dialog-title class="font-semibold text-xl" style=" font-family: Montserrat;">Reason for rejection</h1>
+<h1 mat-dialog-title class="mat-heading-2" i18n>Reason for rejection</h1>
 <div mat-dialog-content>
-  <div class="font-bold text-sm mat-mod-col1">
+  <div class="text-sm mat-subheading-2" i18n>
     <p>Please select profane
       words</p>
   </div>
   <mat-form-field appearance="outline">
 
-    <textarea readonly matInput rows='5' class="font-normal mat-mod-col1" style=" font-size: 14px; line-height: 1.5;"> {{data.text}}
+    <textarea readonly matInput rows='5' class=" mat-body-2" style="font-size: 14px; line-height: 1.5;" i18n> {{data.text}}
     </textarea>
     <!-- </mat-form-field> -->
   </mat-form-field>
@@ -18,11 +18,11 @@
   <mat-form-field class="input" appearance="none">
     <!--this contains the list of tags-->
 
-    <mat-chip-list #taglist class="font-normal text-sm mat-mod-col1">
+    <mat-chip-list #taglist class="font-normal text-sm ">
       <!--set the properties for the tags-->
 
-      <mat-chip selected color="primary" class='mat-chip-background' *ngFor="let Tag of Tags" [selectable]="selectable"
-        [removable]="removable" (removed)="remove(Tag)" style="background-color: #e0e0e0;">
+      <mat-chip selected color="primary" class='ws-mat-primary-tags mat-body-2' *ngFor="let Tag of Tags"
+        [selectable]="selectable" [removable]="removable" (removed)="remove(Tag)" i18n>
         {{Tag}}
         <!--add icon with matChipRemove
                              directive to remove any tag-->
@@ -30,20 +30,20 @@
         <mat-icon matChipRemove *ngIf="removable">cancel
         </mat-icon>
       </mat-chip>
-      <input type='text' class='input-tag font-normal text-sm mat-mod-col1'
-        placeholder="Enter the profane words and press enter" [matChipInputFor]="taglist"
-        [matChipInputSeparatorKeyCodes]="separatorKeysCodes" (matChipInputTokenEnd)="add($event)" />
+      <input type='text' class='input-tag mat-body-2 ' placeholder="Enter the profane words and press enter"
+        [matChipInputFor]="taglist" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+        (matChipInputTokenEnd)="add($event)" />
     </mat-chip-list>
   </mat-form-field>
 </div>
 <div>
-  <label id="profane-category" class='font-bold text-sm mat-mod-col1'>Please chose a
+  <label id="profane-category" class='font-bold text-sm mat-subheading-2' i18n>Please chose a
     reason for
     rejecting
     this content.</label>
   <mat-radio-group aria-labelledby="profane-category" class="profane-radio-group" [(ngModel)]="profaneCategorySelected">
-    <mat-radio-button color="primary" class="profane-radio-button font-normal text-sm mat-mod-col1"
-      *ngFor="let profaneCategory of data.profaneCategories" [value]="profaneCategory">
+    <mat-radio-button color="primary" class="profane-radio-button mat-body-2"
+      *ngFor="let profaneCategory of data.profaneCategories" [value]="profaneCategory" i18n>
       {{profaneCategory}}
 
     </mat-radio-button>
@@ -52,26 +52,25 @@
   </mat-radio-group>
   <!-- <mat-form-field appearance="none"> -->
   <div>
-    <input type='text' placeholder="Comment (Optional)" class="font-normal text-sm mat-mod-col1"
-      [(ngModel)]="comment" />
+    <input type='text' placeholder="Comment (Optional)" class=" mat-body-2" [(ngModel)]="comment" i18n />
   </div>
   <!-- </mat-form-field> -->
 </div>
 
 <div class=" col-12">
   <div class="clearfix">
-    <div class="mat-mod-pub1">
+    <div class="mat-mod-pd5">
       <!-- <div class="float-start " style="  color: RGB(29, 137, 35);font-size: 14px;">
         <b>Published</b>
       </div> -->
       <div class="float-end d-flex flex-row">
 
-        <button mat-raised-button type="button" class=" but text-sm"
-          style="border: 2px solid #0074b6; color:#0074b6; margin-right: 15px !important;" (click)="onNoClick()">
+        <button mat-raised-button type="button" class=" but text-sm mat-mod-button-bg mat-mod-border"
+          (click)="onNoClick()">
           <b i18n>Cancel</b>
         </button>
 
-        <button mat-raised-button type="button" class=" ws-mat-primary-background  but text-sm mat-mod-pub-button"
+        <button mat-raised-button type="button" class=" ws-mat-primary-background  but text-sm mat-mod-border"
           [mat-dialog-close]="{id: data.id, profaneStrings: Tags, category: profaneCategorySelected, comment: comment}">
           <b class=" text-white" i18n>Submit</b>
         </button>
