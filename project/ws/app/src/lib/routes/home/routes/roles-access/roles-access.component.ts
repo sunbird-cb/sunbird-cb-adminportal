@@ -19,8 +19,8 @@ export class RolesAccessComponent implements OnInit, AfterViewInit, OnDestroy {
   counts: any = []
 
   constructor(private router: Router,
-    private activeRoute: ActivatedRoute,
-    private usersService: UsersService,
+              private activeRoute: ActivatedRoute,
+              private usersService: UsersService,
   ) {
     this.getAllKongUsers()
 
