@@ -2,7 +2,6 @@ import {
   Component, OnInit, Input, Output, EventEmitter, ViewChild,
   OnChanges,
   SimpleChanges,
-  Inject,
 } from '@angular/core'
 import { SelectionModel } from '@angular/cdk/collections'
 import { MatTableDataSource } from '@angular/material/table'
@@ -13,12 +12,15 @@ import * as _ from 'lodash'
 import { RejectPublishService } from '../reject-publish.service'
 // import {IColums } from '../interface/interfaces'
 // import { Router } from '@angular/router'
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog'
-import { COMMA, ENTER } from '@angular/cdk/keycodes'
-import { MatChipInputEvent } from '@angular/material/chips'
+import { MatDialog } from '@angular/material/dialog'
 // import { ImageCroppedEvent } from 'ngx-image-cropper'
+import {
+  LoggerService,
 
-export interface DialogData {
+} from '@sunbird-cb/utils'
+
+import { DialogTextProfanityComponent } from './discussion-post-popup.component'
+export interface IDialogData {
   profaneCategories: string[]
   text: any
   id: any
@@ -62,6 +64,7 @@ export class UIDiscussionPostComponent implements OnInit, OnChanges {
 
   constructor(
     // private router: Router,
+    private logger: LoggerService,
     private discussion: RejectPublishService, public dialog: MatDialog) {
     this.dataSource = new MatTableDataSource<any>()
     this.actionsClick = new EventEmitter()
@@ -107,8 +110,9 @@ export class UIDiscussionPostComponent implements OnInit, OnChanges {
 
   convertTimestamptoDate(timestamp: any) {
     const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-    const d = new Date(parseInt(timestamp))
-    return d.getDate() + ' ' + (months[d.getMonth()]) + ', ' + d.getFullYear() + ' - ' + d.getHours() + ':' + d.getMinutes() + ' ' + this.timeframe(d.getHours())
+    const d = new Date(Number(timestamp))
+    const returnDate = `${d.getDate()} ${(months[d.getMonth()])}, ${d.getFullYear()} - ${d.getHours()}:${d.getMinutes()} ${this.timeframe(d.getHours())}`
+    return returnDate
   }
   publish(id: any) {
     let temp = 0
@@ -125,21 +129,22 @@ export class UIDiscussionPostComponent implements OnInit, OnChanges {
 
     const publish = { feedbackList: [publishData] }
     this.discussion.publishData(publish).subscribe((data: any) => {
-      console.log(data)
+      // console.log(data)
+      this.logger.info(data)
     })
   }
 
   openDialog(id: any, text: any, profaneString: any) {
 
-    const dialogRef = this.dialog.open(DialogTextProfanity, {
+    const dialogRef = this.dialog.open(DialogTextProfanityComponent, {
       // height: '90%',
-      data: { profaneCategories: this.category, id, text, profaneString },
       width: '50%',
       panelClass: 'reject-post',
+      data: { id, text, profaneString, profaneCategories: this.category },
+
     })
 
     dialogRef.afterClosed().subscribe((result: any) => {
-
       let temp = 0
       let publishData
       this.dataSource.data.forEach((element: any) => {
@@ -154,15 +159,16 @@ export class UIDiscussionPostComponent implements OnInit, OnChanges {
       })
       const publish = { feedbackList: [publishData] }
       this.discussion.publishData(publish).subscribe((data: any) => {
-        console.log(data)
+        // console.log(data)
+        this.logger.info(data)
       })
 
     })
   }
 
   openDialog2(id: any, text: any, profaneString: any) {
-    console.log(text, id, profaneString)
-
+    // console.log(text, id, profaneString)
+    this.logger.info(text, id, profaneString)
     // const dialogRef = this.dialog.open(DialogOverviewExampleDialogImage, {
     //   // height: '90%',
     //   width: '50%',
@@ -178,70 +184,6 @@ export class UIDiscussionPostComponent implements OnInit, OnChanges {
   }
 
 }
-
-@Component({
-  selector: 'discussion-popup.component',
-  templateUrl: 'discussion-popup.component.html',
-  styleUrls: ['./discussion-post.component.scss'],
-})
-export class DialogTextProfanity {
-  constructor(
-    public dialogRef: MatDialogRef<DialogTextProfanity>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData,
-  ) { }
-  visible = true
-  selectable = true
-  removable = true
-
-  /*set the separator keys.*/
-
-  readonly separatorKeysCodes: number[] = [ENTER, COMMA]
-
-  /*create the tags list.*/
-
-  Tags: string[] = []
-
-  /*our custom add method which will take
-      matChipInputTokenEnd event as input.*/
-  add(event: MatChipInputEvent): void {
-
-    /*we will store the input and value in local variables.*/
-
-    const input = event.input
-    const value = event.value
-
-    if ((value || '').trim()) {
-
-      /*the input string will be pushed to the tag list.*/
-
-      this.Tags.push(value)
-    }
-
-    if (input) {
-
-      /*after storing the input we will clear the input field.*/
-
-      input.value = ''
-    }
-  }
-
-  /*custom method to remove a tag.*/
-
-  remove(tag: string): void {
-    const index = this.Tags.indexOf(tag)
-
-    if (index >= 0) {
-
-      /*the tag of a particular index is removed from the tag list.*/
-
-      this.Tags.splice(index, 1)
-    }
-  }
-  onNoClick(): void {
-    this.dialogRef.close()
-  }
-}
-
 // @Component({
 //   selector: 'discussion-popup-image.component',
 //   templateUrl: 'discussion-popup-image.component.html',

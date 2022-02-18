@@ -21,7 +21,7 @@
     <mat-chip-list #taglist class="font-normal text-sm ">
       <!--set the properties for the tags-->
 
-      <mat-chip selected color="primary" class='ws-mat-primary-tags mat-body-2' *ngFor="let Tag of Tags"
+      <mat-chip selected color="primary" class='ws-mat-primary-tags mat-body-2' *ngFor="let Tag of TAGS"
         [selectable]="selectable" [removable]="removable" (removed)="remove(Tag)" i18n>
         {{Tag}}
         <!--add icon with matChipRemove
@@ -71,7 +71,7 @@
         </button>
 
         <button mat-raised-button type="button" class=" ws-mat-primary-background  but text-sm mat-mod-border"
-          [mat-dialog-close]="{id: data.id, profaneStrings: Tags, category: profaneCategorySelected, comment: comment}">
+          [mat-dialog-close]="{id: data.id, profaneStrings: TAGS, category: profaneCategorySelected, comment: comment}">
           <b class=" text-white" i18n>Submit</b>
         </button>
 
