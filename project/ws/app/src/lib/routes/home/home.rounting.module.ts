@@ -12,6 +12,8 @@ import { CreateUserComponent } from './routes/create-user/create-user.component'
 import { DepartmentResolve } from './resolvers/department-resolve'
 import { RolesResolver } from './resolvers/roles-resolver.service'
 // import { PageResolve } from '@sunbird-cb/utils'
+import { ModerationViewComponent } from './routes/moderation/moderation.component'
+
 const routes: Routes = [
   {
     path: '',
@@ -60,6 +62,19 @@ const routes: Routes = [
           pageType: 'feature',
           pageKey: 'Directory',
         },
+      },
+      {
+        path: 'moderation',
+        component: ModerationViewComponent,
+        // data: {
+        //   pageId: 'app/moderation',
+        //   module: 'diremoderationctory',
+        //   pageType: 'feature',
+        //   pageKey: 'Moderation',
+        // },
+        // resolve: {
+        //   rolesList: RolesResolver,
+        // },
       },
       {
         path: ':department/create-department',
