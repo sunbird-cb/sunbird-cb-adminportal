@@ -27,6 +27,7 @@ export class UIAdminUserTableComponent implements OnInit, AfterViewInit, OnChang
   @Input() isUpload?: boolean
   @Input() isCreate?: boolean
   @Input() otherInput?: any
+  @Input() currentTabData!: string
   @Input() inputDepartmentId?: string | undefined
   @Output() clicked?: EventEmitter<any>
   @Output() actionsClick?: EventEmitter<any>
@@ -40,6 +41,7 @@ export class UIAdminUserTableComponent implements OnInit, AfterViewInit, OnChang
   departmentRole!: string
   departmentId!: string | undefined
   pageSize = 5
+  currentTabName!: string
   pageSizeOptions = [5, 10, 20]
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator
   @ViewChild(MatSort, { static: true }) sort?: MatSort
@@ -82,6 +84,7 @@ export class UIAdminUserTableComponent implements OnInit, AfterViewInit, OnChang
   }
 
   ngOnChanges(data: SimpleChanges) {
+    this.currentTabName = this.currentTabData
     this.dataSource.data = _.get(data, 'data.currentValue')
     this.length = this.dataSource.data.length
   }
@@ -147,7 +150,7 @@ export class UIAdminUserTableComponent implements OnInit, AfterViewInit, OnChang
               this.router.navigate(['/app/home/directory', { department: this.departmentRole }])
             }
           },
-            (err: { error: any }) => {
+                                                                                               (err: { error: any }) => {
               this.openSnackbar(err.error.message)
             })
         }
@@ -194,7 +197,7 @@ export class UIAdminUserTableComponent implements OnInit, AfterViewInit, OnChang
   gotoCreateUser() {
     this.raiseTelemetry('button')
     this.router.navigate([`/app/home/create-user`],
-      {
+                         {
         queryParams: {
           id: this.departmentId, currentDept: this.departmentRole,
           createDept: JSON.stringify(this.otherInput),
@@ -208,7 +211,7 @@ export class UIAdminUserTableComponent implements OnInit, AfterViewInit, OnChang
       type: 'click',
       subType: sub,
     },
-      {},
+                                       {},
     )
   }
 }

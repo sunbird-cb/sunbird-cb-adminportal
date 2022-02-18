@@ -46,6 +46,7 @@ export class CreateMdoComponent implements OnInit {
   updateId !: number
   selected = ''
   department!: string
+  departmentName!: string
   widgetData!: NsWidgetResolver.IWidgetData<ILeftMenu>
   sideNavBarOpened = true
   isFromDirectory = false
@@ -91,6 +92,7 @@ export class CreateMdoComponent implements OnInit {
       this.activatedRoute.params.subscribe(params => {
         let data = params['data']
         this.department = params['department']
+        this.departmentName = params['department']
         if (this.department === 'CBP Providers') {
           this.department = 'CBP'
         }
