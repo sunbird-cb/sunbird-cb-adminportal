@@ -29,7 +29,8 @@ export class DialogTextProfanityComponent {
   visible = true
   selectable = true
   removable = true
-
+  profaneCategorySelected: any
+  comment: any
   /*set the separator keys.*/
 
   readonly separatorKeysCodes: number[] = [ENTER, COMMA]
