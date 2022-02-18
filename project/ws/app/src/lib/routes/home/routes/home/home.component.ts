@@ -49,9 +49,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
       this.sticky = false
     }
   }
-  constructor(private valueSvc: ValueService, private router: Router, private activeRoute: ActivatedRoute,
-              private telemetrySvc: TelemetryService, private events: EventService, private utilitySvc: UtilityService,
-              private leftMenuService: LeftMenuService) {
+  constructor(private valueSvc: ValueService, private router: Router, private activeRoute: ActivatedRoute, private telemetrySvc: TelemetryService, private events: EventService, private utilitySvc: UtilityService, private leftMenuService: LeftMenuService) {
     this.subscription = this.leftMenuService.onMessage().subscribe(message => {
       if (message) {
         this.raiseTelemetry(message.text.name)
@@ -84,10 +82,12 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
           this.widgetData = leftData
         } else {
           this.widgetData = this.activeRoute.snapshot.data.pageData.data.menus
+
         }
 
         this.department = this.activeRoute.snapshot.data.department.data
         this.departmentName = this.department ? this.department.deptName : ''
+
       }
 
       if (event instanceof NavigationError) {
