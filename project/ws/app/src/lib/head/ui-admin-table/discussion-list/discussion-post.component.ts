@@ -20,7 +20,6 @@ import {
 
 } from '@sunbird-cb/utils'
 
-
 import { DialogTextProfanityComponent } from './discussion-post-popup.component'
 export interface IDialogData {
 
