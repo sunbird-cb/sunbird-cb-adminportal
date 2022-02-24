@@ -19,6 +19,7 @@ import {
 
 } from '@sunbird-cb/utils'
 
+
 import { DialogTextProfanityComponent } from './discussion-post-popup.component'
 export interface IDialogData {
   profaneCategories: string[]
@@ -137,7 +138,7 @@ export class UIDiscussionPostComponent implements OnInit, OnChanges {
   openDialog(id: any, text: any, profaneString: any) {
 
     const dialogRef = this.dialog.open(DialogTextProfanityComponent, {
-      // height: '90%',
+      height: '90%',
       width: '50%',
       panelClass: 'reject-post',
       data: { id, text, profaneString, profaneCategories: this.category },
