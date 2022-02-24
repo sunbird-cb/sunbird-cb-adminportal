@@ -27,6 +27,7 @@ import { ImageCropperModule } from 'ngx-image-cropper'
 // import { BtnPageBackModule } from '../btn-page-back/btn-page-back.module'
 @NgModule({
   declarations: [UIAdminUserTableComponent, UIDirectoryTableComponent, UserPopupComponent, UIUserTablePopUpComponent, UIDiscussionPostComponent, DialogTextProfanityComponent],
+
   imports: [
     AppButtonModule,
     CommonModule,

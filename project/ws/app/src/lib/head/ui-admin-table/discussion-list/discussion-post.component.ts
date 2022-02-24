@@ -12,6 +12,7 @@ import * as _ from 'lodash'
 import { RejectPublishService } from '../reject-publish.service'
 // import {IColums } from '../interface/interfaces'
 // import { Router } from '@angular/router'
+
 import { MatDialog } from '@angular/material/dialog'
 // import { ImageCroppedEvent } from 'ngx-image-cropper'
 import {
@@ -22,6 +23,7 @@ import {
 
 import { DialogTextProfanityComponent } from './discussion-post-popup.component'
 export interface IDialogData {
+
   profaneCategories: string[]
   text: any
   id: any
@@ -65,7 +67,9 @@ export class UIDiscussionPostComponent implements OnInit, OnChanges {
 
   constructor(
     // private router: Router,
+
     private logger: LoggerService,
+
     private discussion: RejectPublishService, public dialog: MatDialog) {
     this.dataSource = new MatTableDataSource<any>()
     this.actionsClick = new EventEmitter()
@@ -111,6 +115,7 @@ export class UIDiscussionPostComponent implements OnInit, OnChanges {
 
   convertTimestamptoDate(timestamp: any) {
     const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+
     const d = new Date(Number(timestamp))
     const returnDate = `${d.getDate()} ${(months[d.getMonth()])}, ${d.getFullYear()} - ${d.getHours()}:${d.getMinutes()} ${this.timeframe(d.getHours())}`
     return returnDate
@@ -132,6 +137,7 @@ export class UIDiscussionPostComponent implements OnInit, OnChanges {
     this.discussion.publishData(publish).subscribe((data: any) => {
       // console.log(data)
       this.logger.info(data)
+
     })
   }
 
@@ -162,14 +168,15 @@ export class UIDiscussionPostComponent implements OnInit, OnChanges {
       this.discussion.publishData(publish).subscribe((data: any) => {
         // console.log(data)
         this.logger.info(data)
+
       })
 
     })
   }
 
   openDialog2(id: any, text: any, profaneString: any) {
-    // console.log(text, id, profaneString)
     this.logger.info(text, id, profaneString)
+
     // const dialogRef = this.dialog.open(DialogOverviewExampleDialogImage, {
     //   // height: '90%',
     //   width: '50%',
@@ -185,6 +192,7 @@ export class UIDiscussionPostComponent implements OnInit, OnChanges {
   }
 
 }
+
 // @Component({
 //   selector: 'discussion-popup-image.component',
 //   templateUrl: 'discussion-popup-image.component.html',
