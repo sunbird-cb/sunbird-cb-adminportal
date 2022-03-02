@@ -1,0 +1,99 @@
+<h1 mat-dialog-title style="font-weight: 600;
+    font-size: 20px; font-family: Montserrat;">Reason for rejection</h1>
+<div mat-dialog-content>
+  <p style="font-family: Lato; font-weight: 700; font-size: 14px; color: RGBA(0, 0, 0, 0.87);">Please crop out the
+    profane
+    area</p>
+  <div style="display:flex; justify-content: center; padding-bottom: 3%;">
+    <image-cropper [imageChangedEvent]="imageChangedEvent" [imageURL]=data.text [maintainAspectRatio]="false"
+      (imageCropped)="imageCropped($event)" style="width: 300px;height: 200px;">
+    </image-cropper>
+  </div>
+  <!-- <img [src]="croppedImage" /> -->
+  <!-- <mat-radio-group
+  aria-labelledby="example-radio-group-label"
+  class="example-radio-group"
+  [(ngModel)]="favoriteSeason"> -->
+  <!-- <mat-radio-button class="example-radio-button" *ngFor="let season of seasons" [value]="season">
+    {{season}}
+  </mat-radio-button> -->
+  <!-- </mat-radio-group> -->
+
+</div>
+
+<div>
+  <label id="example-radio-group-label"
+    style="font-family: Lato; font-weight: 700; font-size: 14px; color: RGBA(0, 0, 0, 0.87);">Please chose a reason for
+    rejecting
+    this content.</label>
+  <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group" [(ngModel)]="favoriteSeason">
+    <mat-radio-button color="primary" class="example-radio-button" *ngFor="let season of data.seasons" [value]="season"
+      style="font-family: Lato; font-weight: 400; font-size: 14px; color: RGBA(0, 0, 0, 0.87);">
+      {{season}}
+
+    </mat-radio-button>
+    <br>
+    <!-- <br> -->
+  </mat-radio-group>
+  <!-- <mat-form-field appearance="none"> -->
+  <div>
+    <input type='text' placeholder="Comment (Optional)"
+      style="font-family: Lato; font-weight: 400; font-size: 14px; color: RGBA(0, 0, 0, 0.87);"
+      [(ngModel)]="playerName" />
+  </div>
+  <!-- </mat-form-field> -->
+</div>
+
+<div class=" col-12">
+  <div class="clearfix">
+    <div style="padding-top: 3%; padding-bottom: 7%; padding-left: 2%;">
+      <!-- <div class="float-start " style="  color: RGB(29, 137, 35);font-size: 14px;">
+        <b>Published</b>
+      </div> -->
+      <div class="float-end d-flex flex-row">
+
+        <button mat-raised-button type="button" class=" but"
+          style="border: 2px solid #0074b6; color:#0074b6; margin-right: 15px !important;font-family: Lato; font-size: 14px;"
+          (click)="onNoClick()">
+          <b i18n>Cancel</b>
+        </button>
+
+        <button mat-raised-button type="button" class=" ws-mat-primary-background  but"
+          style="border: 2px solid #0074b6; font-family: Lato; font-size: 14px;"
+          [mat-dialog-close]="{id: data.id, profaneStrings: Tags, category: favoriteSeason, comment: playerName}">
+          <b class=" text-white" i18n>Submit</b>
+        </button>
+
+      </div>
+    </div>
+  </div>
+</div>
+<!-- <div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">No Thanks</button>
+  <button mat-button [mat-dialog-close]="data.animal" cdkFocusInitial>Ok</button>
+</div> -->
+
+<!-- <html>
+<head>
+<style>
+textarea {
+  width: 94%;
+
+  padding: 12px 20px;
+  margin: 8px 0;
+}
+</style>
+</head>
+<body>
+
+<h2>Reason for Rejection</h2>
+<label for="w3review">Please select profane words</label>
+<form>
+  <input type="text" id="fname" name="fname" value="">
+  <textarea id="w3review" name="w3review" rows="5" cols="50">At w3schools.com you will learn how to make a website. They offer free tutorials in all web development technologies.
+    </textarea>
+  <input type="text" id="fname" name="fname">
+</form>
+
+</body>
+</html> -->

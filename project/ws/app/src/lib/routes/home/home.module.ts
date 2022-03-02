@@ -26,7 +26,7 @@ import { RouterModule } from '@angular/router'
 import { HomeRoutingModule } from './home.rounting.module'
 import { HomeComponent } from './routes/home/home.component'
 import { UsersViewComponent } from './routes/users-view/users-view.component'
-import { AvatarPhotoModule, BtnPageBackModuleAdmin, LeftMenuModule, UserAutocompleteModule, BreadcrumbsOrgModule } from '@sunbird-cb/collection'
+import { AvatarPhotoModule, BtnPageBackModuleAdmin, UserAutocompleteModule, BreadcrumbsOrgModule } from '@sunbird-cb/collection'
 import { AboutComponent } from './routes/about/about.component'
 import { RolesAccessComponent } from './routes/roles-access/roles-access.component'
 import { DirectoryViewComponent } from './routes/directory/directroy.component'
@@ -38,6 +38,8 @@ import { EditDepartmentDialogComponent } from './routes/users/components/edit-de
 import { CreateUserComponent } from './routes/create-user/create-user.component'
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown'
 import { UIAdminTableModule } from '../../head/ui-admin-table/ui-admin-table.module'
+import { ModerationViewComponent } from './routes/moderation/moderation.component'
+
 @NgModule({
   declarations: [
     HomeComponent,
@@ -51,13 +53,13 @@ import { UIAdminTableModule } from '../../head/ui-admin-table/ui-admin-table.mod
     OpenRolesDialogComponent,
     EditDepartmentDialogComponent,
     CreateUserComponent,
+    ModerationViewComponent,
   ],
   imports: [
     CommonModule,
     WidgetResolverModule,
     ReactiveFormsModule,
     HomeRoutingModule,
-    LeftMenuModule,
     FormsModule,
     RouterModule,
     MatGridListModule,

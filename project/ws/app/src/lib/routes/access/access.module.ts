@@ -1,7 +1,7 @@
 
 import { NgModule } from '@angular/core'
 import { CommonModule } from '@angular/common'
-import { BtnPageBackModule, LeftMenuModule, GroupCheckboxModule, UIAdminTableModule } from '@sunbird-cb/collection'
+import { BtnPageBackModule, GroupCheckboxModule, UIAdminTableModule } from '@sunbird-cb/collection'
 import { WidgetResolverModule } from '@sunbird-cb/resolver'
 import { HomeModule } from '../home/home.module'
 import { RouterModule } from '@angular/router'
@@ -13,7 +13,7 @@ import {
 import { MatCardModule } from '@angular/material/card'
 
 @NgModule({
-  imports: [CommonModule, BtnPageBackModule, LeftMenuModule, WidgetResolverModule,
+  imports: [CommonModule, BtnPageBackModule, WidgetResolverModule,
     MatSidenavModule, MatIconModule, GroupCheckboxModule, HomeModule, RouterModule, UIAdminTableModule, MatCardModule],
   providers: [UsersService],
 })

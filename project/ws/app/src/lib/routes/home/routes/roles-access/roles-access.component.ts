@@ -81,6 +81,7 @@ export class RolesAccessComponent implements OnInit, AfterViewInit, OnDestroy {
       sortState: 'asc',
     }
     this.fetchRoles()
+
   }
 
   ngAfterViewInit() {

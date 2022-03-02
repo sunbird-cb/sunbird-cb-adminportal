@@ -8,7 +8,7 @@ import { LoaderService } from '../../services/loader.service'
 import { AuthInitService } from '../../services/init.service'
 import { ActivatedRoute, Router } from '@angular/router'
 import { CreateMDOService } from '../../services/create-mdo.services'
-import { ValueService } from '@sunbird-cb/utils'
+import { EventService, ValueService } from '@sunbird-cb/utils'
 import { NsWidgetResolver } from '@sunbird-cb/resolver'
 import { ILeftMenu } from '@sunbird-cb/collection'
 import { map } from 'rxjs/operators'
@@ -46,6 +46,7 @@ export class CreateMdoComponent implements OnInit {
   updateId !: number
   selected = ''
   department!: string
+  departmentName!: string
   widgetData!: NsWidgetResolver.IWidgetData<ILeftMenu>
   sideNavBarOpened = true
   isFromDirectory = false
@@ -76,7 +77,8 @@ export class CreateMdoComponent implements OnInit {
               private router: Router,
               private directoryService: DirectoryService,
               private valueSvc: ValueService,
-              private activatedRoute: ActivatedRoute) {
+              private activatedRoute: ActivatedRoute,
+              private events: EventService) {
     {
 
       this.loggedInUserId = _.get(this.activatedRoute, 'snapshot.parent.data.configService.userProfile.userId')
@@ -90,6 +92,7 @@ export class CreateMdoComponent implements OnInit {
       this.activatedRoute.params.subscribe(params => {
         let data = params['data']
         this.department = params['department']
+        this.departmentName = params['department']
         if (this.department === 'CBP Providers') {
           this.department = 'CBP'
         }
@@ -238,6 +241,7 @@ export class CreateMdoComponent implements OnInit {
   }
   onSubmit() {
     if (!this.isUpdate) {
+      this.raiseTelemetry()
       if (this.contentForm.value.name !== null
         && this.contentForm.value.deptSubTypeId !== null) {
         this.createMdoService.createDepartment(this.contentForm.value, this.deptType,
@@ -250,15 +254,21 @@ export class CreateMdoComponent implements OnInit {
                 depType: this.department,
               }
               this.createdDepartment = obj
+              this.router.navigate([`/app/roles/${res.result.organisationId}/users`], { queryParams: { currentDept: this.department, roleId: res.result.organisationId, depatName: this.contentForm.value.name } })
               this.openSnackbar(`Success`)
+              // this.router.navigate([`/app/home/directory`])
             }
           })
       }
     } else {
+      this.raiseTelemetry()
       if (this.contentForm.value.name !== null
         && this.contentForm.value.deptSubTypeId !== null) {
+        if (this.deptType) {
+          this.deptType = this.deptType.toLowerCase()
+        }
         this.createMdoService.updateDepartment(this.updateId, this.deptType,
-                                               this.department, this.loggedInUserId).subscribe(res => {
+                                               this.department, this.loggedInUserId, this.contentForm.value).subscribe(res => {
             if (res.result.response === 'SUCCESS') {
               this.openSnackbar(`Success`)
               this.router.navigate([`/app/home/directory`])
@@ -304,6 +314,18 @@ export class CreateMdoComponent implements OnInit {
     if (this.bannerSubscription) {
       this.bannerSubscription.unsubscribe()
     }
+  }
+
+  raiseTelemetry() {
+    this.events.raiseInteractTelemetry(
+
+      {
+        type: 'click',
+        subType: 'button',
+      },
+      {
+      },
+    )
   }
 
 }

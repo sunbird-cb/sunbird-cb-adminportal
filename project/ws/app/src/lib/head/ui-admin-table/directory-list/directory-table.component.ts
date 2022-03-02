@@ -10,6 +10,7 @@ import * as _ from 'lodash'
 
 // import {IColums } from '../interface/interfaces'
 import { Router } from '@angular/router'
+import { EventService } from '@sunbird-cb/utils'
 
 @Component({
   selector: 'ws-widget-directory-table',
@@ -37,11 +38,10 @@ export class UIDirectoryTableComponent implements OnInit, AfterViewInit, OnChang
   selection = new SelectionModel<any>(true, [])
 
   constructor(
-    private router: Router) {
+    private router: Router, private events: EventService) {
     this.dataSource = new MatTableDataSource<any>()
     this.actionsClick = new EventEmitter()
     this.clicked = new EventEmitter()
-
   }
 
   ngOnInit() {
@@ -132,8 +132,21 @@ export class UIDirectoryTableComponent implements OnInit, AfterViewInit, OnChang
 
   onRowClick(e: any) {
     this.eOnRowClick.emit(e)
+    this.raiseTelemetryForRow('row', e)
   }
   gotoCreateNew() {
     this.router.navigate([`/app/home/${this.selectedDepartment}/create-department`, { needAddAdmin: true }])
+  }
+  raiseTelemetryForRow(sub: string, e: any) {
+    this.events.raiseInteractTelemetry({
+      type: 'click',
+      subType: sub,
+    },
+
+                                       {
+        id: e.id,
+        type: 'department',
+      },
+    )
   }
 }

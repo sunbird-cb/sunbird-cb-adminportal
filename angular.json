@@ -81,8 +81,8 @@
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",
-              "src/spv-assets/telemetry.min.js",
-              "node_modules/shepherd.js/dist/js/shepherd.min.js"
+              "node_modules/shepherd.js/dist/js/shepherd.min.js",
+              "node_modules/@project-sunbird/telemetry-sdk/index.js"
             ]
           },
           "configurations": {

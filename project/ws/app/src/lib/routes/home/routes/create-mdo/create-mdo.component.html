@@ -16,7 +16,7 @@
                   <div class="margin-top-xs">
                     <p class="margin-remove-bottom" i18n="Title label|Label which explains the user to enter title"
                       [ngClass]="{ required: checkCondition('name', 'required') }">
-                      {{department}} name
+                      {{departmentName}} name
                     </p>
                     <mat-form-field appearance="outline" class="margin-top-xs"
                       [ngClass]="{ 'mat-form-field-invalid': showError('name') }">
@@ -87,9 +87,9 @@
 
       <ng-container class="cb-group-warpper" *ngIf="!submittedForm">
         <mat-card class="checkbox-card">
-          <h2 *ngIf="!isAddAdmin" class="cb-title">{{department}} admin</h2>
+          <h2 *ngIf="!isAddAdmin" class="cb-title">{{departmentName}} admin</h2>
           <p *ngIf="!isAddAdmin" class="para-font-color">Admins will be able to add users and assign roles inside the
-            {{department}}. Add minimum
+            {{departmentName}}. Add minimum
             one user
             as admin</p>
           <ws-widget-ui-user-table [tableData]="tabledata" [data]="data" [needAddAdmin]="true" [needCreateUser]="true"

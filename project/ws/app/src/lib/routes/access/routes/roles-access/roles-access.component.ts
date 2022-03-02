@@ -20,7 +20,7 @@ export class RolesAccessComponent implements OnInit, AfterViewInit {
               private usersService: UsersService
   ) {
 
-    this.activatedRoute.params.subscribe(params => {
+    this.activatedRoute.queryParams.subscribe(params => {
       this.deparmentId = params['roleId']
       this.deparmentName = params['depatName']
     })
@@ -54,10 +54,11 @@ export class RolesAccessComponent implements OnInit, AfterViewInit {
     const usersData: any[] = []
     this.userWholeData.forEach((user: any) => {
       user.organisations.forEach((org: { organisationId: string, roles: any }) => {
-        org.roles.forEach((r: any) => {
-          usersData.push(r)
-        })
-
+        if (org.organisationId === this.deparmentId) {
+          org.roles.forEach((r: any) => {
+            usersData.push(r)
+          })
+        }
       })
     })
     usersData.forEach((x: any) => {

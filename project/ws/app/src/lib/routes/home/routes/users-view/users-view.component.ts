@@ -3,16 +3,18 @@ import { Component, OnInit } from '@angular/core'
 import { NSProfileDataV2 } from '../../models/profile-v2.model'
 import { MatDialog } from '@angular/material/dialog'
 import { ActivatedRoute, Router } from '@angular/router'
-import { ConfigurationsService } from '@sunbird-cb/utils'
+import { ConfigurationsService, EventService, WsEvents } from '@sunbird-cb/utils'
 /* tslint:disable */
 import _ from 'lodash'
 import { UsersService } from '../../services/users.service'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { environment } from 'src/environments/environment'
+import { LoaderService } from '../../services/loader.service'
 @Component({
   selector: 'ws-app-users-view',
   templateUrl: './users-view.component.html',
   styleUrls: ['./users-view.component.scss'],
+  providers: [LoaderService],
   /* tslint:disable */
   host: { class: 'flex flex-1 margin-top-l' },
   /* tslint:enable */
@@ -37,17 +39,21 @@ export class UsersViewComponent implements OnInit {
   data: any = []
   userWholeData: any = []
   usersData!: any
+  completeTableData: any
+  completeInactiveData: any
 
   // fullUserData: any = []
 
   constructor(
     public dialog: MatDialog,
     private route: ActivatedRoute,
+    private loaderService: LoaderService,
     // private discussService: DiscussService,
     private router: Router,
     private usersService: UsersService,
     private configSvc: ConfigurationsService,
     private snackBar: MatSnackBar,
+    private events: EventService,
   ) {
     this.Math = Math
     this.currentUser = this.configSvc.userProfile && this.configSvc.userProfile.userId
@@ -81,6 +87,7 @@ export class UsersViewComponent implements OnInit {
     this.router.navigate([`/app/users/create-user`])
   }
   menuActions($event: { action: string, row: any }) {
+    this.loaderService.changeLoad.next(true)
     const loggedInUserId = _.get(this.route, 'snapshot.parent.data.configService.userProfile.userId')
     const user = { userId: _.get($event.row, 'userId') }
     _.set(user, 'deptId', _.get(this.usersData, 'id'))
@@ -96,9 +103,15 @@ export class UsersViewComponent implements OnInit {
         _.set(user, 'isActive', false)
         _.set(user, 'roles', _.map(_.get($event.row, 'role'), i => i.roleName))
         this.usersService.newBlockUserKong(loggedInUserId, user.userId).subscribe(response => {
-          if (response) {
-            // this.getAllUsers()
-            this.snackBar.open(response.params.errmsg)
+          if (response.params.status === 'success') {
+            setTimeout(() => {
+              this.getAllKongUsers()
+              this.snackBar.open('Deactivated successfully!')
+            },         1500)
+
+          } else {
+            this.loaderService.changeLoad.next(false)
+            this.snackBar.open('Update unsuccess!')
           }
         },                                                                        _err => this.snackBar.open('Error in inactive'))
         break
@@ -107,9 +120,18 @@ export class UsersViewComponent implements OnInit {
         _.set(user, 'isActive', true)
         _.set(user, 'roles', _.map(_.get($event.row, 'role'), i => i.roleName))
         this.usersService.newUnBlockUserKong(loggedInUserId, user.userId).subscribe(response => {
-          if (response) {
-            // this.getAllUsers()
-            this.snackBar.open(response.params.errmsg)
+          if (response.params.status === 'success') {
+            setTimeout(() => {
+              this.getAllKongUsers()
+              this.snackBar.open('Activated successfully!')
+            },         1500)
+
+            // this.getAllKongUsers()
+            // // this.getAllUsers()
+            // this.snackBar.open(response.params.errmsg)
+          } else {
+            this.loaderService.changeLoad.next(false)
+            this.snackBar.open('Updat unsuccess!')
           }
         },                                                                          _err => this.snackBar.open('Error in active'))
         break
@@ -138,29 +160,47 @@ export class UsersViewComponent implements OnInit {
   }
   // getAllUsers() {
   //   this.usersService.getAllUsers().subscribe(data => {
-  //     this.usersData = data
+  //     this.data = data
   //     this.filter(this.currentFilter)
   //   })
   // }
   getAllKongUsers() {
     const rootOrgId = _.get(this.route.snapshot.parent, 'data.configService.unMappedUser.rootOrg.rootOrgId')
+    this.loaderService.changeLoad.next(true)
     this.usersService.getAllKongUsers(rootOrgId).subscribe(data => {
       if (data.result.response.content) {
         this.userWholeData = data.result.response.content || []
-        this.filter('active')
+        this.filter(this.currentFilter ? this.currentFilter : 'active')
       }
     })
   }
+  raiseTabTelemetry(sub: string, data: WsEvents.ITelemetryTabData) {
+    this.events.handleTabTelemetry(sub, data)
+  }
   filter(key: string) {
     const usersData: any[] = []
+    let index = 0
+    let data: any
     if (key) {
       this.currentFilter = key
       this.data = []
       switch (key) {
         case 'active':
+          index = 1
+          data = {
+            index,
+            label: key,
+          }
+          this.raiseTabTelemetry(key, data)
           this.newKongUser(false)
           break
         case 'inactive':
+          index = 2
+          data = {
+            index,
+            label: key,
+          }
+          this.raiseTabTelemetry(key, data)
           this.newKongUser(true)
           break
         case 'blocked':

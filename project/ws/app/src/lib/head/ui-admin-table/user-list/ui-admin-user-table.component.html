@@ -99,9 +99,13 @@
             class="ws-mat-primary-text" i18n-aria-label aria-label="Analytics">
             <mat-icon>input</mat-icon> <span>Show on karmayogi</span>
         </button>
-        <button (click)="buttonClick('block',rowData)" mat-menu-item name="channel-analytics-button"
-            class="ws-mat-primary-text" i18n-aria-label aria-label="Analytics">
+        <button *ngIf="currentTabName === 'active'" (click)="buttonClick('block',rowData)" mat-menu-item
+            name="channel-analytics-button" class="ws-mat-primary-text" i18n-aria-label aria-label="Analytics">
             <mat-icon>toggle_off_sharp</mat-icon> <span>Deactivate user</span>
+        </button>
+        <button *ngIf="currentTabName === 'inactive'" (click)="buttonClick('unblock',rowData)" mat-menu-item
+            name="channel-analytics-button" class="ws-mat-primary-text" i18n-aria-label aria-label="Analytics">
+            <mat-icon>toggle_off_sharp</mat-icon> <span>Activate user</span>
         </button>
         <!-- <button (click)="buttonClick('unblock',rowData)" mat-menu-item name="channel-analytics-button"
             class="ws-mat-primary-text" i18n-aria-label aria-label="Analytics">

@@ -6,14 +6,16 @@
   @extend %page-center;
   height: auto;
   min-height: 75vh;
-  padding:12px;
+  padding: 12px;
 }
-.wid-mi-25{
-    position: inherit !important;
-    height: 50px;
-    margin-left: 8%;
-    width: 100%;
+
+.wid-mi-25 {
+  position: inherit !important;
+  height: 50px;
+  margin-left: 9.5%;
+  width: 100%;
 }
+
 .container2 {
   position: relative;
 }
@@ -26,8 +28,8 @@
 .left-nav {
   min-width: 240px;
   max-width: 240px;
-  background:none !important;
-  border-right:0 !important;
+  background: none !important;
+  border-right: 0 !important;
 
 
   // ::ng-deep.mat-drawer-inner-container {

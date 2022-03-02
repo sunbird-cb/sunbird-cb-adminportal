@@ -353,11 +353,6 @@ export class LearningComponent implements OnInit, OnDestroy {
       this.searchRequestObject.pageNo = 0
       this.exactResult.old = this.searchRequestObject.query
     }
-    this.searchServ.raiseSearchEvent(
-      this.searchRequestObject.query,
-      this.searchRequestObject.filters,
-      this.searchRequestObject.locale,
-    )
     if (this.searchRequestObject.locale && this.searchRequestObject.locale.length > 1) {
       this.searchRequestObject.didYouMean = false
     }
@@ -366,12 +361,6 @@ export class LearningComponent implements OnInit, OnDestroy {
       .subscribe(
         data => {
           this.searchResults.totalHits = data.totalHits
-          this.searchServ.raiseSearchResponseEvent(
-            this.searchRequestObject.query,
-            this.searchRequestObject.filters,
-            this.searchResults.totalHits,
-            this.searchRequestObject.locale,
-          )
           this.searchResults.filters = data.filters
           this.searchResults.queryUsed = data.queryUsed
           // this.searchResults.type = data.type

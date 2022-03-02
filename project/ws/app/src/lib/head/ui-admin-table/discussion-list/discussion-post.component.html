@@ -1,0 +1,245 @@
+<head>
+    <title>Font Awesome Icons</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+
+<div class="example-container">
+    <div class="example-loading-shade">
+    </div>
+    <div class="example-table-container">
+
+
+
+        <div
+            *ngFor="let item of dataSource.data|slice:((paginator.pageIndex)*paginator.pageSize):((paginator.pageIndex+1)*paginator.pageSize)">
+            <div *ngIf="item.type==content;">
+                <div style="width: 70%; padding-top: 20px;">
+                    <mat-card class="text-sm ws-mat-primary-tags no-shadow">
+                        <div class=" col-12">
+                            <div class=clearfix>
+                                <div class="float-start d-flex flex-row">
+                                    <ng-container
+                                        *ngIf="item.feedbackOriginPlatform != null && item.feedbackOriginPlatform != '' && item.feedbackOriginCategory != null && item.feedbackOriginCategory != ''">
+                                        <div class="mat-mod-pd1 mat-subheading-2 text-gray-700">
+                                            <b i18n>{{item.feedbackOriginPlatform}}</b>
+                                        </div>
+                                        <div>
+                                            <b><i class="fa text-sm text-gray-700">&#xf105;</i></b>
+                                        </div>
+                                        <div class="mat-mod-pd2 mat-subheading-2">
+                                            <b i18n>{{item.feedbackOriginCategory}}</b>
+                                        </div>
+                                    </ng-container>
+
+                                </div>
+                                <div class="float-end ">
+                                    <ng-container *ngIf="item.flaggedBy != null && item.flaggedBy != ''">
+                                        <div *ngIf="item.flaggedBy==AI; else elseBlock1">
+                                            <a class="tag mat-mod-col4 mat-subheading-2" i18n>AI
+                                                flagged</a>
+                                        </div>
+                                        <ng-template #elseBlock1>
+                                            <div *ngIf="item.flaggedBy==USER; else elseBlock2">
+                                                <a class="tag mat-mod-col5 mat-subheading-2" i18n>User
+                                                    flagged</a>
+                                            </div>
+                                            <ng-template #elseBlock2>
+                                                <a class="tag mat-mod-col5 mat-subheading-2" i18n>System
+                                                    flagged</a>
+                                            </ng-template>
+                                        </ng-template>
+                                        <!-- <p>AI flagged</p>  -->
+                                    </ng-container>
+                                </div>
+                            </div>
+                            <div class="mat-body-2" i18n>
+
+                                {{item.text}}
+                            </div>
+                            <div class="clearfix mat-mod-pd3">
+                                <div class="float-start d-flex flex-row">
+                                    <ng-container *ngIf="item.author != null && item.author != ''">
+                                        <div class="mat-icon-button circle font-bold mat-title mat-mod-avatar">
+                                            {{getShortName(item.author)}}
+                                        </div>
+
+                                        <div class="mat-mod-pd4 mat-subheading-2" i18n>
+                                            {{item.author}}
+                                        </div>
+                                    </ng-container>
+                                </div>
+                                <div class="float-end mat-body-2">
+                                    <ng-container *ngIf="item.timestamp != null && item.timestamp != ''">
+                                        <p i18n>{{convertTimestamptoDate(item.timestamp)}}</p>
+                                    </ng-container>
+                                </div>
+                            </div>
+                        </div>
+                    </mat-card>
+                    <ng-container *ngIf="item.moderated === false;else second">
+                        <div class=" col-12">
+                            <div class="clearfix">
+                                <div class="mat-mod-pd5">
+                                    <ng-container *ngIf="item.published === true;else notPublished">
+                                        <div class="float-start text-sm mat-mod-col2 mat-subheading-2" i18n>
+                                            Published
+                                        </div>
+                                    </ng-container>
+                                    <ng-template #notPublished>
+                                        <div class="float-start text-sm mat-mod-col3 mat-subheading-2" i18n>
+                                            Not Published
+                                        </div>
+                                    </ng-template>
+                                    <div class="float-end d-flex flex-row">
+
+                                        <button mat-raised-button type="button"
+                                            class=" but mat-title text-sm mat-mod-button-bg mat-mod-border"
+                                            (click)="openDialog(item.id, item.text, item.profaneStrings)">
+                                            <b i18n>Reject</b>
+                                        </button>
+
+                                        <button mat-raised-button type="button"
+                                            class=" ws-mat-primary-background  but text-sm mat-mod-border"
+                                            (click)="publish(item.id)">
+                                            <b class=" text-white" i18n>Publish</b>
+                                        </button>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-container>
+                    <ng-template #second>
+                        <ng-container *ngIf="item.classification === 'SFW';else third">
+                            <div class=" col-12">
+                                <div class="clearfix">
+                                    <div class="mat-mod-pd5">
+
+                                        <div class="float-end d-flex flex-row">
+
+
+                                            <button mat-raised-button type="button"
+                                                class=" ws-mat-primary-background  but text-sm mat-mod-border"
+                                                (click)="openDialog(item.id, item.text, item.profaneStrings)">
+                                                <b class=" text-white" i18n>Reject</b>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-container>
+                    </ng-template>
+                    <ng-template #third>
+                        <div class=" col-12">
+                            <div class="clearfix">
+                                <div class="mat-mod-pd5">
+                                    <ng-container
+                                        *ngIf="item.reason != null && item.reason != '' && item.moderationtimestamp != null">
+                                        <div class="float-start text-sm">
+                                            {{item.reason}} |
+                                            {{convertTimestamptoDate(item.moderationtimestamp)}}
+                                        </div>
+                                    </ng-container>
+
+                                    <div class="float-end d-flex flex-row">
+
+                                        <button mat-raised-button type="button"
+                                            class=" ws-mat-primary-background  but text-sm mat-mod-border"
+                                            (click)="publish(item.id)">
+                                            <b class=" text-white" i18n>Publish</b>
+                                        </button>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-template>
+
+                    <hr class="to-gray-200" />
+                </div>
+            </div>
+            <!-- <ng-template #elseImage>
+                <div style="width: 70%; padding-top: 20px;">
+                    <mat-card style="background-color: #f5f5f5; box-shadow: none; font-size: 14px;">
+                        <div class=" col-12">
+                            <div class=clearfix>
+                                <div class="float-start d-flex flex-row">
+                                    <div style="padding-right: 6px; color: RGBA(0, 0, 0, 0.6);">
+                                        <b>Discussion</b>
+                                    </div>
+                                    <div>
+                                        <b><i style="font-size:14px; color: RGBA(0, 0, 0, 0.6);"
+                                                class="fa">&#xf105;</i></b>
+                                    </div>
+                                    <div style="padding-left: 6px; color: RGBA(0, 0, 0, 0.87);">
+                                        <b>{{item.category}}</b>
+                                    </div>
+                                </div>
+                                <div class="float-end ">
+                                    <div *ngIf="item.classification==AI; else elseBlock">
+                                        <a class="tag"
+                                            style="color: RGBA(0, 0, 0, 0.87); background: rgba(0, 116, 182, 0.2);"><b>{{item.classification}}</b></a>
+                                    </div>
+                                    <ng-template #elseBlock>
+                                        <a class="tag"
+                                            style="color: RGBA(0, 0, 0, 0.87); background: RGBA(246, 153, 83, 0.2);"><b>{{item.classification}}</b></a>
+
+                                    </ng-template>
+                                </div>
+                            </div>
+
+                            <div style="display:flex; justify-content: center;">
+                                <img src={{item.text}} style="width: 300px;height: 200px;" />
+                            </div>
+                            <div class=clearfix style="padding-top: 25px;">
+                                <div class="float-start d-flex flex-row">
+                                    <div class="mat-icon-button circle" style="font-family: Lato;
+            font-size: 10px;
+            font-weight: 700; background-color: rgb(48, 105, 51); color: white;">
+                                        AB
+                                    </div>
+                                    <div style="padding-left: 10px ;  color: RGBA(0, 0, 0, 0.87); "><b>{{item.user}}</b>
+                                    </div>
+                                </div>
+                                <div class="float-end">
+                                    <p>{{item.timestamp}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </mat-card>
+                    <div class=" col-12">
+                        <div class="clearfix">
+                            <div style="padding-top: 3%; padding-bottom: 7%; padding-left: 2%;">
+                                <div class="float-start " style="  color: RGB(29, 137, 35);font-size: 14px;">
+                                    <b>Published</b>
+                                </div>
+                                <div class="float-end d-flex flex-row">
+
+                                    <button mat-raised-button type="button" class=" but"
+                                        style="border: 2px solid #0074b6; color:#0074b6; margin-right: 15px !important;font-family: Lato; font-size: 14px;"
+                                        (click)="openDialog2(item.id, item.text, item.profaneStrings)">
+                                        <b i18n>Reject</b>
+                                    </button>
+
+                                    <button mat-raised-button type="button" class=" ws-mat-primary-background  but"
+                                        style="border: 2px solid #0074b6; font-family: Lato; font-size: 14px;">
+                                        <b class=" text-white" i18n>Publish</b>
+                                    </button>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr style="color: #f5f5f5; background-color: #f5f5f5;" />
+                </div>
+            </ng-template> -->
+
+
+        </div>
+        <div class="no-information-found" *ngIf="dataSource.filteredData.length===0">No directories found
+        </div>
+        <mat-paginator [length]="length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions">
+        </mat-paginator>
+    </div>

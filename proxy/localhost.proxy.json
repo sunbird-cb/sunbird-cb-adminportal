@@ -6,6 +6,9 @@
     "changeOrigin": true,
     "pathRewrite": {
       "/apis": "/apis"
+    },
+    "headers": {
+      "Cookie": "connect.sid=s%3A3FqPHzueckh6-5vei4dn6aCjKeLcnjQJ.%2FZpccbu32nTTu3MocOcDoqRZUaKKPkmQmDMcQUgYYZ4"
     }
   },
   "/content-api/*": {
@@ -54,7 +57,7 @@
     }
   },
   "/assets/*": {
-    "target": "http://127.0.0.1:8080",
+    "target": "http://127.0.0.1:8081",
     "secure": false,
     "logLevel": "debug",
     "changeOrigin": true,

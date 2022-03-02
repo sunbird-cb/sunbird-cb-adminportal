@@ -11,8 +11,8 @@ import * as _ from 'lodash'
 import { ITableData, IColums } from '../interface/interfaces'
 import { Router, ActivatedRoute } from '@angular/router'
 import { UserPopupComponent } from '../user-popup/user-popup'
-import { CreateMDOService as MDO1 } from '../create-mdo.services'
 import { CreateMDOService as MDO2 } from '../../../routes/home/services/create-mdo.services'
+import { EventService } from '@sunbird-cb/utils'
 
 @Component({
   selector: 'ws-widget-ui-user-table',
@@ -27,6 +27,7 @@ export class UIAdminUserTableComponent implements OnInit, AfterViewInit, OnChang
   @Input() isUpload?: boolean
   @Input() isCreate?: boolean
   @Input() otherInput?: any
+  @Input() currentTabData!: string
   @Input() inputDepartmentId?: string | undefined
   @Output() clicked?: EventEmitter<any>
   @Output() actionsClick?: EventEmitter<any>
@@ -40,15 +41,17 @@ export class UIAdminUserTableComponent implements OnInit, AfterViewInit, OnChang
   departmentRole!: string
   departmentId!: string | undefined
   pageSize = 5
+  currentTabName!: string
   pageSizeOptions = [5, 10, 20]
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator
   @ViewChild(MatSort, { static: true }) sort?: MatSort
   selection = new SelectionModel<any>(true, [])
+  departmentName: any
   constructor(
     private router: Router, public dialog: MatDialog,
     private activatedRoute: ActivatedRoute,
-    private createMDOService: MDO1,
     private createMDOService2: MDO2,
+    private events: EventService,
     private snackBar: MatSnackBar) {
     this.dataSource = new MatTableDataSource<any>()
     this.actionsClick = new EventEmitter()
@@ -65,8 +68,9 @@ export class UIAdminUserTableComponent implements OnInit, AfterViewInit, OnChang
     this.dataSource.paginator = this.paginator
     this.dataSource.sort = this.sort
     this.viewPaginator = true
-    this.activatedRoute.params.subscribe(params => {
+    this.activatedRoute.queryParams.subscribe(params => {
       this.departmentRole = params['currentDept']
+      this.departmentName = params['depatName']
       this.departmentId = params['roleId']
       if (this.needCreateUser !== false && this.departmentRole && this.departmentId) {
         this.needAddAdmin = true
@@ -80,6 +84,7 @@ export class UIAdminUserTableComponent implements OnInit, AfterViewInit, OnChang
   }
 
   ngOnChanges(data: SimpleChanges) {
+    this.currentTabName = this.currentTabData
     this.dataSource.data = _.get(data, 'data.currentValue')
     this.length = this.dataSource.data.length
   }
@@ -135,13 +140,17 @@ export class UIAdminUserTableComponent implements OnInit, AfterViewInit, OnChang
     })
     dialogRef.afterClosed().subscribe((response: any) => {
       response.data.forEach((user: { userId: string }) => {
-        if (this.departmentId) {
-          this.createMDOService2.migrateDepartment(user.userId, this.departmentId).subscribe(res => {
+        if (this.departmentName) {
+          if (this.otherInput && this.otherInput.depName) {
+            this.departmentName = this.otherInput.depName
+          }
+          this.createMDOService2.migrateDepartment(user.userId, this.departmentName).subscribe(res => {
             if (res) {
-              this.assignAdmin(user)
+              this.snackBar.open('Admin assigned Successfully')
+              this.router.navigate(['/app/home/directory', { department: this.departmentRole }])
             }
           },
-                                                                                             (err: { error: any }) => {
+                                                                                               (err: { error: any }) => {
               this.openSnackbar(err.error.message)
             })
         }
@@ -150,27 +159,7 @@ export class UIAdminUserTableComponent implements OnInit, AfterViewInit, OnChang
     })
 
   }
-  assignAdmin(user: any) {
-    if (this.departmentId) {
-      let role
-      if (this.departmentRole === 'CBC') {
-        role = `CBC_ADMIN`
-      } else {
-        role = `MDO_ADMIN`
-      }
-      const dept = this.departmentId
-      this.createMDOService.assignAdminToDepartment(user.userId, dept, role).subscribe(res => {
-        if (res) {
-          this.snackBar.open('Admin assigned Successfully')
-          this.router.navigate(['/app/home/directory', { department: this.departmentRole }])
-        }
-      },
-                                                                                       (err: { error: any }) => {
-          this.openSnackbar(err.error.message)
-        })
-    }
 
-  }
   private openSnackbar(primaryMsg: string, duration: number = 5000) {
     this.snackBar.open(primaryMsg, 'X', {
       duration,
@@ -206,12 +195,23 @@ export class UIAdminUserTableComponent implements OnInit, AfterViewInit, OnChang
 
   }
   gotoCreateUser() {
+    this.raiseTelemetry('button')
     this.router.navigate([`/app/home/create-user`],
                          {
         queryParams: {
           id: this.departmentId, currentDept: this.departmentRole,
           createDept: JSON.stringify(this.otherInput),
+          redirectionPath: window.location.href,
         },
       })
+  }
+
+  raiseTelemetry(sub: string) {
+    this.events.raiseInteractTelemetry({
+      type: 'click',
+      subType: sub,
+    },
+                                       {},
+    )
   }
 }

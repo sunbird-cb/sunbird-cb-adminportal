@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 import { NSSearch } from '@sunbird-cb/collection'
-import { ConfigurationsService, EventService, WsEvents } from '@sunbird-cb/utils'
+import { ConfigurationsService } from '@sunbird-cb/utils'
 import { Observable, of } from 'rxjs'
 import { SearchApiService } from '../apis/search-api.service'
 import { IFilterUnitItem, IFilterUnitResponse, ISearchAutoComplete, ISearchQuery, ISearchRequest, ISearchSocialSearchPartialRequest, ISocialSearchRequest } from '../models/search.model'
@@ -20,7 +20,6 @@ export class SearchServService {
   isFetchingProgress = false
   searchConfig: any = null
   constructor(
-    private events: EventService,
     // private contentApi: WidgetContentService,
     // private khubApiSvc: KnowledgeHubApiService,
     private searchApi: SearchApiService,
@@ -374,41 +373,6 @@ export class SearchServService {
         name = lang
     }
     return name
-  }
-
-  raiseSearchEvent(query: string, filters: any, locale: any) {
-    this.events.dispatchEvent<WsEvents.IWsEventTelemetryInteract>({
-      eventType: WsEvents.WsEventType.Telemetry,
-      eventLogLevel: WsEvents.WsEventLogLevel.Warn,
-      data: {
-        eventSubType: WsEvents.EnumTelemetrySubType.Interact,
-        object: {
-          query,
-          filters,
-          locale,
-        },
-        type: 'search',
-      },
-      from: 'search',
-      to: 'telemetry',
-    })
-  }
-
-  raiseSearchResponseEvent(query: string, filters: any, totalHits: number, locale: any) {
-    this.events.dispatchEvent<WsEvents.IWsEventTelemetrySearch>({
-      eventType: WsEvents.WsEventType.Telemetry,
-      eventLogLevel: WsEvents.WsEventLogLevel.Warn,
-      data: {
-        query,
-        filters,
-        locale,
-        eventSubType: WsEvents.EnumTelemetrySubType.Search,
-        size: totalHits,
-        type: 'search',
-      },
-      from: 'search',
-      to: 'telemetry',
-    })
   }
 
   async translateSearchFilters(lang: string): Promise<any> {

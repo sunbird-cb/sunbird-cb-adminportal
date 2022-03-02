@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core'
 import { Routes, RouterModule } from '@angular/router'
 // import { InitResolver } from './resol./routes/profile-v2/discuss-all.component'
 import { HomeResolve } from './resolvers/home-resolve'
-import { AboutComponent } from './routes/about/about.component'
 import { HomeComponent } from './routes/home/home.component'
 import { UsersViewComponent } from './routes/users-view/users-view.component'
 import { RolesAccessComponent } from './routes/roles-access/roles-access.component'
@@ -13,12 +12,9 @@ import { CreateUserComponent } from './routes/create-user/create-user.component'
 import { DepartmentResolve } from './resolvers/department-resolve'
 import { RolesResolver } from './resolvers/roles-resolver.service'
 // import { PageResolve } from '@sunbird-cb/utils'
+import { ModerationViewComponent } from './routes/moderation/moderation.component'
+
 const routes: Routes = [
-  {
-    path: '',
-    pathMatch: 'full',
-    redirectTo: 'directory',
-  },
   {
     path: '',
     component: HomeComponent,
@@ -26,15 +22,23 @@ const routes: Routes = [
       department: DepartmentResolve,
       configService: ConfigResolveService,
     },
+    data: {
+      pageId: 'app/directory',
+      module: 'Directory',
+      pageType: 'feature',
+      pageKey: 'directory',
+    },
     children: [
       {
         path: 'users',
         component: UsersViewComponent,
         children: [],
-      },
-      {
-        path: 'about',
-        component: AboutComponent,
+        data: {
+          pageId: 'app/users',
+          module: 'user',
+          pageType: 'feature',
+          pageKey: 'Users',
+        },
       },
       {
         path: 'roles-access',
@@ -42,19 +46,56 @@ const routes: Routes = [
         resolve: {
           rolesList: RolesResolver,
         },
+        data: {
+          pageId: 'app/roles-access',
+          module: 'roles-access',
+          pageType: 'feature',
+          pageKey: 'RolesAndAccess',
+        },
       },
       {
         path: 'directory',
         component: DirectoryViewComponent,
+        data: {
+          pageId: 'app/directory',
+          module: 'directory',
+          pageType: 'feature',
+          pageKey: 'Directory',
+        },
+      },
+      {
+        path: 'moderation',
+        component: ModerationViewComponent,
+        // data: {
+        //   pageId: 'app/moderation',
+        //   module: 'diremoderationctory',
+        //   pageType: 'feature',
+        //   pageKey: 'Moderation',
+        // },
+        // resolve: {
+        //   rolesList: RolesResolver,
+        // },
       },
       {
         path: ':department/create-department',
         component: CreateMdoComponent,
+        data: {
+          pageId: 'app/create-department',
+          module: 'create-department',
+          pageType: 'feature',
+          pageKey: 'createDepartment',
+        },
       },
       {
         path: 'create-user',
         component: CreateUserComponent,
         children: [],
+        data: {
+          pageId: 'app/create-user',
+          module: 'create-user',
+          pageType: 'feature',
+          pageKey: 'createUser',
+        },
       },
     ],
   },

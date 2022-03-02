@@ -32,18 +32,18 @@ export class CreateMDOService {
     }
     return this.http.post<any>(`${API_END_POINTS.CREATE_DEPARTMENT}`, departmentData)
   }
-  updateDepartment(updateId: number, deptType: string, depatment: string, loggedInUserId: string): Observable<any> {
+  updateDepartment(updateId: number, deptType: string, depatment: string, loggedInUserId: string, deptvalue: any): Observable<any> {
     const departmentData = {
       request: {
-        // orgName: deptData.name,
-        // channel: deptData.name,
+        orgName: deptvalue.name,
+        channel: deptvalue.name,
         // isTenant: true,
         // organisationType: depatment.toLowerCase(),
         // organisationSubType: deptType.toLowerCase(),
         // requestedBy: loggedInUserId,
         organisationId: updateId,
         organisationType: depatment.toLowerCase(),
-        organisationSubType: deptType.toLowerCase(),
+        organisationSubType: deptType,
         requestedBy: loggedInUserId,
       },
     }
@@ -59,11 +59,11 @@ export class CreateMDOService {
     }
     return this.http.post<any>(`${API_END_POINTS.ASSIGN_ADMIN_TO_CREATED_DEPARTMENT}`, departmentData)
   }
-  migrateDepartment(userId: string, deptId: string): Observable<any> {
+  migrateDepartment(userId: string, deptName: string): Observable<any> {
     const departmentData = {
       request: {
         userId,
-        rootOrgId: deptId,
+        channel: deptName,
         forceMigration: true,
         softDeleteOldOrg: true,
         notifyMigration: false,

@@ -6,6 +6,7 @@ import { MatSnackBar } from '@angular/material'
 import { ActivatedRoute, Router } from '@angular/router'
 import { DirectoryService } from '../../services/directory.services'
 import * as _ from 'lodash'
+import { EventService } from '@sunbird-cb/utils'
 
 @Component({
   selector: 'ws-app-create-user',
@@ -25,23 +26,28 @@ export class CreateUserComponent implements OnInit {
   public userRoles: Set<string> = new Set()
   queryParam: any
   deptId: any
+  redirectionPath!: string
   selectedMulti = -1
   currentDept: any
   createdDepartment!: any
   selected!: string
   roles = []
   selectedRoles: string[] = []
+  exact!: string[]
+  exactPath!: String
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private snackBar: MatSnackBar,
     private directoryService: DirectoryService,
     private createMDOService: CreateMDOService,
-    private usersSvc: UsersService) {
+    private usersSvc: UsersService,
+    private events: EventService) {
     this.route.queryParams.subscribe(params => {
       this.queryParam = params['id']
       this.deptId = params['id']
       this.currentDept = params['currentDept']
+      this.redirectionPath = params['redirectionPath']
       if (this.currentDept === 'CBP Providers') {
         this.currentDept = 'CBP'
       }
@@ -56,6 +62,9 @@ export class CreateUserComponent implements OnInit {
       if (this.route.snapshot.queryParams.createDept) {
         const deptObj = JSON.parse(this.route.snapshot.queryParams.createDept)
         this.currentDept = deptObj.depType
+        if (this.currentDept === 'CBP Providers') {
+          this.currentDept = 'CBP'
+        }
       } else {
         this.currentDept = 'SPV'
       }
@@ -169,6 +178,8 @@ export class CreateUserComponent implements OnInit {
   // }
   onSubmit(form: any) {
     // form.value.department = this.selectedDept ? this.selectedDept.deptName : this.receivedDept.deptName
+
+    this.raiseTelemetry()
     const userreq = {
       personalDetails: {
         email: form.value.email,
@@ -191,10 +202,17 @@ export class CreateUserComponent implements OnInit {
         this.createMDOService.assignAdminToDepartment(userdata.userId, this.deptId,
                                                       this.createUserForm.value.role)
           .subscribe(data => {
-
             this.openSnackbar(`${data.result.response}`)
+            if (this.redirectionPath.indexOf('/app/home/') < 0) {
+              // this.exact = this.redirectionPath.split("/app")
+              // this.exactPath = "/app" + this.exact[1]
+              // this.exactPath = this.exactPath.replace("%3B", ";")
+              // this.exactPath = this.exactPath.replace("%3D", "=")
+              location.replace(this.redirectionPath)
+            } else {
+              this.router.navigate(['/app/home/directory'])
+            }
 
-            this.router.navigate(['/app/home/users'])
           },         err => {
             this.router.navigate([`/app/home/users`])
             this.openSnackbar(`Error in assign roles ${err}`)
@@ -210,5 +228,14 @@ export class CreateUserComponent implements OnInit {
     this.snackBar.open(primaryMsg, 'X', {
       duration,
     })
+  }
+  raiseTelemetry() {
+    this.events.raiseInteractTelemetry(
+      {
+        type: 'click',
+        subType: 'button',
+      },
+      {},
+    )
   }
 }

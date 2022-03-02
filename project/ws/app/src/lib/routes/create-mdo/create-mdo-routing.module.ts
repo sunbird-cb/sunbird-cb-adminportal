@@ -16,10 +16,22 @@ const routes: Routes = [
       {
         path: ':department/users',
         component: UsersComponent,
+        data: {
+          pageType: 'feature',
+          pageKey: 'departmentUsers',
+          pageId: ':department',
+          module: 'DepartmentUsers',
+        },
       },
       {
         path: ':department/roles-access',
         component: RolesAccessComponent,
+        data: {
+          pageType: 'feature',
+          pageKey: 'departmentRolesAccess',
+          pageId: ':department',
+          module: 'DepartmentRolesAccess',
+        },
       },
     ],
   },
