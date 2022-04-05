@@ -55,6 +55,7 @@ export class UIDiscussionPostComponent implements OnInit, OnChanges {
   discussionData: any[] = []
   profaneCategorySelected: any
   AI: any
+  USER: any
   content: any
   imagePath: string
   // id: any
@@ -75,6 +76,7 @@ export class UIDiscussionPostComponent implements OnInit, OnChanges {
     this.clicked = new EventEmitter()
 
     this.AI = 'AI_flagged'
+    this.USER = 'User_flagged'
     this.content = 'TEXT'
     this.imagePath = '/images/683.jpg'
 
@@ -155,11 +157,14 @@ export class UIDiscussionPostComponent implements OnInit, OnChanges {
       let publishData
       this.dataSource.data.forEach((element: any) => {
         if (element.id === result.id) {
+
           publishData = element
           publishData.profaneStrings = result.profaneStrings
-          publishData.classification = result.category
+          publishData.classification = 'NSFW'
+          publishData.reason = result.category
           publishData.comment = result.comment
           this.dataSource.data.splice(temp, 1)
+
         }
         temp = temp + 1
       })

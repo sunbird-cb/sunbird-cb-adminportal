@@ -36,14 +36,19 @@
                                 </div>
                                 <div class="float-end ">
                                     <ng-container *ngIf="item.flaggedBy != null && item.flaggedBy != ''">
-                                        <div *ngIf="item.flaggedBy==AI; else elseBlock">
+                                        <div *ngIf="item.flaggedBy==AI; else elseBlock1">
                                             <a class="tag mat-mod-col4 mat-subheading-2" i18n>AI
                                                 flagged</a>
                                         </div>
-                                        <ng-template #elseBlock>
-                                            <a class="tag mat-mod-col5 mat-subheading-2" i18n>User
-                                                flagged</a>
-
+                                        <ng-template #elseBlock1>
+                                            <div *ngIf="item.flaggedBy==USER; else elseBlock2">
+                                                <a class="tag mat-mod-col5 mat-subheading-2" i18n>User
+                                                    flagged</a>
+                                            </div>
+                                            <ng-template #elseBlock2>
+                                                <a class="tag mat-mod-col5 mat-subheading-2" i18n>System
+                                                    flagged</a>
+                                            </ng-template>
                                         </ng-template>
                                         <!-- <p>AI flagged</p>  -->
                                     </ng-container>
@@ -131,9 +136,9 @@
                             <div class="clearfix">
                                 <div class="mat-mod-pd5">
                                     <ng-container
-                                        *ngIf="item.classification != null && item.classification != '' && item.moderationtimestamp != null">
+                                        *ngIf="item.reason != null && item.reason != '' && item.moderationtimestamp != null">
                                         <div class="float-start text-sm">
-                                            {{item.classification}} |
+                                            {{item.reason}} |
                                             {{convertTimestamptoDate(item.moderationtimestamp)}}
                                         </div>
                                     </ng-container>
