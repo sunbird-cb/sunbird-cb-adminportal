@@ -56,6 +56,7 @@ export class UIDiscussionPostComponent implements OnInit, OnChanges {
   profaneCategorySelected: any[] = []
   AI: any
   USER: any
+  SYSTEM: any
   content: any
   imagePath: string
   // id: any
@@ -77,6 +78,7 @@ export class UIDiscussionPostComponent implements OnInit, OnChanges {
 
     this.AI = 'AI_flagged'
     this.USER = 'User_flagged'
+    this.SYSTEM = 'system_flagged'
     this.content = 'TEXT'
     this.imagePath = '/images/683.jpg'
 
