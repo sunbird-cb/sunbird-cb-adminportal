@@ -24,27 +24,22 @@ export interface IDialogData {
   styleUrls: ['./discussion-post.component.scss'],
 })
 
-
-
-
 export class DialogTextProfanityComponent implements OnInit {
-  profane_group: FormGroup
-
+  profaneGroup: FormGroup
 
   constructor(fb: FormBuilder,
-    public dialogRef: MatDialogRef<DialogTextProfanityComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: IDialogData,
+              public dialogRef: MatDialogRef<DialogTextProfanityComponent>,
+              @Inject(MAT_DIALOG_DATA) public data: IDialogData,
   ) {
 
-
-    var temp: any = {}
-    for (let i = 0; i < data.profaneCategories.length; i++) {
+    const temp: any = {}
+    for (let i = 0; i < data.profaneCategories.length; i = i + 1) {
 
       temp[data.profaneCategories[i]] = false
 
     }
 
-    this.profane_group = fb.group(temp)
+    this.profaneGroup = fb.group(temp)
   }
 
   visible = true

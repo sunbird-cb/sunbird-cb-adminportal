@@ -42,7 +42,7 @@
     reason for
     rejecting
     this content.</label>
-  <section aria-labelledby="profane-category" class="profane-radio-group" [formGroup]="profane_group">
+  <section aria-labelledby="profane-category" class="profane-radio-group" [formGroup]="profaneGroup">
     <mat-checkbox [color]="primary" class="profane-radio-button mat-body-2"
       *ngFor="let category of data.profaneCategories" [formControlName]="category" i18n>
       {{category}}
@@ -73,7 +73,7 @@
         </button>
 
         <button mat-raised-button type="button" class=" ws-mat-primary-background  but text-sm mat-mod-border"
-          [mat-dialog-close]="{id: data.id, profaneStrings: TAGS, category: profane_group.value, comment: comment}">
+          [mat-dialog-close]="{id: data.id, profaneStrings: TAGS, category: profaneGroup.value, comment: comment}">
 
           <b class=" text-white" i18n>Submit</b>
         </button>

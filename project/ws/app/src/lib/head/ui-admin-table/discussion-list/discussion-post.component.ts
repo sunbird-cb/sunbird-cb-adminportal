@@ -155,20 +155,20 @@ export class UIDiscussionPostComponent implements OnInit, OnChanges {
     dialogRef.afterClosed().subscribe((result: any) => {
       let temp = 0
       let publishData
-      let temp_category: string[] = []
+      const tempCategory: string[] = []
       this.dataSource.data.forEach((element: any) => {
         if (element.id === result.id) {
 
           publishData = element
           publishData.profaneStrings = result.profaneStrings
           publishData.classification = 'NSFW'
-          for (let key in result.category) {
-            if (result.category[key] == true) {
-              temp_category.push(key)
+          for (const key in result.category) {
+            if (result.category[key] === true) {
+              tempCategory.push(key)
             }
           }
 
-          publishData.reason = temp_category
+          publishData.reason = tempCategory
           publishData.comment = result.comment
           this.dataSource.data.splice(temp, 1)
 
