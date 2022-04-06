@@ -164,6 +164,7 @@ export class UIDiscussionPostComponent implements OnInit, OnChanges {
           publishData = element
           publishData.profaneStrings = result.profaneStrings
           publishData.classification = 'NSFW'
+
           for (const key in result.category) {
             if (result.category[key] === true) {
               tempCategory.push(key)
@@ -171,6 +172,7 @@ export class UIDiscussionPostComponent implements OnInit, OnChanges {
           }
 
           publishData.reason = tempCategory
+
           publishData.comment = result.comment
           this.dataSource.data.splice(temp, 1)
 
