@@ -43,15 +43,15 @@ export class ModerationService {
   getData() {
 
     return this.http.post(API_END_POINTS.FETCH_FEEDBACK, {
-      "page": {
-        "number": 0,
-        "size": 4
+      page: {
+        number: 0,
+        size: 10000,
       },
-      "moderated": false,
-      "sort": {
-        "field": "timestamp",
-        "order": "desc"
-      }
+      moderated: false,
+      sort: {
+        field: 'timestamp',
+        order: 'desc',
+      },
 
     })
     // return this.http.post<any>(`${API_END_POINTS.FETCH_FEEDBACK}`, {
@@ -63,15 +63,15 @@ export class ModerationService {
 
   getModeratedData() {
     return this.http.post(API_END_POINTS.FETCH_FEEDBACK, {
-      "page": {
-        "number": 0,
-        "size": 4
+      page: {
+        number: 0,
+        size: 10000,
       },
-      "moderated": true,
-      "sort": {
-        "field": "timestamp",
-        "order": "desc"
-      }
+      moderated: true,
+      sort: {
+        field: 'timestamp',
+        order: 'desc',
+      },
     })
 
     // return this.http.post<any>(`${API_END_POINTS.FETCH_FEEDBACK}`, {

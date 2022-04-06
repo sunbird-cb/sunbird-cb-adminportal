@@ -855,6 +855,9 @@ $title-line-count: 2;
 .mat-mod-col5{
   background: RGBA(246, 153, 83, 0.2);
 }
+.mat-mod-col6{
+  background:  rgba(170, 37, 37, 0.404);
+}
 
 .mat-mod-pd1{
   padding-right: 6px; }
@@ -891,4 +894,8 @@ $title-line-count: 2;
 .mat-mod-avatar{
    font-size: 10px;
         background-color: rgb(48, 105, 51) !important; color: white !important;
+}
+
+.example-section {
+  margin: 12px 0;
 }

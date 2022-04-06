@@ -70,8 +70,17 @@
                                         </div>
                                     </ng-container>
                                 </div>
-                                <div class="float-end mat-body-2">
+                                <div class="float-end mat-body-2 d-flex flex-row">
+                                    <ng-container *ngIf="item.probability && item.probability != null">
+                                        <div>
+                                            <a class="tag mat-mod-col6 mat-subheading-2" i18n>Profanity:
+                                                {{item.probability*100 | number: '1.0-1'}}%</a>
+                                        </div>
+                                    </ng-container>
                                     <ng-container *ngIf="item.timestamp != null && item.timestamp != ''">
+
+
+
                                         <p i18n>{{convertTimestamptoDate(item.timestamp)}}</p>
                                     </ng-container>
                                 </div>
