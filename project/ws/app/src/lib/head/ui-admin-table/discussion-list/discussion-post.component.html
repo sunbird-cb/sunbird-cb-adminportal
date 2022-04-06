@@ -78,6 +78,7 @@
                                 </div>
                                 <div class="float-end mat-body-2 d-flex flex-row">
                                     <ng-container *ngIf="item.probability && item.probability != null">
+
                                         <div *ngIf="item.classification=='SFW'; else elseBlock1">
                                             <a class="tag mat-mod-col7 mat-subheading-2" i18n>Probability:
                                                 {{item.probability*100 | number: '1.0-1'}}%</a>
@@ -86,6 +87,7 @@
                                             <a class="tag mat-mod-col6 mat-subheading-2" i18n>Probability:
                                                 {{item.probability*100 | number: '1.0-1'}}%</a>
                                         </ng-template>
+
                                     </ng-container>
                                     <ng-container *ngIf="item.timestamp != null && item.timestamp != ''">
 
