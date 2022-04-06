@@ -46,8 +46,14 @@
                                                     flagged</a>
                                             </div>
                                             <ng-template #elseBlock2>
-                                                <a class="tag mat-mod-col5 mat-subheading-2" i18n>System
-                                                    flagged</a>
+                                                <div *ngIf="item.flaggedBy==SYSTEM; else elseBlock3">
+                                                    <a class="tag mat-mod-col4 mat-subheading-2" i18n>System
+                                                        flagged</a>
+                                                </div>
+                                                <ng-template #elseBlock3>
+                                                    <a class="tag mat-mod-col4 mat-subheading-2"
+                                                        i18n>{{item.flaggedBy}}</a>
+                                                </ng-template>
                                             </ng-template>
                                         </ng-template>
                                         <!-- <p>AI flagged</p>  -->
@@ -72,10 +78,14 @@
                                 </div>
                                 <div class="float-end mat-body-2 d-flex flex-row">
                                     <ng-container *ngIf="item.probability && item.probability != null">
-                                        <div>
-                                            <a class="tag mat-mod-col6 mat-subheading-2" i18n>Profanity:
+                                        <div *ngIf="item.classification=='SFW'; else elseBlock1">
+                                            <a class="tag mat-mod-col7 mat-subheading-2" i18n>Probability:
                                                 {{item.probability*100 | number: '1.0-1'}}%</a>
                                         </div>
+                                        <ng-template #elseBlock1>
+                                            <a class="tag mat-mod-col6 mat-subheading-2" i18n>Probability:
+                                                {{item.probability*100 | number: '1.0-1'}}%</a>
+                                        </ng-template>
                                     </ng-container>
                                     <ng-container *ngIf="item.timestamp != null && item.timestamp != ''">
 
