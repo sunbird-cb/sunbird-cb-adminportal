@@ -44,7 +44,6 @@ export class ModerationService {
 
     return this.http.post(API_END_POINTS.FETCH_FEEDBACK, {
 
-
       page: {
         number: 0,
         size: 10000,
@@ -55,8 +54,6 @@ export class ModerationService {
         order: 'desc',
 
       },
-
-
 
 
     })
@@ -70,7 +67,6 @@ export class ModerationService {
   getModeratedData() {
     return this.http.post(API_END_POINTS.FETCH_FEEDBACK, {
 
-
       page: {
         number: 0,
         size: 10000,
@@ -80,7 +76,6 @@ export class ModerationService {
         field: 'timestamp',
         order: 'desc',
       },
-
 
     })
 
