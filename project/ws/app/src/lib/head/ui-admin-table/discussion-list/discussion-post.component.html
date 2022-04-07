@@ -60,6 +60,10 @@
                                     </ng-container>
                                 </div>
                             </div>
+                            <div *ngIf="item.heading!=null && item.heading!='';" class=" mat-subheading-2" i18n>
+
+                                {{item.heading}}
+                            </div>
                             <div class="mat-body-2" i18n>
 
                                 {{item.text}}

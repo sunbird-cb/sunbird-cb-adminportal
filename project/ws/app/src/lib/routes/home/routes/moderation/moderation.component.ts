@@ -110,30 +110,36 @@ export class ModerationViewComponent implements OnInit {
           this.moderationService.getModeratedData().subscribe((data: any) => {
             this.moderatedData = data.payload.feedbackList
           })
-          this.moderatedData.forEach((element: any) => {
-            if (element.classification !== 'SFW') {
-              filteredData2.push(element)
-            }
+          if (this.moderationServiceData !== null && this.moderationServiceData !== []) {
+            this.moderatedData.forEach((element: any) => {
+              if (element.classification !== 'SFW') {
+                filteredData2.push(element)
+              }
 
-          })
+            })
+          }
           break
         case 'Approved':
           this.moderationService.getModeratedData().subscribe((data: any) => {
             this.moderatedData = data.payload.feedbackList
           })
-          this.moderatedData.forEach((element: any) => {
-            if (element.classification === 'SFW') {
-              filteredData2.push(element)
-            }
-          })
+          if (this.moderationServiceData !== null && this.moderationServiceData !== []) {
+            this.moderatedData.forEach((element: any) => {
+              if (element.classification === 'SFW') {
+                filteredData2.push(element)
+              }
+            })
+          }
           break
         case 'For review':
           this.moderationService.getData().subscribe((data: any) => {
             this.moderationServiceData = data.payload.feedbackList
           })
-          this.moderationServiceData.forEach((element: any) => {
-            filteredData2.push(element)
-          })
+          if (this.moderationServiceData !== null && this.moderationServiceData !== []) {
+            this.moderationServiceData.forEach((element: any) => {
+              filteredData2.push(element)
+            })
+          }
           break
       }
       this.data = filteredData2
