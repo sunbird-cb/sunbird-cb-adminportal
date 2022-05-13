@@ -32,6 +32,7 @@ export class UIAdminUserTableComponent implements OnInit, AfterViewInit, OnChang
   @Output() clicked?: EventEmitter<any>
   @Output() actionsClick?: EventEmitter<any>
   @Output() eOnRowClick = new EventEmitter<any>()
+  @Output() searchByEnterKey = new EventEmitter<any>()
   bodyHeight = document.body.clientHeight - 125
   displayedColumns: IColums[] | undefined
   viewPaginator = false
@@ -213,5 +214,9 @@ export class UIAdminUserTableComponent implements OnInit, AfterViewInit, OnChang
     },
                                        {},
     )
+  }
+
+  onSearchEnter(event: any) {
+    this.searchByEnterKey.emit(event.target.value)
   }
 }

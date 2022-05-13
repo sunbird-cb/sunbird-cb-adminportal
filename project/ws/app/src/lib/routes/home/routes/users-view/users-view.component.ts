@@ -239,4 +239,17 @@ export class UsersViewComponent implements OnInit {
     })
     return userRole
   }
+
+  onEnterkySearch(enterValue: any) {
+    const rootOrgId = _.get(this.route.snapshot.parent, 'data.configService.unMappedUser.rootOrg.rootOrgId')
+    // console.log(enterValue, rootOrgId)
+
+    this.usersService.searchUserByenter(enterValue, rootOrgId).subscribe(data => {
+        this.usersData = data.result.response.content
+        // this.filterData()
+        // console.log("search", data)
+      }
+    )
+
+  }
 }
