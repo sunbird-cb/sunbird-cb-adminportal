@@ -111,7 +111,7 @@ export class GeneralGuard implements CanActivate {
     }
     if (_.get(this.configSvc, 'unMappedUser.isDeleted')) {
       this.router.navigateByUrl('/error-access-forbidden')
-      this.authSvc.logout()
+      this.authSvc.force_logout()
       return false
     }
 

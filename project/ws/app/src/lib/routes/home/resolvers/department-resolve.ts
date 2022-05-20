@@ -34,7 +34,7 @@ export class DepartmentResolve
       }))),
       catchError(() => {
         this.router.navigate(['error-access-forbidden'])
-        this.authSvc.logout()
+        this.authSvc.force_logout()
         return EMPTY
       }))
 
