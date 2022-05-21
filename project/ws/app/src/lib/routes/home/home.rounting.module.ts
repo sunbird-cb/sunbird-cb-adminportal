@@ -97,6 +97,11 @@ const routes: Routes = [
           pageKey: 'createUser',
         },
       },
+      {
+        path: '',
+        redirectTo: 'directory',
+        pathMatch: 'full'
+      },
     ],
   },
 ]

@@ -1,7 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core'
 import { ConfigurationsService, NsPage } from '@sunbird-cb/utils'
 import { Subscription } from 'rxjs'
-import { ActivatedRoute } from '@angular/router'
 
 @Component({
   selector: 'ws-public-logout',
@@ -18,18 +17,10 @@ export class PublicLogoutComponent implements OnInit, OnDestroy {
 
   constructor(
     private configSvc: ConfigurationsService,
-    private activateRoute: ActivatedRoute,
-    // private authSvc: AuthKeycloakService,
   ) { }
 
   ngOnInit() {
-    this.subscriptionContact = this.activateRoute.data.subscribe(data => {
-      this.contactPage = data.pageData.data
-    })
-    if (this.configSvc.instanceConfig) {
-      this.contactUsMail = this.configSvc.instanceConfig.mailIds.contactUs
-    }
-    // this.authSvc.force_logout().then(() => { })
+
   }
 
   ngOnDestroy() {
