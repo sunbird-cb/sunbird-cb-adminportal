@@ -23,7 +23,6 @@
 
 
       <mat-chip selected color="primary" class='ws-mat-primary-tags mat-body-2' *ngFor="let Tag of TAGS"
-
         [selectable]="selectable" [removable]="removable" (removed)="remove(Tag)" i18n>
         {{Tag}}
         <!--add icon with matChipRemove
@@ -39,19 +38,20 @@
   </mat-form-field>
 </div>
 <div>
-  <label id="profane-category" class='font-bold text-sm mat-subheading-2' i18n>Please chose a
+  <label id="profane-category" class='font-bold text-sm mat-subheading-2' i18n>Please choose a
     reason for
     rejecting
     this content.</label>
-  <mat-radio-group aria-labelledby="profane-category" class="profane-radio-group" [(ngModel)]="profaneCategorySelected">
-    <mat-radio-button color="primary" class="profane-radio-button mat-body-2"
-      *ngFor="let profaneCategory of data.profaneCategories" [value]="profaneCategory" i18n>
-      {{profaneCategory}}
+  <section aria-labelledby="profane-category" class="profane-radio-group" [formGroup]="profaneGroup">
+    <mat-checkbox [color]="primary" class="profane-radio-button mat-body-2"
+      *ngFor="let category of data.profaneCategories" [formControlName]="category" i18n>
+      {{category}}
 
-    </mat-radio-button>
+    </mat-checkbox>
+
     <br>
-    <!-- <br> -->
-  </mat-radio-group>
+
+  </section>
   <!-- <mat-form-field appearance="none"> -->
   <div>
     <input type='text' placeholder="Comment (Optional)" class=" mat-body-2" [(ngModel)]="comment" i18n />
@@ -73,7 +73,7 @@
         </button>
 
         <button mat-raised-button type="button" class=" ws-mat-primary-background  but text-sm mat-mod-border"
-          [mat-dialog-close]="{id: data.id, profaneStrings: TAGS, category: profaneCategorySelected, comment: comment}">
+          [mat-dialog-close]="{id: data.id, profaneStrings: TAGS, category: profaneGroup.value, comment: comment}">
 
           <b class=" text-white" i18n>Submit</b>
         </button>

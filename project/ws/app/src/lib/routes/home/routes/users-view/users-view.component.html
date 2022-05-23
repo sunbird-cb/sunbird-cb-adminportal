@@ -23,7 +23,7 @@
       <ng-container>
         <ws-widget-ui-user-table [tableData]='tabledata' [data]='data' isUpload=true isCreate=true
           [currentTabData]='currentFilter' [needCreateUser]="true" (eOnCreateClick)="onCreateClick()"
-          (actionsClick)="menuActions($event)">
+          (searchByEnterKey)="onEnterkySearch($event)" (actionsClick)="menuActions($event)">
         </ws-widget-ui-user-table>
       </ng-container>
     </mat-card-content>

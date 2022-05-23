@@ -1,6 +1,7 @@
 import {
   Component,
   Inject,
+  OnInit,
 } from '@angular/core'
 
 import * as _ from 'lodash'
@@ -8,6 +9,7 @@ import * as _ from 'lodash'
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog'
 import { COMMA, ENTER } from '@angular/cdk/keycodes'
 import { MatChipInputEvent } from '@angular/material/chips'
+import { FormBuilder, FormGroup } from '@angular/forms'
 
 export interface IDialogData {
   profaneCategories: string[]
@@ -21,16 +23,30 @@ export interface IDialogData {
   templateUrl: 'discussion-popup.component.html',
   styleUrls: ['./discussion-post.component.scss'],
 })
-export class DialogTextProfanityComponent {
-  constructor(
-    public dialogRef: MatDialogRef<DialogTextProfanityComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: IDialogData,
-  ) { }
+
+export class DialogTextProfanityComponent implements OnInit {
+  profaneGroup: FormGroup
+
+  constructor(fb: FormBuilder,
+              public dialogRef: MatDialogRef<DialogTextProfanityComponent>,
+              @Inject(MAT_DIALOG_DATA) public data: IDialogData,
+  ) {
+
+    const temp: any = {}
+    for (let i = 0; i < data.profaneCategories.length; i = i + 1) {
+
+      temp[data.profaneCategories[i]] = false
+
+    }
+
+    this.profaneGroup = fb.group(temp)
+  }
+
   visible = true
   selectable = true
   removable = true
-  profaneCategorySelected: any
   comment: any
+
   /*set the separator keys.*/
 
   readonly separatorKeysCodes: number[] = [ENTER, COMMA]
@@ -39,6 +55,13 @@ export class DialogTextProfanityComponent {
 
   TAGS: string[] = []
 
+  ngOnInit() {
+
+    if (this.data.profaneString !== null && this.data.profaneString !== '' && this.data.profaneString !== []) {
+      this.TAGS.push(...this.data.profaneString)
+    }
+
+  }
   /*our custom add method which will take
       matChipInputTokenEnd event as input.*/
   add(event: MatChipInputEvent): void {
@@ -53,6 +76,8 @@ export class DialogTextProfanityComponent {
       /*the input string will be pushed to the tag list.*/
 
       this.TAGS.push(value)
+      // console.log(this.TAGS)
+
     }
 
     if (input) {

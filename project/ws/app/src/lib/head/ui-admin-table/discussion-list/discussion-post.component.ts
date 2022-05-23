@@ -53,8 +53,10 @@ export class UIDiscussionPostComponent implements OnInit, OnChanges {
 
   category: any[] = []
   discussionData: any[] = []
-  profaneCategorySelected: any
+  profaneCategorySelected: any[] = []
   AI: any
+  USER: any
+  SYSTEM: any
   content: any
   imagePath: string
   // id: any
@@ -75,6 +77,8 @@ export class UIDiscussionPostComponent implements OnInit, OnChanges {
     this.clicked = new EventEmitter()
 
     this.AI = 'AI_flagged'
+    this.USER = 'User_flagged'
+    this.SYSTEM = 'system_flagged'
     this.content = 'TEXT'
     this.imagePath = '/images/683.jpg'
 
@@ -143,7 +147,7 @@ export class UIDiscussionPostComponent implements OnInit, OnChanges {
   openDialog(id: any, text: any, profaneString: any) {
 
     const dialogRef = this.dialog.open(DialogTextProfanityComponent, {
-      // height: '90%',
+      height: '90%',
       width: '50%',
       panelClass: 'reject-post',
       data: { id, text, profaneString, profaneCategories: this.category },
@@ -153,13 +157,25 @@ export class UIDiscussionPostComponent implements OnInit, OnChanges {
     dialogRef.afterClosed().subscribe((result: any) => {
       let temp = 0
       let publishData
+      const tempCategory: string[] = []
       this.dataSource.data.forEach((element: any) => {
         if (element.id === result.id) {
+
           publishData = element
           publishData.profaneStrings = result.profaneStrings
-          publishData.classification = result.category
+          publishData.classification = 'NSFW'
+
+          for (const key in result.category) {
+            if (result.category[key] === true) {
+              tempCategory.push(key)
+            }
+          }
+
+          publishData.reason = tempCategory
+
           publishData.comment = result.comment
           this.dataSource.data.splice(temp, 1)
+
         }
         temp = temp + 1
       })
