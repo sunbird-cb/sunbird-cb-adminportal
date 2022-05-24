@@ -41,9 +41,9 @@ export class UsersComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   constructor(private usersSvc: UsersService, private router: Router,
-              private route: ActivatedRoute,
-              private profile: ProfileV2Service,
-              private usersService: UsersService) {
+    private route: ActivatedRoute,
+    private profile: ProfileV2Service,
+    private usersService: UsersService) {
   }
   ngOnInit() {
     this.tabsData = [
@@ -208,5 +208,14 @@ export class UsersComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     })
     this.data = usersData
+  }
+
+  onEnterkySearch(enterValue: any) {
+    const rootOrgId = this.id
+    this.usersSvc.searchUserByenter(enterValue, rootOrgId).subscribe(data => {
+      this.userWholeData = data.result.response.content || []
+      this.newKongUser()
+    }
+    )
   }
 }
