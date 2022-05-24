@@ -6,6 +6,7 @@ const API_END_POINTS = {
   USERS: '/apis/protected/v8/user/roles/getUsersV2',
   ALL_USERS_BY_DEPARTMENT: '/apis/protected/v8/portal/spv/department',
   GET_ALL_KONG_USER: '/apis/proxies/v8/user/v1/search',
+  SEARCH_USER_TABLE: '/apis/proxies/v8/user/v1/search',
 }
 
 @Injectable({
@@ -28,6 +29,19 @@ export class UsersService {
       },
     }
     return this.http.post<any>(`${API_END_POINTS.GET_ALL_KONG_USER}`, reqBody)
+  }
+
+  searchUserByenter(value: string, rootOrgId: string) {
+    const reqBody = {
+      request: {
+        query: value,
+        filters: {
+          rootOrgId,
+        },
+      },
+    }
+
+    return this.http.post<any>(`${API_END_POINTS.SEARCH_USER_TABLE}`, reqBody)
   }
 
 }
