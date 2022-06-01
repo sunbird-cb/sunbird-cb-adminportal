@@ -18,10 +18,7 @@ export class RolesAccessComponent implements OnInit, AfterViewInit, OnDestroy {
   userWholeData!: any
   counts: any = []
 
-  constructor(private router: Router,
-              private activeRoute: ActivatedRoute,
-              private usersService: UsersService,
-  ) {
+  constructor(private router: Router, private activeRoute: ActivatedRoute, private usersService: UsersService) {
     this.getAllKongUsers()
 
   }
@@ -29,12 +26,14 @@ export class RolesAccessComponent implements OnInit, AfterViewInit, OnDestroy {
     const usersData: any[] = []
     if (this.userWholeData) {
       this.userWholeData.forEach((user: any) => {
-        user.organisations.forEach((org: { organisationId: string, roles: any }) => {
-          org.roles.forEach((r: any) => {
-            usersData.push(r)
-          })
+        if (!user.isDeleted && user.organisations && user.organisations.length > 0) {
+          user.organisations.forEach((org: { organisationId: string, roles: any }) => {
+            org.roles.forEach((r: any) => {
+              usersData.push(r)
+            })
 
-        })
+          })
+        }
       })
       usersData.forEach((x: any) => {
         this.counts[x] = (this.counts[x] || 0) + 1
@@ -89,8 +88,9 @@ export class RolesAccessComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   /* Click event to navigate to a particular role */
-  onRoleClick() {
-    this.router.navigate([`/app/home/users`])
+  onRoleClick(event: any) {
+    const rootOrgId = _.get(this.activeRoute, 'snapshot.parent.data.configService.unMappedUser.rootOrg.rootOrgId')
+    this.router.navigate([`/app/home/roles-users`], { queryParams: { role: event.role, orgID: rootOrgId } })
   }
 
   ngOnDestroy() { }

@@ -39,6 +39,7 @@ import { CreateUserComponent } from './routes/create-user/create-user.component'
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown'
 import { UIAdminTableModule } from '../../head/ui-admin-table/ui-admin-table.module'
 import { ModerationViewComponent } from './routes/moderation/moderation.component'
+import { RolesUsersComponent } from './routes/roles-users/roles-users.component'
 
 @NgModule({
   declarations: [
@@ -54,6 +55,7 @@ import { ModerationViewComponent } from './routes/moderation/moderation.componen
     EditDepartmentDialogComponent,
     CreateUserComponent,
     ModerationViewComponent,
+    RolesUsersComponent,
   ],
   imports: [
     CommonModule,
