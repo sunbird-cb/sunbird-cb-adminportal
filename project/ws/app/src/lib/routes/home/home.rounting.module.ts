@@ -13,6 +13,7 @@ import { DepartmentResolve } from './resolvers/department-resolve'
 import { RolesResolver } from './resolvers/roles-resolver.service'
 // import { PageResolve } from '@sunbird-cb/utils'
 import { ModerationViewComponent } from './routes/moderation/moderation.component'
+import { RolesUsersComponent } from './routes/roles-users/roles-users.component'
 
 const routes: Routes = [
   {
@@ -49,6 +50,19 @@ const routes: Routes = [
         data: {
           pageId: 'app/roles-access',
           module: 'roles-access',
+          pageType: 'feature',
+          pageKey: 'RolesAndAccess',
+        },
+      },
+      {
+        path: 'roles-users',
+        component: RolesUsersComponent,
+        resolve: {
+          rolesList: RolesResolver,
+        },
+        data: {
+          pageId: 'app/roles-users',
+          module: 'roles-users',
           pageType: 'feature',
           pageKey: 'RolesAndAccess',
         },
@@ -100,7 +114,7 @@ const routes: Routes = [
       {
         path: '',
         redirectTo: 'directory',
-        pathMatch: 'full'
+        pathMatch: 'full',
       },
     ],
   },
