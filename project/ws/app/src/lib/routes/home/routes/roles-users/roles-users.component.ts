@@ -163,7 +163,7 @@ export class RolesUsersComponent implements OnInit, AfterViewInit, OnDestroy {
         usersData.push({
           fullName: user ? `${user.firstName} ${user.lastName}` : null,
           email: email || user.email,
-          position: this.getRoleList(user),
+          position: this.getRoleList(user).toString().replace(',', ', '),
           userId: user.userId,
         })
       }
@@ -181,7 +181,7 @@ export class RolesUsersComponent implements OnInit, AfterViewInit, OnDestroy {
   getRoleList(user: any) {
     if (user.organisations && user.organisations.length > 0) {
       // tslint:disable-next-line
-      return _.join(_.map(_.get(_.first(_.filter(user.organisations, { organisationId: _.get(this.configSvc, 'unMappedUser.rootOrg.id') })), 'roles'), role => `${role}, `), '')
+      return _.map(_.get(_.first(_.filter(user.organisations, { organisationId: _.get(this.configSvc, 'unMappedUser.rootOrg.id') })), 'roles'), role => `${role}`)
     }
     return []
   }
@@ -204,7 +204,7 @@ export class RolesUsersComponent implements OnInit, AfterViewInit, OnDestroy {
           return {
             fullName: `${user.firstName} ${user.lastName}`,
             email: _.get(user, 'profileDetails.personalDetails.primaryEmail') || user.email,
-            position: this.getRoleList(user),
+            position: this.getRoleList(user).toString().replace(',', ', '),
             userId: user.userId,
           }
         })
