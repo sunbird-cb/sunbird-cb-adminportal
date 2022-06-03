@@ -18,11 +18,9 @@
                       [ngClass]="{ required: checkCondition('name', 'required') }">
                       {{departmentName}} name
                     </p>
-                    <mat-form-field appearance="outline" class="margin-top-xs"
-                      [ngClass]="{ 'mat-form-field-invalid': showError('name') }">
-                      <input matInput #name formControlName="name" maxlength="500" i18n-placeholder
-                        placeholder="Type here" type="text"
-                        [required]="checkCondition('name', 'required') ? true : null" pattern="[a-zA-Z ]*" />
+                    <mat-form-field appearance="outline" class="margin-top-xs" [ngClass]="{ 'mat-form-field-invalid': showError('name') }">
+                      <input matInput #name formControlName="name" maxlength="500" i18n-placeholder placeholder="Type here"
+                        type="text" [required]="checkCondition('name', 'required') ? true : null" pattern="[a-zA-Z',''.''&'()'\[\]\s]*" />
                       <mat-error *ngIf="showError('name')" i18n="Name Error|Explains name is required">
                         Department name not valid
                       </mat-error>
@@ -53,10 +51,8 @@
                   </label>
                   <div class="margin-top-s">
                     <!-- {{subDepartments | json}} -->
-                    <mat-form-field appearance="outline" class="margin-top-xs"
-                      [ngClass]="{ 'mat-form-field-invalid': showError('depatmentType') }">
-                      <mat-select [(value)]="selected" formControlName="deptSubTypeId"
-                        [required]="checkCondition('subTitle', 'required') ? true : null"
+                    <mat-form-field appearance="outline" class="margin-top-xs" [ngClass]="{ 'mat-form-field-invalid': showError('depatmentType') }">
+                      <mat-select [(value)]="selected" formControlName="deptSubTypeId" [required]="checkCondition('subTitle', 'required') ? true : null"
                         (selectionChange)="selectedType($event.value)" placeholder="Department type">
                         <mat-option *ngFor="let subDepartment of subDepartments" value='{{subDepartment}}' i18n>
                           {{subDepartment}}</mat-option>
@@ -67,16 +63,13 @@
                   </div>
                 </div>
               </div>
-              <button *ngIf="!isUpdate" [disabled]="!contentForm.valid" mat-raised-button type="submit"
-                class="text-white ws-mat-primary-background text-white margin-right-m">
+              <button *ngIf="!isUpdate" [disabled]="!contentForm.valid" mat-raised-button type="submit" class="text-white ws-mat-primary-background text-white margin-right-m">
                 <b class="text-white" i18n>Create</b>
               </button>
-              <button *ngIf="isUpdate" mat-raised-button type="submit" [disabled]="!contentForm.valid"
-                class="text-white ws-mat-primary-background text-white margin-right-m">
+              <button *ngIf="isUpdate" mat-raised-button type="submit" [disabled]="!contentForm.valid" class="text-white ws-mat-primary-background text-white margin-right-m">
                 <b class="text-white" i18n>Update</b>
               </button>
-              <button mat-raised-button type="button" class="ws-mat-accent-border flex-auto-display"
-                (click)="onCancel()">
+              <button mat-raised-button type="button" class="ws-mat-accent-border flex-auto-display" (click)="onCancel()">
                 <span class="ws-mat-default-text" i18n>Cancel</span>
               </button>
             </form>
