@@ -52,7 +52,9 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.dept = nxt[0].replace(re, ' ')
       }
       if (dept[3]) {
-        this.mydept = dept[3].replace(re, ' ')
+        const depturl = dept[3].replace(re, ' ')
+        const depturl1 = decodeURI(depturl).replace(/%26/g, '&')
+        this.mydept = depturl1
       } else {
         this.mydept = 'Basic Information'
       }
