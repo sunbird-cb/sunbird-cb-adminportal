@@ -173,6 +173,23 @@ export class DirectoryViewComponent implements OnInit {
             }
           })
           break
+        case 'STATE':
+          this.wholeData2.forEach((element: any) => {
+            let department = ''
+            if (element.isState) {
+              department = key
+              const obj = {
+                id: element.id,
+                mdo: element.channel,
+                currentDepartment: department,
+                type: department,
+                user: element.noOfMembers || 0,
+                head: department,
+                typeid: element.organisationSubType,
+              }
+              filteredData2.push(obj)
+            }
+          })
       }
       this.data = filteredData2.map((dept: any) => {
         return {
