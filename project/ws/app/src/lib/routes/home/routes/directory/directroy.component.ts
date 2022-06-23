@@ -28,6 +28,7 @@ export class DirectoryViewComponent implements OnInit {
   wholeData2: any = []
   departmentHearders: any = []
   departmentHeaderArray: any = []
+  isStateAdmin = false
 
   constructor(
     public dialog: MatDialog,
@@ -70,8 +71,10 @@ export class DirectoryViewComponent implements OnInit {
           }
         }
       })
-      this.getDepartDataByKey(this.departmentHearders[0])
-      this.createTableHeader()
+      if (this.departmentHearders && this.departmentHearders.length) {
+        this.getDepartDataByKey(this.departmentHearders[0])
+        this.createTableHeader()
+      }
     })
   }
   createTableHeader() {
@@ -91,7 +94,9 @@ export class DirectoryViewComponent implements OnInit {
   getAllDepartments() {
     this.directoryService.getAllDepartmentsKong().subscribe(res => {
       this.wholeData2 = res.result.response.content
-      this.getDepartDataByKey('CBC')
+      if (this.departmentHearders && this.departmentHearders.length) {
+        this.getDepartDataByKey(this.departmentHearders[0])
+      }
     })
   }
   onRoleClick(role: any) {
