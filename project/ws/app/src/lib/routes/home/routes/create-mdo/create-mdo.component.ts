@@ -59,6 +59,8 @@ export class CreateMdoComponent implements OnInit {
   masterDepartments!: Observable<any> | undefined
   orgs: any[] = []
   masterOrgs!: Observable<any> | undefined
+  userRoles: string[] = []
+  isStateAdmin = false
 
   tabledata: any = []
   data: any = []
@@ -115,6 +117,10 @@ export class CreateMdoComponent implements OnInit {
     {
 
       this.loggedInUserId = _.get(this.activatedRoute, 'snapshot.parent.data.configService.userProfile.userId')
+      this.userRoles = _.get(this.activatedRoute, 'snapshot.parent.data.configService.unMappedUser.roles')
+      if (this.userRoles.indexOf('STATE_ADMIN') >= 0) {
+        this.isStateAdmin = true
+      }
       // console.log(this.loggedInUserId)
       this.contentForm = new FormGroup({
         name: new FormControl(),
@@ -262,12 +268,33 @@ export class CreateMdoComponent implements OnInit {
       })
     }
     if (this.formType === 'department') {
-      this.createMdoService.getStatesOrMinisteries('ministry').subscribe(res => {
-        if (res && res.result && res.result && res.result.response && res.result.response.content) {
-          this.ministeries = res.result.response.content
-          this.onMinisteriesChange()
-        }
-      })
+      if (!this.isStateAdmin) {
+        this.createMdoService.getStatesOrMinisteries('ministry').subscribe(res => {
+          if (res && res.result && res.result && res.result.response && res.result.response.content) {
+            this.ministeries = res.result.response.content
+            this.onMinisteriesChange()
+          }
+        })
+      } else {
+        this.createMdoService.getStatesOrMinisteries('state').subscribe(res => {
+          if (res && res.result && res.result && res.result.response && res.result.response.content) {
+            this.ministeries = res.result.response.content
+            const state = this.ministeries.find(x => x.sborgid === _.get(this.activatedRoute, 'snapshot.parent.data.configService.unMappedUser.rootOrgId'))
+            // this.departmentForm.get('ministry')!.setValidators([Validators.required, forbiddenNamesValidator(event)])
+            // this.departmentForm.updateValueAndValidity()
+            this.onMinisteriesChange()
+            this.ministrySelected(state)
+            if (this.departmentForm) {
+              this.departmentForm.patchValue({
+                ministry: state,
+              })
+              // tslint:disable-next-line: no-non-null-assertion
+              this.departmentForm.get('ministry')!.disable()
+              this.departmentForm.updateValueAndValidity()
+            }
+          }
+        })
+      }
     }
   }
 
