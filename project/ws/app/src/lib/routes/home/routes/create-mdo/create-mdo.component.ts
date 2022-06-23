@@ -280,16 +280,17 @@ export class CreateMdoComponent implements OnInit {
           if (res && res.result && res.result && res.result.response && res.result.response.content) {
             this.ministeries = res.result.response.content
             const state = this.ministeries.find(x => x.sborgid === _.get(this.activatedRoute, 'snapshot.parent.data.configService.unMappedUser.rootOrgId'))
-            // this.departmentForm.get('ministry')!.setValidators([Validators.required, forbiddenNamesValidator(event)])
-            // this.departmentForm.updateValueAndValidity()
             this.onMinisteriesChange()
             this.ministrySelected(state)
             if (this.departmentForm) {
+              // tslint:disable-next-line: no-non-null-assertion
+              this.departmentForm.get('ministry')!.disable()
+              // tslint:disable-next-line: no-non-null-assertion
+              // this.departmentForm.get('ministry')!.setValue(state)
               this.departmentForm.patchValue({
                 ministry: state,
               })
-              // tslint:disable-next-line: no-non-null-assertion
-              this.departmentForm.get('ministry')!.disable()
+
               this.departmentForm.updateValueAndValidity()
             }
           }
@@ -583,8 +584,9 @@ export class CreateMdoComponent implements OnInit {
     if (!this.isUpdate) {
       this.raiseTelemetry()
       let hierarchyObj
-      if (this.departmentForm.value.ministry) {
-        hierarchyObj = this.departmentForm.value.ministry
+      // getRawValue() is used since the ministry field is disabled and form.value doesn't give the value
+      if (this.departmentForm.getRawValue().ministry) {
+        hierarchyObj = this.departmentForm.getRawValue().ministry
         if (this.departmentForm.value.department) {
           hierarchyObj = this.departmentForm.value.department
           if (this.departmentForm.value.organisation) {
@@ -603,6 +605,7 @@ export class CreateMdoComponent implements OnInit {
             organisationSubType: hierarchyObj.sbsuborgtype,
             mapId: hierarchyObj.mapid,
             isTenant: true,
+            // ...(this.isStateAdmin && { externalId: _.get(this.activatedRoute, 'snapshot.parent.data.configService.unMappedUser.rootOrgId') }),
             requestedBy: this.loggedInUserId,
           }
           this.createMdoService.createStateOrMinistry(req).subscribe(
