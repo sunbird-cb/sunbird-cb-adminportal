@@ -57,6 +57,9 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
         // clear messages when empty message received
       }
     })
+    if (_.get(this.activeRoute, 'snapshot.data.configService.userRoles')) {
+      this.myRoles = _.get(this.activeRoute, 'snapshot.data.configService.userRoles')
+    }
     this.router.events.subscribe((event: Event) => {
       if (event instanceof NavigationEnd) {
         // Hide loading indicator
@@ -73,7 +76,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
         }
         // this.widgetData = this.activeRoute.snapshot.data &&
         //   this.activeRoute.snapshot.data.pageData.data.menus || []
-        if (this.activeRoute.snapshot.data.department.data) {
+        if (this.activeRoute.snapshot.data.pageData) {
           const leftData = this.activeRoute.snapshot.data.pageData.data.menus
           _.set(leftData, 'widgetData.logo', true)
           _.set(leftData, 'widgetData.logoPath', _.get(this.activeRoute, 'snapshot.data.department.data.logo'))

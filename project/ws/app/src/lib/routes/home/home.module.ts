@@ -18,6 +18,7 @@ import {
   MatProgressSpinnerModule,
   MatProgressBarModule,
   MatCheckboxModule,
+  MatAutocompleteModule,
 } from '@angular/material'
 import { MatCardModule } from '@angular/material/card'
 import { ReactiveFormsModule, FormsModule } from '@angular/forms'
@@ -73,6 +74,7 @@ import { RolesUsersComponent } from './routes/roles-users/roles-users.component'
     MatChipsModule,
     MatListModule,
     MatSelectModule,
+    MatAutocompleteModule,
     FormsModule,
     ReactiveFormsModule,
     MatInputModule,
