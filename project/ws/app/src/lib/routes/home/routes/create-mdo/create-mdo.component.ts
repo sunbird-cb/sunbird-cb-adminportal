@@ -605,7 +605,7 @@ export class CreateMdoComponent implements OnInit {
             organisationSubType: hierarchyObj.sbsuborgtype,
             mapId: hierarchyObj.mapid,
             isTenant: true,
-            // ...(this.isStateAdmin && { externalId: _.get(this.activatedRoute, 'snapshot.parent.data.configService.unMappedUser.rootOrgId') }),
+            ...(this.isStateAdmin && { sbRootOrgId: _.get(this.activatedRoute, 'snapshot.parent.data.configService.unMappedUser.rootOrgId') }),
             requestedBy: this.loggedInUserId,
           }
           this.createMdoService.createStateOrMinistry(req).subscribe(
