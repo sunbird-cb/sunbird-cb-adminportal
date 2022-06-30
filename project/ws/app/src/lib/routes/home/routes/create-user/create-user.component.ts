@@ -35,6 +35,8 @@ export class CreateUserComponent implements OnInit {
   selectedRoles: string[] = []
   exact!: string[]
   exactPath!: String
+  isStateAdmin = false
+  loggedInUserId!: string
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -92,6 +94,13 @@ export class CreateUserComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.loggedInUserId = _.get(this.route, 'snapshot.parent.data.configService.userProfile.userId')
+    const roles: any[] = _.get(this.route, 'snapshot.parent.data.configService.unMappedUser.roles')
+    if (roles.indexOf('STATE_ADMIN') >= 0) {
+      this.isStateAdmin = true
+      // this is fix for the state admin, for roles in create user form
+      this.currentDept = 'STATE'
+    }
     // this.getAllDept()
     this.getAllDepartmentsHeaderAPI()
 
@@ -188,40 +197,43 @@ export class CreateUserComponent implements OnInit {
         channel: form.value.dept,
       },
     }
-    this.usersSvc.createUser(userreq).subscribe(userdata => {
-      if (userdata.userId) {
-        if (this.createdDepartment && this.createdDepartment.id) {
-          this.deptId = this.createdDepartment.id
-        }
-        if (!this.deptId) {
-          this.deptId = this.route.snapshot.queryParams && this.route.snapshot.queryParams.id
-        }
-        if (!this.deptId) {
-          this.deptId = _.get(this.route, 'snapshot.parent.data.configService.unMappedUser.rootOrg.rootOrgId')
-        }
-        this.createMDOService.assignAdminToDepartment(userdata.userId, this.deptId,
-                                                      this.createUserForm.value.role)
-          .subscribe(data => {
-            this.openSnackbar(`${data.result.response}`)
-            if (this.redirectionPath.indexOf('/app/home/') < 0) {
-              // this.exact = this.redirectionPath.split("/app")
-              // this.exactPath = "/app" + this.exact[1]
-              // this.exactPath = this.exactPath.replace("%3B", ";")
-              // this.exactPath = this.exactPath.replace("%3D", "=")
-              location.replace(this.redirectionPath)
-            } else {
-              this.router.navigate(['/app/home/directory'])
-            }
+    this.usersSvc.createUser(userreq).subscribe(
+      userdata => {
+        if (userdata.userId) {
+          if (this.createdDepartment && this.createdDepartment.id) {
+            this.deptId = this.createdDepartment.id
+          }
+          if (!this.deptId) {
+            this.deptId = this.route.snapshot.queryParams && this.route.snapshot.queryParams.id
+          }
+          if (!this.deptId) {
+            this.deptId = _.get(this.route, 'snapshot.parent.data.configService.unMappedUser.rootOrg.rootOrgId')
+          }
+          this.createMDOService.assignAdminToDepartment(userdata.userId, this.deptId, this.createUserForm.value.role)
+            .subscribe(
+              data => {
+                this.openSnackbar(`${data.result.response}`)
+                if (this.redirectionPath.indexOf('/app/home/') < 0) {
+                  // this.exact = this.redirectionPath.split("/app")
+                  // this.exactPath = "/app" + this.exact[1]
+                  // this.exactPath = this.exactPath.replace("%3B", ";")
+                  // this.exactPath = this.exactPath.replace("%3D", "=")
+                  location.replace(this.redirectionPath)
+                } else {
+                  this.router.navigate(['/app/home/directory'])
+                }
 
-          },         err => {
-            this.router.navigate([`/app/home/users`])
-            this.openSnackbar(`Error in assign roles ${err}`)
-          })
-      }
-    },                                          err => {
-      this.openSnackbar(`User reation ${err}`)
+              },
+              err => {
+                this.router.navigate([`/app/home/users`])
+                this.openSnackbar(`Error in assign roles ${err}`)
+              })
+        }
+      },
+      err => {
+        this.openSnackbar(`User creation ${err}`)
 
-    })
+      })
   }
 
   private openSnackbar(primaryMsg: string, duration: number = 5000) {
