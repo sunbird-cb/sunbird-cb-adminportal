@@ -69,6 +69,14 @@ export class CreateUserComponent implements OnInit {
         }
       } else {
         this.currentDept = 'SPV'
+        // if state admin and not from MDO tab
+        this.loggedInUserId = _.get(this.route, 'snapshot.parent.data.configService.userProfile.userId')
+        const roles: any[] = _.get(this.route, 'snapshot.parent.data.configService.unMappedUser.roles')
+        if (roles.indexOf('STATE_ADMIN') >= 0) {
+          this.isStateAdmin = true
+          // this is fix for the state admin, for roles in create user form
+          this.currentDept = 'STATE'
+        }
       }
 
     }
@@ -94,13 +102,6 @@ export class CreateUserComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.loggedInUserId = _.get(this.route, 'snapshot.parent.data.configService.userProfile.userId')
-    const roles: any[] = _.get(this.route, 'snapshot.parent.data.configService.unMappedUser.roles')
-    if (roles.indexOf('STATE_ADMIN') >= 0) {
-      this.isStateAdmin = true
-      // this is fix for the state admin, for roles in create user form
-      this.currentDept = 'STATE'
-    }
     // this.getAllDept()
     this.getAllDepartmentsHeaderAPI()
 
