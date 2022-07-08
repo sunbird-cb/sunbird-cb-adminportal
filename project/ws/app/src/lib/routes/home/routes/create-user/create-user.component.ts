@@ -254,4 +254,13 @@ export class CreateUserComponent implements OnInit {
       {},
     )
   }
+
+  navigateTo() {
+    if (this.createdDepartment) {
+      this.router.navigate([`/app/roles/${this.deptId}/users`], { queryParams: { currentDept: this.currentDept, roleId: this.deptId, depatName: this.createdDepartment.depName } })
+
+    } else {
+      this.router.navigate([`/app/home/users`])
+    }
+  }
 }
