@@ -225,15 +225,18 @@ export class CreateUserComponent implements OnInit {
                 }
 
               },
-              err => {
+              (_err: any) => {
                 this.router.navigate([`/app/home/users`])
-                this.openSnackbar(`Error in assign roles ${err}`)
+                this.openSnackbar(`Error in assigning roles`)
               })
         }
       },
       err => {
-        this.openSnackbar(`User creation ${err}`)
-
+        if (err.error.params.errmsg) {
+          this.openSnackbar(`${err.error.params.errmsg}`)
+        } else {
+          this.openSnackbar(`User creation error`)
+        }
       })
   }
 
