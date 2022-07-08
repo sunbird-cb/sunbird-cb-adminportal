@@ -22,6 +22,7 @@ export class DirectoryService {
       request: {
         filters: {
           isTenant: true,
+          status: 1,
         },
         sortBy: {
           orgName: 'asc',

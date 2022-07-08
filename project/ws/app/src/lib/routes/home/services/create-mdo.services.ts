@@ -9,6 +9,11 @@ const API_END_POINTS = {
   ASSIGN_ADMIN_TO_CREATED_DEPARTMENT: '/apis/proxies/v8/user/private/v1/assign/role',
   GET_DEPARTMENT_BY_ID: '/apis/protected/v8/portal/deptAction/',
   MIGRATE_DEPARTMENT: '/apis/proxies/v8/user/private/v1/migrate',
+  GET_ALL_STATES: '/apis/public/v8/org/v1/list',
+  GET_DEPARTMENTS_OF_STATE: '/apis/public/v8/org/v1/list',
+  GET_ORGS_OF_DEPT: '/apis/public/v8/org/v1/list',
+  CREATE_STATE_OR_MINISTRY: '/apis/proxies/v8/org/ext/v1/create',
+  UPDATE_STATE_OR_MINISTRY: '/apis/proxies/v8/org/ext/v1/update',
 }
 
 @Injectable({
@@ -70,5 +75,27 @@ export class CreateMDOService {
       },
     }
     return this.http.patch<any>(`${API_END_POINTS.MIGRATE_DEPARTMENT}`, departmentData)
+  }
+
+  getStatesOrMinisteries(type: string): Observable<any> {
+    return this.http.get<any>(`${API_END_POINTS.GET_ALL_STATES}/${type}`)
+  }
+  getDeparmentsOfState(stateId: string): Observable<any> {
+    return this.http.get<any>(`${API_END_POINTS.GET_DEPARTMENTS_OF_STATE}/${stateId}`)
+  }
+  getOrgsOfDepartment(deptId: string): Observable<any> {
+    return this.http.get<any>(`${API_END_POINTS.GET_ORGS_OF_DEPT}/${deptId}`)
+  }
+  createStateOrMinistry(req: any): Observable<any> {
+    const request = {
+      request: req,
+    }
+    return this.http.post<any>(`${API_END_POINTS.CREATE_STATE_OR_MINISTRY}`, request)
+  }
+  updateStateOrMinistry(req: any): Observable<any> {
+    const request = {
+      request: req,
+    }
+    return this.http.post<any>(`${API_END_POINTS.UPDATE_STATE_OR_MINISTRY}`, request)
   }
 }

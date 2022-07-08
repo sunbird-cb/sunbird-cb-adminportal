@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core'
-import { Router } from '@angular/router'
+import { ActivatedRoute } from '@angular/router'
 // import { NsWidgetResolver } from '@sunbird-cb/resolver'
 // import { ILeftMenu } from '@sunbird-cb/collection'
 import { ValueService } from '@sunbird-cb/utils'
@@ -21,7 +21,11 @@ export class HomeComponent implements OnInit, OnDestroy {
   mydept!: string
   role: any
   dept!: string
-  constructor(private valueSvc: ValueService, private router: Router) {
+  constructor(
+    private valueSvc: ValueService,
+    // private router: Router,
+    private route: ActivatedRoute,
+  ) {
     // this.router.events.subscribe((event: Event) => {
     //   if (event instanceof NavigationEnd) {
     //     this.bindUrl(event.urlAfterRedirects.replace('/app/roles-access/', ''))
@@ -32,6 +36,10 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     //   }
     // })
+    this.route.queryParams.subscribe(params => {
+      this.dept = params['currentDept']
+      this.mydept = params['depatName']
+    })
   }
 
   ngOnInit() {
@@ -41,26 +49,28 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.screenSizeIsLtMedium = isLtMedium
     })
 
-    const url = this.router.url.split('/')
-    const dept = this.router.url.split('=')
-    if (dept[1]) {
-      const nxt = dept[1].split(';')
-      const re = /\%20/gi
-      if (nxt[0] === 'true' || nxt[0].includes('%')) {
-        this.dept = url[3].replace(re, ' ')
-      } else {
-        this.dept = nxt[0].replace(re, ' ')
-      }
-      if (dept[3]) {
-        this.mydept = dept[3].replace(re, ' ')
-      } else {
-        this.mydept = 'Basic Information'
-      }
-      if (this.dept.length > 6) {
-        this.dept = 'CBP Providers'
-      }
-      this.role = url[url.length - 2]
-    }
+    // const url = this.router.url.split('/')
+    // const dept = this.router.url.split('=')
+    // if (dept[1]) {
+    //   const nxt = dept[1].split(';')
+    //   const re = /\%20/gi
+    //   if (nxt[0] === 'true' || nxt[0].includes('%')) {
+    //     this.dept = url[3].replace(re, ' ')
+    //   } else {
+    //     this.dept = nxt[0].replace(re, ' ')
+    //   }
+    //   if (dept[3]) {
+    //     const depturl = dept[3].replace(re, ' ')
+    //     const depturl1 = decodeURI(depturl).replace(/%26/g, '&')
+    //     this.mydept = depturl1
+    //   } else {
+    //     this.mydept = 'Basic Information'
+    //   }
+    //   if (this.dept.length > 6) {
+    //     this.dept = 'CBP Providers'
+    //   }
+    //   this.role = url[url.length - 2]
+    // }
   }
 
   ngOnDestroy() {

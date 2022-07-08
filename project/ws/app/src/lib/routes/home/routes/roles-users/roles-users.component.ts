@@ -1,19 +1,15 @@
-import { AfterViewInit, Component, OnInit, OnDestroy, ElementRef, HostListener, ViewChild } from '@angular/core'
+import { Component, OnInit, ElementRef, HostListener, ViewChild, AfterViewInit, OnDestroy } from '@angular/core'
 import { Router, ActivatedRoute } from '@angular/router'
 import * as _ from 'lodash'
 import { ProfileV2Service } from '../../../home/services/home.servive'
 import { UsersService } from '../../services/users.service'
-// interface IUSER {
-//   profileDetails: any; isDeleted: boolean; userId: string | null; firstName: any
-//   lastName: any; email: any; active: any; blocked: any; roles: any[]
-// }
-@Component({
-  selector: 'ws-app-users',
-  templateUrl: './users.component.html',
-  styleUrls: ['./users.component.scss'],
-})
 
-export class UsersComponent implements OnInit, AfterViewInit, OnDestroy {
+@Component({
+  selector: 'ws-app-roles-users',
+  templateUrl: './roles-users.component.html',
+  styleUrls: ['./roles-users.component.scss'],
+})
+export class RolesUsersComponent implements OnInit, AfterViewInit, OnDestroy {
   tabledata: any = []
   currentTab = 'users'
   data: any = []
@@ -23,10 +19,14 @@ export class UsersComponent implements OnInit, AfterViewInit, OnDestroy {
   sticky = false
   basicInfo: any
   id!: string
+  rolename!: string
+  orgiId: any
   currentDept!: string
   deptName!: string
   userWholeData!: any
   createdDepartment!: any
+  configSvc: any
+  breadcrumbs: any
   private defaultSideNavBarOpenedSubscription: any
   @ViewChild('stickyMenu', { static: true }) menuElement!: ElementRef
 
@@ -41,11 +41,11 @@ export class UsersComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   constructor(private usersSvc: UsersService, private router: Router,
-              private route: ActivatedRoute,
-              private profile: ProfileV2Service,
-              private usersService: UsersService) {
+    // tslint:disable-next-line:align
+    private route: ActivatedRoute, private profile: ProfileV2Service, private usersService: UsersService) {
   }
   ngOnInit() {
+    this.configSvc = _.get(this.route, 'snapshot.parent.data.configService') || {}
     this.tabsData = [
       {
         name: 'Users',
@@ -63,10 +63,11 @@ export class UsersComponent implements OnInit, AfterViewInit, OnDestroy {
     const url = this.router.url.split('/')
     this.role = url[url.length - 2]
     this.route.queryParams.subscribe(params => {
-      this.id = params['id']
-      this.id = params['roleId']
+      this.rolename = params['role']
+      this.orgiId = params['orgID']
       this.currentDept = params['currentDept']
       this.deptName = params['depatName']
+      this.breadcrumbs = { titles: [{ title: 'Roles and access', url: '/app/home/roles-access' }, { title: this.rolename, url: 'none' }] }
       if (this.currentDept && this.deptName) {
         const obj = {
           depName: this.deptName,
@@ -75,13 +76,7 @@ export class UsersComponent implements OnInit, AfterViewInit, OnDestroy {
         this.createdDepartment = obj
       }
 
-      if (this.id === 'SPV ADMIN') {
-        this.getAllActiveUsers()
-      } else {
-        // this.getAllActiveUsersByDepartmentId(this.id)
-        this.getAllKongUsers()
-      }
-
+      this.getAllKongUsers()
     })
     // int left blank
     this.tabledata = {
@@ -104,7 +99,7 @@ export class UsersComponent implements OnInit, AfterViewInit, OnDestroy {
   onSideNavTabClick(id: string) {
     this.currentTab = id
     if (this.currentTab === 'users') {
-      this.getAllActiveUsersByDepartmentId(this.id)
+      this.getAllActiveUsersByDepartmentId(this.orgiId)
     }
     const el = document.getElementById(id)
     if (el != null) {
@@ -147,62 +142,28 @@ export class UsersComponent implements OnInit, AfterViewInit, OnDestroy {
       })
     })
   }
-  gotoAddAdmin() {
-    this.router.navigate([`/app/roles/${this.id}/basicinfo`, { addAdmin: true, currentDept: this.currentDept }])
-  }
   ngOnDestroy() {
     if (this.defaultSideNavBarOpenedSubscription) {
       this.defaultSideNavBarOpenedSubscription.unsubscribe()
     }
   }
-  fClickedDepartment(data: any) {
-    const usersData: any[] = []
-    let roles: any[] = []
-    this.userWholeData.forEach((user: any) => {
-      user.organisations.forEach((org: { organisationId: string, roles: any }) => {
-        // if (org.organisationId === rootOrgId) {
-        roles = org.roles
-        // }
-
-      })
-      const email = _.get(user, 'profileDetails.personalDetails.primaryEmail')
-      if (!user.isDeleted && roles.includes(data)) {
-        usersData.push({
-          fullName: user ? `${user.firstName} ${user.lastName}` : null,
-          email: email || 'NA',
-          position: roles,
-          userId: user.userId,
-        })
-      }
-    })
-    this.data = usersData
-    this.currentTab = 'users'
-  }
   getAllKongUsers() {
-    this.usersService.getAllKongUsers(this.id).subscribe(data => {
+    this.usersService.getAllKongUsers(this.orgiId).subscribe(data => {
       if (data.result.response.content) {
-        this.userWholeData = data.result.response.content || []
-        this.newKongUser()
+        this.userWholeData = data.result.response || []
+        this.getMyDepartment()
       }
     })
   }
   newKongUser() {
-    // const rootOrgId = _.get(this.route.snapshot.parent, 'data.configService.unMappedUser.rootOrg.rootOrgId')
     const usersData: any[] = []
-    let roles: any[] = []
     this.userWholeData.forEach((user: any) => {
-      user.organisations.forEach((org: { organisationId: string, roles: any }) => {
-        // if (org.organisationId === rootOrgId) {
-        roles = org.roles
-        // }
-
-      })
       const email = _.get(user, 'profileDetails.personalDetails.primaryEmail')
       if (!(user.isDeleted)) {
         usersData.push({
           fullName: user ? `${user.firstName} ${user.lastName}` : null,
           email: email || user.email,
-          position: roles,
+          position: this.getRoleList(user).toString().replace(',', ', '),
           userId: user.userId,
         })
       }
@@ -211,11 +172,44 @@ export class UsersComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onEnterkySearch(enterValue: any) {
-    const rootOrgId = this.id
+    const rootOrgId = this.orgiId
     this.usersSvc.searchUserByenter(enterValue, rootOrgId).subscribe(data => {
-      this.userWholeData = data.result.response.content || []
-      this.newKongUser()
-    }
-    )
+      this.userWholeData = data.result.response || []
+      this.getMyDepartment()
+    })
   }
+  getRoleList(user: any) {
+    if (user.organisations && user.organisations.length > 0) {
+      // tslint:disable-next-line
+      return _.map(_.get(_.first(_.filter(user.organisations, { organisationId: _.get(this.configSvc, 'unMappedUser.rootOrg.id') })), 'roles'), role => `${role}`)
+    }
+    return []
+  }
+  getMyDepartment() {
+    let users: any[] = []
+    if (this.userWholeData && this.userWholeData.content && this.userWholeData.content.length > 0) {
+      users = _.map(_.compact(_.map(this.userWholeData.content, i => {
+        let consider = false
+        if (!i.isDeleted && i.organisations && i.organisations.length > 0) {
+          _.each(i.organisations, o => {
+            if (!o.isDeleted && (o.roles || []).indexOf(this.rolename) >= 0) {
+              consider = true
+            }
+          })
+        }
+        return consider ? i : null
+      })),
+        // tslint:disable-next-line
+        user => {
+          return {
+            fullName: `${user.firstName} ${user.lastName}`,
+            email: _.get(user, 'profileDetails.personalDetails.primaryEmail') || user.email,
+            position: this.getRoleList(user).toString().replace(',', ', '),
+            userId: user.userId,
+          }
+        })
+    }
+    this.data = users
+  }
+
 }

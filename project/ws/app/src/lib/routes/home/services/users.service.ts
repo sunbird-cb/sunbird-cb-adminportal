@@ -18,6 +18,7 @@ const API_END_POINTS = {
   NEW_USER_BLOCK_API: '/apis/proxies/v8/user/v1/block',
   NEW_USER_UN_BLOCK_API: '/apis/proxies/v8/user/v1/unblock',
   SEARCH_USER_TABLE: '/apis/proxies/v8/user/v1/search',
+  ALL_USERS_BY_DEPARTMENT: '/apis/protected/v8/portal/spv/department',
 }
 
 @Injectable({
@@ -25,6 +26,9 @@ const API_END_POINTS = {
 })
 export class UsersService {
   constructor(private http: HttpClient) { }
+  getUsersByDepartment(userId: string): Observable<any> {
+    return this.http.get<any>(`${API_END_POINTS.ALL_USERS_BY_DEPARTMENT}/${userId}/?allUsers=true`)
+  }
   getAllUsers(): Observable<any> {
     return this.http.get<any>(`${API_END_POINTS.GET_ALL_USERS}`)
   }

@@ -1,0 +1,13 @@
+::ng-deep #back-nav {
+  .m-t-b {
+    font: 400 16px/21px Lato !important;
+  }
+
+  .text-capitalize {
+    font: 600 16px/21px Lato !important;
+  }
+}
+
+::ng-deep .mat-card-header-text {
+  margin: 0 !important;
+}
