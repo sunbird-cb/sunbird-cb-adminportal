@@ -537,7 +537,7 @@ export class CreateMdoComponent implements OnInit {
             res => {
               if (res.responseCode) {
                 this.submittedForm = false
-                this.openSnackbar(`Success`)
+                this.openSnackbar(`Org is successfully on-boarded. Check again after few minutes for newly on-boarded org details`)
                 this.router.navigate([`/app/home/directory`])
               }
             },
@@ -612,7 +612,7 @@ export class CreateMdoComponent implements OnInit {
             res => {
               if (res.responseCode) {
                 this.submittedForm = false
-                this.openSnackbar(`Success`)
+                this.openSnackbar(`Org is successfully on-boarded. Check again after few minutes for newly on-boarded org details`)
                 this.router.navigate([`/app/home/directory`])
               }
             },

@@ -72,7 +72,7 @@ export class AppInterceptorService implements HttpInterceptor {
                 break
             }
           }
-          return throwError('error')
+          return throwError(error)
         })
       )
     }
