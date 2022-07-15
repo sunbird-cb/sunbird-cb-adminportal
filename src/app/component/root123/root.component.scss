@@ -1,3 +1,4 @@
+@import 'ws-common';
 @import 'ws-vars';
 @import 'ws-mixins';
 
@@ -17,6 +18,18 @@ ws-app-nav-bar {
   overflow: auto;
   // padding-bottom: 56px;
   box-sizing: border-box;
+}
+
+.container-balanced {
+  @extend %page-center;
+  height: auto;
+  min-height: calc(100vh - 120px);
+  padding: 15px;
+  box-sizing: border-box;
+}
+
+::ng-deep .border-margin {
+  min-height: 400px!important;
 }
 
 .height-on-top {

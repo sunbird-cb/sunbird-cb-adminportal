@@ -447,3 +447,9 @@ ul li {
     background-size: 1px 100% !important;
      background-repeat: repeat-x !important;
     }
+
+
+ .btn-success:disabled,
+  .btn-success[disabled] {
+    opacity: 0.6;
+  }
