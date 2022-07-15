@@ -9,14 +9,17 @@
           <label class="heading">User details</label>
 
           <div class="input-wrapper margin-top-s">
-            <label for="fname" class="margin-remove-bottom form-label required" i18n="First Name label|Label which explains the user to enter first name"
-              i18n-aria-label aria-label="First name label">
+            <label for="fname" class="margin-remove-bottom form-label required"
+              i18n="First Name label|Label which explains the user to enter first name" i18n-aria-label
+              aria-label="First name label">
               First name
             </label>
             <mat-form-field appearance="outline" class="margin-top-xs">
               <input id="fname" matInput #fname formControlName="fname" pattern="[a-zA-Z ']*" i18n-placeholder
-                placeholder="Type here" i18n-aria-label aria-label="First name input" class="form-input" autocomplete="off" />
-              <mat-error [hidden]="false" i18n="First name Error|Explains name is required" i18n-aria-label aria-label="First name Error|Explains name is required "
+                placeholder="Type here" i18n-aria-label aria-label="First name input" class="form-input"
+                autocomplete="off" />
+              <mat-error [hidden]="false" i18n="First name Error|Explains name is required" i18n-aria-label
+                aria-label="First name Error|Explains name is required "
                 *ngIf="createUserForm?.controls['fname']?.touched && createUserForm?.controls['fname'].errors?.required">
                 First name is mandatory
               </mat-error>
@@ -26,14 +29,17 @@
               </mat-error>
             </mat-form-field>
 
-            <label for="lname" class="margin-remove-bottom margin-top-xs form-label required" i18n="Last name label|Label which explains the user to enter last name"
-              i18n-aria-label aria-label="Last name label">
+            <label for="lname" class="margin-remove-bottom margin-top-xs form-label required"
+              i18n="Last name label|Label which explains the user to enter last name" i18n-aria-label
+              aria-label="Last name label">
               Last name
             </label>
             <mat-form-field appearance="outline" class="margin-top-xs">
               <input id="lname" matInput #lname formControlName="lname" i18n-placeholder placeholder="Type here"
-                i18n-aria-label aria-label="Last name input" class="form-input" pattern="[a-zA-Z ']*" autocomplete="off" />
-              <mat-error [hidden]="false" i18n="Last name Error|Explains name is required" i18n-aria-label aria-label="Last name Error|Explains name is required "
+                i18n-aria-label aria-label="Last name input" class="form-input" pattern="[a-zA-Z ']*"
+                autocomplete="off" />
+              <mat-error [hidden]="false" i18n="Last name Error|Explains name is required" i18n-aria-label
+                aria-label="Last name Error|Explains name is required "
                 *ngIf="createUserForm?.controls['lname']?.touched && createUserForm?.controls['lname'].errors?.required">
                 Last name is mandatory
               </mat-error>
@@ -43,14 +49,15 @@
               </mat-error>
             </mat-form-field>
 
-            <label for="email" class="margin-remove-bottom margin-top-xs form-label required" i18n="Email label|Label which explains the user to enter email"
-              i18n-aria-label aria-label="Email label">
+            <label for="email" class="margin-remove-bottom margin-top-xs form-label required"
+              i18n="Email label|Label which explains the user to enter email" i18n-aria-label aria-label="Email label">
               Email
             </label>
             <mat-form-field appearance="outline" class="margin-top-xs">
               <input id="email" matInput #email formControlName="email" i18n-placeholder placeholder="Type here"
                 i18n-aria-label aria-label="Email input" class="form-input" autocomplete="off" />
-              <mat-error [hidden]="false" i18n="Email Error|Explains name is required" i18n-aria-label aria-label="Email Error|Explains name is required "
+              <mat-error [hidden]="false" i18n="Email Error|Explains name is required" i18n-aria-label
+                aria-label="Email Error|Explains name is required "
                 *ngIf="createUserForm?.controls['email']?.touched && createUserForm?.controls['email'].errors?.required">
                 Email is mandatory
               </mat-error>
@@ -59,8 +66,8 @@
                 Email field is not valid
               </mat-error>
             </mat-form-field>
-            <label for="dept" class="margin-remove-bottom margin-top-xs form-label required" i18n="Email label|Label which explains the user to enter email"
-              i18n-aria-label aria-label="Email label">
+            <label for="dept" class="margin-remove-bottom margin-top-xs form-label required"
+              i18n="Email label|Label which explains the user to enter email" i18n-aria-label aria-label="Email label">
               Department
             </label>
             <mat-form-field appearance="outline" class="margin-top-xs">
@@ -78,19 +85,19 @@
             </mat-form-field> -->
 
 
-            <label for="email" class="margin-remove-bottom margin-top-xs form-label required" i18n="Email label|Label which explains the user to enter email"
-              i18n-aria-label aria-label="Email label">
+            <label for="email" class="margin-remove-bottom margin-top-xs form-label required"
+              i18n="Email label|Label which explains the user to enter Roles" i18n-aria-label aria-label="Roles label">
               Roles
             </label>
 
             <!-- <mat-form-field appearance="outline" class="margin-top-xs">
-                  <!-- <mat-select [(value)]="selected" formControlName="role" placeholder="Roles">
+                  <mat-select [(value)]="selected" formControlName="role" placeholder="Roles">
                 <mat-option multiple *ngFor="let role of roles" value='{{role}}' i18n>
                   {{role}}</mat-option>
-              </mat-select> -->
-            <!-- <mat-select [(value)]="selected" formControlName="role" placeholder="Roles">
-                <mat-option *ngFor="let role of roles; let i =index" [value]="role">
-                  <mat-checkbox value='{{role}}' [checked]="selectedMulti === i" (change)="onChange(role);selected = i">
+              </mat-select>
+           <mat-select [(value)]="selected" formControlName="role" placeholder="Roles">
+                <mat-option *ngFor="let role of roles; let i ===index" [value]="role">
+                  <mat-checkbox value='{{role}}' [checked]="selectedMulti = i" (change)="onChange(role);selected = i">
                     {{role}}
                   </mat-checkbox>
                 </mat-option>
@@ -103,11 +110,12 @@
 
                   <mat-error *ngIf="createUserForm?.controls['email'].errors?.invalid" i18n>Role mandatory
                   </mat-error>
-                </mat-form-field>
- -->
+                </mat-form-field>  -->
+
+
             <mat-selection-list id="role" formControlName="role" #role>
-              <mat-list-option *ngFor="let role of roles" (click)="modifyUserRoles(role)" [selected]="userRoles.has(role)"
-                [value]="role">
+              <mat-list-option *ngFor="let role of roles" (click)="modifyUserRoles(role)"
+                [selected]="userRoles.has(role)" [value]="role">
                 {{role}}
               </mat-list-option>
             </mat-selection-list>
@@ -167,7 +175,7 @@
 
         <div class="flex flex-1">
           <button mat-raised-button type="submit" (click)="onSubmit(createUserForm)" class="text-white btn-success"
-            [disabled]="createUserForm?.invalid">
+            [disabled]="createUserForm?.invalid || disableCreateButton">
             <span class="text-white" i18n>
               Create user
             </span>
@@ -175,6 +183,9 @@
           <button mat-raised-button type="button" class="flex-auto-display mar" (click)="navigateTo()">
             <span class="ws-mat-default-text" i18n>Cancel</span>
           </button>
+        </div>
+        <div *ngIf="displayLoader" class="mt-5 pr-4 flex items-center justify-center">
+          <mat-spinner [diameter]="30"></mat-spinner>
         </div>
 
       </form>

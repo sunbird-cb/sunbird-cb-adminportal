@@ -5,8 +5,9 @@
 .container-balanced {
   @extend %page-center;
   height: auto;
-  min-height: 90vh;
+  min-height: calc(100vh - 120px);
   padding: 15px;
+  box-sizing: border-box;
 }
 
 .container2 {
