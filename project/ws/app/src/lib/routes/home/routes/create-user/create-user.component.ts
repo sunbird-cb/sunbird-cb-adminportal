@@ -191,9 +191,10 @@ export class CreateUserComponent implements OnInit {
   // }
   onSubmit(form: any) {
     // form.value.department = this.selectedDept ? this.selectedDept.deptName : this.receivedDept.deptName
-
+    debugger
     this.disableCreateButton = true
     this.displayLoader = true
+    debugger
     this.raiseTelemetry()
     const userreq = {
       personalDetails: {
@@ -205,6 +206,7 @@ export class CreateUserComponent implements OnInit {
     }
     this.usersSvc.createUser(userreq).subscribe(
       userdata => {
+        debugger
         this.displayLoader = false
         this.disableCreateButton = false
         if (userdata.userId) {
