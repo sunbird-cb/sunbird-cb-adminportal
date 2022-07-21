@@ -391,7 +391,6 @@ export class CreateMdoComponent implements OnInit {
             this.router.navigate([`/app/roles/${res.result.organisationId}/users`], { queryParams: { currentDept: this.department, roleId: res.result.organisationId, depatName: this.contentForm.value.name } })
             this.openSnackbar(`Success`)
 
-
             // this.router.navigate([`/app/home/directory`])
           }
         })
