@@ -37,6 +37,9 @@ export class CreateUserComponent implements OnInit {
   exactPath!: String
   isStateAdmin = false
   loggedInUserId!: string
+  disableCreateButton = false
+  displayLoader = false
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -188,7 +191,8 @@ export class CreateUserComponent implements OnInit {
   // }
   onSubmit(form: any) {
     // form.value.department = this.selectedDept ? this.selectedDept.deptName : this.receivedDept.deptName
-
+    this.disableCreateButton = true
+    this.displayLoader = true
     this.raiseTelemetry()
     const userreq = {
       personalDetails: {
@@ -200,6 +204,9 @@ export class CreateUserComponent implements OnInit {
     }
     this.usersSvc.createUser(userreq).subscribe(
       userdata => {
+
+        this.displayLoader = false
+        this.disableCreateButton = false
         if (userdata.userId) {
           if (this.createdDepartment && this.createdDepartment.id) {
             this.deptId = this.createdDepartment.id
@@ -213,6 +220,8 @@ export class CreateUserComponent implements OnInit {
           this.createMDOService.assignAdminToDepartment(userdata.userId, this.deptId, this.createUserForm.value.role)
             .subscribe(
               data => {
+                // this.displayLoader = false
+                // this.disableCreateButton = false
                 this.openSnackbar(`${data.result.response}`)
                 if (this.redirectionPath.indexOf('/app/home/') < 0) {
                   // this.exact = this.redirectionPath.split("/app")
@@ -225,15 +234,22 @@ export class CreateUserComponent implements OnInit {
                 }
 
               },
-              err => {
+              (_err: any) => {
+                // this.displayLoader = false
+                // this.disableCreateButton = false
                 this.router.navigate([`/app/home/users`])
-                this.openSnackbar(`Error in assign roles ${err}`)
+                this.openSnackbar(`Error in assigning roles`)
               })
         }
       },
       err => {
-        this.openSnackbar(`User creation ${err}`)
-
+        this.displayLoader = false
+        this.disableCreateButton = false
+        if (err.error.params.errmsg) {
+          this.openSnackbar(`${err.error.params.errmsg}`)
+        } else {
+          this.openSnackbar(`User creation error`)
+        }
       })
   }
 
@@ -250,5 +266,14 @@ export class CreateUserComponent implements OnInit {
       },
       {},
     )
+  }
+
+  navigateTo() {
+    if (this.createdDepartment) {
+      this.router.navigate([`/app/roles/${this.deptId}/users`], { queryParams: { currentDept: this.currentDept, roleId: this.deptId, depatName: this.createdDepartment.depName } })
+
+    } else {
+      this.router.navigate([`/app/home/users`])
+    }
   }
 }

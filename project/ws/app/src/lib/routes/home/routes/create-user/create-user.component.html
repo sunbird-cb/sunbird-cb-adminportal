@@ -72,7 +72,7 @@
             </label>
             <mat-form-field appearance="outline" class="margin-top-xs">
               <input id="dept" matInput #dept formControlName="dept" i18n-placeholder placeholder="Type here"
-                i18n-aria-label aria-label="Department" class="form-input" autocomplete="off" />
+                i18n-aria-label aria-label="Department" class="form-input" autocomplete="off" [readonly]="true" />
             </mat-form-field>
             <!-- <label for="deptType" class="margin-remove-bottom margin-top-xs form-label required"
               i18n="Email label|Label which explains the user to enter email" i18n-aria-label aria-label="Email label">
@@ -86,18 +86,18 @@
 
 
             <label for="email" class="margin-remove-bottom margin-top-xs form-label required"
-              i18n="Email label|Label which explains the user to enter email" i18n-aria-label aria-label="Email label">
+              i18n="Email label|Label which explains the user to enter Roles" i18n-aria-label aria-label="Roles label">
               Roles
             </label>
 
             <!-- <mat-form-field appearance="outline" class="margin-top-xs">
-                  <!-- <mat-select [(value)]="selected" formControlName="role" placeholder="Roles">
+                  <mat-select [(value)]="selected" formControlName="role" placeholder="Roles">
                 <mat-option multiple *ngFor="let role of roles" value='{{role}}' i18n>
                   {{role}}</mat-option>
-              </mat-select> -->
-            <!-- <mat-select [(value)]="selected" formControlName="role" placeholder="Roles">
-                <mat-option *ngFor="let role of roles; let i =index" [value]="role">
-                  <mat-checkbox value='{{role}}' [checked]="selectedMulti === i" (change)="onChange(role);selected = i">
+              </mat-select>
+           <mat-select [(value)]="selected" formControlName="role" placeholder="Roles">
+                <mat-option *ngFor="let role of roles; let i ===index" [value]="role">
+                  <mat-checkbox value='{{role}}' [checked]="selectedMulti = i" (change)="onChange(role);selected = i">
                     {{role}}
                   </mat-checkbox>
                 </mat-option>
@@ -110,8 +110,9 @@
 
                   <mat-error *ngIf="createUserForm?.controls['email'].errors?.invalid" i18n>Role mandatory
                   </mat-error>
-                </mat-form-field>
- -->
+                </mat-form-field>  -->
+
+
             <mat-selection-list id="role" formControlName="role" #role>
               <mat-list-option *ngFor="let role of roles" (click)="modifyUserRoles(role)"
                 [selected]="userRoles.has(role)" [value]="role">
@@ -174,15 +175,17 @@
 
         <div class="flex flex-1">
           <button mat-raised-button type="submit" (click)="onSubmit(createUserForm)" class="text-white btn-success"
-            [disabled]="createUserForm?.invalid">
+            [disabled]="createUserForm?.invalid || disableCreateButton">
             <span class="text-white" i18n>
               Create user
             </span>
           </button>
-          <button mat-raised-button type="button" [mat-dialog-close]="true" class="flex-auto-display mar"
-            routerLink="/app/home/users">
+          <button mat-raised-button type="button" class="flex-auto-display mar" (click)="navigateTo()">
             <span class="ws-mat-default-text" i18n>Cancel</span>
           </button>
+        </div>
+        <div *ngIf="displayLoader" class="mt-5 pr-4 flex items-center justify-center">
+          <mat-spinner [diameter]="30"></mat-spinner>
         </div>
 
       </form>

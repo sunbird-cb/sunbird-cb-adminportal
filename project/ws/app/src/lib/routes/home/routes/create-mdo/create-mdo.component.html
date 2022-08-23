@@ -1,6 +1,6 @@
 <mat-sidenav-container autosize name="discuss-menu">
   <!-- <mat-sidenav [mode]="mode$ | async" [(opened)]="sideNavBarOpened">
-    <!-- <div #stickyMenu>
+   <div #stickyMenu>
       <ng-container [wsResolverWidget]="widgetData"></ng-container>
     </div>
   </mat-sidenav> -->
@@ -69,18 +69,24 @@
                     </div>
                   </div>
                 </div>
-                <button *ngIf="!isUpdate" [disabled]="!contentForm.valid" mat-raised-button type="submit"
-                  class="text-white ws-mat-primary-background text-white margin-right-m">
-                  <b class="text-white" i18n>Create</b>
-                </button>
-                <button *ngIf="isUpdate" mat-raised-button type="submit" [disabled]="!contentForm.valid"
-                  class="text-white ws-mat-primary-background text-white margin-right-m">
-                  <b class="text-white" i18n>Update</b>
-                </button>
-                <button mat-raised-button type="button" class="ws-mat-accent-border flex-auto-display"
-                  (click)="onCancel()">
-                  <span class="ws-mat-default-text" i18n>Cancel</span>
-                </button>
+                <div class="mt-5">
+                  <button *ngIf="!isUpdate" [disabled]="!contentForm.valid || disableCreateButton" mat-raised-button
+                    type="submit" class="text-white ws-mat-primary-background text-white margin-right-m btn-success">
+                    <b class="text-white" i18n>Create</b>
+                  </button>
+                  <button *ngIf="isUpdate" mat-raised-button type="submit"
+                    [disabled]="!contentForm.valid || disableCreateButton"
+                    class="text-white ws-mat-primary-background text-white margin-right-m btn-success">
+                    <b class="text-white" i18n>Update</b>
+                  </button>
+                  <button mat-raised-button type="button" class="ws-mat-accent-border flex-auto-display"
+                    (click)="onCancel()">
+                    <span class="ws-mat-default-text" i18n>Cancel</span>
+                  </button>
+                </div>
+                <div *ngIf="displayLoader" class="mt-5 pr-4 flex items-center justify-center">
+                  <mat-spinner [diameter]="30"></mat-spinner>
+                </div>
               </form>
             </div>
 
@@ -89,7 +95,7 @@
         <ng-container *ngIf="formType === 'state'">
           <h2 class="cb-title">Basic information</h2>
           <div class="flex-container">
-            <div class="flex-container-div">
+            <div class="flex-container-div flex-div">
               <form [formGroup]="stateForm" (ngSubmit)="onSubmitState() && stateForm.valid" class="min-width">
                 <div class="input-wrapper margin-top-s mb-5">
                   <label for="State" class=" margin-remove-bottom form-label required"
@@ -120,18 +126,22 @@
                   </mat-autocomplete>
                 </div>
                 <div>
-                  <button *ngIf="!isUpdate" [disabled]="!stateForm.valid" mat-raised-button type="submit"
-                    class="text-white ws-mat-primary-background text-white margin-right-m">
+                  <button *ngIf="!isUpdate" [disabled]="!stateForm.valid || disableCreateButton" mat-raised-button
+                    type="submit" class="text-white ws-mat-primary-background text-white margin-right-m btn-success">
                     <b class="text-white" i18n>Create</b>
                   </button>
-                  <button *ngIf="isUpdate" mat-raised-button type="submit" [disabled]="!stateForm.valid"
-                    class="text-white ws-mat-primary-background text-white margin-right-m">
+                  <button *ngIf="isUpdate" mat-raised-button type="submit"
+                    [disabled]="!stateForm.valid || disableCreateButton"
+                    class="text-white ws-mat-primary-background text-white margin-right-m btn-success">
                     <b class="text-white" i18n>Update</b>
                   </button>
                   <button mat-raised-button type="button" class="ws-mat-accent-border flex-auto-display"
                     (click)="onCancel()">
                     <span class="ws-mat-default-text" i18n>Cancel</span>
                   </button>
+                </div>
+                <div *ngIf="displayLoader" class="mt-5 pr-4 flex items-center justify-center">
+                  <mat-spinner [diameter]="30"></mat-spinner>
                 </div>
               </form>
             </div>
@@ -237,17 +247,20 @@
                   </div>
                   <div class="mt-5">
                     <button *ngIf="!isUpdate" [disabled]="!departmentForm.valid" mat-raised-button type="submit"
-                      class="text-white ws-mat-primary-background text-white margin-right-m">
+                      class="text-white ws-mat-primary-background text-white margin-right-m btn-success">
                       <b class="text-white" i18n>Create</b>
                     </button>
                     <button *ngIf="isUpdate" mat-raised-button type="submit" [disabled]="!departmentForm.valid"
-                      class="text-white ws-mat-primary-background text-white margin-right-m">
+                      class="text-white ws-mat-primary-background text-white margin-right-m btn-success">
                       <b class="text-white" i18n>Update</b>
                     </button>
                     <button mat-raised-button type="button" class="ws-mat-accent-border flex-auto-display"
                       (click)="onCancel()">
                       <span class="ws-mat-default-text" i18n>Cancel</span>
                     </button>
+                  </div>
+                  <div *ngIf="displayLoader" class="mt-5 pr-4 flex items-center justify-center">
+                    <mat-spinner [diameter]="30"></mat-spinner>
                   </div>
                 </form>
               </ng-container>
@@ -258,7 +271,7 @@
                     <label for="State" class=" margin-remove-bottom form-label required"
                       i18n="Ministry|Label which explains the user to enter Ministry" i18n-aria-label
                       aria-label="Ministry Field label">
-                      State
+                      State name
                     </label>
                     <mat-form-field appearance="outline" class="margin-top-s w-full">
                       <input id="ministry" matInput tab-directive type="text" placeholder="Select your state"
@@ -346,12 +359,14 @@
                     </mat-autocomplete>
                   </div>
                   <div class="mt-5">
-                    <button *ngIf="!isUpdate" [disabled]="!departmentForm.valid" mat-raised-button type="submit"
-                      class="text-white ws-mat-primary-background text-white margin-right-m">
+                    <button *ngIf="!isUpdate" [disabled]="!departmentForm.valid || disableCreateButton"
+                      mat-raised-button type="submit"
+                      class="text-white btn-success ws-mat-primary-background text-white margin-right-m">
                       <b class="text-white" i18n>Create</b>
                     </button>
-                    <button *ngIf="isUpdate" mat-raised-button type="submit" [disabled]="!departmentForm.valid"
-                      class="text-white ws-mat-primary-background text-white margin-right-m">
+                    <button *ngIf="isUpdate" mat-raised-button type="submit"
+                      [disabled]="!departmentForm.valid || disableCreateButton"
+                      class="text-white btn-success ws-mat-primary-background text-white margin-right-m">
                       <b class="text-white" i18n>Update</b>
                     </button>
                     <button mat-raised-button type="button" class="ws-mat-accent-border flex-auto-display"
@@ -359,6 +374,11 @@
                       <span class="ws-mat-default-text" i18n>Cancel</span>
                     </button>
                   </div>
+
+                  <div *ngIf="displayLoader" class="mt-5 pr-4 flex items-center justify-center">
+                    <mat-spinner [diameter]="30"></mat-spinner>
+                  </div>
+
                 </form>
               </ng-container>
             </div>

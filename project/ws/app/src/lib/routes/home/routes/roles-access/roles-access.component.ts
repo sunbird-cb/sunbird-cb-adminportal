@@ -43,13 +43,13 @@ export class RolesAccessComponent implements OnInit, AfterViewInit, OnDestroy {
       const roleAndAccess: any[] = []
       for (let i = 0; i <= role.length; i = i + 1) {
         if (role[i]) {
-          if (role[i] === 'SPV_ADMIN') {
-            const roleAndCount = {
-              role: role[i],
-              count: count[i],
-            }
-            roleAndAccess.push(roleAndCount)
+          // if (role[i] === 'SPV_ADMIN') {
+          const roleAndCount = {
+            role: role[i],
+            count: count[i],
           }
+          roleAndAccess.push(roleAndCount)
+          // }
 
         }
 

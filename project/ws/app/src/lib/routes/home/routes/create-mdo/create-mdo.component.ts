@@ -89,6 +89,9 @@ export class CreateMdoComponent implements OnInit {
   subTypeId!: any
   depts = ['Domain', 'Exact']
 
+  disableCreateButton = false
+  displayLoader = false
+
   isLtMedium$ = this.valueSvc.isLtMedium$
   mode$ = this.isLtMedium$.pipe(map(isMedium => (isMedium ? 'over' : 'side')))
   subDepartments!: any
@@ -363,6 +366,8 @@ export class CreateMdoComponent implements OnInit {
     this.deptSubType = val
   }
   onSubmit() {
+    this.disableCreateButton = true
+    this.displayLoader = true
     if (!this.isUpdate) {
       this.raiseTelemetry()
       if (this.contentForm.value.name !== null
@@ -373,6 +378,8 @@ export class CreateMdoComponent implements OnInit {
           this.department,
           this.loggedInUserId
         ).subscribe(res => {
+          this.displayLoader = false
+          this.disableCreateButton = false
           if (res.result.response === 'SUCCESS') {
             this.submittedForm = false
             const obj = {
@@ -383,6 +390,7 @@ export class CreateMdoComponent implements OnInit {
             this.createdDepartment = obj
             this.router.navigate([`/app/roles/${res.result.organisationId}/users`], { queryParams: { currentDept: this.department, roleId: res.result.organisationId, depatName: this.contentForm.value.name } })
             this.openSnackbar(`Success`)
+
             // this.router.navigate([`/app/home/directory`])
           }
         })
@@ -401,8 +409,11 @@ export class CreateMdoComponent implements OnInit {
           this.loggedInUserId,
           this.contentForm.value
         ).subscribe(res => {
+          this.displayLoader = false
+          this.disableCreateButton = false
           if (res.result.response === 'SUCCESS') {
             this.openSnackbar(`Success`)
+            this.disableCreateButton = false
             this.router.navigate([`/app/home/directory`])
           }
         }
@@ -517,12 +528,17 @@ export class CreateMdoComponent implements OnInit {
   }
 
   onSubmitState() {
+    this.disableCreateButton = true
+    this.displayLoader = true
     if (!this.isUpdate) {
       this.raiseTelemetry()
       if (this.stateForm.value.state !== null) {
         const stateFromValue = this.stateForm.value.state
         if (stateFromValue.sborgid) {
+          this.disableCreateButton = false
+          this.displayLoader = false
           this.openSnackbar(`Selected Org is already onboarded!`)
+
         } else {
           const req = {
             orgName: stateFromValue.orgname,
@@ -535,13 +551,17 @@ export class CreateMdoComponent implements OnInit {
           }
           this.createMdoService.createStateOrMinistry(req).subscribe(
             res => {
+              this.disableCreateButton = false
+              this.displayLoader = false
               if (res.responseCode) {
                 this.submittedForm = false
-                this.openSnackbar(`Success`)
+                this.openSnackbar(`Org is successfully on-boarded. Check again after few minutes for newly on-boarded org details`)
                 this.router.navigate([`/app/home/directory`])
               }
             },
             err => {
+              this.disableCreateButton = false
+              this.displayLoader = false
               this.openSnackbar(`Something went wrong, please try again later`)
               // tslint:disable-next-line: no-console
               console.log('Error :', err)
@@ -564,14 +584,20 @@ export class CreateMdoComponent implements OnInit {
         }
         this.createMdoService.updateStateOrMinistry(req).subscribe(
           res => {
+            this.disableCreateButton = false
+            this.displayLoader = false
             if (res.result.response === 'SUCCESS') {
               if (res.result.response === 'SUCCESS') {
+                this.disableCreateButton = false
+                this.displayLoader = false
                 this.openSnackbar(`Success`)
                 this.router.navigate([`/app/home/directory`])
               }
             }
           },
           err => {
+            this.disableCreateButton = false
+            this.displayLoader = false
             this.openSnackbar(`Something went wrong, please try again later`)
             // tslint:disable-next-line: no-console
             console.log('Error :', err)
@@ -581,6 +607,8 @@ export class CreateMdoComponent implements OnInit {
     }
   }
   onSubmitDepartment() {
+    this.disableCreateButton = true
+    this.displayLoader = true
     if (!this.isUpdate) {
       this.raiseTelemetry()
       let hierarchyObj
@@ -597,6 +625,8 @@ export class CreateMdoComponent implements OnInit {
       if (hierarchyObj) {
         if (hierarchyObj.sborgid) {
           this.openSnackbar(`Selected Org is already onboarded!`)
+          this.disableCreateButton = false
+          this.displayLoader = false
         } else {
           const req = {
             orgName: hierarchyObj.orgname,
@@ -610,14 +640,20 @@ export class CreateMdoComponent implements OnInit {
           }
           this.createMdoService.createStateOrMinistry(req).subscribe(
             res => {
+              this.displayLoader = false
+              this.disableCreateButton = false
               if (res.responseCode) {
                 this.submittedForm = false
-                this.openSnackbar(`Success`)
+                this.openSnackbar(`Org is successfully on-boarded. Check again after few minutes for newly on-boarded org details`)
+
                 this.router.navigate([`/app/home/directory`])
               }
             },
             err => {
+              this.displayLoader = false
+              this.disableCreateButton = false
               this.openSnackbar(`Something went wrong, please try again later`)
+
               // tslint:disable-next-line: no-console
               console.log('Error :', err)
             }
@@ -638,7 +674,10 @@ export class CreateMdoComponent implements OnInit {
       }
       if (hierarchyObj) {
         if (hierarchyObj.sborgid) {
+          this.displayLoader = false
+          this.disableCreateButton = false
           this.openSnackbar(`Selected Org is already onboarded!`)
+
         } else {
           const req = {
             orgName: hierarchyObj.orgname,
@@ -651,13 +690,18 @@ export class CreateMdoComponent implements OnInit {
           }
           this.createMdoService.updateStateOrMinistry(req).subscribe(
             res => {
+              this.displayLoader = false
+              this.disableCreateButton = false
               if (res.responseCode) {
                 this.openSnackbar(`Success`)
+
                 this.router.navigate([`/app/home/directory`])
               }
             },
             err => {
+              this.displayLoader = false
               this.openSnackbar(`Something went wrong, please try again later`)
+              this.disableCreateButton = false
               // tslint:disable-next-line: no-console
               console.log('Error :', err)
             }

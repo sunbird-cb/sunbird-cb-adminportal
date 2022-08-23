@@ -1,4 +1,4 @@
-<div class="flex">
+<div class="flex container-balanced">
   <div class="min-wid" style="position: relative;">
 
     <div #stickyMenu [class.sticky]="sticky">
@@ -9,7 +9,8 @@
   </div>
   <div class="flex-display">
     <ws-widget-ui-user-table [hidden]="currentTab==='rolesandaccess'" [tableData]="tabledata" [data]="data"
-      [otherInput]="createdDepartment" [needAddAdmin]="true" [needCreateUser]="true" (searchByEnterKey)="onEnterkySearch($event)">
+      [otherInput]="createdDepartment" [needAddAdmin]="true" [needCreateUser]="true"
+      (searchByEnterKey)="onEnterkySearch($event)">
     </ws-widget-ui-user-table>
     <ws-app-roles-access [hidden]="currentTab==='users'" (clickedDepartment)="fClickedDepartment($event)">
     </ws-app-roles-access>
