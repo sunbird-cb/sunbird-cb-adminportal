@@ -4,8 +4,8 @@ import { Observable } from 'rxjs'
 // import { Observable } from 'rxjs'
 
 const API_END_POINTS = {
-  GET_CATEGORIES: 'https://spv.igot-dev.in/moderatoradmin/profanity/type/text',
-  MODERATE_DATA: 'https://spv.igot-dev.in/moderatoradmin/feedback/persist/text/moderated',
+  GET_CATEGORIES: '/moderatoradmin/profanity/type/text',
+  MODERATE_DATA: '/moderatoradmin/feedback/persist/text/moderated',
 
 }
 

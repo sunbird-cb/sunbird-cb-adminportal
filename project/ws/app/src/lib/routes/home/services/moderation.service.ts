@@ -8,7 +8,7 @@ const API_END_POINTS = {
   GET_DEPARTMENT_TITLE: 'apis/proxies/v8/data/v1/system/settings/get/orgTypeList',
   GET_DEPARTMENT_SUB_TITLE: 'apis/proxies/v8/data/v1/system/settings/get/orgTypeConfig',
   // FETCH_FEEDBACK: 'moderatoradmin/feedback/text/fetch',
-  FETCH_FEEDBACK: 'https://spv.igot-dev.in/moderatoradmin/feedback/text/fetch',
+  FETCH_FEEDBACK: '/moderatoradmin/feedback/text/fetch',
 }
 
 @Injectable({
