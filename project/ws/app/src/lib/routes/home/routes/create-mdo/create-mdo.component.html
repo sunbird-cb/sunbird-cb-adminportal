@@ -246,11 +246,13 @@
                     </mat-autocomplete>
                   </div>
                   <div class="mt-5">
-                    <button *ngIf="!isUpdate" [disabled]="!departmentForm.valid" mat-raised-button type="submit"
+                    <button *ngIf="!isUpdate" [disabled]="!departmentForm.valid || disableCreateButton"
+                      mat-raised-button type="submit"
                       class="text-white ws-mat-primary-background text-white margin-right-m btn-success">
                       <b class="text-white" i18n>Create</b>
                     </button>
-                    <button *ngIf="isUpdate" mat-raised-button type="submit" [disabled]="!departmentForm.valid"
+                    <button *ngIf="isUpdate" mat-raised-button type="submit"
+                      [disabled]="!departmentForm.valid || disableCreateButton"
                       class="text-white ws-mat-primary-background text-white margin-right-m btn-success">
                       <b class="text-white" i18n>Update</b>
                     </button>
