@@ -457,6 +457,7 @@ export class InitService {
             localStorage.removeItem('telemetrySessionId')
           }
           localStorage.setItem('telemetrySessionId', uuid())
+
           this.configSvc.unMappedUser = userPidProfile
           const profileV2 = _.get(userPidProfile, 'profiledetails')
           this.configSvc.userProfile = {
@@ -466,8 +467,8 @@ export class InitService {
             userId: userPidProfile.userId,
             firstName: userPidProfile.firstName,
             lastName: userPidProfile.lastName,
-            rootOrgId: userPidProfile.rootOrgId,
-            rootOrgName: userPidProfile.channel,
+            rootOrgId: userPidProfile.rootOrg.rootOrgId,
+            rootOrgName: userPidProfile.rootOrg.orgName,
             // tslint:disable-next-line: max-line-length
             // userName: `${userPidProfile.firstName ? userPidProfile.firstName : ' '}${userPidProfile.lastName ? userPidProfile.lastName : ' '}`,
             userName: userPidProfile.userName,
