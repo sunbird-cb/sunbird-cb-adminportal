@@ -103,28 +103,28 @@ export class UsersViewComponent implements OnInit {
         _.set(user, 'isActive', false)
         _.set(user, 'roles', _.map(_.get($event.row, 'role'), i => i.roleName))
         this.usersService.newBlockUserKong(loggedInUserId, user.userId).subscribe(response => {
-          if (response.params.status === 'success') {
+          if (_.toUpper(response.params.status) === 'SUCCESS') {
             setTimeout(() => {
               this.getAllKongUsers()
               this.snackBar.open('Deactivated successfully!')
-            },         1500)
+            }, 1500)
 
           } else {
             this.loaderService.changeLoad.next(false)
             this.snackBar.open('Update unsuccess!')
           }
-        },                                                                        _err => this.snackBar.open('Error in inactive'))
+        }, _err => this.snackBar.open('Error in inactive'))
         break
       case 'unblock':
         _.set(user, 'isBlocked', false)
         _.set(user, 'isActive', true)
         _.set(user, 'roles', _.map(_.get($event.row, 'role'), i => i.roleName))
         this.usersService.newUnBlockUserKong(loggedInUserId, user.userId).subscribe(response => {
-          if (response.params.status === 'success') {
+          if (_.toUpper(response.params.status) === 'SUCCESS') {
             setTimeout(() => {
               this.getAllKongUsers()
               this.snackBar.open('Activated successfully!')
-            },         1500)
+            }, 1500)
 
             // this.getAllKongUsers()
             // // this.getAllUsers()
@@ -133,7 +133,7 @@ export class UsersViewComponent implements OnInit {
             this.loaderService.changeLoad.next(false)
             this.snackBar.open('Updat unsuccess!')
           }
-        },                                                                          _err => this.snackBar.open('Error in active'))
+        }, _err => this.snackBar.open('Error in active'))
         break
       case 'deactive':
         _.set(user, 'isActive', false)
@@ -143,7 +143,7 @@ export class UsersViewComponent implements OnInit {
             // this.getAllUsers()
             this.snackBar.open(response.params.errmsg)
           }
-        },                                                                          _err => this.snackBar.open('Error in Active'))
+        }, _err => this.snackBar.open('Error in Active'))
         break
       case 'active':
         _.set(user, 'isActive', true)
@@ -245,10 +245,10 @@ export class UsersViewComponent implements OnInit {
     // console.log(enterValue, rootOrgId)
 
     this.usersService.searchUserByenter(enterValue, rootOrgId).subscribe(data => {
-        this.usersData = data.result.response.content
-        // this.filterData()
-        // console.log("search", data)
-      }
+      this.usersData = data.result.response.content
+      // this.filterData()
+      // console.log("search", data)
+    }
     )
 
   }
