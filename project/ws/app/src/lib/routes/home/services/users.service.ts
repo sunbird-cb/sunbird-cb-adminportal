@@ -42,6 +42,40 @@ export class UsersService {
     }
     return this.http.post<any>(`${API_END_POINTS.GET_ALL_KONG_USER}`, reqBody)
   }
+  // getAllRoleUsers(depId: string, role: {}): Observable<any> {
+  getAllRoleUsers(depId: string, role: string): Observable<any> {
+    // debugger
+    const reqBody = {
+      request: {
+        filters: {
+          rootOrgId: depId,
+          status: 1,
+          'organisations.roles':
+            [role]
+
+        },
+        limit: 1
+      },
+    }
+    return this.http.post<any>(`${API_END_POINTS.GET_ALL_KONG_USER}`, reqBody)
+  }
+  // getAllRoleUsers(depId: string, role: any): Observable<any> {
+  //   // debugger
+  //   const reqBody = {
+  //     request: {
+  //       filters: {
+  //         rootOrgId: depId,
+  //         status: 1,
+  //         'organisations.roles':
+  //           { roles: role }
+
+
+  //       },
+  //       limit: 1
+  //     },
+  //   }
+  //   return this.http.post<any>(`${API_END_POINTS.GET_ALL_KONG_USER}`, reqBody)
+  // }
 
   getAllDepartments(): Observable<any> {
     return this.http.get<any>(`${API_END_POINTS.GET_ALL_DEPARTMENTS}`)
