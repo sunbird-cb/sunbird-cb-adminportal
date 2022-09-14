@@ -34,23 +34,11 @@ export class RolesAccessComponent implements OnInit, AfterViewInit, OnDestroy {
   fetchRoles() {
     this.roleservice.getAllRoles().subscribe(data => {
       this.parseRoledata = JSON.parse(data.result.response.value)
-      // console.log('All role data', this.parseRoledata)
       for (var i = 0; i < this.parseRoledata.orgTypeList.length; i++) {
         // if (this.parseRoledata.orgTypeList[i].name === "SPV" || this.parseRoledata.orgTypeList[i].name === "STATE") {
-        if (true) {
-          if (this.rolesObject.length > 0) {
-            const temp = this.rolesObject.filter((v: any) => v.name === this.parseRoledata.orgTypeList[i].name).length
-            if (temp === 0) {
-              this.rolesObject.push({
-                name: this.parseRoledata.orgTypeList[i].name,
-                roles: this.parseRoledata.orgTypeList[i].roles
-              })
-              this.rolesContentObject.push(
-                this.parseRoledata.orgTypeList[i].roles
-              )
-            }
-          }
-          else {
+        if (this.rolesObject.length > 0) {
+          const temp = this.rolesObject.filter((v: any) => v.name === this.parseRoledata.orgTypeList[i].name).length
+          if (temp === 0) {
             this.rolesObject.push({
               name: this.parseRoledata.orgTypeList[i].name,
               roles: this.parseRoledata.orgTypeList[i].roles
@@ -60,12 +48,22 @@ export class RolesAccessComponent implements OnInit, AfterViewInit, OnDestroy {
             )
           }
         }
+        else {
+          this.rolesObject.push({
+            name: this.parseRoledata.orgTypeList[i].name,
+            roles: this.parseRoledata.orgTypeList[i].roles
+          })
+          this.rolesContentObject.push(
+            this.parseRoledata.orgTypeList[i].roles
+          )
+        }
       }
       const arrayConcat = [].concat(...this.rolesContentObject)
       var uniqueRoles = [...new Set(arrayConcat)]
       const rootOrgId = _.get(this.activeRoute, 'snapshot.parent.data.configService.unMappedUser.rootOrg.rootOrgId')
       Promise.all(_.map(uniqueRoles, r => this.fetchIndidualRoleData(rootOrgId, r))).then(r => {
         this.data = _.compact(_.map(_.flatten(r), o => {
+          //if need to remove zero count
           if (o.count > 0) {
             return o
           } return undefined
