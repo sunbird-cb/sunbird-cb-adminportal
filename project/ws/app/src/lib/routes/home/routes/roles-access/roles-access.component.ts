@@ -1,5 +1,4 @@
 import { AfterViewInit, Component, OnInit, OnDestroy } from '@angular/core'
-import { zip } from 'rxjs'
 import {
   ActivatedRoute,
   Router,
@@ -64,34 +63,15 @@ export class RolesAccessComponent implements OnInit, AfterViewInit, OnDestroy {
       }
       const arrayConcat = [].concat(...this.rolesContentObject)
       var uniqueRoles = [...new Set(arrayConcat)]
-      // console.log('uniqueRoles', uniqueRoles)
-      const rolesArray: any = []
       const rootOrgId = _.get(this.activeRoute, 'snapshot.parent.data.configService.unMappedUser.rootOrg.rootOrgId')
-      console.log("dummy ", _.map(uniqueRoles, r => this.fetchIndidualRoleData(rootOrgId, r)))
-      zip(_.map(uniqueRoles, r => this.fetchIndidualRoleData(rootOrgId, r)))
-        .subscribe(t => {
-          console.log("t is ", t)
-        })
-      // for (var i = 0; i < uniqueRoles.length; i++) {
-
-      //   // debugger
-      //   this.usersService.getAllRoleUsers(rootOrgId, uniqueRoles[i]).subscribe((roleData: any) => {
-      //     // debugger
-      //     console.log('roleData and length', 'PUBLIC', roleData.length)
-      //     this.counts = roleData.result.response.count
-      //     const roleAndCount = {
-      //       role: uniqueRoles[i],
-      //       count: this.counts
-      //     }
-      //     rolesArray.push(roleAndCount)
-
-
-      //   })
-      // }
-      // console.log('rolesArray', rolesArray)
-      this.data = rolesArray
-
-
+      Promise.all(_.map(uniqueRoles, r => this.fetchIndidualRoleData(rootOrgId, r))).then(r => {
+        debugger
+        // this.data = _.compact(_.map(_.flatten(r), o => {
+        //   if (o.count > 0) {
+        //     return o
+        //   } return undefined
+        // }))
+      })
     })
 
     //old code
@@ -135,12 +115,10 @@ export class RolesAccessComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   fetchIndidualRoleData(rootOrgId: string, rolename: string) {
-
-    return this.usersService.getAllRoleUsers(rootOrgId, rolename)
+    return this.usersService.getAllRoleUsers(rootOrgId, rolename).toPromise()
   }
 
   getAllKongUsers() {
-
     const rootOrgId = _.get(this.activeRoute, 'snapshot.parent.data.configService.unMappedUser.rootOrg.rootOrgId')
     this.usersService.getAllKongUsers(rootOrgId).subscribe(data => {
       if (data.result.response.content) {

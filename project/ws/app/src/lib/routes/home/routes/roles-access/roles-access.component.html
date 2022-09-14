@@ -10,10 +10,16 @@
       </div>
     </mat-card-header>
     <mat-card-content>
-      <ng-container>
+      <ng-container *ngIf="data?.length > 0">
         <ws-widget-ui-user-table [tableData]='tabledata' [data]='data' (eOnRowClick)="onRoleClick($event)"
           [needAddAdmin]='false' [needCreateUser]='false'>
         </ws-widget-ui-user-table>
+      </ng-container>
+      <ng-container *ngIf="!(data?.length > 0)">
+        <div class="flex flex-1">
+          <span class="mat-title" i18n>loading..</span>
+          <mat-spinner [strokeWidth]="3" [diameter]="50"></mat-spinner>
+        </div>
       </ng-container>
     </mat-card-content>
   </mat-card>
