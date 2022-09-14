@@ -65,12 +65,11 @@ export class RolesAccessComponent implements OnInit, AfterViewInit, OnDestroy {
       var uniqueRoles = [...new Set(arrayConcat)]
       const rootOrgId = _.get(this.activeRoute, 'snapshot.parent.data.configService.unMappedUser.rootOrg.rootOrgId')
       Promise.all(_.map(uniqueRoles, r => this.fetchIndidualRoleData(rootOrgId, r))).then(r => {
-        debugger
-        // this.data = _.compact(_.map(_.flatten(r), o => {
-        //   if (o.count > 0) {
-        //     return o
-        //   } return undefined
-        // }))
+        this.data = _.compact(_.map(_.flatten(r), o => {
+          if (o.count > 0) {
+            return o
+          } return undefined
+        }))
       })
     })
 
