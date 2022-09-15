@@ -34,7 +34,7 @@ export class RolesAccessComponent implements OnInit, AfterViewInit, OnDestroy {
   fetchRoles() {
     this.roleservice.getAllRoles().subscribe(data => {
       this.parseRoledata = JSON.parse(data.result.response.value)
-      for (var i = 0; i < this.parseRoledata.orgTypeList.length; i++) {
+      for (let i = 0; i < this.parseRoledata.orgTypeList.length; i++) {
         // if (this.parseRoledata.orgTypeList[i].name === "SPV" || this.parseRoledata.orgTypeList[i].name === "STATE") {
         if (this.rolesObject.length > 0) {
           const temp = this.rolesObject.filter((v: any) => v.name === this.parseRoledata.orgTypeList[i].name).length
@@ -59,11 +59,11 @@ export class RolesAccessComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       }
       const arrayConcat = [].concat(...this.rolesContentObject)
-      var uniqueRoles = [...new Set(arrayConcat)]
+      const uniqueRoles = [...new Set(arrayConcat)]
       const rootOrgId = _.get(this.activeRoute, 'snapshot.parent.data.configService.unMappedUser.rootOrg.rootOrgId')
       Promise.all(_.map(uniqueRoles, r => this.fetchIndidualRoleData(rootOrgId, r))).then(r => {
         this.data = _.compact(_.map(_.flatten(r), o => {
-          //if need to remove zero count
+          // if need to remove zero count
           if (o.count > 0) {
             return o
           } return undefined
@@ -71,7 +71,7 @@ export class RolesAccessComponent implements OnInit, AfterViewInit, OnDestroy {
       })
     })
 
-    //old code
+    // old code
     // const usersData: any[] = []
     // if (this.wholeData) {
     //   this.wholeData.forEach((user: any) => {
@@ -108,7 +108,7 @@ export class RolesAccessComponent implements OnInit, AfterViewInit, OnDestroy {
     //   this.data = roleAndAccess
     // }
 
-    //old code
+    // old code
   }
 
   fetchIndidualRoleData(rootOrgId: string, rolename: string) {
