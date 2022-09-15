@@ -12,7 +12,7 @@
     <mat-card-content>
       <ng-container *ngIf="data?.length > 0">
         <ws-widget-ui-user-table [tableData]='tabledata' [data]='data' (eOnRowClick)="onRoleClick($event)"
-          [needAddAdmin]='false' [needCreateUser]='false'>
+          [needAddAdmin]='false' [needCreateUser]='false' (actionsClick)="actionsClick($event)">
         </ws-widget-ui-user-table>
       </ng-container>
       <ng-container *ngIf="!(data?.length > 0)">

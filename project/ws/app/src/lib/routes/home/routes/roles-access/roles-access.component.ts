@@ -4,6 +4,8 @@ import {
   Router,
 } from '@angular/router'
 import * as _ from 'lodash'
+import { ITableData } from '../../../../head/ui-admin-table/interface/interfaces'
+// project / ws / app / src / lib / head / ui - admin - table / interface / interfaces.ts'
 import { RolesService } from '../../services/roles.service'
 import { UsersService } from '../../services/users.service'
 // import { RolesAccessService } from '../../services/roles-access.service'
@@ -13,7 +15,7 @@ import { UsersService } from '../../services/users.service'
   styleUrls: ['./roles-access.component.scss'],
 })
 export class RolesAccessComponent implements OnInit, AfterViewInit, OnDestroy {
-  tabledata: any = []
+  tabledata!: ITableData
   data: any = []
   count!: number
   userWholeData!: any
@@ -61,7 +63,7 @@ export class RolesAccessComponent implements OnInit, AfterViewInit, OnDestroy {
       const arrayConcat = [].concat(...this.rolesContentObject)
       const uniqueRoles = [...new Set(arrayConcat)]
       const rootOrgId = _.get(this.activeRoute, 'snapshot.parent.data.configService.unMappedUser.rootOrg.rootOrgId')
-      Promise.all(_.map(uniqueRoles, r => this.fetchIndidualRoleData(rootOrgId, r))).then(r => {
+      Promise.all([_.first(_.map(uniqueRoles, r => this.fetchIndidualRoleData(rootOrgId, r)))]).then(r => {
         this.data = _.compact(_.map(_.flatten(r), o => {
           // if need to remove zero count
           if (o.count > 0) {
@@ -139,16 +141,22 @@ export class RolesAccessComponent implements OnInit, AfterViewInit, OnDestroy {
       columns: [
         { displayName: 'Role', key: 'role' },
         { displayName: 'Number of users', key: 'count' },
+        { displayName: 'Actions', key: 'action' }
       ],
+      actions: [{ icon: 'close', label: 'OK', name: 'Name', type: 'click' }],
       needCheckBox: false,
       needHash: false,
       sortColumn: '',
+      needUserMenus: false,
       sortState: 'asc',
     }
     this.fetchRoles()
 
   }
-
+  actionsClick($event: any) {
+    debugger
+    console.log($event)
+  }
   ngAfterViewInit() {
     // this.elementPosition = this.menuElement.nativeElement.parentElement.offsetTop
   }
