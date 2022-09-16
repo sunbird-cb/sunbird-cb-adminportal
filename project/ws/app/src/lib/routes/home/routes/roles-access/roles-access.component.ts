@@ -5,10 +5,8 @@ import {
 } from '@angular/router'
 import * as _ from 'lodash'
 import { ITableData } from '../../../../head/ui-admin-table/interface/interfaces'
-// project / ws / app / src / lib / head / ui - admin - table / interface / interfaces.ts'
 import { RolesService } from '../../services/roles.service'
 import { UsersService } from '../../services/users.service'
-// import { RolesAccessService } from '../../services/roles-access.service'
 @Component({
   selector: 'ws-app-roles-access',
   templateUrl: './roles-access.component.html',
@@ -28,11 +26,12 @@ export class RolesAccessComponent implements OnInit {
   rolesContentObject: any = []
   individualRoleCount: boolean = true
 
-  constructor(private router: Router, private activeRoute: ActivatedRoute, private usersService: UsersService, private roleservice: RolesService) {
+  constructor(private router: Router,
+    private activeRoute: ActivatedRoute,
+    private usersService: UsersService,
+    private roleservice: RolesService
+  ) {
     this.getAllKongUsers()
-    // this.getAllRoleUsers()
-    // this.fetchRoles()
-
   }
   fetchRoles() {
     this.roleservice.getAllRoles().subscribe(data => {
@@ -64,65 +63,11 @@ export class RolesAccessComponent implements OnInit {
       const arrayConcat = [].concat(...this.rolesContentObject)
       const allRoles = [...new Set(arrayConcat)]
       var uniqueRoles = []
-      for (let i = 0; i < allRoles.length; i++) {
-        // uniqueRoles.push({ role: allRoles[i], count: 0 })
-        uniqueRoles.push({ role: allRoles[i] })
+      for (let i = 0; i < allRoles.length; i += 1) {
+        uniqueRoles.push({ role: allRoles[i], count: 'N/A' })
       }
       this.data = uniqueRoles
     })
-
-    // old code
-
-    // const rootOrgId = _.get(this.activeRoute, 'snapshot.parent.data.configService.unMappedUser.rootOrg.rootOrgId')
-    // Promise.all([_.first(_.map(uniqueRoles, r => this.fetchIndidualRoleData(rootOrgId, r)))]).then(r => {
-    // Promise.all(_.map(uniqueRoles, r => this.fetchIndidualRoleData(rootOrgId, r))).then(r => {
-    //   this.data = _.compact(_.map(_.flatten(r), o => {
-    //     console.log("this.data", this.data)
-    //     debugger
-    //     // if need to remove zero count
-    //     if (o.count > 0) {
-    //       return o
-    //     } return undefined
-    //   }))
-    // })
-
-    // const usersData: any[] = []
-    // if (this.wholeData) {
-    //   this.wholeData.forEach((user: any) => {
-    //     if (!user.isDeleted && user.organisations && user.organisations.length > 0) {
-    //       user.organisations.forEach((org: { organisationId: string, roles: any }) => {
-    //         org.roles.forEach((r: any) => {
-    //           usersData.push(r)
-    //         })
-
-    //       })
-    //     }
-    //   })
-    //   usersData.forEach((x: any) => {
-    //     this.counts[x] = (this.counts[x] || 0) + 1
-    //   })
-    //   const role = Object.keys(this.counts)
-    //   const count = Object.values(this.counts)
-    //   const roleAndAccess: any[] = []
-    //   for (let i = 0; i <= role.length; i = i + 1) {
-    //     if (role[i]) {
-    //       // if (role[i] === 'SPV_ADMIN') {
-    //       const roleAndCount = {
-    //         role: role[i],
-    //         count: count[i],
-    //       }
-    //       debugger
-    //       roleAndAccess.push(roleAndCount)
-    //       // }
-
-    //     }
-
-    //   }
-
-    //   this.data = roleAndAccess
-    // }
-
-    // old code
   }
 
   fetchIndidualRoleData(rootOrgId: string, rolename: string) {
@@ -133,7 +78,6 @@ export class RolesAccessComponent implements OnInit {
         if (this.data[i].role === rolename)
           this.data[i].count = individualCount
       }
-
     })
   }
 
@@ -142,7 +86,6 @@ export class RolesAccessComponent implements OnInit {
     this.usersService.getAllKongUsers(rootOrgId).subscribe(data => {
       if (data.result.response.content) {
         this.userWholeData = data.result.response.content || []
-        // this.fetchRoles()
       }
     })
   }
@@ -152,7 +95,7 @@ export class RolesAccessComponent implements OnInit {
         { displayName: 'Role', key: 'role' },
         { displayName: 'Number of users', key: 'count' }
       ],
-      actions: [{ icon: 'remove_red_eye', label: 'View user count', name: 'View user count', type: 'link' }],
+      actions: [{ icon: 'remove_red_eye', label: 'View user count', name: 'ViewCount', type: 'link' }],
       needCheckBox: false,
       needHash: false,
       sortColumn: '',
@@ -163,11 +106,12 @@ export class RolesAccessComponent implements OnInit {
 
   }
   actionsClick($event: any) {
-    this.individualRoleCount = false
-    const individualRole = $event.row.role
-    const rootOrgId = _.get(this.activeRoute, 'snapshot.parent.data.configService.unMappedUser.rootOrg.rootOrgId')
-    this.fetchIndidualRoleData(rootOrgId, individualRole)
-
+    if ($event.action === 'ViewCount') {
+      this.individualRoleCount = false
+      const individualRole = $event.row.role
+      const rootOrgId = _.get(this.activeRoute, 'snapshot.parent.data.configService.unMappedUser.rootOrg.rootOrgId')
+      this.fetchIndidualRoleData(rootOrgId, individualRole)
+    }
   }
 
 
