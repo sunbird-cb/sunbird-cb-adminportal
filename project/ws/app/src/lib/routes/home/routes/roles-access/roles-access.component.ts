@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, OnDestroy } from '@angular/core'
+import { Component, OnInit } from '@angular/core'
 import {
   ActivatedRoute,
   Router,
@@ -14,7 +14,7 @@ import { UsersService } from '../../services/users.service'
   templateUrl: './roles-access.component.html',
   styleUrls: ['./roles-access.component.scss'],
 })
-export class RolesAccessComponent implements OnInit, AfterViewInit, OnDestroy {
+export class RolesAccessComponent implements OnInit {
   tabledata!: ITableData
   data: any = []
   count!: number
@@ -125,9 +125,17 @@ export class RolesAccessComponent implements OnInit, AfterViewInit, OnDestroy {
     // old code
   }
 
-  // fetchIndidualRoleData(rootOrgId: string, rolename: string) {
-  //   return this.usersService.getAllRoleUsers(rootOrgId, rolename).toPromise()
-  // }
+  fetchIndidualRoleData(rootOrgId: string, rolename: string) {
+    this.usersService.getAllRoleUsers(rootOrgId, rolename).subscribe(data => {
+      this.individualRoleCount = true
+      const individualCount = data.count
+      for (var i = 0; i < this.data.length; i++) {
+        if (this.data[i].role === rolename)
+          this.data[i].count = individualCount
+      }
+
+    })
+  }
 
   getAllKongUsers() {
     const rootOrgId = _.get(this.activeRoute, 'snapshot.parent.data.configService.unMappedUser.rootOrg.rootOrgId')
@@ -158,19 +166,10 @@ export class RolesAccessComponent implements OnInit, AfterViewInit, OnDestroy {
     this.individualRoleCount = false
     const individualRole = $event.row.role
     const rootOrgId = _.get(this.activeRoute, 'snapshot.parent.data.configService.unMappedUser.rootOrg.rootOrgId')
-    this.usersService.getAllRoleUsers(rootOrgId, individualRole).subscribe(data => {
-      this.individualRoleCount = true
-      const individualCount = data.count
-      for (var i = 0; i < this.data.length; i++) {
-        if (this.data[i].role === individualRole)
-          this.data[i].count = individualCount
-      }
-    })
+    this.fetchIndidualRoleData(rootOrgId, individualRole)
 
   }
-  ngAfterViewInit() {
-    // this.elementPosition = this.menuElement.nativeElement.parentElement.offsetTop
-  }
+
 
   /* Click event to navigate to a particular role */
   onRoleClick(event: any) {
@@ -178,5 +177,5 @@ export class RolesAccessComponent implements OnInit, AfterViewInit, OnDestroy {
     this.router.navigate([`/app/home/roles-users`], { queryParams: { role: event.role, orgID: rootOrgId } })
   }
 
-  ngOnDestroy() { }
+  // ngOnDestroy() { }
 }
