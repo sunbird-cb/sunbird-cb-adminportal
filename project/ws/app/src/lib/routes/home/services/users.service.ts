@@ -1,6 +1,10 @@
 import { Injectable } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
 import { Observable } from 'rxjs'
+import { map, retry } from 'rxjs/operators'
+/* tslint:disable */
+import _ from 'lodash'
+/* tslint:enable */
 
 const API_END_POINTS = {
   GET_ALL_USERS: '/apis/protected/v8/portal/spv/mydepartment?allUsers=true',
@@ -42,7 +46,26 @@ export class UsersService {
     }
     return this.http.post<any>(`${API_END_POINTS.GET_ALL_KONG_USER}`, reqBody)
   }
+  // getAllRoleUsers(depId: string, role: {}): Observable<any> {
+  getAllRoleUsers(depId: string, role: string): Observable<any> {
+    // debugger
+    const reqBody = {
+      request: {
+        filters: {
+          rootOrgId: depId,
+          status: 1,
+          'organisations.roles':
+            [role]
 
+        },
+        limit: 1
+      },
+    }
+    return this.http.post<any>(`${API_END_POINTS.GET_ALL_KONG_USER}`, reqBody).pipe(
+      retry(1),
+      map(
+        (data: any) => ({ role, count: _.get(data, 'result.response.count') })))
+  }
   getAllDepartments(): Observable<any> {
     return this.http.get<any>(`${API_END_POINTS.GET_ALL_DEPARTMENTS}`)
   }
