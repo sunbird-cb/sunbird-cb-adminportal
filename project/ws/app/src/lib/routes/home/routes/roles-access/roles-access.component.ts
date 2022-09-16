@@ -26,6 +26,7 @@ export class RolesAccessComponent implements OnInit, AfterViewInit, OnDestroy {
   counts: any = []
   rolesObject: any = []
   rolesContentObject: any = []
+  individualRoleCount: boolean = true
 
   constructor(private router: Router, private activeRoute: ActivatedRoute, private usersService: UsersService, private roleservice: RolesService) {
     this.getAllKongUsers()
@@ -61,19 +62,30 @@ export class RolesAccessComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       }
       const arrayConcat = [].concat(...this.rolesContentObject)
-      const uniqueRoles = [...new Set(arrayConcat)]
-      const rootOrgId = _.get(this.activeRoute, 'snapshot.parent.data.configService.unMappedUser.rootOrg.rootOrgId')
-      Promise.all([_.first(_.map(uniqueRoles, r => this.fetchIndidualRoleData(rootOrgId, r)))]).then(r => {
-        this.data = _.compact(_.map(_.flatten(r), o => {
-          // if need to remove zero count
-          if (o.count > 0) {
-            return o
-          } return undefined
-        }))
-      })
+      const allRoles = [...new Set(arrayConcat)]
+      var uniqueRoles = []
+      for (let i = 0; i < allRoles.length; i++) {
+        // uniqueRoles.push({ role: allRoles[i], count: 0 })
+        uniqueRoles.push({ role: allRoles[i] })
+      }
+      this.data = uniqueRoles
     })
 
     // old code
+
+    // const rootOrgId = _.get(this.activeRoute, 'snapshot.parent.data.configService.unMappedUser.rootOrg.rootOrgId')
+    // Promise.all([_.first(_.map(uniqueRoles, r => this.fetchIndidualRoleData(rootOrgId, r)))]).then(r => {
+    // Promise.all(_.map(uniqueRoles, r => this.fetchIndidualRoleData(rootOrgId, r))).then(r => {
+    //   this.data = _.compact(_.map(_.flatten(r), o => {
+    //     console.log("this.data", this.data)
+    //     debugger
+    //     // if need to remove zero count
+    //     if (o.count > 0) {
+    //       return o
+    //     } return undefined
+    //   }))
+    // })
+
     // const usersData: any[] = []
     // if (this.wholeData) {
     //   this.wholeData.forEach((user: any) => {
@@ -113,9 +125,9 @@ export class RolesAccessComponent implements OnInit, AfterViewInit, OnDestroy {
     // old code
   }
 
-  fetchIndidualRoleData(rootOrgId: string, rolename: string) {
-    return this.usersService.getAllRoleUsers(rootOrgId, rolename).toPromise()
-  }
+  // fetchIndidualRoleData(rootOrgId: string, rolename: string) {
+  //   return this.usersService.getAllRoleUsers(rootOrgId, rolename).toPromise()
+  // }
 
   getAllKongUsers() {
     const rootOrgId = _.get(this.activeRoute, 'snapshot.parent.data.configService.unMappedUser.rootOrg.rootOrgId')
@@ -126,24 +138,13 @@ export class RolesAccessComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     })
   }
-  // getAllRoleUsers() {
-  //   const rootOrgId = _.get(this.activeRoute, 'snapshot.parent.data.configService.unMappedUser.rootOrg.rootOrgId')
-  //   this.usersService.getAllRoleUsers(rootOrgId).subscribe(data => {
-  //     if (data.result.response.content) {
-  //       this.userWholeData = data.result.response || []
-  //       // this.getMyDepartment()
-  //       // this.fetchRoles()
-  //     }
-  //   })
-  // }
   ngOnInit() {
     this.tabledata = {
       columns: [
         { displayName: 'Role', key: 'role' },
-        { displayName: 'Number of users', key: 'count' },
-        { displayName: 'Actions', key: 'action' }
+        { displayName: 'Number of users', key: 'count' }
       ],
-      actions: [{ icon: 'close', label: 'OK', name: 'Name', type: 'click' }],
+      actions: [{ icon: 'remove_red_eye', label: 'View user count', name: 'View user count', type: 'link' }],
       needCheckBox: false,
       needHash: false,
       sortColumn: '',
@@ -154,8 +155,18 @@ export class RolesAccessComponent implements OnInit, AfterViewInit, OnDestroy {
 
   }
   actionsClick($event: any) {
-    debugger
-    console.log($event)
+    this.individualRoleCount = false
+    const individualRole = $event.row.role
+    const rootOrgId = _.get(this.activeRoute, 'snapshot.parent.data.configService.unMappedUser.rootOrg.rootOrgId')
+    this.usersService.getAllRoleUsers(rootOrgId, individualRole).subscribe(data => {
+      this.individualRoleCount = true
+      const individualCount = data.count
+      for (var i = 0; i < this.data.length; i++) {
+        if (this.data[i].role === individualRole)
+          this.data[i].count = individualCount
+      }
+    })
+
   }
   ngAfterViewInit() {
     // this.elementPosition = this.menuElement.nativeElement.parentElement.offsetTop
