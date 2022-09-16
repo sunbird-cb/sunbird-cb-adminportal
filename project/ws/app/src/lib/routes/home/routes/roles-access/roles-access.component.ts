@@ -36,7 +36,7 @@ export class RolesAccessComponent implements OnInit {
   fetchRoles() {
     this.roleservice.getAllRoles().subscribe(data => {
       this.parseRoledata = JSON.parse(data.result.response.value)
-      for (let i = 0; i < this.parseRoledata.orgTypeList.length; i++) {
+      for (let i = 0; i < this.parseRoledata.orgTypeList.length; i += 1) {
         // if (this.parseRoledata.orgTypeList[i].name === "SPV" || this.parseRoledata.orgTypeList[i].name === "STATE") {
         if (this.rolesObject.length > 0) {
           const temp = this.rolesObject.filter((v: any) => v.name === this.parseRoledata.orgTypeList[i].name).length
@@ -62,7 +62,7 @@ export class RolesAccessComponent implements OnInit {
       }
       const arrayConcat = [].concat(...this.rolesContentObject)
       const allRoles = [...new Set(arrayConcat)]
-      var uniqueRoles = []
+      const uniqueRoles = []
       for (let i = 0; i < allRoles.length; i += 1) {
         uniqueRoles.push({ role: allRoles[i], count: 'N/A' })
       }
@@ -74,9 +74,10 @@ export class RolesAccessComponent implements OnInit {
     this.usersService.getAllRoleUsers(rootOrgId, rolename).subscribe(data => {
       this.individualRoleCount = true
       const individualCount = data.count
-      for (var i = 0; i < this.data.length; i++) {
-        if (this.data[i].role === rolename)
+      for (let i = 0; i < this.data.length; i += 1) {
+        if (this.data[i].role === rolename) {
           this.data[i].count = individualCount
+        }
       }
     })
   }
