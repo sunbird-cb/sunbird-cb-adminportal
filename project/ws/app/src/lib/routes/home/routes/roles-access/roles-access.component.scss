@@ -8,3 +8,8 @@
     margin: 0 !important;
   }
 }
+::ng-deep .mat-column-count {
+justify-content: center !important;
+align-items: center !important;
+text-align: center !important;
+}

@@ -21,6 +21,7 @@ export interface ITableData {
   needHash: boolean,
   needCheckBox: boolean,
   sortState?: string,
-  sortColumn?: string
-  needUserMenus: boolean
+  sortColumn?: string,
+  needUserMenus: boolean,
+  actionColumnName?: string,
 }

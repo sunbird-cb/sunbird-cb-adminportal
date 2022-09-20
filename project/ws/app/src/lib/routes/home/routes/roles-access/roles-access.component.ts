@@ -25,6 +25,8 @@ export class RolesAccessComponent implements OnInit {
   rolesObject: any = []
   rolesContentObject: any = []
   individualRoleCount: boolean = true
+  userRoles: any = []
+  roleType: any = ''
 
   constructor(private router: Router,
     private activeRoute: ActivatedRoute,
@@ -32,15 +34,35 @@ export class RolesAccessComponent implements OnInit {
     private roleservice: RolesService
   ) {
     this.getAllKongUsers()
+    this.userRoles = _.get(this.activeRoute, 'snapshot.parent.data.configService.unMappedUser.roles')
+    console.log('userRoles', this.userRoles)
+    if (this.userRoles.indexOf('STATE_ADMIN') >= 0) {
+      this.roleType = 'STATE'
+    }
+
+    if (this.userRoles.indexOf('SPV_ADMIN') >= 0) {
+      this.roleType = 'SPV'
+    }
+
   }
   fetchRoles() {
     this.roleservice.getAllRoles().subscribe(data => {
       this.parseRoledata = JSON.parse(data.result.response.value)
       for (let i = 0; i < this.parseRoledata.orgTypeList.length; i += 1) {
-        // if (this.parseRoledata.orgTypeList[i].name === "SPV" || this.parseRoledata.orgTypeList[i].name === "STATE") {
-        if (this.rolesObject.length > 0) {
-          const temp = this.rolesObject.filter((v: any) => v.name === this.parseRoledata.orgTypeList[i].name).length
-          if (temp === 0) {
+        if (this.parseRoledata.orgTypeList[i].name === this.roleType) {
+          if (this.rolesObject.length > 0) {
+            const temp = this.rolesObject.filter((v: any) => v.name === this.parseRoledata.orgTypeList[i].name).length
+            if (temp === 0) {
+              this.rolesObject.push({
+                name: this.parseRoledata.orgTypeList[i].name,
+                roles: this.parseRoledata.orgTypeList[i].roles
+              })
+              this.rolesContentObject.push(
+                this.parseRoledata.orgTypeList[i].roles
+              )
+            }
+          }
+          else {
             this.rolesObject.push({
               name: this.parseRoledata.orgTypeList[i].name,
               roles: this.parseRoledata.orgTypeList[i].roles
@@ -50,21 +72,12 @@ export class RolesAccessComponent implements OnInit {
             )
           }
         }
-        else {
-          this.rolesObject.push({
-            name: this.parseRoledata.orgTypeList[i].name,
-            roles: this.parseRoledata.orgTypeList[i].roles
-          })
-          this.rolesContentObject.push(
-            this.parseRoledata.orgTypeList[i].roles
-          )
-        }
       }
       const arrayConcat = [].concat(...this.rolesContentObject)
       const allRoles = [...new Set(arrayConcat)]
       const uniqueRoles = []
       for (let i = 0; i < allRoles.length; i += 1) {
-        uniqueRoles.push({ role: allRoles[i], count: 'N/A' })
+        uniqueRoles.push({ role: allRoles[i], count: 0 })
       }
       this.data = uniqueRoles
     })
@@ -94,14 +107,15 @@ export class RolesAccessComponent implements OnInit {
     this.tabledata = {
       columns: [
         { displayName: 'Role', key: 'role' },
-        { displayName: 'Number of users', key: 'count' }
+        { displayName: 'Count', key: 'count' }
       ],
-      actions: [{ icon: 'remove_red_eye', label: 'View user count', name: 'ViewCount', type: 'link' }],
+      actions: [{ icon: 'refresh', label: 'Refresh', name: 'ViewCount', type: 'link' }],
       needCheckBox: false,
       needHash: false,
-      sortColumn: '',
+      sortColumn: 'role',
       needUserMenus: false,
       sortState: 'asc',
+      actionColumnName: 'Refresh'
     }
     this.fetchRoles()
 

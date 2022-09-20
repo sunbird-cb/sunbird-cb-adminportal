@@ -10,6 +10,7 @@ import { UsersService } from './services/users.service'
 import {
   MatSidenavModule,
   MatIconModule,
+  MatProgressSpinnerModule,
 } from '@angular/material'
 import { MatCardModule } from '@angular/material/card'
 import { RolesAccessComponent } from '../access/routes/roles-access/roles-access.component'
@@ -19,7 +20,7 @@ import { UIAdminTableModule } from '../../head/ui-admin-table/ui-admin-table.mod
 @NgModule({
   declarations: [HomeComponent, UsersComponent, RolesAccessComponent],
   imports: [CommonModule, CreateMDORoutingModule, BtnPageBackModuleAdmin, LeftMenuModule, WidgetResolverModule,
-    MatSidenavModule, MatIconModule, GroupCheckboxModule, HomeModule, RouterModule, UIAdminTableModule, MatCardModule, ScrollspyLeftMenuModule],
+    MatSidenavModule, MatIconModule, MatProgressSpinnerModule, GroupCheckboxModule, HomeModule, RouterModule, UIAdminTableModule, MatCardModule, ScrollspyLeftMenuModule],
   exports: [UsersComponent, RolesAccessComponent],
   providers: [UsersService],
 })
