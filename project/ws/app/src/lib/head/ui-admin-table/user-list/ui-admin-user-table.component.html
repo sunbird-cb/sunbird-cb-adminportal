@@ -53,7 +53,9 @@
             </ng-container>
 
             <ng-container matColumnDef="Actions" *ngIf="tableData!.actions && tableData!.actions.length > 0">
-                <mat-header-cell *matHeaderCellDef class="clr-darkish-blue action-header"> Actions </mat-header-cell>
+                <mat-header-cell *matHeaderCellDef class="clr-darkish-blue action-header"> {{
+                    tableData!.actionColumnName || "Actions"}}
+                </mat-header-cell>
                 <mat-cell *matCellDef="let row" class="action-cell">
                     <div *ngFor="let ac of tableData!.actions">
                         <div *ngIf="ac.optional">
