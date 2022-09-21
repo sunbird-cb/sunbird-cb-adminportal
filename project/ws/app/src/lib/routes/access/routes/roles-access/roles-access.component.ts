@@ -20,10 +20,10 @@ export class RolesAccessComponent implements OnInit, AfterViewInit {
   rolesObject: any = []
   currentDept: any = ''
   rolesContentObject: any = []
-  individualRoleCount: boolean = true
+  individualRoleCount = true
   @Output() clickedDepartment = new EventEmitter<string>()
   constructor(private activatedRoute: ActivatedRoute,
-    private usersService: UsersService, private roleservice: RolesService
+              private usersService: UsersService, private roleservice: RolesService
   ) {
 
     this.activatedRoute.queryParams.subscribe(params => {
@@ -41,14 +41,14 @@ export class RolesAccessComponent implements OnInit, AfterViewInit {
     this.tabledata = {
       columns: [
         { displayName: 'Role', key: 'role' },
-        { displayName: 'Count', key: 'count' }
+        { displayName: 'Count', key: 'count' },
       ],
       actions: [{ icon: 'refresh', label: 'Refresh', name: 'ViewCount', type: 'link' }],
       needCheckBox: false,
       needHash: false,
       sortColumn: '',
       sortState: 'asc',
-      actionColumnName: 'Refresh'
+      actionColumnName: 'Refresh',
     }
     this.getAllKongUsers()
   }
@@ -73,17 +73,16 @@ export class RolesAccessComponent implements OnInit, AfterViewInit {
             if (temp === 0) {
               this.rolesObject.push({
                 name: this.parseRoledata.orgTypeList[i].name,
-                roles: this.parseRoledata.orgTypeList[i].roles
+                roles: this.parseRoledata.orgTypeList[i].roles,
               })
               this.rolesContentObject.push(
                 this.parseRoledata.orgTypeList[i].roles
               )
             }
-          }
-          else {
+          } else {
             this.rolesObject.push({
               name: this.parseRoledata.orgTypeList[i].name,
-              roles: this.parseRoledata.orgTypeList[i].roles
+              roles: this.parseRoledata.orgTypeList[i].roles,
             })
             this.rolesContentObject.push(
               this.parseRoledata.orgTypeList[i].roles

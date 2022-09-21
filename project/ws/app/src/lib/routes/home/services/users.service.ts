@@ -55,10 +55,10 @@ export class UsersService {
           rootOrgId: depId,
           status: 1,
           'organisations.roles':
-            [role]
+            [role],
 
         },
-        limit: 1
+        limit: 1,
       },
     }
     return this.http.post<any>(`${API_END_POINTS.GET_ALL_KONG_USER}`, reqBody).pipe(
