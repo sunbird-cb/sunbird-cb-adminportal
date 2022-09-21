@@ -35,7 +35,6 @@ export class RolesAccessComponent implements OnInit {
   ) {
     this.getAllKongUsers()
     this.userRoles = _.get(this.activeRoute, 'snapshot.parent.data.configService.unMappedUser.roles')
-    console.log('userRoles', this.userRoles)
     if (this.userRoles.indexOf('STATE_ADMIN') >= 0) {
       this.roleType = 'STATE'
     }
