@@ -24,18 +24,17 @@ export class RolesAccessComponent implements OnInit {
   counts: any = []
   rolesObject: any = []
   rolesContentObject: any = []
-  individualRoleCount: boolean = true
+  individualRoleCount = true
   userRoles: any = []
   roleType: any = ''
 
   constructor(private router: Router,
-    private activeRoute: ActivatedRoute,
-    private usersService: UsersService,
-    private roleservice: RolesService
+              private activeRoute: ActivatedRoute,
+              private usersService: UsersService,
+              private roleservice: RolesService
   ) {
     this.getAllKongUsers()
     this.userRoles = _.get(this.activeRoute, 'snapshot.parent.data.configService.unMappedUser.roles')
-    console.log('userRoles', this.userRoles)
     if (this.userRoles.indexOf('STATE_ADMIN') >= 0) {
       this.roleType = 'STATE'
     }
@@ -55,17 +54,16 @@ export class RolesAccessComponent implements OnInit {
             if (temp === 0) {
               this.rolesObject.push({
                 name: this.parseRoledata.orgTypeList[i].name,
-                roles: this.parseRoledata.orgTypeList[i].roles
+                roles: this.parseRoledata.orgTypeList[i].roles,
               })
               this.rolesContentObject.push(
                 this.parseRoledata.orgTypeList[i].roles
               )
             }
-          }
-          else {
+          } else {
             this.rolesObject.push({
               name: this.parseRoledata.orgTypeList[i].name,
-              roles: this.parseRoledata.orgTypeList[i].roles
+              roles: this.parseRoledata.orgTypeList[i].roles,
             })
             this.rolesContentObject.push(
               this.parseRoledata.orgTypeList[i].roles
@@ -107,7 +105,7 @@ export class RolesAccessComponent implements OnInit {
     this.tabledata = {
       columns: [
         { displayName: 'Role', key: 'role' },
-        { displayName: 'Count', key: 'count' }
+        { displayName: 'Count', key: 'count' },
       ],
       actions: [{ icon: 'refresh', label: 'Refresh', name: 'ViewCount', type: 'link' }],
       needCheckBox: false,
@@ -115,7 +113,7 @@ export class RolesAccessComponent implements OnInit {
       sortColumn: 'role',
       needUserMenus: false,
       sortState: 'asc',
-      actionColumnName: 'Refresh'
+      actionColumnName: 'Refresh',
     }
     this.fetchRoles()
 
@@ -128,7 +126,6 @@ export class RolesAccessComponent implements OnInit {
       this.fetchIndidualRoleData(rootOrgId, individualRole)
     }
   }
-
 
   /* Click event to navigate to a particular role */
   onRoleClick(event: any) {
