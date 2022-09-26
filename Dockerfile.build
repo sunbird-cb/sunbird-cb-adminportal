@@ -3,6 +3,16 @@ FROM node:12
 WORKDIR /usr/src/app
 
 COPY . .
+RUN apk add --update --no-cache \
+  make \
+  g++ \
+  automake \
+  autoconf \
+  libtool \
+  nasm \
+  libjpeg-turbo-dev
+RUN npm install jpegtran-bin
+
 RUN apt update && apt install -y zip
 
 RUN npm install && npm run build
