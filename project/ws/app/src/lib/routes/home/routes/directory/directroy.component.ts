@@ -220,4 +220,3 @@ export class DirectoryViewComponent implements OnInit {
     this.events.handleTabTelemetry(sub, data)
   }
 }
-
