@@ -10,7 +10,7 @@ describe('MyDashboardHomeComponent', () => {
     TestBed.configureTestingModule({
       declarations: [MyDashboardHomeComponent],
     })
-    .compileComponents()
+      .compileComponents()
   }))
 
   beforeEach(() => {

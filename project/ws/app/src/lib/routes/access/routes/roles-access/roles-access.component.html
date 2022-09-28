@@ -1,3 +1,11 @@
-<ws-widget-ui-user-table [tableData]="tabledata" [data]="data" (eOnRowClick)="onRoleClick($event)"
-  [needAddAdmin]="false" [needCreateUser]="false">
-</ws-widget-ui-user-table>
+<ng-container *ngIf="data?.length > 0">
+  <ws-widget-ui-user-table [tableData]="tabledata" [data]="data" (eOnRowClick)="onRoleClick($event)"
+    (actionsClick)="actionsClick($event)" [needAddAdmin]="false" [needCreateUser]="false">
+  </ws-widget-ui-user-table>
+</ng-container>
+
+<ng-container *ngIf="!(data?.length > 0) || !individualRoleCount">
+  <div class="flex flex-1">
+    <mat-spinner strokeWidth="3" diameter="50"></mat-spinner>
+  </div>
+</ng-container>
