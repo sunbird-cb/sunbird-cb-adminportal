@@ -105,7 +105,7 @@ export class DirectoryViewComponent implements OnInit {
     let index = 1
     key.toLocaleLowerCase()
     if (key === 'cbp') {
-      key = 'cbp-providers'
+      'cbp-providers'
     }
     if (key === 'cbc') {
       index = 1
@@ -121,7 +121,6 @@ export class DirectoryViewComponent implements OnInit {
     this.raiseTabTelemetry(key, data)
     this.getDepartDataByKey(key)
   }
-
   getDepartDataByKey(key: string) {
     if (key) {
       this.currentFilter = key
