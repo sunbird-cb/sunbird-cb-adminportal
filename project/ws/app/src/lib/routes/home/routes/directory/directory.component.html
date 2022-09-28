@@ -12,9 +12,31 @@
     <mat-card-content>
       <div class="flex flex-1 flex-column margin-fix">
         <div class="flex flex-1 filter max-height-60">
-          <a *ngFor="let department of departmentHearders" class="filter-option" [ngClass]="{'ws-mat-accent-border-active' : currentFilter ===department,
+          <div *ngFor="let department of departmentHearders">
+            <!-- {{ department }} -->
+            <a *ngIf="department==='CBC'" class="filter-option" [ngClass]="{'ws-mat-accent-border-active' : currentFilter === 'cbc',
+                          'ws-mat-accent-border font-medium':currentFilter !== 'cbc'}" mat-button
+              [routerLink]="'/app/home/directory/cbc'" (click)="filter(department)" role="button">
+              CBC</a>
+
+            <a *ngIf="department==='CBP Providers'" class="filter-option" [ngClass]="{'ws-mat-accent-border-active' : currentFilter === 'cbp-providers',
+                                        'ws-mat-accent-border font-medium':currentFilter !== 'cbp-providers'}"
+              mat-button [routerLink]="'/app/home/directory/cbp-providers'" (click)="filter(department)" role="button">
+              CBP Providers</a>
+            <a *ngIf="department==='MDO'" class="filter-option" [ngClass]="{'ws-mat-accent-border-active' : currentFilter === 'mdo',
+                                                      'ws-mat-accent-border font-medium':currentFilter !== 'mdo'}"
+              mat-button [routerLink]="'/app/home/directory/mdo'" (click)="filter(department)" role="button">
+              MDO </a>
+            <a *ngIf="department==='STATE'" class="filter-option" [ngClass]="{'ws-mat-accent-border-active' : currentFilter === 'state',
+                                                      'ws-mat-accent-border font-medium':currentFilter !== 'state'}"
+              mat-button [routerLink]="'/app/home/directory/state'" (click)="filter(department)" role="button">
+              STATE</a>
+          </div>
+          <!-- <a *ngFor="let department of departmentHearders" class="filter-option" [ngClass]="{'ws-mat-accent-border-active' : currentFilter ===department,
               'ws-mat-accent-border font-medium':currentFilter !== 'department'}" mat-button
-            [routerLink]="'/app/home/directory'" (click)="filter(department)" role="button">{{department}}</a>
+            [routerLink]="'/app/home/directory'" [queryParams]="{ status: department }" (click)="filter(department)"
+            role="button">
+            {{department}}</a> -->
         </div>
       </div>
       <ng-container>

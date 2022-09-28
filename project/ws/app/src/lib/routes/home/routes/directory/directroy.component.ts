@@ -1,4 +1,3 @@
-
 import { Component, OnInit } from '@angular/core'
 import { NSProfileDataV2 } from '../../models/profile-v2.model'
 import { MatDialog } from '@angular/material/dialog'
@@ -17,7 +16,7 @@ import { DirectoryService } from '../../services/directory.services'
   /* tslint:enable */
 })
 export class DirectoryViewComponent implements OnInit {
-  currentFilter = 'MDO'
+  currentFilter = 'mdo'
   portalProfile!: NSProfileDataV2.IProfile
   tabs: any
   tabsData: NSProfileDataV2.IProfileTab[]
@@ -29,6 +28,7 @@ export class DirectoryViewComponent implements OnInit {
   departmentHearders: any = []
   departmentHeaderArray: any = []
   isStateAdmin = false
+  key: string = 'mdo'
 
   constructor(
     public dialog: MatDialog,
@@ -46,16 +46,15 @@ export class DirectoryViewComponent implements OnInit {
         && data.profile.data.length > 0
         && data.profile.data[0]
     })
-    this.route.params.subscribe(params => {
-      this.currentFilter = params['department']
-      if (this.currentFilter === null || this.currentFilter === undefined) {
-        this.currentFilter = 'MDO'
-      }
-    })
-
   }
 
   ngOnInit() {
+    this.route.params.subscribe(params => {
+      this.currentFilter = params['tab']
+      if (this.currentFilter === null || this.currentFilter === undefined) {
+        this.currentFilter = 'mdo'
+      }
+    })
     this.getAllDepartmentsHeaderAPI()
     this.getAllDepartments()
   }
@@ -72,7 +71,7 @@ export class DirectoryViewComponent implements OnInit {
         }
       })
       if (this.departmentHearders && this.departmentHearders.length) {
-        this.getDepartDataByKey(this.departmentHearders[0])
+        this.getDepartDataByKey(this.currentFilter)
         this.createTableHeader()
       }
     })
@@ -95,7 +94,7 @@ export class DirectoryViewComponent implements OnInit {
     this.directoryService.getAllDepartmentsKong().subscribe(res => {
       this.wholeData2 = res.result.response.content
       if (this.departmentHearders && this.departmentHearders.length) {
-        this.getDepartDataByKey(this.departmentHearders[0])
+        this.getDepartDataByKey(this.currentFilter)
       }
     })
   }
@@ -104,11 +103,15 @@ export class DirectoryViewComponent implements OnInit {
   }
   filter(key: string | 'timestamp' | 'best' | 'saved') {
     let index = 1
-    if (key === 'CBC') {
+    key = key.toLocaleLowerCase()
+    if (key === 'cbp providers') {
+      key = 'cbp-providers'
+    }
+    if (key === 'cbc') {
       index = 1
-    } else if (key === 'CBP') {
+    } else if (key === 'cbp') {
       index = 2
-    } else if (key === 'SPV') {
+    } else if (key === 'spv') {
       index = 3
     }
     const data = {
@@ -118,13 +121,14 @@ export class DirectoryViewComponent implements OnInit {
     this.raiseTabTelemetry(key, data)
     this.getDepartDataByKey(key)
   }
+
   getDepartDataByKey(key: string) {
     if (key) {
       this.currentFilter = key
       this.currentDepartment = key
       const filteredData2: any[] = []
       switch (key) {
-        case 'MDO':
+        case 'mdo':
           this.wholeData2.forEach((element: any) => {
             let department = ''
             if (element.isMdo) {
@@ -142,7 +146,7 @@ export class DirectoryViewComponent implements OnInit {
             }
           })
           break
-        case 'CBP Providers':
+        case 'cbp-providers':
           this.wholeData2.forEach((element: any) => {
             let department = ''
             if (element.isCbp) {
@@ -160,7 +164,7 @@ export class DirectoryViewComponent implements OnInit {
             }
           })
           break
-        case 'CBC':
+        case 'cbc':
           this.wholeData2.forEach((element: any) => {
             let department = ''
             if (element.isCbc) {
@@ -178,7 +182,7 @@ export class DirectoryViewComponent implements OnInit {
             }
           })
           break
-        case 'STATE':
+        case 'state':
           this.wholeData2.forEach((element: any) => {
             let department = ''
             if (element.isState) {
@@ -219,3 +223,4 @@ export class DirectoryViewComponent implements OnInit {
   }
 
 }
+

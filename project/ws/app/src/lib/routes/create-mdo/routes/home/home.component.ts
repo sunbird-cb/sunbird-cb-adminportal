@@ -21,6 +21,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   mydept!: string
   role: any
   dept!: string
+  urlValue: any = ''
+  titles: any = []
   constructor(
     private valueSvc: ValueService,
     // private router: Router,
@@ -36,18 +38,32 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     //   }
     // })
-    this.route.queryParams.subscribe(params => {
-      this.dept = params['currentDept']
-      this.mydept = params['depatName']
-    })
+
   }
 
   ngOnInit() {
+
+    this.route.queryParams.subscribe(params => {
+      this.dept = params['currentDept']
+      this.mydept = params['depatName']
+
+      this.urlValue = this.dept
+    })
+
+    this.titles = [
+      { title: 'Directory', url: '/app/home/directory' },
+      { title: this.dept, url: `/app/home/directory/${this.urlValue}` },
+      { title: this.mydept, url: 'none' }
+    ]
 
     this.defaultSideNavBarOpenedSubscription = this.isLtMedium$.subscribe(isLtMedium => {
       this.sideNavBarOpened = !isLtMedium
       this.screenSizeIsLtMedium = isLtMedium
     })
+    // for (let item of this.titles) {
+    //   // console.log(item.title, 'url titles====')
+    // }
+
 
     // const url = this.router.url.split('/')
     // const dept = this.router.url.split('=')
