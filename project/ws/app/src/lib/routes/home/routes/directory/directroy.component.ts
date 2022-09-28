@@ -28,7 +28,7 @@ export class DirectoryViewComponent implements OnInit {
   departmentHearders: any = []
   departmentHeaderArray: any = []
   isStateAdmin = false
-  key: string = 'mdo'
+  key = 'mdo'
 
   constructor(
     public dialog: MatDialog,
@@ -103,8 +103,8 @@ export class DirectoryViewComponent implements OnInit {
   }
   filter(key: string | 'timestamp' | 'best' | 'saved') {
     let index = 1
-    key = key.toLocaleLowerCase()
-    if (key === 'cbp providers') {
+    key.toLocaleLowerCase()
+    if (key === 'cbp') {
       key = 'cbp-providers'
     }
     if (key === 'cbc') {
@@ -211,7 +211,6 @@ export class DirectoryViewComponent implements OnInit {
         }
       })
     }
-
     this.createTableHeader()
   }
 
@@ -221,6 +220,5 @@ export class DirectoryViewComponent implements OnInit {
   raiseTabTelemetry(sub: string, data: WsEvents.ITelemetryTabData) {
     this.events.handleTabTelemetry(sub, data)
   }
-
 }
 

@@ -53,40 +53,13 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.titles = [
       { title: 'Directory', url: '/app/home/directory' },
       { title: this.dept, url: `/app/home/directory/${this.urlValue}` },
-      { title: this.mydept, url: 'none' }
+      { title: this.mydept, url: 'none' },
     ]
 
     this.defaultSideNavBarOpenedSubscription = this.isLtMedium$.subscribe(isLtMedium => {
       this.sideNavBarOpened = !isLtMedium
       this.screenSizeIsLtMedium = isLtMedium
     })
-    // for (let item of this.titles) {
-    //   // console.log(item.title, 'url titles====')
-    // }
-
-
-    // const url = this.router.url.split('/')
-    // const dept = this.router.url.split('=')
-    // if (dept[1]) {
-    //   const nxt = dept[1].split(';')
-    //   const re = /\%20/gi
-    //   if (nxt[0] === 'true' || nxt[0].includes('%')) {
-    //     this.dept = url[3].replace(re, ' ')
-    //   } else {
-    //     this.dept = nxt[0].replace(re, ' ')
-    //   }
-    //   if (dept[3]) {
-    //     const depturl = dept[3].replace(re, ' ')
-    //     const depturl1 = decodeURI(depturl).replace(/%26/g, '&')
-    //     this.mydept = depturl1
-    //   } else {
-    //     this.mydept = 'Basic Information'
-    //   }
-    //   if (this.dept.length > 6) {
-    //     this.dept = 'CBP Providers'
-    //   }
-    //   this.role = url[url.length - 2]
-    // }
   }
 
   ngOnDestroy() {
