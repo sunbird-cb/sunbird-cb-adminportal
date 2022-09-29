@@ -108,15 +108,15 @@ export class DirectoryViewComponent implements OnInit {
   filter(value: string) {
     let key: string = '0'
     let index = 1
-    if (value = 'cbc') {
+    if (value === 'cbc') {
       key = 'cbc'
     } else if (value === 'cbp providers') {
       key = 'cbp-providers'
-    } else if (value = 'mdo') {
+    } else if (value === 'mdo') {
       key = 'mdo'
-    } else if (value = 'spv') {
+    } else if (value === 'spv') {
       key = 'spv'
-    } else if (value = 'state') {
+    } else if (value === 'state') {
       key = 'state'
     }
     if (key === 'cbc') {
