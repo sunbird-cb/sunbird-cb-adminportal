@@ -57,6 +57,7 @@ export class DirectoryViewComponent implements OnInit {
     })
     this.getAllDepartmentsHeaderAPI()
     this.getAllDepartments()
+    // console.log(this.key, 'key----')
   }
   getAllDepartmentsHeaderAPI() {
     this.directoryService.getDepartmentTitles().subscribe(res => {
@@ -88,7 +89,9 @@ export class DirectoryViewComponent implements OnInit {
       needHash: false,
       sortColumn: '',
       sortState: 'asc',
+
     }
+    // console.log(key, 'key-------')
   }
   getAllDepartments() {
     this.directoryService.getAllDepartmentsKong().subscribe(res => {
@@ -101,15 +104,24 @@ export class DirectoryViewComponent implements OnInit {
   onRoleClick(role: any) {
     this.router.navigate([`/app/roles/${role.id}/users`], { queryParams: { currentDept: this.currentFilter, roleId: role.id, depatName: role.mdo } })
   }
-  filter(key: string | 'timestamp' | 'best' | 'saved') {
+
+  filter(value: string) {
+    let key: string = '0'
     let index = 1
-    key.toLocaleLowerCase()
-    if (key === 'cbp') {
-      'cbp-providers'
+    if (value = 'cbc') {
+      key = 'cbc'
+    } else if (value === 'cbp providers') {
+      key = 'cbp-providers'
+    } else if (value = 'mdo') {
+      key = 'mdo'
+    } else if (value = 'spv') {
+      key = 'spv'
+    } else if (value = 'state') {
+      key = 'state'
     }
     if (key === 'cbc') {
       index = 1
-    } else if (key === 'cbp') {
+    } else if (key === 'cbp-providers') {
       index = 2
     } else if (key === 'spv') {
       index = 3

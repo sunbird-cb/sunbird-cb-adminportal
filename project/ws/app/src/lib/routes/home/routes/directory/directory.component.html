@@ -16,20 +16,23 @@
             <!-- {{ department }} -->
             <a *ngIf="department==='CBC'" class="filter-option" [ngClass]="{'ws-mat-accent-border-active' : currentFilter === 'cbc',
                           'ws-mat-accent-border font-medium':currentFilter !== 'cbc'}" mat-button
-              [routerLink]="'/app/home/directory/cbc'" (click)="filter(department)" role="button">
+              [routerLink]="'/app/home/directory/cbc'" (click)="filter(department.toLowerCase())" role="button">
               CBC</a>
 
             <a *ngIf="department==='CBP Providers'" class="filter-option" [ngClass]="{'ws-mat-accent-border-active' : currentFilter === 'cbp-providers',
                                         'ws-mat-accent-border font-medium':currentFilter !== 'cbp-providers'}"
-              mat-button [routerLink]="'/app/home/directory/cbp-providers'" (click)="filter(department)" role="button">
+              mat-button [routerLink]="'/app/home/directory/cbp-providers'" (click)="filter(department.toLowerCase())"
+              role="button">
               CBP Providers</a>
             <a *ngIf="department==='MDO'" class="filter-option" [ngClass]="{'ws-mat-accent-border-active' : currentFilter === 'mdo',
                                                       'ws-mat-accent-border font-medium':currentFilter !== 'mdo'}"
-              mat-button [routerLink]="'/app/home/directory/mdo'" (click)="filter(department)" role="button">
+              mat-button [routerLink]="'/app/home/directory/mdo'" (click)="filter(department.toLowerCase())"
+              role="button">
               MDO </a>
             <a *ngIf="department==='STATE'" class="filter-option" [ngClass]="{'ws-mat-accent-border-active' : currentFilter === 'state',
                                                       'ws-mat-accent-border font-medium':currentFilter !== 'state'}"
-              mat-button [routerLink]="'/app/home/directory/state'" (click)="filter(department)" role="button">
+              mat-button [routerLink]="'/app/home/directory/state'" (click)="filter(department.toLowerCase())"
+              role="button">
               STATE</a>
           </div>
           <!-- <a *ngFor="let department of departmentHearders" class="filter-option" [ngClass]="{'ws-mat-accent-border-active' : currentFilter ===department,
