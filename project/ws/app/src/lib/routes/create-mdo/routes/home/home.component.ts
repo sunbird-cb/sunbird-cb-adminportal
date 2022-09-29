@@ -21,6 +21,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   mydept!: string
   role: any
   dept!: string
+  urlValue: any = ''
+  titles: any = []
   constructor(
     private valueSvc: ValueService,
     // private router: Router,
@@ -36,41 +38,28 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     //   }
     // })
-    this.route.queryParams.subscribe(params => {
-      this.dept = params['currentDept']
-      this.mydept = params['depatName']
-    })
+
   }
 
   ngOnInit() {
+
+    this.route.queryParams.subscribe(params => {
+      this.dept = params['currentDept']
+      this.mydept = params['depatName']
+
+      this.urlValue = this.dept
+    })
+
+    this.titles = [
+      { title: 'Directory', url: '/app/home/directory' },
+      { title: this.dept, url: `/app/home/directory/${this.urlValue}` },
+      { title: this.mydept, url: 'none' },
+    ]
 
     this.defaultSideNavBarOpenedSubscription = this.isLtMedium$.subscribe(isLtMedium => {
       this.sideNavBarOpened = !isLtMedium
       this.screenSizeIsLtMedium = isLtMedium
     })
-
-    // const url = this.router.url.split('/')
-    // const dept = this.router.url.split('=')
-    // if (dept[1]) {
-    //   const nxt = dept[1].split(';')
-    //   const re = /\%20/gi
-    //   if (nxt[0] === 'true' || nxt[0].includes('%')) {
-    //     this.dept = url[3].replace(re, ' ')
-    //   } else {
-    //     this.dept = nxt[0].replace(re, ' ')
-    //   }
-    //   if (dept[3]) {
-    //     const depturl = dept[3].replace(re, ' ')
-    //     const depturl1 = decodeURI(depturl).replace(/%26/g, '&')
-    //     this.mydept = depturl1
-    //   } else {
-    //     this.mydept = 'Basic Information'
-    //   }
-    //   if (this.dept.length > 6) {
-    //     this.dept = 'CBP Providers'
-    //   }
-    //   this.role = url[url.length - 2]
-    // }
   }
 
   ngOnDestroy() {

@@ -24,7 +24,7 @@ const routes: Routes = [
       configService: ConfigResolveService,
     },
     data: {
-      pageId: 'app/directory',
+      pageId: 'app/directory/mdo',
       module: 'Directory',
       pageType: 'feature',
       pageKey: 'directory',
@@ -41,6 +41,19 @@ const routes: Routes = [
           pageKey: 'Users',
         },
       },
+      // {
+      //   path: 'users',
+      //   redirectTo: 'users/active',
+      //   component: UsersViewComponent,
+      //   // component: UsersViewComponent,
+      //   children: [],
+      //   data: {
+      //     pageId: 'app/users',
+      //     module: 'user',
+      //     pageType: 'feature',
+      //     pageKey: 'Users',
+      //   },
+      // },
       {
         path: 'roles-access',
         component: RolesAccessComponent,
@@ -68,7 +81,19 @@ const routes: Routes = [
         },
       },
       {
+        path: 'directory/:tab',
+        data: {
+          pageId: 'app/directory',
+          module: 'home',
+          pageType: 'feature',
+          pageKey: 'Directory',
+        },
+        component: DirectoryViewComponent,
+      },
+      {
         path: 'directory',
+        // pathMatch: 'full',
+        redirectTo: 'directory/mdo',
         component: DirectoryViewComponent,
         data: {
           pageId: 'app/directory',

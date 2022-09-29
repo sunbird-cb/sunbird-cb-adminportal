@@ -1,4 +1,3 @@
-
 import { Component, OnInit } from '@angular/core'
 import { NSProfileDataV2 } from '../../models/profile-v2.model'
 import { MatDialog } from '@angular/material/dialog'
@@ -17,7 +16,7 @@ import { DirectoryService } from '../../services/directory.services'
   /* tslint:enable */
 })
 export class DirectoryViewComponent implements OnInit {
-  currentFilter = 'MDO'
+  currentFilter = 'mdo'
   portalProfile!: NSProfileDataV2.IProfile
   tabs: any
   tabsData: NSProfileDataV2.IProfileTab[]
@@ -29,6 +28,7 @@ export class DirectoryViewComponent implements OnInit {
   departmentHearders: any = []
   departmentHeaderArray: any = []
   isStateAdmin = false
+  key = 'mdo'
 
   constructor(
     public dialog: MatDialog,
@@ -46,18 +46,18 @@ export class DirectoryViewComponent implements OnInit {
         && data.profile.data.length > 0
         && data.profile.data[0]
     })
-    this.route.params.subscribe(params => {
-      this.currentFilter = params['department']
-      if (this.currentFilter === null || this.currentFilter === undefined) {
-        this.currentFilter = 'MDO'
-      }
-    })
-
   }
 
   ngOnInit() {
+    this.route.params.subscribe(params => {
+      this.currentFilter = params['tab']
+      if (this.currentFilter === null || this.currentFilter === undefined) {
+        this.currentFilter = 'mdo'
+      }
+    })
     this.getAllDepartmentsHeaderAPI()
     this.getAllDepartments()
+    // console.log(this.key, 'key----')
   }
   getAllDepartmentsHeaderAPI() {
     this.directoryService.getDepartmentTitles().subscribe(res => {
@@ -72,7 +72,7 @@ export class DirectoryViewComponent implements OnInit {
         }
       })
       if (this.departmentHearders && this.departmentHearders.length) {
-        this.getDepartDataByKey(this.departmentHearders[0])
+        this.getDepartDataByKey(this.currentFilter)
         this.createTableHeader()
       }
     })
@@ -89,26 +89,41 @@ export class DirectoryViewComponent implements OnInit {
       needHash: false,
       sortColumn: '',
       sortState: 'asc',
+
     }
+    // console.log(key, 'key-------')
   }
   getAllDepartments() {
     this.directoryService.getAllDepartmentsKong().subscribe(res => {
       this.wholeData2 = res.result.response.content
       if (this.departmentHearders && this.departmentHearders.length) {
-        this.getDepartDataByKey(this.departmentHearders[0])
+        this.getDepartDataByKey(this.currentFilter)
       }
     })
   }
   onRoleClick(role: any) {
     this.router.navigate([`/app/roles/${role.id}/users`], { queryParams: { currentDept: this.currentFilter, roleId: role.id, depatName: role.mdo } })
   }
-  filter(key: string | 'timestamp' | 'best' | 'saved') {
+
+  filter(value: string) {
+    let key = ''
     let index = 1
-    if (key === 'CBC') {
+    if (value === 'cbc') {
+      key = 'cbc'
+    } else if (value === 'cbp providers') {
+      key = 'cbp-providers'
+    } else if (value === 'mdo') {
+      key = 'mdo'
+    } else if (value === 'spv') {
+      key = 'spv'
+    } else if (value === 'state') {
+      key = 'state'
+    }
+    if (key === 'cbc') {
       index = 1
-    } else if (key === 'CBP') {
+    } else if (key === 'cbp-providers') {
       index = 2
-    } else if (key === 'SPV') {
+    } else if (key === 'spv') {
       index = 3
     }
     const data = {
@@ -124,7 +139,7 @@ export class DirectoryViewComponent implements OnInit {
       this.currentDepartment = key
       const filteredData2: any[] = []
       switch (key) {
-        case 'MDO':
+        case 'mdo':
           this.wholeData2.forEach((element: any) => {
             let department = ''
             if (element.isMdo) {
@@ -142,7 +157,7 @@ export class DirectoryViewComponent implements OnInit {
             }
           })
           break
-        case 'CBP Providers':
+        case 'cbp-providers':
           this.wholeData2.forEach((element: any) => {
             let department = ''
             if (element.isCbp) {
@@ -160,7 +175,7 @@ export class DirectoryViewComponent implements OnInit {
             }
           })
           break
-        case 'CBC':
+        case 'cbc':
           this.wholeData2.forEach((element: any) => {
             let department = ''
             if (element.isCbc) {
@@ -178,7 +193,7 @@ export class DirectoryViewComponent implements OnInit {
             }
           })
           break
-        case 'STATE':
+        case 'state':
           this.wholeData2.forEach((element: any) => {
             let department = ''
             if (element.isState) {
@@ -207,7 +222,6 @@ export class DirectoryViewComponent implements OnInit {
         }
       })
     }
-
     this.createTableHeader()
   }
 
@@ -217,5 +231,4 @@ export class DirectoryViewComponent implements OnInit {
   raiseTabTelemetry(sub: string, data: WsEvents.ITelemetryTabData) {
     this.events.handleTabTelemetry(sub, data)
   }
-
 }
