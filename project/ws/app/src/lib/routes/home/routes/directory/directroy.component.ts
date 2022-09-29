@@ -106,7 +106,7 @@ export class DirectoryViewComponent implements OnInit {
   }
 
   filter(value: string) {
-    let key: string = '0'
+    let key = ''
     let index = 1
     if (value === 'cbc') {
       key = 'cbc'
