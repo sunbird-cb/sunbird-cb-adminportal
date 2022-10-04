@@ -18,6 +18,8 @@ import { RolesUsersComponent } from './routes/roles-users/roles-users.component'
 const routes: Routes = [
   {
     path: '',
+    // redirectTo: 'app/home/directory/mdo',
+    // pathMatch: 'full',
     component: HomeComponent,
     resolve: {
       department: DepartmentResolve,
@@ -41,19 +43,20 @@ const routes: Routes = [
           pageKey: 'Users',
         },
       },
-      // {
-      //   path: 'users',
-      //   redirectTo: 'users/active',
-      //   component: UsersViewComponent,
-      //   // component: UsersViewComponent,
-      //   children: [],
-      //   data: {
-      //     pageId: 'app/users',
-      //     module: 'user',
-      //     pageType: 'feature',
-      //     pageKey: 'Users',
-      //   },
-      // },
+      {
+        path: '',
+        redirectTo: 'directory/mdo',
+        // redirectTo: 'users/active',
+        component: DirectoryViewComponent,
+        // component: UsersViewComponent,
+        children: [],
+        data: {
+          pageId: 'app/directory',
+          module: 'home',
+          pageType: 'feature',
+          pageKey: 'Directory',
+        },
+      },
       {
         path: 'roles-access',
         component: RolesAccessComponent,
