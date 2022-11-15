@@ -543,8 +543,8 @@ export class CreateMdoComponent implements OnInit {
           const req = {
             orgName: stateFromValue.orgname,
             channel: stateFromValue.orgname,
-            organisationType: stateFromValue.sborgtype,
-            organisationSubType: stateFromValue.sbsuborgtype,
+            organisationType: stateFromValue.sborgtype.toLowerCase(),
+            organisationSubType: stateFromValue.sbsuborgtype.toLowerCase(),
             mapId: stateFromValue.mapid,
             isTenant: true,
             requestedBy: this.loggedInUserId,
@@ -576,8 +576,8 @@ export class CreateMdoComponent implements OnInit {
         const req = {
           orgName: stateFromValue.orgname,
           channel: stateFromValue.orgname,
-          organisationType: stateFromValue.sborgtype,
-          organisationSubType: stateFromValue.sbsuborgtype,
+          organisationType: stateFromValue.sborgtype.toLowerCase(),
+          organisationSubType: stateFromValue.sbsuborgtype.toLowerCase(),
           mapId: stateFromValue.mapid,
           isTenant: true,
           requestedBy: this.loggedInUserId,
@@ -631,8 +631,8 @@ export class CreateMdoComponent implements OnInit {
           const req = {
             orgName: hierarchyObj.orgname,
             channel: hierarchyObj.orgname,
-            organisationType: hierarchyObj.sborgtype,
-            organisationSubType: hierarchyObj.sbsuborgtype,
+            organisationType: hierarchyObj.sborgtype.toLowerCase(),
+            organisationSubType: hierarchyObj.sbsuborgtype.toLowerCase(),
             mapId: hierarchyObj.mapid,
             isTenant: true,
             ...(this.isStateAdmin && { sbRootOrgId: _.get(this.activatedRoute, 'snapshot.parent.data.configService.unMappedUser.rootOrgId') }),
@@ -682,8 +682,8 @@ export class CreateMdoComponent implements OnInit {
           const req = {
             orgName: hierarchyObj.orgname,
             channel: hierarchyObj.orgname,
-            organisationType: hierarchyObj.sborgtype,
-            organisationSubType: hierarchyObj.sbsuborgtype,
+            organisationType: hierarchyObj.sborgtype.toLowerCase(),
+            organisationSubType: hierarchyObj.sbsuborgtype.toLowerCase(),
             mapId: hierarchyObj.mapid,
             isTenant: true,
             requestedBy: this.loggedInUserId,
