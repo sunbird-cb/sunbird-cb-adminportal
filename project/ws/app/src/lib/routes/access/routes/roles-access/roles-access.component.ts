@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router'
 import { UsersService } from '../../../home/services/users.service'
 import * as _ from 'lodash'
 import { RolesService } from '../../../home/services/roles.service'
+import { environment } from '../../../../../../../../../src/environments/environment'
 // import { RolesAccessService } from '../../services/roles-access.service'
 @Component({
   selector: 'ws-app-roles-access',
@@ -37,8 +38,6 @@ export class RolesAccessComponent implements OnInit, AfterViewInit {
 
   }
 
-
-
   ngAfterViewInit() {
     // this.elementPosition = this.menuElement.nativeElement.parentElement.offsetTop
   }
@@ -53,8 +52,8 @@ export class RolesAccessComponent implements OnInit, AfterViewInit {
     this.roleservice.getAllRoles().subscribe(data => {
       this.parseRoledata = JSON.parse(data.result.response.value)
       for (let i = 0; i < this.parseRoledata.orgTypeList.length; i += 1) {
-        if (this.currentDept.toUpperCase() === "CBP-PROVIDERS") {
-          this.currentDept = "CBP"
+        if (environment.cbpProviderRoles.includes(this.currentDept.toLowerCase())) {
+          this.currentDept = 'CBP'
         }
         if (this.parseRoledata.orgTypeList[i].name === this.currentDept.toUpperCase()) {
           if (this.rolesObject.length > 0) {
@@ -144,7 +143,6 @@ export class RolesAccessComponent implements OnInit, AfterViewInit {
       }
     })
   }
-
 
   ngOnInit() {
     this.tabledata = {
