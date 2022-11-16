@@ -1,4 +1,4 @@
-<ng-container *ngIf="data?.length > 0">
+<ng-container *ngIf="data?.length > 0 || individualRoleCount">
   <ws-widget-ui-user-table [tableData]="tabledata" [data]="data" (eOnRowClick)="onRoleClick($event)"
     (actionsClick)="actionsClick($event)" [needAddAdmin]="false" [needCreateUser]="false">
   </ws-widget-ui-user-table>

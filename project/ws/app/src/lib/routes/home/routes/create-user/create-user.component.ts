@@ -124,10 +124,14 @@ export class CreateUserComponent implements OnInit {
     this.directoryService.getDepartmentTitles().subscribe(res => {
       const departmentHeaderArray = JSON.parse(res.result.response.value)
       departmentHeaderArray.orgTypeList.forEach((ele: { name: any, isHidden: any, roles: [] }) => {
-        if (ele.name === this.currentDept) {
+        if (this.currentDept.toUpperCase() === "CBP-PROVIDERS") {
+          this.currentDept = "CBP"
+        }
+        if (ele.name === this.currentDept.toUpperCase()) {
           this.roles = ele.roles
         }
       })
+
     })
   }
   // getAllDept() {
