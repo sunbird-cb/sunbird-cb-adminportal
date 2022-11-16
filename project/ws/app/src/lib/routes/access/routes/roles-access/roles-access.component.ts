@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router'
 import { UsersService } from '../../../home/services/users.service'
 import * as _ from 'lodash'
 import { RolesService } from '../../../home/services/roles.service'
+import { environment } from '../../../../../../../../../src/environments/environment'
 // import { RolesAccessService } from '../../services/roles-access.service'
 @Component({
   selector: 'ws-app-roles-access',
@@ -23,7 +24,7 @@ export class RolesAccessComponent implements OnInit, AfterViewInit {
   individualRoleCount = true
   @Output() clickedDepartment = new EventEmitter<string>()
   constructor(private activatedRoute: ActivatedRoute,
-              private usersService: UsersService, private roleservice: RolesService
+    private usersService: UsersService, private roleservice: RolesService
   ) {
 
     this.activatedRoute.queryParams.subscribe(params => {
@@ -35,22 +36,6 @@ export class RolesAccessComponent implements OnInit, AfterViewInit {
       this.currentDept = 'CBP'
     }
 
-  }
-
-  ngOnInit() {
-    this.tabledata = {
-      columns: [
-        { displayName: 'Role', key: 'role' },
-        { displayName: 'Count', key: 'count' },
-      ],
-      actions: [{ icon: 'refresh', label: 'Refresh', name: 'ViewCount', type: 'link' }],
-      needCheckBox: false,
-      needHash: false,
-      sortColumn: '',
-      sortState: 'asc',
-      actionColumnName: 'Refresh',
-    }
-    this.getAllKongUsers()
   }
 
   ngAfterViewInit() {
@@ -67,7 +52,10 @@ export class RolesAccessComponent implements OnInit, AfterViewInit {
     this.roleservice.getAllRoles().subscribe(data => {
       this.parseRoledata = JSON.parse(data.result.response.value)
       for (let i = 0; i < this.parseRoledata.orgTypeList.length; i += 1) {
-        if (this.parseRoledata.orgTypeList[i].name === this.currentDept) {
+        if (environment.cbpProviderRoles.includes(this.currentDept.toLowerCase())) {
+          this.currentDept = 'CBP'
+        }
+        if (this.parseRoledata.orgTypeList[i].name === this.currentDept.toUpperCase()) {
           if (this.rolesObject.length > 0) {
             const temp = this.rolesObject.filter((v: any) => v.name === this.parseRoledata.orgTypeList[i].name).length
             if (temp === 0) {
@@ -148,12 +136,27 @@ export class RolesAccessComponent implements OnInit, AfterViewInit {
     }
   }
   getAllKongUsers() {
-    // const rootOrgId = _.get(this.activatedRoute.snapshot.parent, 'data.configService.unMappedUser.rootOrg.rootOrgId')
     this.usersService.getAllKongUsers(this.deparmentId).subscribe(data => {
-      if (data.result.response.content) {
+      if (data.result.response.content.length > 0) {
         this.userWholeData = data.result.response.content || []
         this.fetchRoles()
       }
     })
+  }
+
+  ngOnInit() {
+    this.tabledata = {
+      columns: [
+        { displayName: 'Role', key: 'role' },
+        { displayName: 'Count', key: 'count' },
+      ],
+      actions: [{ icon: 'refresh', label: 'Refresh', name: 'ViewCount', type: 'link' }],
+      needCheckBox: false,
+      needHash: false,
+      sortColumn: '',
+      sortState: 'asc',
+      actionColumnName: 'Refresh',
+    }
+    this.getAllKongUsers()
   }
 }
