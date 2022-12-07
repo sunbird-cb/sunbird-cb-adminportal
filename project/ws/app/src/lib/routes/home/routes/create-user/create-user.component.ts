@@ -7,6 +7,7 @@ import { ActivatedRoute, Router } from '@angular/router'
 import { DirectoryService } from '../../services/directory.services'
 import * as _ from 'lodash'
 import { EventService } from '@sunbird-cb/utils'
+import { environment } from '../../../../../../../../../src/environments/environment'
 
 @Component({
   selector: 'ws-app-create-user',
@@ -124,10 +125,14 @@ export class CreateUserComponent implements OnInit {
     this.directoryService.getDepartmentTitles().subscribe(res => {
       const departmentHeaderArray = JSON.parse(res.result.response.value)
       departmentHeaderArray.orgTypeList.forEach((ele: { name: any, isHidden: any, roles: [] }) => {
-        if (ele.name === this.currentDept) {
+        if (environment.cbpProviderRoles.includes(this.currentDept.toLowerCase())) {
+          this.currentDept = 'CBP'
+        }
+        if (ele.name === this.currentDept.toUpperCase()) {
           this.roles = ele.roles
         }
       })
+
     })
   }
   // getAllDept() {

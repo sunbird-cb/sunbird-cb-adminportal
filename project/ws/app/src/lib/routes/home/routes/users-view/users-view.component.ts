@@ -103,7 +103,7 @@ export class UsersViewComponent implements OnInit {
         _.set(user, 'isActive', false)
         _.set(user, 'roles', _.map(_.get($event.row, 'role'), i => i.roleName))
         this.usersService.newBlockUserKong(loggedInUserId, user.userId).subscribe(response => {
-          if (response.params.status === 'success') {
+          if (_.toUpper(response.params.status) === 'SUCCESS') {
             setTimeout(() => {
               this.getAllKongUsers()
               this.snackBar.open('Deactivated successfully!')
@@ -120,7 +120,7 @@ export class UsersViewComponent implements OnInit {
         _.set(user, 'isActive', true)
         _.set(user, 'roles', _.map(_.get($event.row, 'role'), i => i.roleName))
         this.usersService.newUnBlockUserKong(loggedInUserId, user.userId).subscribe(response => {
-          if (response.params.status === 'success') {
+          if (_.toUpper(response.params.status) === 'SUCCESS') {
             setTimeout(() => {
               this.getAllKongUsers()
               this.snackBar.open('Activated successfully!')
@@ -245,10 +245,10 @@ export class UsersViewComponent implements OnInit {
     // console.log(enterValue, rootOrgId)
 
     this.usersService.searchUserByenter(enterValue, rootOrgId).subscribe(data => {
-        this.usersData = data.result.response.content
-        // this.filterData()
-        // console.log("search", data)
-      }
+      this.usersData = data.result.response.content
+      // this.filterData()
+      // console.log("search", data)
+    }
     )
 
   }

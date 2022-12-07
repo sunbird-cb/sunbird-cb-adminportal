@@ -48,7 +48,7 @@ export class CreateMDOService {
         // requestedBy: loggedInUserId,
         organisationId: updateId,
         organisationType: depatment.toLowerCase(),
-        organisationSubType: deptType,
+        organisationSubType: deptType.toLowerCase(),
         requestedBy: loggedInUserId,
       },
     }
