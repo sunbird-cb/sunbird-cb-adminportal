@@ -132,10 +132,10 @@ export class CreateMdoComponent implements OnInit {
         deptMdoSubTypeId: new FormControl(),
       })
       this.stateForm = new FormGroup({
-        state: new FormControl('', [Validators.required, forbiddenNamesValidator(this.masterStates)]),
+        state: new FormControl('', [Validators.required]),
       })
       this.departmentForm = new FormGroup({
-        ministry: new FormControl('', [Validators.required, forbiddenNamesValidator(this.masterMinisteries)]),
+        ministry: new FormControl('', [Validators.required]),
         department: new FormControl('', [forbiddenNamesValidator(this.masterDepartments)]),
         organisation: new FormControl('', [forbiddenNamesValidator(this.masterOrgs)]),
       })
@@ -259,6 +259,17 @@ export class CreateMdoComponent implements OnInit {
       })
     })
 
+  }
+
+  specialCharachters(event: any) {
+
+    var inp = String.fromCharCode(event.keyCode)
+    if (/[a-zA-Z0-9()-/&.]/.test(inp)) {
+      return true
+    } else {
+      event.preventDefault()
+      return false
+    }
   }
 
   fetchDropDownValues() {
@@ -434,15 +445,16 @@ export class CreateMdoComponent implements OnInit {
         map(orgname => orgname ? this.filterStates(orgname) : this.states.slice())
       )
 
-    this.masterStates.subscribe((event: any) => {
+    this.masterStates.subscribe(() => {
       // tslint:disable-next-line: no-non-null-assertion
-      this.stateForm.get('state')!.setValidators([Validators.required, forbiddenNamesValidator(event)])
+      // this.stateForm.get('state')!.setValidators([Validators.required, forbiddenNamesValidator(event)])
       this.stateForm.updateValueAndValidity()
     })
   }
 
   onMinisteriesChange() {
     // tslint:disable-next-line: no-non-null-assertion
+    // console.log()
     this.masterMinisteries = this.departmentForm.get('ministry')!.valueChanges
       .pipe(
         debounceTime(500),
@@ -452,9 +464,9 @@ export class CreateMdoComponent implements OnInit {
         map(orgname => orgname ? this.filterMinisteries(orgname) : this.ministeries.slice())
       )
 
-    this.masterMinisteries.subscribe((event: any) => {
+    this.masterMinisteries.subscribe(() => {
       // tslint:disable-next-line: no-non-null-assertion
-      this.departmentForm.get('ministry')!.setValidators([Validators.required, forbiddenNamesValidator(event)])
+      // this.departmentForm.get('ministry')!.setValidators([Validators.required, forbiddenNamesValidator(event)])
       this.departmentForm.updateValueAndValidity()
     })
   }
@@ -541,13 +553,13 @@ export class CreateMdoComponent implements OnInit {
 
         } else {
           const req = {
-            orgName: stateFromValue.orgname,
-            channel: stateFromValue.orgname,
+            orgName: stateFromValue.orgname ? stateFromValue.orgname : stateFromValue,
+            channel: stateFromValue.orgname ? stateFromValue.orgname : stateFromValue,
             // organisationType: (stateFromValue.sborgtype || '').toLowerCase(),
             // organisationSubType: (stateFromValue.sborgtype || '').toLowerCase(),
-            organisationType: (stateFromValue.sborgtype || '').toLowerCase(),
-            organisationSubType: (stateFromValue.sbsuborgtype || '').toLowerCase(),
-            mapId: stateFromValue.mapid,
+            organisationType: stateFromValue.sborgtype ? (stateFromValue.sborgtype || '').toLowerCase() : 'state',
+            organisationSubType: stateFromValue.sbsuborgtype ? (stateFromValue.sbsuborgtype || '').toLowerCase() : 'mdo',
+            // mapId: stateFromValue.mapid ? stateFromValue.mapid : "00",
             isTenant: true,
             requestedBy: this.loggedInUserId,
           }
@@ -580,7 +592,7 @@ export class CreateMdoComponent implements OnInit {
           channel: stateFromValue.orgname,
           organisationType: (stateFromValue.sborgtype || '').toLowerCase(),
           organisationSubType: (stateFromValue.sbsuborgtype || '').toLowerCase(),
-          mapId: stateFromValue.mapid,
+          // mapId: stateFromValue.mapid,
           isTenant: true,
           requestedBy: this.loggedInUserId,
         }
@@ -631,12 +643,12 @@ export class CreateMdoComponent implements OnInit {
           this.displayLoader = false
         } else {
           const req = {
-            orgName: hierarchyObj.orgname,
-            channel: hierarchyObj.orgname,
-            organisationType: (hierarchyObj.sborgtype || '').toLowerCase(),
-            organisationSubType: (hierarchyObj.sbsuborgtype || '').toLowerCase(),
+            orgName: hierarchyObj.orgname ? hierarchyObj.orgname : hierarchyObj,
+            channel: hierarchyObj.orgname ? hierarchyObj.orgname : hierarchyObj,
+            organisationType: hierarchyObj.sborgtype ? (hierarchyObj.sborgtype || '').toLowerCase() : "ministry",
+            organisationSubType: hierarchyObj.sbsuborgtype ? (hierarchyObj.sbsuborgtype || '').toLowerCase() : "mdo",
 
-            mapId: hierarchyObj.mapid,
+            mapId: hierarchyObj.mapid ? hierarchyObj.mapid : "00",
             isTenant: true,
             ...(this.isStateAdmin && { sbRootOrgId: _.get(this.activatedRoute, 'snapshot.parent.data.configService.unMappedUser.rootOrgId') }),
             requestedBy: this.loggedInUserId,

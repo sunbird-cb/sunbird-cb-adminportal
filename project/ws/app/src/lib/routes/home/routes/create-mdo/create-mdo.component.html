@@ -112,10 +112,10 @@
                       aria-label="State is mandatory">
                       State is mandatory
                     </mat-error>
-                    <mat-error *ngIf="stateForm?.controls['state'].errors?.forbiddenNames" i18n-aria-label
+                    <!-- <mat-error *ngIf="stateForm?.controls['state'].errors?.forbiddenNames" i18n-aria-label
                       aria-label="You must enter value from suggested list only.">
                       You must enter value from suggested list only.
-                    </mat-error>
+                    </mat-error> -->
                   </mat-form-field>
                   <mat-autocomplete #stateAutocomplete="matAutocomplete" autoActiveFirstOption="true" i18n-aria-label
                     aria-label="State list masterStates" [displayWith]="displayFnState">
@@ -126,8 +126,8 @@
                   </mat-autocomplete>
                 </div>
                 <div>
-                  <button *ngIf="!isUpdate" [disabled]="!stateForm.valid || disableCreateButton" mat-raised-button
-                    type="submit" class="text-white ws-mat-primary-background text-white margin-right-m btn-success">
+                  <button *ngIf="!isUpdate" [disabled]="!stateForm.valid" mat-raised-button type="submit"
+                    class="text-white ws-mat-primary-background text-white margin-right-m btn-success">
                     <b class="text-white" i18n>Create</b>
                   </button>
                   <button *ngIf="isUpdate" mat-raised-button type="submit"
@@ -157,23 +157,24 @@
                   <div class="input-wrapper margin-top-s">
                     <label for="Ministry" class=" margin-remove-bottom form-label required"
                       i18n="Ministry|Label which explains the user to enter Ministry" i18n-aria-label
-                      aria-label="Ministry Field label">
+                      aria-label="Ministry Field label ">
                       Ministry
                     </label>
                     <mat-form-field appearance="outline" class="margin-top-s w-full">
                       <input id="ministry" matInput tab-directive type="text" placeholder="Select your ministry"
-                        i18n-placeholder="Ministry" formControlName="ministry" [matAutocomplete]="ministryAutocomplete"
-                        i18n-aria-label aria-label="Ministry" #ministry i18n-aria-label
-                        aria-label="Ministry Field input" />
+                        i18n-placeholder="Ministry" formControlName="ministry" (keypress)="specialCharachters($event)"
+                        [matAutocomplete]="ministryAutocomplete" i18n-aria-label aria-label="Ministry" #ministry
+                        i18n-aria-label aria-label="Ministry Field input" />
                       <mat-error [hidden]="false" i18n="Ministry Error|Explains Ministry is required"
                         *ngIf="departmentForm?.controls['ministry'].errors?.required" i18n-aria-label
                         aria-label="Ministry is mandatory">
                         Ministry is mandatory
                       </mat-error>
-                      <mat-error *ngIf="departmentForm?.controls['ministry'].errors?.forbiddenNames" i18n-aria-label
+
+                      <!-- <mat-error *ngIf="departmentForm?.controls['ministry'].errors?.forbiddenNames" i18n-aria-label
                         aria-label="You must enter value from suggested list only.">
                         You must enter value from suggested list only.
-                      </mat-error>
+                      </mat-error> -->
                     </mat-form-field>
                     <mat-autocomplete #ministryAutocomplete="matAutocomplete" autoActiveFirstOption="true"
                       i18n-aria-label aria-label="Ministry list masterMinistry" [displayWith]="displayFnState"
@@ -184,8 +185,8 @@
                       </mat-option>
                     </mat-autocomplete>
                   </div>
-
-                  <div class="input-wrapper margin-top-s">
+                  <!-- <div>{{ departmentForm['ministry']?.value?.orgname }} </div> -->
+                  <div *ngIf="departmentForm?.controls['ministry']?.value?.orgname" class="input-wrapper margin-top-s">
                     <label for="Department" class=" margin-remove-bottom form-label"
                       i18n="Department|Label which explains the user to enter Department" i18n-aria-label
                       aria-label="Department Field label">
@@ -216,7 +217,8 @@
                     </mat-autocomplete>
                   </div>
 
-                  <div class="input-wrapper margin-top-s">
+                  <div *ngIf="departmentForm?.controls['department']?.value?.orgname"
+                    class="input-wrapper margin-top-s">
                     <label for="Organisation" class=" margin-remove-bottom form-label"
                       i18n="Organisation|Label which explains the user to enter Organisation" i18n-aria-label
                       aria-label="Organisation Field label">
