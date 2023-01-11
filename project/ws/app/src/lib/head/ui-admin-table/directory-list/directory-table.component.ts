@@ -26,6 +26,8 @@ export class UIDirectoryTableComponent implements OnInit, AfterViewInit, OnChang
   @Output() clicked?: EventEmitter<any>
   @Output() actionsClick?: EventEmitter<any>
   @Output() eOnRowClick = new EventEmitter<any>()
+  @Output() searchByEnterKey = new EventEmitter<any>()
+
   bodyHeight = document.body.clientHeight - 125
   // displayedColumns: IColums[] | undefined
   dataSource!: any
@@ -141,12 +143,15 @@ export class UIDirectoryTableComponent implements OnInit, AfterViewInit, OnChang
     this.events.raiseInteractTelemetry({
       type: 'click',
       subType: sub,
-    },
-
-                                       {
+      // tslint:disable-next-line:align
+    }, {
         id: e.id,
         type: 'department',
       },
     )
+  }
+
+  onSearchEnter(event: any) {
+    this.searchByEnterKey.emit(event.target.value)
   }
 }
