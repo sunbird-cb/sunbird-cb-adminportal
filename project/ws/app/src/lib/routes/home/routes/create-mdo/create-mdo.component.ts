@@ -124,7 +124,7 @@ export class CreateMdoComponent implements OnInit {
       if (this.userRoles.indexOf('STATE_ADMIN') >= 0) {
         this.isStateAdmin = true
       }
-      // console.log(this.loggedInUserId)
+
       this.contentForm = new FormGroup({
         name: new FormControl(),
         head: new FormControl(),
@@ -263,13 +263,13 @@ export class CreateMdoComponent implements OnInit {
 
   specialCharachters(event: any) {
 
-    var inp = String.fromCharCode(event.keyCode)
+    const inp = String.fromCharCode(event.keyCode)
     if (/[a-zA-Z0-9()-/&.]/.test(inp)) {
       return true
-    } else {
-      event.preventDefault()
-      return false
     }
+    event.preventDefault()
+    return false
+
   }
 
   fetchDropDownValues() {
@@ -454,7 +454,6 @@ export class CreateMdoComponent implements OnInit {
 
   onMinisteriesChange() {
     // tslint:disable-next-line: no-non-null-assertion
-    // console.log()
     this.masterMinisteries = this.departmentForm.get('ministry')!.valueChanges
       .pipe(
         debounceTime(500),
@@ -645,10 +644,10 @@ export class CreateMdoComponent implements OnInit {
           const req = {
             orgName: hierarchyObj.orgname ? hierarchyObj.orgname : hierarchyObj,
             channel: hierarchyObj.orgname ? hierarchyObj.orgname : hierarchyObj,
-            organisationType: hierarchyObj.sborgtype ? (hierarchyObj.sborgtype || '').toLowerCase() : "ministry",
-            organisationSubType: hierarchyObj.sbsuborgtype ? (hierarchyObj.sbsuborgtype || '').toLowerCase() : "mdo",
+            organisationType: hierarchyObj.sborgtype ? (hierarchyObj.sborgtype || '').toLowerCase() : 'ministry',
+            organisationSubType: hierarchyObj.sbsuborgtype ? (hierarchyObj.sbsuborgtype || '').toLowerCase() : 'mdo',
 
-            mapId: hierarchyObj.mapid ? hierarchyObj.mapid : "00",
+            mapId: hierarchyObj.mapid ? hierarchyObj.mapid : '00',
             isTenant: true,
             ...(this.isStateAdmin && { sbRootOrgId: _.get(this.activatedRoute, 'snapshot.parent.data.configService.unMappedUser.rootOrgId') }),
             requestedBy: this.loggedInUserId,
