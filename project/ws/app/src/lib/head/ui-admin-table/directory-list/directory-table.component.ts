@@ -1,6 +1,6 @@
 import {
   Component, OnInit, Input, Output, EventEmitter, ViewChild,
-  AfterViewInit, OnChanges, SimpleChanges,
+  AfterViewInit, OnChanges, SimpleChanges, ElementRef,
 } from '@angular/core'
 import { SelectionModel } from '@angular/cdk/collections'
 import { MatTableDataSource } from '@angular/material/table'
@@ -18,6 +18,7 @@ import { EventService } from '@sunbird-cb/utils'
   styleUrls: ['./directory-table.component.scss'],
 })
 export class UIDirectoryTableComponent implements OnInit, AfterViewInit, OnChanges {
+  @ViewChild('searchInput', { static: false }) searchInput!: ElementRef
   @Input() tableData!: any
   @Input() data?: []
   @Input() selectedDepartment!: string
@@ -145,9 +146,9 @@ export class UIDirectoryTableComponent implements OnInit, AfterViewInit, OnChang
       subType: sub,
       // tslint:disable-next-line:align
     }, {
-        id: e.id,
-        type: 'department',
-      },
+      id: e.id,
+      type: 'department',
+    },
     )
   }
 

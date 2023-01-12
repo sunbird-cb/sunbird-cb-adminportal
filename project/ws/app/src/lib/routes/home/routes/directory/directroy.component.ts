@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, OnInit, ViewChild } from '@angular/core'
 import { NSProfileDataV2 } from '../../models/profile-v2.model'
 import { MatDialog } from '@angular/material/dialog'
 import { ActivatedRoute, Router } from '@angular/router'
@@ -6,6 +6,7 @@ import { ConfigurationsService, EventService, WsEvents } from '@sunbird-cb/utils
 /* tslint:disable */
 import _ from 'lodash'
 import { DirectoryService } from '../../services/directory.services'
+import { UIDirectoryTableComponent } from '../../../../head/ui-admin-table/directory-list/directory-table.component'
 
 @Component({
   selector: 'ws-app-directory',
@@ -16,8 +17,8 @@ import { DirectoryService } from '../../services/directory.services'
   /* tslint:enable */
 })
 export class DirectoryViewComponent implements OnInit {
-  // @ViewChild(UIDirectoryTableComponent, { static: false })
-  // searchInputvalue: UIDirectoryTableComponent | undefined
+  @ViewChild(UIDirectoryTableComponent, { static: false })
+  searchInputvalue!: UIDirectoryTableComponent
 
   currentFilter = 'mdo'
   portalProfile!: NSProfileDataV2.IProfile
@@ -110,6 +111,7 @@ export class DirectoryViewComponent implements OnInit {
   }
 
   filter(value: string) {
+    this.searchInputvalue.searchInput.nativeElement.value = ''
     let key = ''
     let index = 1
     if (value === 'cbc') {
@@ -134,6 +136,8 @@ export class DirectoryViewComponent implements OnInit {
       index,
       label: key,
     }
+    this.searchInputvalue.applyFilter('')
+    this.getAllDepartments('')
     this.raiseTabTelemetry(key, data)
     this.getDepartDataByKey(key)
   }
