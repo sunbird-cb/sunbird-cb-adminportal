@@ -4,5 +4,5 @@ export const environment = {
   karmYogiPath: (window as { [key: string]: any })['env']['karmYogiPath'] || '',
   portalRoles: (((window as { [key: string]: any })['env']['portalRoles'] || '').split(',')) || [],
   name: (window as { [key: string]: any })['env']['name'],
-  cbpProviderRoles: (window as { [key: string]: any })['env']['cbpProvidersRoles'] || []
+  cbpProviderRoles: (window as { [key: string]: any })['env']['cbpProvidersRoles'] || [],
 }
