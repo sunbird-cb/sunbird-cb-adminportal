@@ -1,6 +1,6 @@
 import {
   Component, OnInit, Input, Output, EventEmitter, ViewChild,
-  AfterViewInit, OnChanges, SimpleChanges,
+  AfterViewInit, OnChanges, SimpleChanges, ElementRef,
 } from '@angular/core'
 import { SelectionModel } from '@angular/cdk/collections'
 import { MatTableDataSource } from '@angular/material/table'
@@ -18,6 +18,7 @@ import { EventService } from '@sunbird-cb/utils'
   styleUrls: ['./directory-table.component.scss'],
 })
 export class UIDirectoryTableComponent implements OnInit, AfterViewInit, OnChanges {
+  @ViewChild('searchInput', { static: false }) searchInput!: ElementRef
   @Input() tableData!: any
   @Input() data?: []
   @Input() selectedDepartment!: string
@@ -26,6 +27,8 @@ export class UIDirectoryTableComponent implements OnInit, AfterViewInit, OnChang
   @Output() clicked?: EventEmitter<any>
   @Output() actionsClick?: EventEmitter<any>
   @Output() eOnRowClick = new EventEmitter<any>()
+  @Output() searchByEnterKey = new EventEmitter<any>()
+
   bodyHeight = document.body.clientHeight - 125
   // displayedColumns: IColums[] | undefined
   dataSource!: any
@@ -141,12 +144,15 @@ export class UIDirectoryTableComponent implements OnInit, AfterViewInit, OnChang
     this.events.raiseInteractTelemetry({
       type: 'click',
       subType: sub,
+      // tslint:disable-next-line:align
+    }, {
+      id: e.id,
+      type: 'department',
     },
-
-                                       {
-        id: e.id,
-        type: 'department',
-      },
     )
+  }
+
+  onSearchEnter(event: any) {
+    this.searchByEnterKey.emit(event.target.value)
   }
 }

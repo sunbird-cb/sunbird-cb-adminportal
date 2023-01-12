@@ -10,10 +10,12 @@
             <div class=rsearch>
                 <div class="sinput">
                     <span class="material-icons"> search </span>
-                    <input type="Standard" label="" (input)="applyFilter($event.target.value)" placeholder="Search">
+                    <input type="Standard" id="search" label="" #searchInput (input)="applyFilter($event.target.value)"
+                        (keydown.enter)="onSearchEnter($event)" placeholder="Search">
                 </div>
             </div>
-            <button mat-raised-button type="button" *ngIf="needCreate" class="text-white ws-mat-primary-background text-white margin-right-m custom-btn"
+            <button mat-raised-button type="button" *ngIf="needCreate"
+                class="text-white ws-mat-primary-background text-white margin-right-m custom-btn"
                 (click)="gotoCreateNew()">
                 <b class="text-white" i18n>Create new</b>
             </button>
@@ -21,12 +23,14 @@
         <!-- </mat-form-field> -->
 
         <mat-table #table matSort [ngStyle]="{'height': bodyHeight}" [matSortActive]="tableData!.sortColumn"
-            [matSortDirection]="tableData!.sortState" [dataSource]="dataSource" class="example-table table1 responsiveTable">
+            [matSortDirection]="tableData!.sortState" [dataSource]="dataSource"
+            class="example-table table1 responsiveTable">
 
             <ng-container matColumnDef="{{col.key}}" *ngFor="let col of tableData!.columns">
                 <mat-header-cell *matHeaderCellDef mat-sort-header> {{col.displayName}} </mat-header-cell>
                 <mat-cell *matCellDef="let element" (click)="selection.toggle(element); onRowClick(element)">
-                    <span *ngIf="col.isList" class="textclass" [matTooltip]="(element[col.key]).split('<br />').join(', ')">
+                    <span *ngIf="col.isList" class="textclass"
+                        [matTooltip]="(element[col.key]).split('<br />').join(', ')">
                         <div innerHTML="{{element[col.key]}}"></div>
                     </span>
                     <span *ngIf="!col.isList" class="textclass mat-body-2">
@@ -40,13 +44,15 @@
                     <div *ngFor="let ac of tableData!.actions">
                         <div *ngIf="ac.optional">
                             <ws-widget-app-button *ngIf="row[ac.optional_key] === ac.optional_Value" [type]="ac.type"
-                                [icon]="ac.icon" [disabled]="ac.disabled || false" [label]="ac.label" (click)="buttonClick(ac.name,row)"></ws-widget-app-button>
+                                [icon]="ac.icon" [disabled]="ac.disabled || false" [label]="ac.label"
+                                (click)="buttonClick(ac.name,row)"></ws-widget-app-button>
                         </div>
                         <div *ngIf="!ac.optional" class="mar-lft">
                             <!-- <ws-widget-app-button [type]="ac.type" [icon]="ac.icon" [label]="ac.label"
                                 [disabled]="ac.disabled || false" (click)="buttonClick(ac.name,row)">
                             </ws-widget-app-button> -->
-                            <ws-widget-app-button [type]="ac.type" [icon]="ac.icon" [label]="ac.label" [disabled]="true">
+                            <ws-widget-app-button [type]="ac.type" [icon]="ac.icon" [label]="ac.label"
+                                [disabled]="true">
                             </ws-widget-app-button>
                         </div>
                     </div>
@@ -57,8 +63,8 @@
                     <mat-icon>view_comfy</mat-icon>
                 </mat-header-cell>
                 <mat-cell *matCellDef="let row" class="action-cell">
-                    <button type="button" mat-icon-button i18n-aria-label aria-label="action items" [matMenuTriggerFor]="cardMenu"
-                        class="action-btn">
+                    <button type="button" mat-icon-button i18n-aria-label aria-label="action items"
+                        [matMenuTriggerFor]="cardMenu" class="action-btn">
                         <mat-icon>more_horiz</mat-icon>
                     </button>
                 </mat-cell>

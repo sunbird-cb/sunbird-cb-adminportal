@@ -23,7 +23,8 @@ export class RolesAccessComponent implements OnInit, AfterViewInit {
   rolesContentObject: any = []
   individualRoleCount = true
   @Output() clickedDepartment = new EventEmitter<string>()
-  constructor(private activatedRoute: ActivatedRoute,
+  constructor(
+    private activatedRoute: ActivatedRoute,
     private usersService: UsersService, private roleservice: RolesService
   ) {
 
