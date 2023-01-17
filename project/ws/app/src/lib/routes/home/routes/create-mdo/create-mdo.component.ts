@@ -482,7 +482,7 @@ export class CreateMdoComponent implements OnInit {
 
     this.masterDepartments.subscribe((event: any) => {
       // tslint:disable-next-line: no-non-null-assertion
-      this.departmentForm.get('department')!.setValidators([forbiddenNamesValidator(event)])
+      // this.departmentForm.get('department')!.setValidators([forbiddenNamesValidator(event)])
       // tslint:disable-next-line: no-non-null-assertion
       // this.departmentForm.get('department')!.setValidators(null)
       this.departmentForm.updateValueAndValidity()
@@ -501,7 +501,7 @@ export class CreateMdoComponent implements OnInit {
 
     this.masterOrgs.subscribe((event: any) => {
       // tslint:disable-next-line: no-non-null-assertion
-      this.departmentForm.get('organisation')!.setValidators([forbiddenNamesValidator(event)])
+      // this.departmentForm.get('organisation')!.setValidators([forbiddenNamesValidator(event)])
       // tslint:disable-next-line: no-non-null-assertion
       // this.departmentForm.get('organisation')!.setValidators(null)
       this.departmentForm.updateValueAndValidity()
