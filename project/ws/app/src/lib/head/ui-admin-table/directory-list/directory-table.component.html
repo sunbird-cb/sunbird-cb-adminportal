@@ -11,7 +11,7 @@
                 <div class="sinput">
                     <span class="material-icons"> search </span>
                     <input type="Standard" id="search" label="" #searchInput (input)="applyFilter($event.target.value)"
-                        (keydown.enter)="onSearchEnter($event)" placeholder="Search">
+                        (keydown.enter)="onSearchEnter($event.target.value)" placeholder="Search">
                 </div>
             </div>
             <button mat-raised-button type="button" *ngIf="needCreate"

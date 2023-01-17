@@ -69,11 +69,12 @@ export class UIDirectoryTableComponent implements OnInit, AfterViewInit, OnChang
 
   applyFilter(filterValue: any) {
     if (filterValue) {
-      let fValue = filterValue.trim()
-      fValue = filterValue.toLowerCase()
-      this.dataSource.filter = fValue
+      // let fValue = filterValue.trim()
+      // fValue = filterValue.toLowerCase()
+      // this.dataSource.filter = fValue
     } else {
-      this.dataSource.filter = ''
+      // this.dataSource.filter = ''
+      this.searchByEnterKey.emit(filterValue)
     }
   }
 
@@ -152,7 +153,7 @@ export class UIDirectoryTableComponent implements OnInit, AfterViewInit, OnChang
     )
   }
 
-  onSearchEnter(event: any) {
-    this.searchByEnterKey.emit(event.target.value)
+  onSearchEnter(filterValue: any) {
+    this.searchByEnterKey.emit(filterValue)
   }
 }
