@@ -230,8 +230,8 @@ export class DirectoryViewComponent implements OnInit {
         }
       })
       this.data.sort((a: any, b: any) => {
-        const textA = a.mdo.toLowerCase()
-        const textB = b.mdo.toLowerCase()
+        const textA = a.mdo.trimStart().toUpperCase()
+        const textB = b.mdo.trimStart().toUpperCase()
         return (textA < textB) ? -1 : (textA > textB) ? 1 : 0
       })
     }
