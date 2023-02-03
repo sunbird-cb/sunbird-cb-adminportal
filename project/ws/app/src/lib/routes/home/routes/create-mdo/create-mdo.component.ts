@@ -314,8 +314,8 @@ export class CreateMdoComponent implements OnInit {
   }
 
   ministrySelected(value: any) {
-    if (value && value.mapid) {
-      this.createMdoService.getDeparmentsOfState(value.mapid).subscribe(res => {
+    if (value && value.mapId) {
+      this.createMdoService.getDeparmentsOfState(value.mapId).subscribe(res => {
         if (res && res.result && res.result && res.result.response && res.result.response.content) {
           this.departments = res.result.response.content
           this.onDepartmentChange()
@@ -325,8 +325,8 @@ export class CreateMdoComponent implements OnInit {
   }
 
   departmentSelected(value: any) {
-    if (value && value.mapid) {
-      this.createMdoService.getOrgsOfDepartment(value.mapid).subscribe(res => {
+    if (value && value.mapId) {
+      this.createMdoService.getOrgsOfDepartment(value.mapId).subscribe(res => {
         if (res && res.result && res.result && res.result.response && res.result.response.content) {
           this.orgs = res.result.response.content
           this.onOrgsChange()
@@ -641,13 +641,14 @@ export class CreateMdoComponent implements OnInit {
           this.disableCreateButton = false
           this.displayLoader = false
         } else {
+          // -->ministry
           const req = {
             orgName: hierarchyObj.orgname ? hierarchyObj.orgname : hierarchyObj,
             channel: hierarchyObj.orgname ? hierarchyObj.orgname : hierarchyObj,
             organisationType: hierarchyObj.sborgtype ? (hierarchyObj.sborgtype || '').toLowerCase() : 'ministry',
             organisationSubType: hierarchyObj.sbsuborgtype ? (hierarchyObj.sbsuborgtype || '').toLowerCase() : 'mdo',
 
-            mapId: hierarchyObj.mapid ? hierarchyObj.mapid : '00',
+            // mapId: hierarchyObj.mapid ? hierarchyObj.mapid : '00',
             isTenant: true,
             ...(this.isStateAdmin && { sbRootOrgId: _.get(this.activatedRoute, 'snapshot.parent.data.configService.unMappedUser.rootOrgId') }),
             requestedBy: this.loggedInUserId,
@@ -698,11 +699,12 @@ export class CreateMdoComponent implements OnInit {
             channel: hierarchyObj.orgname,
             // organisationType: hierarchyObj.sborgtype.toLowerCase(),
             // organisationSubType: hierarchyObj.sbsuborgtype.toLowerCase(),
-            organisationType: (hierarchyObj.sborgtype || '').toLowerCase(),
-            organisationSubType: (hierarchyObj.sbsuborgtype || '').toLowerCase(),
-            mapId: hierarchyObj.mapid,
+            organisationType: hierarchyObj.sborgtype ? (hierarchyObj.sborgtype || '').toLowerCase() : 'mdo',
+            organisationSubType: hierarchyObj.sbsuborgtype ? (hierarchyObj.sbsuborgtype || '').toLowerCase() : 'dept',
+            mapId: hierarchyObj.mapId,
             isTenant: true,
             requestedBy: this.loggedInUserId,
+            parentMapId: 1234
           }
           this.createMdoService.updateStateOrMinistry(req).subscribe(
             res => {
