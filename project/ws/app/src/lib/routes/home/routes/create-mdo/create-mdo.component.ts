@@ -704,7 +704,7 @@ export class CreateMdoComponent implements OnInit {
             mapId: hierarchyObj.mapId,
             isTenant: true,
             requestedBy: this.loggedInUserId,
-            parentMapId: 1234
+            parentMapId: 1234,
           }
           this.createMdoService.updateStateOrMinistry(req).subscribe(
             res => {
