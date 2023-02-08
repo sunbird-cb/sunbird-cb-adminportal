@@ -105,7 +105,7 @@
                   </label>
                   <mat-form-field appearance="outline" class="margin-top-s w-full">
                     <input id="state" matInput tab-directive type="text" placeholder="Select your state"
-                      (keypress)="specialCharachters($event)" i18n-placeholder="State" formControlName="state"
+                      (keyup)="specialCharachters($event)" i18n-placeholder="State" formControlName="state"
                       [matAutocomplete]="stateAutocomplete" i18n-aria-label aria-label="State" #state i18n-aria-label
                       aria-label="State Field input" />
                     <mat-error [hidden]="false" i18n="State Error|Explains State is required"
@@ -163,7 +163,7 @@
                     </label>
                     <mat-form-field appearance="outline" class="margin-top-s w-full">
                       <input id="ministry" matInput tab-directive type="text" placeholder="Select your ministry"
-                        i18n-placeholder="Ministry" formControlName="ministry" (keypress)="specialCharachters($event)"
+                        i18n-placeholder="Ministry" formControlName="ministry" (keyup)="specialCharachters($event)"
                         [matAutocomplete]="ministryAutocomplete" i18n-aria-label aria-label="Ministry" #ministry
                         i18n-aria-label aria-label="Ministry Field input" />
                       <mat-error [hidden]="false" i18n="Ministry Error|Explains Ministry is required"
@@ -195,9 +195,9 @@
                     </label>
                     <mat-form-field appearance="outline" class="margin-top-s w-full">
                       <input id="department" matInput tab-directive type="text" placeholder="Select your department"
-                        (keypress)="specialCharachters($event)" i18n-placeholder="department"
-                        formControlName="department" [matAutocomplete]="departmentAutocomplete" i18n-aria-label
-                        aria-label="Department" #department i18n-aria-label aria-label="Department Field input" />
+                        (keyup)="specialCharachters($event)" i18n-placeholder="department" formControlName="department"
+                        [matAutocomplete]="departmentAutocomplete" i18n-aria-label aria-label="Department" #department
+                        i18n-aria-label aria-label="Department Field input" />
                       <mat-error [hidden]="false" i18n="Department Error|Explains Department is required"
                         *ngIf="departmentForm?.controls['department'].errors?.required" i18n-aria-label
                         aria-label="Department is mandatory">
@@ -227,7 +227,7 @@
                     </label>
                     <mat-form-field appearance="outline" class="margin-top-s w-full">
                       <input id="Organisation" matInput tab-directive type="text" placeholder="Select your organisation"
-                        (keypress)="specialCharachters($event)" i18n-placeholder="Organisation"
+                        (keyup)="specialCharachters($event)" i18n-placeholder="Organisation"
                         formControlName="organisation" [matAutocomplete]="organisationAutocomplete" i18n-aria-label
                         aria-label="Organisation" #organisation i18n-aria-label aria-label="Organisation Field input" />
                       <mat-error [hidden]="false" i18n="Organisation Error|Explains Organisation is required"
@@ -280,7 +280,7 @@
                     </label>
                     <mat-form-field appearance="outline" class="margin-top-s w-full">
                       <input id="ministry" matInput tab-directive type="text" placeholder="Select your state"
-                        (keypress)="specialCharachters($event)" i18n-placeholder="Ministry" formControlName="ministry"
+                        (keyup)="specialCharachters($event)" i18n-placeholder="Ministry" formControlName="ministry"
                         [matAutocomplete]="ministryAutocomplete" i18n-aria-label aria-label="Ministry" #ministry
                         i18n-aria-label aria-label="Ministry Field input" readonly />
                       <mat-error [hidden]="false" i18n="Ministry Error|Explains Ministry is required"
@@ -295,7 +295,7 @@
                     </mat-form-field>
                     <mat-autocomplete #ministryAutocomplete="matAutocomplete" autoActiveFirstOption="true"
                       i18n-aria-label aria-label="Ministry list masterMinistry" [displayWith]="displayFnState"
-                      (optionSelected)="ministrySelected($event.option.value)">
+                      (optionSelected)="ministrySelected($event.option.value)" (change)="onChange($event)">
                       <mat-option *ngFor="let option of masterMinisteries| async" [value]="option" i18n-aria-label
                         aria-label="Ministry list autocomplete option">
                         {{ option.orgname }}
@@ -311,9 +311,9 @@
                     </label>
                     <mat-form-field appearance="outline" class="margin-top-s w-full">
                       <input id="department" matInput tab-directive type="text" placeholder="Select your department"
-                        (keypress)="specialCharachters($event)" i18n-placeholder="department"
-                        formControlName="department" [matAutocomplete]="departmentAutocomplete" i18n-aria-label
-                        aria-label="Department" #department i18n-aria-label aria-label="Department Field input" />
+                        (keyup)="specialCharachters($event)" i18n-placeholder="department" formControlName="department"
+                        [matAutocomplete]="departmentAutocomplete" i18n-aria-label aria-label="Department" #department
+                        i18n-aria-label aria-label="Department Field input" />
                       <mat-error [hidden]="false" i18n="Department Error|Explains Department is required"
                         *ngIf="departmentForm?.controls['department'].errors?.required" i18n-aria-label
                         aria-label="Department is mandatory">
@@ -342,7 +342,7 @@
                     </label>
                     <mat-form-field appearance="outline" class="margin-top-s w-full">
                       <input id="Organisation" matInput tab-directive type="text" placeholder="Select your organisation"
-                        (keypress)="specialCharachters($event)" i18n-placeholder="Organisation"
+                        (keyup)="specialCharachters($event)" i18n-placeholder="Organisation"
                         formControlName="organisation" [matAutocomplete]="organisationAutocomplete" i18n-aria-label
                         aria-label="Organisation" #organisation i18n-aria-label aria-label="Organisation Field input" />
                       <mat-error [hidden]="false" i18n="Organisation Error|Explains Organisation is required"

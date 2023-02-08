@@ -262,6 +262,11 @@ export class CreateMdoComponent implements OnInit {
   }
 
   specialCharachters(event: any) {
+    if (event.target.value.length) {
+      this.disableCreateButton = false
+    } else {
+      this.disableCreateButton = true
+    }
 
     const inp = String.fromCharCode(event.keyCode)
     if (/[a-zA-Z0-9()-/&.]/.test(inp)) {
@@ -314,6 +319,7 @@ export class CreateMdoComponent implements OnInit {
   }
 
   ministrySelected(value: any) {
+    this.disableCreateButton = true
     if (value && value.mapId) {
       this.createMdoService.getDeparmentsOfState(value.mapId).subscribe(res => {
         if (res && res.result && res.result && res.result.response && res.result.response.content) {
@@ -325,6 +331,7 @@ export class CreateMdoComponent implements OnInit {
   }
 
   departmentSelected(value: any) {
+    this.disableCreateButton = true
     if (value && value.mapId) {
       this.createMdoService.getOrgsOfDepartment(value.mapId).subscribe(res => {
         if (res && res.result && res.result && res.result.response && res.result.response.content) {
@@ -489,6 +496,7 @@ export class CreateMdoComponent implements OnInit {
     })
   }
   onOrgsChange() {
+    this.disableCreateButton = true
     // tslint:disable-next-line: no-non-null-assertion
     this.masterOrgs = this.departmentForm.get('organisation')!.valueChanges
       .pipe(
@@ -531,6 +539,7 @@ export class CreateMdoComponent implements OnInit {
     return this.departments
   }
   filterOrgs(orgname: string) {
+    this.disableCreateButton = false
     if (orgname) {
       const filterValue = orgname.toLowerCase()
       return this.orgs.filter((option: any) => option.orgname.toLowerCase().includes(filterValue))
