@@ -319,6 +319,8 @@ export class CreateMdoComponent implements OnInit {
   }
 
   ministrySelected(value: any) {
+    this.departmentForm.get('department')!.setValue('')
+    this.departmentForm.get('organisation')!.setValue('')
     this.disableCreateButton = true
     if (value && value.mapId) {
       this.createMdoService.getDeparmentsOfState(value.mapId).subscribe(res => {
@@ -331,6 +333,7 @@ export class CreateMdoComponent implements OnInit {
   }
 
   departmentSelected(value: any) {
+    this.departmentForm.get('organisation')!.setValue('')
     this.disableCreateButton = true
     if (value && value.mapId) {
       this.createMdoService.getOrgsOfDepartment(value.mapId).subscribe(res => {
