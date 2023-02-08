@@ -319,7 +319,9 @@ export class CreateMdoComponent implements OnInit {
   }
 
   ministrySelected(value: any) {
+    // tslint:disable-next-line: no-non-null-assertion
     this.departmentForm.get('department')!.setValue('')
+    // tslint:disable-next-line: no-non-null-assertion
     this.departmentForm.get('organisation')!.setValue('')
     this.disableCreateButton = true
     if (value && value.mapId) {
@@ -333,6 +335,7 @@ export class CreateMdoComponent implements OnInit {
   }
 
   departmentSelected(value: any) {
+    // tslint:disable-next-line: no-non-null-assertion
     this.departmentForm.get('organisation')!.setValue('')
     this.disableCreateButton = true
     if (value && value.mapId) {
