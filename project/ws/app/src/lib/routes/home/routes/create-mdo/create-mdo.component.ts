@@ -16,6 +16,8 @@ import * as _ from 'lodash'
 import { Observable } from 'rxjs'
 interface IUser { userId: string, fullName: string; email: string; role: string }
 
+
+
 export function forbiddenNamesValidator(optionsArray: any): ValidatorFn {
   return (control: AbstractControl): { [key: string]: any } | null => {
     if (!optionsArray) {
@@ -262,6 +264,12 @@ export class CreateMdoComponent implements OnInit {
   }
 
   specialCharachters(event: any) {
+    if (event.which === 32) {
+      console.log(event)
+      event.preventDefault()
+      return false
+    }
+
     if (event.target.value.length) {
       this.disableCreateButton = false
     } else {

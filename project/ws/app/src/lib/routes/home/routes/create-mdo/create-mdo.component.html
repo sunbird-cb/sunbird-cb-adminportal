@@ -218,7 +218,8 @@
                     </mat-autocomplete>
                   </div>
 
-                  <div *ngIf="departmentForm?.controls['department']?.value?.orgname"
+                  <div
+                    *ngIf="departmentForm?.controls['department']?.value?.orgname && departmentForm?.controls['ministry']?.value?.orgname"
                     class="input-wrapper margin-top-s">
                     <label for="Organisation" class=" margin-remove-bottom form-label"
                       i18n="Organisation|Label which explains the user to enter Organisation" i18n-aria-label
