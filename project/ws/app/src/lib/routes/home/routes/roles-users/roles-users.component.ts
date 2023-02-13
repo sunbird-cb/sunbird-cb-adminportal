@@ -154,7 +154,7 @@ export class RolesUsersComponent implements OnInit, AfterViewInit, OnDestroy {
         this.getMyDepartment()
       }
     })
-    //old code
+    // old code
     // this.usersService.getAllKongUsers(this.orgiId).subscribe(data => {
     //   if (data.result.response.content) {
     //     this.userWholeData = data.result.response || []
