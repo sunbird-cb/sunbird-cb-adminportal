@@ -87,7 +87,7 @@ export class RolesAccessComponent implements OnInit {
       const individualCount = data.count
       for (let i = 0; i < this.data.length; i += 1) {
         if (this.data[i].role === rolename) {
-          this.data[i].count = individualCount
+          this.data[i].count = individualCount.count
         }
       }
     })
