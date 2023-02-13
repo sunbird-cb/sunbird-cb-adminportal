@@ -2,7 +2,8 @@ import { AfterViewInit, Component, OnInit, OnDestroy, ElementRef, HostListener, 
 import { Router, ActivatedRoute } from '@angular/router'
 import * as _ from 'lodash'
 import { ProfileV2Service } from '../../../home/services/home.servive'
-import { UsersService } from '../../services/users.service'
+import { UsersService } from '../../../home/services/users.service'
+// import { UsersService } from '../../services/users.service'
 // interface IUSER {
 //   profileDetails: any; isDeleted: boolean; userId: string | null; firstName: any
 //   lastName: any; email: any; active: any; blocked: any; roles: any[]
@@ -26,6 +27,7 @@ export class UsersComponent implements OnInit, AfterViewInit, OnDestroy {
   currentDept!: string
   deptName!: string
   userWholeData!: any
+  userWholeData1!: any
   createdDepartment!: any
   private defaultSideNavBarOpenedSubscription: any
   @ViewChild('stickyMenu', { static: true }) menuElement!: ElementRef
@@ -41,9 +43,9 @@ export class UsersComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   constructor(private usersSvc: UsersService, private router: Router,
-              private route: ActivatedRoute,
-              private profile: ProfileV2Service,
-              private usersService: UsersService) {
+    private route: ActivatedRoute,
+    private profile: ProfileV2Service,
+    private usersService: UsersService) {
   }
   ngOnInit() {
     this.tabsData = [
@@ -155,31 +157,38 @@ export class UsersComponent implements OnInit, AfterViewInit, OnDestroy {
       this.defaultSideNavBarOpenedSubscription.unsubscribe()
     }
   }
-  fClickedDepartment(data: any) {
+  fClickedDepartment(roldata: any) {
     const usersData: any[] = []
     let roles: any[] = []
-    this.userWholeData.forEach((user: any) => {
-      user.organisations.forEach((org: { organisationId: string, roles: any }) => {
-        // if (org.organisationId === rootOrgId) {
-        roles = org.roles
-        // }
+    this.usersService.getAllRoleUsers(this.id, roldata).subscribe(resdata => {
+      if (resdata.count) {
+        this.userWholeData1 = resdata.count.content || []
+        this.userWholeData1.forEach((user: any) => {
+          user.organisations.forEach((org: { organisationId: string, roles: any }) => {
+            // if (org.organisationId === rootOrgId) {
+            roles = org.roles
+            // }
 
-      })
-      const email = _.get(user, 'profileDetails.personalDetails.primaryEmail')
-      if (!user.isDeleted && roles.includes(data)) {
-        usersData.push({
-          fullName: user ? `${user.firstName} ${user.lastName}` : null,
-          email: email || 'NA',
-          position: roles,
-          userId: user.userId,
+          })
+          const email = _.get(user, 'profileDetails.personalDetails.primaryEmail')
+          if (!user.isDeleted && roles.includes(roldata)) {
+            usersData.push({
+              fullName: user ? `${user.firstName} ${user.lastName}` : null,
+              email: email || 'NA',
+              position: roles,
+              userId: user.userId,
+            })
+          }
         })
       }
+      this.data = usersData
+      this.currentTab = 'users'
     })
-    this.data = usersData
-    this.currentTab = 'users'
+
+
   }
   getAllKongUsers() {
-    this.usersService.getAllKongUsers(this.id).subscribe(data => {
+    this.usersSvc.getAllKongUsers(this.id).subscribe(data => {
       if (data.result.response.content) {
         this.userWholeData = data.result.response.content || []
         this.newKongUser()

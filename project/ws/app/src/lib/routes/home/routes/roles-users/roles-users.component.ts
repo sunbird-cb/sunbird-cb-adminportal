@@ -148,12 +148,19 @@ export class RolesUsersComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
   getAllKongUsers() {
-    this.usersService.getAllKongUsers(this.orgiId).subscribe(data => {
-      if (data.result.response.content) {
-        this.userWholeData = data.result.response || []
+    this.usersService.getAllRoleUsers(this.orgiId, this.rolename).subscribe(resdata => {
+      if (resdata.count) {
+        this.userWholeData = resdata.count || []
         this.getMyDepartment()
       }
     })
+    //old code
+    // this.usersService.getAllKongUsers(this.orgiId).subscribe(data => {
+    //   if (data.result.response.content) {
+    //     this.userWholeData = data.result.response || []
+    //     this.getMyDepartment()
+    //   }
+    // })
   }
   newKongUser() {
     const usersData: any[] = []

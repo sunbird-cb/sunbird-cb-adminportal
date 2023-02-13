@@ -29,9 +29,9 @@ export class RolesAccessComponent implements OnInit {
   roleType: any = ''
 
   constructor(private router: Router,
-              private activeRoute: ActivatedRoute,
-              private usersService: UsersService,
-              private roleservice: RolesService
+    private activeRoute: ActivatedRoute,
+    private usersService: UsersService,
+    private roleservice: RolesService
   ) {
     this.getAllKongUsers()
     this.userRoles = _.get(this.activeRoute, 'snapshot.parent.data.configService.unMappedUser.roles')
@@ -87,7 +87,7 @@ export class RolesAccessComponent implements OnInit {
       const individualCount = data.count
       for (let i = 0; i < this.data.length; i += 1) {
         if (this.data[i].role === rolename) {
-          this.data[i].count = individualCount
+          this.data[i].count = individualCount.count
         }
       }
     })
