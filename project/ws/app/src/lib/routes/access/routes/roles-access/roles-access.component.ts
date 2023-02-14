@@ -119,7 +119,7 @@ export class RolesAccessComponent implements OnInit, AfterViewInit {
   fetchIndidualRoleData(rootOrgId: string, rolename: string) {
     this.usersService.getAllRoleUsers(rootOrgId, rolename).subscribe(data => {
       this.individualRoleCount = true
-      const individualCount = data.count
+      const individualCount = data.count.count
       for (let i = 0; i < this.data.length; i += 1) {
         if (this.data[i].role === rolename) {
           this.data[i].count = individualCount
@@ -128,7 +128,6 @@ export class RolesAccessComponent implements OnInit, AfterViewInit {
     })
   }
   actionsClick($event: any) {
-    // debugger
     if ($event.action === 'ViewCount') {
       this.individualRoleCount = false
       const individualRole = $event.row.role

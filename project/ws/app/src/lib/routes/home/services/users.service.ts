@@ -58,13 +58,13 @@ export class UsersService {
             [role],
 
         },
-        limit: 1,
+        // limit: 1,
       },
     }
     return this.http.post<any>(`${API_END_POINTS.GET_ALL_KONG_USER}`, reqBody).pipe(
       retry(1),
       map(
-        (data: any) => ({ role, count: _.get(data, 'result.response.count') })))
+        (data: any) => ({ role, count: _.get(data, 'result.response') })))
   }
   getAllDepartments(): Observable<any> {
     return this.http.get<any>(`${API_END_POINTS.GET_ALL_DEPARTMENTS}`)
