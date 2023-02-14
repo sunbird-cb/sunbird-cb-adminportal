@@ -16,8 +16,6 @@ import * as _ from 'lodash'
 import { Observable } from 'rxjs'
 interface IUser { userId: string, fullName: string; email: string; role: string }
 
-
-
 export function forbiddenNamesValidator(optionsArray: any): ValidatorFn {
   return (control: AbstractControl): { [key: string]: any } | null => {
     if (!optionsArray) {
@@ -92,6 +90,7 @@ export class CreateMdoComponent implements OnInit {
   depts = ['Domain', 'Exact']
 
   disableCreateButton = false
+  disableStateCreateButton = false
   displayLoader = false
 
   isLtMedium$ = this.valueSvc.isLtMedium$
@@ -109,6 +108,7 @@ export class CreateMdoComponent implements OnInit {
   workFlow = [{ isActive: true, isCompleted: false, name: 'Basic Details', step: 0 },
   { isActive: false, isCompleted: false, name: 'Classification', step: 1 },
   { isActive: false, isCompleded: false, name: 'Intended for', step: 2 }]
+  req: any
   constructor(
     public dialog: MatDialog,
     private snackBar: MatSnackBar,
@@ -120,7 +120,6 @@ export class CreateMdoComponent implements OnInit {
     private events: EventService
   ) {
     {
-
       this.loggedInUserId = _.get(this.activatedRoute, 'snapshot.parent.data.configService.userProfile.userId')
       this.userRoles = _.get(this.activatedRoute, 'snapshot.parent.data.configService.unMappedUser.roles')
       if (this.userRoles.indexOf('STATE_ADMIN') >= 0) {
@@ -260,20 +259,26 @@ export class CreateMdoComponent implements OnInit {
         )
       })
     })
-
   }
 
   specialCharachters(event: any) {
     if (event.which === 32) {
-      console.log(event)
       event.preventDefault()
+      this.disableCreateButton = true
+      this.disableStateCreateButton = true
       return false
     }
 
     if (event.target.value.length) {
-      this.disableCreateButton = false
+      if (event.target.value.startsWith(' ') || event.target.value.endsWith(' ')) {
+        this.openSnackbar(`Please check for leading or trailing whitespace`)
+      } else {
+        this.disableCreateButton = false
+        this.disableStateCreateButton = false
+      }
     } else {
       this.disableCreateButton = true
+      this.disableStateCreateButton = true
     }
 
     const inp = String.fromCharCode(event.keyCode)
@@ -306,7 +311,7 @@ export class CreateMdoComponent implements OnInit {
         this.createMdoService.getStatesOrMinisteries('state').subscribe(res => {
           if (res && res.result && res.result && res.result.response && res.result.response.content) {
             this.ministeries = res.result.response.content
-            const state = this.ministeries.find(x => x.sborgid === _.get(this.activatedRoute, 'snapshot.parent.data.configService.unMappedUser.rootOrgId'))
+            const state = this.ministeries.find(x => x.sbOrgId === _.get(this.activatedRoute, 'snapshot.parent.data.configService.unMappedUser.rootOrgId'))
             this.onMinisteriesChange()
             this.ministrySelected(state)
             if (this.departmentForm) {
@@ -562,17 +567,16 @@ export class CreateMdoComponent implements OnInit {
   }
 
   onSubmitState() {
-    this.disableCreateButton = true
+    this.disableStateCreateButton = true
     this.displayLoader = true
     if (!this.isUpdate) {
       this.raiseTelemetry()
       if (this.stateForm.value.state !== null) {
         const stateFromValue = this.stateForm.value.state
-        if (stateFromValue.sborgid) {
-          this.disableCreateButton = false
+        if (stateFromValue.sbOrgId) {
+          this.disableStateCreateButton = true
           this.displayLoader = false
           this.openSnackbar(`Selected Org is already onboarded!`)
-
         } else {
           const req = {
             orgName: stateFromValue.orgname ? stateFromValue.orgname : stateFromValue,
@@ -587,7 +591,7 @@ export class CreateMdoComponent implements OnInit {
           }
           this.createMdoService.createStateOrMinistry(req).subscribe(
             res => {
-              this.disableCreateButton = false
+              this.disableStateCreateButton = false
               this.displayLoader = false
               if (res.responseCode) {
                 this.submittedForm = false
@@ -596,7 +600,7 @@ export class CreateMdoComponent implements OnInit {
               }
             },
             err => {
-              this.disableCreateButton = false
+              this.disableStateCreateButton = false
               this.displayLoader = false
               this.openSnackbar(`Something went wrong, please try again later`)
               // tslint:disable-next-line: no-console
@@ -620,11 +624,11 @@ export class CreateMdoComponent implements OnInit {
         }
         this.createMdoService.updateStateOrMinistry(req).subscribe(
           res => {
-            this.disableCreateButton = false
+            this.disableStateCreateButton = false
             this.displayLoader = false
             if (res.result.response === 'SUCCESS') {
               if (res.result.response === 'SUCCESS') {
-                this.disableCreateButton = false
+                this.disableStateCreateButton = false
                 this.displayLoader = false
                 this.openSnackbar(`Success`)
                 this.router.navigate([`/app/home/directory`])
@@ -632,7 +636,7 @@ export class CreateMdoComponent implements OnInit {
             }
           },
           err => {
-            this.disableCreateButton = false
+            this.disableStateCreateButton = false
             this.displayLoader = false
             this.openSnackbar(`Something went wrong, please try again later`)
             // tslint:disable-next-line: no-console
@@ -649,37 +653,62 @@ export class CreateMdoComponent implements OnInit {
       this.raiseTelemetry()
       let hierarchyObj
       // getRawValue() is used since the ministry field is disabled and form.value doesn't give the value
-      if (this.departmentForm.getRawValue().ministry) {
-        hierarchyObj = this.departmentForm.getRawValue().ministry
-        if (this.departmentForm.value.department) {
-          hierarchyObj = this.departmentForm.value.department
-          if (this.departmentForm.value.organisation) {
-            hierarchyObj = this.departmentForm.value.organisation
-          }
-        }
-      }
+      // if (this.departmentForm.getRawValue().ministry) {
+      //   console.log('this.departmentForm.getRawValue()', this.departmentForm.getRawValue())
+      //   hierarchyObj = this.departmentForm.getRawValue().ministry
+      //   if (this.departmentForm.value.department) {
+      //     hierarchyObj = this.departmentForm.value.department
+      //     if (this.departmentForm.value.organisation) {
+      //       hierarchyObj = this.departmentForm.value.organisation
+      //     }
+      //   }
+      // }
+      hierarchyObj = this.departmentForm.getRawValue()
       if (hierarchyObj) {
-        if (hierarchyObj.sborgid) {
+        if (hierarchyObj.ministry && hierarchyObj.ministry.sbOrgId && hierarchyObj.department && hierarchyObj.department.sbOrgId
+          && hierarchyObj.organisation && hierarchyObj.organisation.sbOrgId) {
           this.openSnackbar(`Selected Org is already onboarded!`)
-          this.disableCreateButton = false
+          this.disableCreateButton = true
           this.displayLoader = false
         } else {
-          // -->ministry
-          const req = {
-            orgName: hierarchyObj.orgname ? hierarchyObj.orgname : hierarchyObj,
-            channel: hierarchyObj.orgname ? hierarchyObj.orgname : hierarchyObj,
-            organisationType: hierarchyObj.sborgtype ? (hierarchyObj.sborgtype || '').toLowerCase() : 'ministry',
-            organisationSubType: hierarchyObj.sbsuborgtype ? (hierarchyObj.sbsuborgtype || '').toLowerCase() : 'mdo',
-
-            // mapId: hierarchyObj.mapid ? hierarchyObj.mapid : '00',
-            isTenant: true,
-            ...(this.isStateAdmin && { sbRootOrgId: _.get(this.activatedRoute, 'snapshot.parent.data.configService.unMappedUser.rootOrgId') }),
-            requestedBy: this.loggedInUserId,
+          if (this.departmentForm.getRawValue().ministry && !this.departmentForm.value.department && !this.departmentForm.value.organisation) {
+            this.req = {
+              orgName: hierarchyObj.ministry && hierarchyObj.ministry.orgname ? hierarchyObj.ministry.orgname : hierarchyObj.ministry,
+              channel: hierarchyObj.ministry && hierarchyObj.ministry.orgname ? hierarchyObj.ministry.orgname : hierarchyObj.ministry,
+              organisationType: hierarchyObj.ministry && hierarchyObj.ministry.sborgtype ? (hierarchyObj.ministry.sborgtype || '').toLowerCase() : 'ministry',
+              organisationSubType: hierarchyObj.ministry && hierarchyObj.ministry.sbsuborgtype ? (hierarchyObj.ministry.sbsuborgtype || '').toLowerCase() : 'mdo',
+              isTenant: true,
+              ...(this.isStateAdmin && { sbRootOrgId: _.get(this.activatedRoute, 'snapshot.parent.data.configService.unMappedUser.rootOrgId') }),
+              requestedBy: this.loggedInUserId,
+            }
+          } else if (this.departmentForm.getRawValue().ministry && this.departmentForm.value.department && !this.departmentForm.value.organisation) {
+            this.req = {
+              orgName: hierarchyObj.department && hierarchyObj.department.orgname ? hierarchyObj.department.orgname : hierarchyObj.department,
+              channel: hierarchyObj.department && hierarchyObj.department.orgname ? hierarchyObj.department.orgname : hierarchyObj.department,
+              organisationType: hierarchyObj.ministry.sbsuborgtype ? (hierarchyObj.ministry.sbsuborgtype || '').toLowerCase() : 'mdo',
+              organisationSubType: 'dept',
+              isTenant: true,
+              ...(this.isStateAdmin && { sbRootOrgId: _.get(this.activatedRoute, 'snapshot.parent.data.configService.unMappedUser.rootOrgId') }),
+              requestedBy: this.loggedInUserId,
+              parentMapId: hierarchyObj.ministry.mapId,
+            }
+          } else if (this.departmentForm.getRawValue().ministry && this.departmentForm.value.department && this.departmentForm.value.organisation) {
+            this.req = {
+              orgName: hierarchyObj.organisation && hierarchyObj.organisation.orgname ? hierarchyObj.organisation.orgname : hierarchyObj.organisation,
+              channel: hierarchyObj.organisation && hierarchyObj.organisation.orgname ? hierarchyObj.organisation.orgname : hierarchyObj.organisation,
+              organisationType: hierarchyObj.ministry.sbsuborgtype ? (hierarchyObj.ministry.sbsuborgtype || '').toLowerCase() : 'mdo',
+              organisationSubType: 'board',
+              isTenant: true,
+              ...(this.isStateAdmin && { sbRootOrgId: _.get(this.activatedRoute, 'snapshot.parent.data.configService.unMappedUser.rootOrgId') }),
+              requestedBy: this.loggedInUserId,
+              parentMapId: hierarchyObj.department.mapId,
+            }
           }
-          this.createMdoService.createStateOrMinistry(req).subscribe(
+          this.createMdoService.createStateOrMinistry(this.req).subscribe(
             res => {
               this.displayLoader = false
               this.disableCreateButton = false
+              this.req = ''
               if (res.responseCode) {
                 this.submittedForm = false
                 this.openSnackbar(`Org is successfully on-boarded. Check again after few minutes for newly on-boarded org details`)
@@ -701,38 +730,52 @@ export class CreateMdoComponent implements OnInit {
     } else {
       this.raiseTelemetry()
       let hierarchyObj
-      if (this.departmentForm.value.ministry) {
-        hierarchyObj = this.departmentForm.value.ministry
-        if (this.departmentForm.value.department) {
-          hierarchyObj = this.departmentForm.value.department
-          if (this.departmentForm.value.organisation) {
-            hierarchyObj = this.departmentForm.value.organisation
-          }
-        }
-      }
+      // if (this.departmentForm.value.ministry) {
+      //   hierarchyObj = this.departmentForm.value.ministry
+      //   if (this.departmentForm.value.department) {
+      //     hierarchyObj = this.departmentForm.value.department
+      //     if (this.departmentForm.value.organisation) {
+      //       hierarchyObj = this.departmentForm.value.organisation
+      //     }
+      //   }
+      // }
+      // if (hierarchyObj) {
+      //   if (hierarchyObj.sborgid) {
+      hierarchyObj = this.departmentForm.getRawValue()
       if (hierarchyObj) {
-        if (hierarchyObj.sborgid) {
+        if (hierarchyObj.ministry && hierarchyObj.ministry.sbOrgId && hierarchyObj.department && hierarchyObj.department.sbOrgId
+          && hierarchyObj.organisation && hierarchyObj.organisation.sbOrgId) {
           this.displayLoader = false
           this.disableCreateButton = false
           this.openSnackbar(`Selected Org is already onboarded!`)
-
         } else {
-          const req = {
-            orgName: hierarchyObj.orgname,
-            channel: hierarchyObj.orgname,
-            // organisationType: hierarchyObj.sborgtype.toLowerCase(),
-            // organisationSubType: hierarchyObj.sbsuborgtype.toLowerCase(),
-            organisationType: hierarchyObj.sborgtype ? (hierarchyObj.sborgtype || '').toLowerCase() : 'mdo',
-            organisationSubType: hierarchyObj.sbsuborgtype ? (hierarchyObj.sbsuborgtype || '').toLowerCase() : 'dept',
-            mapId: hierarchyObj.mapId,
+          // this.req = {
+          //   orgName: hierarchyObj.orgname,
+          //   channel: hierarchyObj.orgname,
+          //   // organisationType: hierarchyObj.sborgtype.toLowerCase(),
+          //   // organisationSubType: hierarchyObj.sbsuborgtype.toLowerCase(),
+          //   organisationType: hierarchyObj.sborgtype ? (hierarchyObj.sborgtype || '').toLowerCase() : 'mdo',
+          //   organisationSubType: hierarchyObj.sbsuborgtype ? (hierarchyObj.sbsuborgtype || '').toLowerCase() : 'dept',
+          //   mapId: hierarchyObj.mapId,
+          //   isTenant: true,
+          //   requestedBy: this.loggedInUserId,
+          // }
+
+          this.req = {
+            orgName: hierarchyObj.ministry && hierarchyObj.ministry.orgname ? hierarchyObj.ministry.orgname : hierarchyObj.ministry,
+            channel: hierarchyObj.ministry && hierarchyObj.ministry.orgname ? hierarchyObj.ministry.orgname : hierarchyObj.ministry,
+            organisationType: hierarchyObj.ministry && hierarchyObj.ministry.sborgtype ? (hierarchyObj.ministry.sborgtype || '').toLowerCase() : 'ministry',
+            organisationSubType: hierarchyObj.ministry && hierarchyObj.ministry.sbsuborgtype ? (hierarchyObj.ministry.sbsuborgtype || '').toLowerCase() : 'mdo',
             isTenant: true,
+            mapId: hierarchyObj.ministry.mapId,
+            ...(this.isStateAdmin && { sbRootOrgId: _.get(this.activatedRoute, 'snapshot.parent.data.configService.unMappedUser.rootOrgId') }),
             requestedBy: this.loggedInUserId,
-            parentMapId: 1234,
           }
-          this.createMdoService.updateStateOrMinistry(req).subscribe(
+          this.createMdoService.updateStateOrMinistry(this.req).subscribe(
             res => {
               this.displayLoader = false
               this.disableCreateButton = false
+              this.req = ''
               if (res.responseCode) {
                 this.openSnackbar(`Success`)
 
@@ -767,6 +810,9 @@ export class CreateMdoComponent implements OnInit {
   }
   onCancel() {
     this.router.navigate(['/app/home/directory', { department: this.department }])
+  }
+  onCancelState() {
+    this.router.navigate(['/app/home/directory/state'])
   }
   getRole() {
     return 'MDO ADMIN'

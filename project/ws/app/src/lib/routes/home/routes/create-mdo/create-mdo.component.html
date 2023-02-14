@@ -114,9 +114,9 @@
                       State is mandatory
                     </mat-error>
                     <!-- <mat-error *ngIf="stateForm?.controls['state'].errors?.forbiddenNames" i18n-aria-label
-                      aria-label="You must enter value from suggested list only.">
-                      You must enter value from suggested list only.
-                    </mat-error> -->
+                                          aria-label="You must enter value from suggested list only.">
+                                          You must enter value from suggested list only.
+                                        </mat-error> -->
                   </mat-form-field>
                   <mat-autocomplete #stateAutocomplete="matAutocomplete" autoActiveFirstOption="true" i18n-aria-label
                     aria-label="State list masterStates" [displayWith]="displayFnState">
@@ -127,17 +127,17 @@
                   </mat-autocomplete>
                 </div>
                 <div>
-                  <button *ngIf="!isUpdate" [disabled]="!stateForm.valid" mat-raised-button type="submit"
-                    class="text-white ws-mat-primary-background text-white margin-right-m btn-success">
+                  <button *ngIf="!isUpdate" [disabled]="!stateForm.valid || disableStateCreateButton" mat-raised-button
+                    type="submit" class="text-white ws-mat-primary-background text-white margin-right-m btn-success">
                     <b class="text-white" i18n>Create</b>
                   </button>
                   <button *ngIf="isUpdate" mat-raised-button type="submit"
-                    [disabled]="!stateForm.valid || disableCreateButton"
+                    [disabled]="!stateForm.valid || disableStateCreateButton"
                     class="text-white ws-mat-primary-background text-white margin-right-m btn-success">
                     <b class="text-white" i18n>Update</b>
                   </button>
                   <button mat-raised-button type="button" class="ws-mat-accent-border flex-auto-display"
-                    (click)="onCancel()">
+                    (click)="onCancelState()">
                     <span class="ws-mat-default-text" i18n>Cancel</span>
                   </button>
                 </div>
