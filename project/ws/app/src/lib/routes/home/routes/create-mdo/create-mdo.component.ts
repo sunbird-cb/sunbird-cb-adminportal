@@ -686,7 +686,7 @@ export class CreateMdoComponent implements OnInit {
               orgName: hierarchyObj.department && hierarchyObj.department.orgname ? hierarchyObj.department.orgname : hierarchyObj.department,
               channel: hierarchyObj.department && hierarchyObj.department.orgname ? hierarchyObj.department.orgname : hierarchyObj.department,
               organisationType: hierarchyObj.ministry.sbsuborgtype ? (hierarchyObj.ministry.sbsuborgtype || '').toLowerCase() : 'mdo',
-              organisationSubType: 'dept',
+              organisationSubType: 'department',
               isTenant: true,
               ...(this.isStateAdmin && { sbRootOrgId: _.get(this.activatedRoute, 'snapshot.parent.data.configService.unMappedUser.rootOrgId') }),
               requestedBy: this.loggedInUserId,
