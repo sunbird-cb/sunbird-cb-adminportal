@@ -36,7 +36,7 @@
         </div>
 
         <mat-table #table matSort [ngStyle]="{'height': bodyHeight}" [matSortActive]="tableData!.sortColumn"
-            [matSortDirection]="tableData!.sortState" [dataSource]="dataSource" *ngIf="dataSource.data.length > 0"
+            [matSortDirection]="tableData!.sortState" [dataSource]="dataSource"
             class=" example-table table1 responsiveTable">
 
             <ng-container matColumnDef="{{col.key}}" *ngFor="let col of tableData!.columns">
