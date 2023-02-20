@@ -33,7 +33,7 @@ export class RolesAccessComponent implements OnInit, AfterViewInit {
       this.deparmentName = params['depatName']
       this.currentDept = params['currentDept']
     })
-    if (this.currentDept === 'CBP Providers') {
+    if (this.currentDept === 'CBP Providers' || this.currentDept === 'cbp-providers') {
       this.currentDept = 'CBP'
     }
 

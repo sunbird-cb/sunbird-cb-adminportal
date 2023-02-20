@@ -54,7 +54,7 @@ export class CreateUserComponent implements OnInit {
       this.deptId = params['id']
       this.currentDept = params['currentDept']
       this.redirectionPath = params['redirectionPath']
-      if (this.currentDept === 'CBP Providers') {
+      if (this.currentDept === 'CBP Providers' || this.currentDept === 'cbp-providers') {
         this.currentDept = 'CBP'
       }
       const dept = params['createDept']

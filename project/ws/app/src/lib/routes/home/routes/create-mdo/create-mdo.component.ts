@@ -143,7 +143,7 @@ export class CreateMdoComponent implements OnInit {
         let data = params['data']
         this.department = params['department']
         this.departmentName = params['department']
-        if (this.department === 'CBP Providers') {
+        if (this.department === 'CBP Providers' || this.department === 'cbp-providers') {
           this.department = 'CBP'
         }
         if (this.departmentName && this.departmentName.toLocaleLowerCase() === 'mdo') {
