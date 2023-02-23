@@ -576,7 +576,8 @@ export class CreateMdoComponent implements OnInit {
         if (stateFromValue.sbOrgId) {
           this.disableStateCreateButton = true
           this.displayLoader = false
-          this.openSnackbar(`Selected Org is already onboarded!`)
+          // this.openSnackbar(`Selected Org is already onboarded!`)
+          this.openSnackbar(`Selected State is already onboarded!`)
         } else {
           const req = {
             orgName: stateFromValue.orgname ? stateFromValue.orgname : stateFromValue,
@@ -595,7 +596,8 @@ export class CreateMdoComponent implements OnInit {
               this.displayLoader = false
               if (res.responseCode) {
                 this.submittedForm = false
-                this.openSnackbar(`Org is successfully on-boarded. Check again after few minutes for newly on-boarded org details`)
+                // this.openSnackbar(`Org is successfully on-boarded. Check again after few minutes for newly on-boarded org details`)
+                this.openSnackbar(`State is successfully on-boarded. Check again after few minutes for newly on-boarded state details`)
                 this.router.navigate([`/app/home/directory`])
               }
             },
