@@ -457,7 +457,10 @@ export class InitService {
             localStorage.removeItem('telemetrySessionId')
           }
           localStorage.setItem('telemetrySessionId', uuid())
-
+          if (sessionStorage.getItem('idDetails')) {
+            sessionStorage.removeItem('idDetails')
+          }
+          sessionStorage.setItem('idDetails', userPidProfile.userId)
           this.configSvc.unMappedUser = userPidProfile
           const profileV2 = _.get(userPidProfile, 'profiledetails')
           this.configSvc.userProfile = {
