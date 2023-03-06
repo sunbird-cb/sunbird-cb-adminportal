@@ -44,10 +44,10 @@ export class UsersComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   constructor(private usersSvc: UsersService, private router: Router,
-    private route: ActivatedRoute,
-    private profile: ProfileV2Service,
-    private profileUtilSvc: ProfileV2UtillService,
-    private usersService: UsersService) {
+              private route: ActivatedRoute,
+              private profile: ProfileV2Service,
+              private profileUtilSvc: ProfileV2UtillService,
+              private usersService: UsersService) {
   }
   ngOnInit() {
     this.tabsData = [
