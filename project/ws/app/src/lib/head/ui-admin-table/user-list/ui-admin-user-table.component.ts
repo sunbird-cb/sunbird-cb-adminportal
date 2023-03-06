@@ -48,6 +48,7 @@ export class UIAdminUserTableComponent implements OnInit, AfterViewInit, OnChang
   @ViewChild(MatSort, { static: true }) sort?: MatSort
   selection = new SelectionModel<any>(true, [])
   departmentName: any
+  currentUserId!: any
   constructor(
     private router: Router, public dialog: MatDialog,
     private activatedRoute: ActivatedRoute,
@@ -62,6 +63,7 @@ export class UIAdminUserTableComponent implements OnInit, AfterViewInit, OnChang
   }
 
   ngOnInit() {
+    this.currentUserId = sessionStorage.getItem('idDetails') ? sessionStorage.getItem('idDetails') : ''
     if (this.tableData) {
       this.displayedColumns = this.tableData.columns
     }
@@ -151,7 +153,7 @@ export class UIAdminUserTableComponent implements OnInit, AfterViewInit, OnChang
               this.router.navigate(['/app/home/directory', { department: this.departmentRole }])
             }
           },
-                                                                                               (err: { error: any }) => {
+            (err: { error: any }) => {
               this.openSnackbar(err.error.message)
             })
         }
@@ -198,7 +200,7 @@ export class UIAdminUserTableComponent implements OnInit, AfterViewInit, OnChang
   gotoCreateUser() {
     this.raiseTelemetry('button')
     this.router.navigate([`/app/home/create-user`],
-                         {
+      {
         queryParams: {
           id: this.departmentId, currentDept: this.departmentRole,
           createDept: JSON.stringify(this.otherInput),
@@ -212,7 +214,7 @@ export class UIAdminUserTableComponent implements OnInit, AfterViewInit, OnChang
       type: 'click',
       subType: sub,
     },
-                                       {},
+      {},
     )
   }
 

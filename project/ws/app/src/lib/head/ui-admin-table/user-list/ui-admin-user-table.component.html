@@ -36,7 +36,7 @@
         </div>
 
         <mat-table #table matSort [ngStyle]="{'height': bodyHeight}" [matSortActive]="tableData!.sortColumn"
-            [matSortDirection]="tableData!.sortState" [dataSource]="dataSource" *ngIf="dataSource.data.length > 0"
+            [matSortDirection]="tableData!.sortState" [dataSource]="dataSource"
             class=" example-table table1 responsiveTable">
 
             <ng-container matColumnDef="{{col.key}}" *ngFor="let col of tableData!.columns">
@@ -102,8 +102,9 @@
             class="ws-mat-primary-text" i18n-aria-label aria-label="Analytics">
             <mat-icon>input</mat-icon> <span>Show on karmayogi</span>
         </button>
-        <button *ngIf="currentTabName === 'active'" (click)="buttonClick('block',rowData)" mat-menu-item
-            name="channel-analytics-button" class="ws-mat-primary-text" i18n-aria-label aria-label="Analytics">
+        <button *ngIf="currentTabName === 'active' && currentUserId !== rowData.userId"
+            (click)="buttonClick('block',rowData)" mat-menu-item name="channel-analytics-button"
+            class="ws-mat-primary-text" i18n-aria-label aria-label="Analytics">
             <mat-icon>toggle_off_sharp</mat-icon> <span>Deactivate user</span>
         </button>
         <button *ngIf="currentTabName === 'inactive'" (click)="buttonClick('unblock',rowData)" mat-menu-item

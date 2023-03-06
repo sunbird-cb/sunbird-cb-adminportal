@@ -229,11 +229,11 @@ export class DirectoryViewComponent implements OnInit {
           typeid: dept.typeid,
         }
       })
-      this.data.sort((a: any, b: any) => {
-        const textA = a.mdo.trimStart().toUpperCase()
-        const textB = b.mdo.trimStart().toUpperCase()
-        return (textA < textB) ? -1 : (textA > textB) ? 1 : 0
-      })
+      // this.data.sort((a: any, b: any) => {
+      //   const textA = a.mdo.trimStart().toUpperCase()
+      //   const textB = b.mdo.trimStart().toUpperCase()
+      //   return (textA < textB) ? -1 : (textA > textB) ? 1 : 0
+      // })
     }
     this.createTableHeader()
   }
