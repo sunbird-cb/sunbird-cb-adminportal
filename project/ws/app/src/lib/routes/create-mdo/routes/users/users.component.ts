@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, OnInit, OnDestroy, ElementRef, HostListener, ViewChild } from '@angular/core'
 import { Router, ActivatedRoute } from '@angular/router'
 import * as _ from 'lodash'
+import { ProfileV2UtillService } from '../../../home/services/home-utill.service'
 import { ProfileV2Service } from '../../../home/services/home.servive'
 import { UsersService } from '../../../home/services/users.service'
 // import { UsersService } from '../../services/users.service'
@@ -43,9 +44,10 @@ export class UsersComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   constructor(private usersSvc: UsersService, private router: Router,
-              private route: ActivatedRoute,
-              private profile: ProfileV2Service,
-              private usersService: UsersService) {
+    private route: ActivatedRoute,
+    private profile: ProfileV2Service,
+    private profileUtilSvc: ProfileV2UtillService,
+    private usersService: UsersService) {
   }
   ngOnInit() {
     this.tabsData = [
@@ -124,7 +126,7 @@ export class UsersComponent implements OnInit, AfterViewInit, OnDestroy {
         })
         return {
           fullName: `${user.firstName} ${user.lastName}`,
-          email: user.emailId,
+          email: this.profileUtilSvc.emailTransform(user.emailId),
           position: userRole,
           role: user.roleInfo.roleName,
         }
@@ -142,7 +144,7 @@ export class UsersComponent implements OnInit, AfterViewInit, OnDestroy {
         })
         return {
           fullName: `${user.firstName} ${user.lastName}`,
-          email: user.emailId,
+          email: this.profileUtilSvc.emailTransform(user.emailId),
           position: userRole,
           role: user.roleInfo.roleName,
         }
@@ -170,7 +172,7 @@ export class UsersComponent implements OnInit, AfterViewInit, OnDestroy {
             // }
 
           })
-          const email = _.get(user, 'profileDetails.personalDetails.primaryEmail')
+          const email = this.profileUtilSvc.emailTransform(_.get(user, 'profileDetails.personalDetails.primaryEmail'))
           if (!user.isDeleted && roles.includes(roldata)) {
             usersData.push({
               fullName: user ? `${user.firstName} ${user.lastName}` : null,
@@ -209,7 +211,7 @@ export class UsersComponent implements OnInit, AfterViewInit, OnDestroy {
       if (!(user.isDeleted)) {
         usersData.push({
           fullName: user ? `${user.firstName} ${user.lastName}` : null,
-          email: email || user.email,
+          email: this.profileUtilSvc.emailTransform(email) || this.profileUtilSvc.emailTransform(user.email),
           position: roles,
           userId: user.userId,
         })
