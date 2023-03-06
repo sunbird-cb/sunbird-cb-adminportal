@@ -10,6 +10,7 @@ import { UsersService } from '../../services/users.service'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { environment } from 'src/environments/environment'
 import { LoaderService } from '../../services/loader.service'
+import { ProfileV2UtillService } from '../../services/home-utill.service'
 @Component({
   selector: 'ws-app-users-view',
   templateUrl: './users-view.component.html',
@@ -54,6 +55,7 @@ export class UsersViewComponent implements OnInit {
     private configSvc: ConfigurationsService,
     private snackBar: MatSnackBar,
     private events: EventService,
+    private profileUtilSvc: ProfileV2UtillService,
   ) {
     this.Math = Math
     this.currentUser = this.configSvc.userProfile && this.configSvc.userProfile.userId
@@ -220,7 +222,7 @@ export class UsersViewComponent implements OnInit {
       user.organisations.forEach((org: { organisationId: string, roles: any }) => {
         roles = org.roles
       })
-      const email = _.get(user, 'profileDetails.personalDetails.primaryEmail')
+      const email = this.profileUtilSvc.emailTransform(_.get(user, 'profileDetails.personalDetails.primaryEmail')) || ''
       if (active === user.isDeleted) {
         usersData.push({
           fullname: user ? `${user.firstName} ${user.lastName}` : null,
