@@ -9,6 +9,7 @@ import { MatSort } from '@angular/material/sort'
 import * as _ from 'lodash'
 import { ITableData, IColums } from '../interface/interfaces'
 import { UserViewPopUpService } from './ui-user-table-pop-up.services'
+import { ProfileV2UtillService } from '../../../routes/home/services/home-utill.service'
 
 interface IUser { fullname: string; email: string, userId: string }
 
@@ -37,7 +38,7 @@ export class UIUserTablePopUpComponent implements OnInit, AfterViewInit, OnChang
   @ViewChild(MatSort, { static: true }) sort?: MatSort
   selection = new SelectionModel<any>(true, [])
 
-  constructor(private userViewPopUpService: UserViewPopUpService) {
+  constructor(private userViewPopUpService: UserViewPopUpService, private profileUtilSvc: ProfileV2UtillService) {
     this.dataSource = new MatTableDataSource<any>()
     this.actionsClick = new EventEmitter()
     this.clicked = new EventEmitter()
@@ -110,7 +111,7 @@ export class UIUserTablePopUpComponent implements OnInit, AfterViewInit, OnChang
         const obj: IUser = {
           userId: users.id,
           fullname: `${users.firstName} ${users.lastName}`,
-          email: users.profileDetails.personalDetails.primaryEmail,
+          email: this.profileUtilSvc.emailTransform(users.profileDetails.personalDetails.primaryEmail),
         }
         this.dataSource.data.push(obj)
         this.dataSource.data = this.dataSource.data.slice()

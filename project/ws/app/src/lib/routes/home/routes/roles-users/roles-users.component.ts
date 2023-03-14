@@ -2,6 +2,7 @@ import { Component, OnInit, ElementRef, HostListener, ViewChild, AfterViewInit, 
 import { Router, ActivatedRoute } from '@angular/router'
 import * as _ from 'lodash'
 import { ProfileV2Service } from '../../../home/services/home.servive'
+import { ProfileV2UtillService } from '../../services/home-utill.service'
 import { UsersService } from '../../services/users.service'
 
 @Component({
@@ -40,7 +41,7 @@ export class RolesUsersComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  constructor(private usersSvc: UsersService, private router: Router,
+  constructor(private usersSvc: UsersService, private router: Router, private profileUtilSvc: ProfileV2UtillService,
     // tslint:disable-next-line:align
     private route: ActivatedRoute, private profile: ProfileV2Service, private usersService: UsersService) {
   }
@@ -117,7 +118,7 @@ export class RolesUsersComponent implements OnInit, AfterViewInit, OnDestroy {
         })
         return {
           fullName: `${user.firstName} ${user.lastName}`,
-          email: user.emailId,
+          email: this.profileUtilSvc.emailTransform(user.emailId),
           position: userRole,
           role: user.roleInfo.roleName,
         }
@@ -135,7 +136,7 @@ export class RolesUsersComponent implements OnInit, AfterViewInit, OnDestroy {
         })
         return {
           fullName: `${user.firstName} ${user.lastName}`,
-          email: user.emailId,
+          email: this.profileUtilSvc.emailTransform(user.emailId),
           position: userRole,
           role: user.roleInfo.roleName,
         }
@@ -169,7 +170,7 @@ export class RolesUsersComponent implements OnInit, AfterViewInit, OnDestroy {
       if (!(user.isDeleted)) {
         usersData.push({
           fullName: user ? `${user.firstName} ${user.lastName}` : null,
-          email: email || user.email,
+          email: this.profileUtilSvc.emailTransform(email) || this.profileUtilSvc.emailTransform(user.email),
           position: this.getRoleList(user).toString().replace(',', ', '),
           userId: user.userId,
         })
@@ -210,7 +211,8 @@ export class RolesUsersComponent implements OnInit, AfterViewInit, OnDestroy {
         user => {
           return {
             fullName: `${user.firstName} ${user.lastName}`,
-            email: _.get(user, 'profileDetails.personalDetails.primaryEmail') || user.email,
+            email: this.profileUtilSvc.emailTransform(_.get(user, 'profileDetails.personalDetails.primaryEmail'))
+              || this.profileUtilSvc.emailTransform(user.email),
             position: this.getRoleList(user).toString().replace(',', ', '),
             userId: user.userId,
           }
