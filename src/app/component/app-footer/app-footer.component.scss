@@ -7,6 +7,10 @@
   @include breakpoint-xs {
     flex-direction: column;
   }
+  .disabled {
+  pointer-events: none;
+  cursor: pointer;
+}
 }
 
 .font-12 {
