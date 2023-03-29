@@ -41,6 +41,7 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown'
 import { UIAdminTableModule } from '../../head/ui-admin-table/ui-admin-table.module'
 import { ModerationViewComponent } from './routes/moderation/moderation.component'
 import { RolesUsersComponent } from './routes/roles-users/roles-users.component'
+import { PositionsModule } from './routes/positions/positions.module'
 
 @NgModule({
   declarations: [
@@ -63,6 +64,7 @@ import { RolesUsersComponent } from './routes/roles-users/roles-users.component'
     WidgetResolverModule,
     ReactiveFormsModule,
     HomeRoutingModule,
+    PositionsModule,
     FormsModule,
     RouterModule,
     MatGridListModule,

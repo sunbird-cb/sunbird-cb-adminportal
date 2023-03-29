@@ -1,0 +1,44 @@
+<form [formGroup]="positionForm" (ngSubmit)="onSubmit() && positionForm.valid" class="flex flex-1">
+  <mat-card class="flex flex-1 flex-column no-shadow">
+    <mat-card-content class="flex flex-1">
+      <div class="mobile-break mat-app-background flex-center">
+        <div class="margin-top-s">
+          <div class="margin-top-xs">
+            <p class="margin-remove-bottom" i18n="new position">
+              New Position Name
+            </p>
+            <mat-form-field appearance="outline" class="margin-top-xs">
+              <input matInput #name formControlName="name" maxlength="500" i18n-placeholder placeholder="Type here"
+                type="text" (keyup)="specialCharacters($event)" />
+              <mat-error i18n="Name Error|Explains name is required">
+                Position name is not valid
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="margin-top-s">
+          <div class="margin-top-xs">
+            <p class="margin-remove-bottom" i18n="new position">
+              Description
+            </p>
+            <mat-form-field appearance="outline" class="margin-top-xs">
+              <textarea matInput #desc formControlName="description" maxlength="500" i18n-placeholder
+                placeholder="Type here" type="text" (keyup)="specialCharacters($event)" rows="3"></textarea>
+              <mat-error i18n="Name Error|Explains name is required">
+                Description is not valid
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+    <mat-card-actions class="flex flex-1 flex-row-reverse">
+      <button class="text-white ws-mat-primary-background margin-right-m" mat-raised-button color="primary"
+        type="submit" i18n [disabled]="!positionForm.valid">
+        <ng-container>
+          <span class="text-white" i18n>Save Changes</span>
+        </ng-container>
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</form>
