@@ -2,6 +2,8 @@
 import { Component, OnInit } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
 import { ITableData } from '@sunbird-cb/collection/lib/ui-admin-table/interface/interfaces'
+// tslint:disable-next-line
+import _ from 'lodash'
 
 @Component({
   selector: 'ws-app-positions-list',
@@ -14,7 +16,7 @@ import { ITableData } from '@sunbird-cb/collection/lib/ui-admin-table/interface/
 export class PositionsListComponent implements OnInit {
 
   tableData: ITableData | undefined
-  data?: []
+  data?: any[]
   constructor(private aRoute: ActivatedRoute, private route: Router) {
     this.tableData = {
       columns: [
@@ -35,7 +37,7 @@ export class PositionsListComponent implements OnInit {
 
   }
   ngOnInit(): void {
-    this.data = this.aRoute.snapshot.data.positions.data
+    this.data = this.aRoute.snapshot.data.positions.data || []
     // console.log(this.aRoute.snapshot.data.positions.data)
   }
   actionsClick($event: { action: string, row: any }) {

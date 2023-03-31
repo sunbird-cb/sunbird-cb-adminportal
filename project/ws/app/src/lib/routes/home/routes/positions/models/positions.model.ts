@@ -3,3 +3,9 @@ export interface IPosition {
   name: string
   description: string
 }
+
+export interface IRequest {
+  contextType: string
+  contextData: string
+  contextName: string
+}

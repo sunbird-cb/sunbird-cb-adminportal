@@ -12,10 +12,20 @@ import { Router } from '@angular/router'
 })
 export class PositionsHomeComponent implements OnInit {
   currentFilter = 'inactive'
+
   constructor(private route: Router) {
-    this.currentFilter = route.url.includes('active-positions') || route.url.includes('new-position') ? 'active' : 'inactive'
+    this.currentActive = this.currentFilter
   }
   ngOnInit(): void {
+  }
+
+  set currentActive(val) {
+    this.currentFilter = val
+  }
+  get currentActive() {
+    this.currentFilter = this.route.url.includes('active-positions') || this.route.url.includes('new-position') ? 'active' : 'inactive'
+    return this.currentFilter
+
   }
   filter(key: 'active' | 'inactive') {
     this.currentFilter = key
