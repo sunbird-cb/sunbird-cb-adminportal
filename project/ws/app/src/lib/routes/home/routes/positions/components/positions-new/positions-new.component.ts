@@ -51,13 +51,11 @@ export class PositionsNewComponent implements OnInit {
     })
 
     dialogRef.afterClosed().subscribe((response: any) => {
-      console.log(response)
       if (response) {
-        console.log(this.positionForm.value)
         const data = {
           request: {
             contextType: 'position',
-            contextData: this.positionForm.controls['description'].value,
+            contextData: this.positionForm.controls['description'].value.toUpperCase(),
             contextName: this.positionForm.controls['name'].value
           }
         }
