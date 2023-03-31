@@ -41,7 +41,7 @@ export class PositionsListComponent implements OnInit {
     // console.log(this.aRoute.snapshot.data.positions.data)
   }
   actionsClick($event: { action: string, row: any }) {
-    console.log($event)
+    // console.log($event)
     this.route.navigate(['new-position'], { relativeTo: this.aRoute.parent, state: $event })
   }
 }

@@ -25,7 +25,9 @@ export class PositionsNewComponent implements OnInit {
     private dialogue: MatDialog
   ) {
     const currentState = this.route.getCurrentNavigation()
-    let name, description, id = ''
+    let name = ''
+    let description = ''
+    let id = ''
 
     if (currentState && currentState.extras.state) {
       name = currentState.extras.state.row.name
