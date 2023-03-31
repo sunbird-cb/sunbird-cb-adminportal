@@ -1,0 +1,32 @@
+<div class="flex flex-4 flex-column">
+  <mat-card class="flex-custom">
+    <div class="flex-custom-m margin-bottom-l " id="positionstitle">
+      <div class="flex-1" role="none" tabindex="0">
+        <div class="flex flex-1">
+          <mat-card-title class="flex-4 mobile-margin text-capitalize margin-remove-bottom fix-margin">
+            <span class="mat-title margin-0">Manage Positions</span>
+          </mat-card-title>
+          <button *ngIf="currentActive === 'active'" mat-raised-button role="button" type="button"
+            class="text-white ws-mat-primary-background margin-right-m" (click)="newPosition()">
+            <span class="text-white" i18n>Add new Position</span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <mat-card-content>
+      <div class="flex flex-1 flex-column margin-fix">
+        <div class="flex flex-1 filter max-height-60">
+          <a href="javascript:void(0)" class="filter-option" [ngClass]="{'ws-mat-accent-border-active' : currentActive === 'inactive',
+              'ws-mat-accent-border font-medium':currentActive !== 'inactive'}" mat-button (click)="filter('inactive')"
+            role="button">Pending Positions</a>
+          <a href="javascript:void(0)" class="filter-option" [ngClass]="{'ws-mat-accent-border-active' : currentActive === 'active',
+                          'ws-mat-accent-border font-medium':currentActive !== 'active'}" mat-button
+            (click)="filter('active')" role="button">Active Positions</a>
+        </div>
+      </div>
+      <ng-container>
+        <router-outlet></router-outlet>
+      </ng-container>
+    </mat-card-content>
+  </mat-card>
+</div>
