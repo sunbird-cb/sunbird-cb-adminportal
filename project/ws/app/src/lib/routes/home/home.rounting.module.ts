@@ -14,6 +14,7 @@ import { RolesResolver } from './resolvers/roles-resolver.service'
 // import { PageResolve } from '@sunbird-cb/utils'
 import { ModerationViewComponent } from './routes/moderation/moderation.component'
 import { RolesUsersComponent } from './routes/roles-users/roles-users.component'
+import { ReportsComponent } from './routes/reports/reports.component'
 
 const routes: Routes = [
   {
@@ -140,6 +141,17 @@ const routes: Routes = [
         },
       },
       {
+        path: 'reports',
+        component: ReportsComponent,
+        children: [],
+        data: {
+          pageId: 'app/reports',
+          module: 'reports',
+          pageType: 'feature',
+          pageKey: 'Reports',
+        },
+      },
+      {
         path: '',
         redirectTo: 'directory',
         pathMatch: 'full',
@@ -147,7 +159,7 @@ const routes: Routes = [
     ],
   },
 ]
-
+// D: \iGot\sunbird - cb - adminportal\project\ws\app\src\lib\routes\home\routes
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
