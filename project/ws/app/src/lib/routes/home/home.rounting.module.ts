@@ -172,7 +172,6 @@ const routes: Routes = [
     ],
   },
 ]
-// D: \iGot\sunbird - cb - adminportal\project\ws\app\src\lib\routes\home\routes
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],

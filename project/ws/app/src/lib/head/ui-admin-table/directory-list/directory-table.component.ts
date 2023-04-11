@@ -11,6 +11,7 @@ import * as _ from 'lodash'
 // import {IColums } from '../interface/interfaces'
 import { Router } from '@angular/router'
 import { EventService } from '@sunbird-cb/utils'
+import { environment } from '../../../../../../../../src/environments/environment'
 
 @Component({
   selector: 'ws-widget-directory-table',
@@ -53,7 +54,7 @@ export class UIDirectoryTableComponent implements OnInit, AfterViewInit, OnChang
     if (this.tableData) {
       // this.displayedColumns = this.tableData.columns
     }
-    if (this.selectedDepartment === 'ministry') {
+    if (environment.departments && environment.departments.includes(this.selectedDepartment)) {
       this.isMinistry = false
     }
     this.dataSource.data = this.data

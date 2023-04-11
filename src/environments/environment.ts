@@ -10,6 +10,7 @@ export const environment: IEnvironment = {
   name: (window as { [key: string]: any })['env']['name'],
   cbpProviderRoles: (window as { [key: string]: any })['env']['cbpProvidersRoles'] || [],
   userBucket: (window as { [key: string]: any })['env']['userBucket'] || '',
+  departments: (window as { [key: string]: any })['env']['departments'] || [],
 }
 interface IEnvironment {
   name: string,
@@ -19,6 +20,7 @@ interface IEnvironment {
   portalRoles: string[]
   cbpProviderRoles: string[]
   userBucket?: string
+  departments?: string[]
 }
 
 /*
