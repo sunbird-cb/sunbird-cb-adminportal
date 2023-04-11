@@ -595,7 +595,7 @@ export class CreateMdoComponent implements OnInit {
               this.displayLoader = false
               if (res.responseCode) {
                 this.submittedForm = false
-                this.openSnackbar(`Org is successfully on-boarded. Check again after few minutes for newly on-boarded org details`)
+                this.openSnackbar(`State is successfully on-boarded. Check again after few minutes for newly on-boarded State details`)
                 this.router.navigate([`/app/home/directory`])
               }
             },
@@ -711,7 +711,7 @@ export class CreateMdoComponent implements OnInit {
               this.req = ''
               if (res.responseCode) {
                 this.submittedForm = false
-                this.openSnackbar(`Org is successfully on-boarded. Check again after few minutes for newly on-boarded org details`)
+                this.openSnackbar(`MDO is successfully on-boarded. Check again after few minutes for newly on-boarded MDO details`)
 
                 this.router.navigate([`/app/home/directory`])
               }
