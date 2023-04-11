@@ -14,7 +14,7 @@
                         (keydown.enter)="onSearchEnter($event.target.value)" placeholder="Search">
                 </div>
             </div>
-            <button mat-raised-button type="button" *ngIf="needCreate && selectedDepartment !== 'ministry'"
+            <button mat-raised-button type="button" *ngIf="needCreate && !isMinistry"
                 class="text-white ws-mat-primary-background text-white margin-right-m custom-btn"
                 (click)="gotoCreateNew()">
                 <b class="text-white" i18n>Create new</b>
