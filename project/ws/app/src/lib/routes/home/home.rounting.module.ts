@@ -156,13 +156,22 @@ const routes: Routes = [
       {
         path: 'reports',
         component: ReportsComponent,
-        children: [],
         data: {
           pageId: 'app/reports',
           module: 'reports',
           pageType: 'feature',
           pageKey: 'Reports',
         },
+      },
+      {
+        path: 'reports/:tab',
+        data: {
+          pageId: 'app/reports',
+          module: 'reports',
+          pageType: 'feature',
+          pageKey: 'Reports',
+        },
+        component: ReportsComponent,
       },
       {
         path: '',

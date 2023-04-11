@@ -103,7 +103,7 @@ export class ReportsComponent implements OnInit {
     })
   }
   onRoleClick(role: any) {
-    this.router.navigate([`/app/roles/${role.id}/users`], { queryParams: { currentDept: this.currentFilter, roleId: role.id, depatName: role.mdo, deptType: role.type } })
+    this.router.navigate([`/app/roles/${role.id}/users`], { queryParams: { currentDept: this.currentFilter, roleId: role.id, depatName: role.mdo, deptType: role.type, path: 'reports' } })
   }
 
   filter(value: string) {
