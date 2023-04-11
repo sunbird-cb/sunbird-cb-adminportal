@@ -42,7 +42,7 @@ import { UIAdminTableModule } from '../../head/ui-admin-table/ui-admin-table.mod
 import { ModerationViewComponent } from './routes/moderation/moderation.component'
 import { RolesUsersComponent } from './routes/roles-users/roles-users.component'
 import { ReportsComponent } from './routes/reports/reports.component'
-
+import { PositionsModule } from './routes/positions/positions.module'
 @NgModule({
   declarations: [
     HomeComponent,
@@ -65,6 +65,7 @@ import { ReportsComponent } from './routes/reports/reports.component'
     WidgetResolverModule,
     ReactiveFormsModule,
     HomeRoutingModule,
+    PositionsModule,
     FormsModule,
     RouterModule,
     MatGridListModule,

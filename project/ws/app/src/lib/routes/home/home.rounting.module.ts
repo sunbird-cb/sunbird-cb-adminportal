@@ -141,6 +141,19 @@ const routes: Routes = [
         },
       },
       {
+        path: 'positions',
+        loadChildren: () => import('./routes/positions/positions.module').then(u => u.PositionsModule),
+        // pathMatch: 'full',
+        // redirectTo: 'directory/mdo',
+        // component: DirectoryViewComponent,
+        data: {
+          pageId: 'app/positions',
+          module: 'positions',
+          pageType: 'feature',
+          pageKey: 'positions',
+        },
+      },
+      {
         path: 'reports',
         component: ReportsComponent,
         children: [],
