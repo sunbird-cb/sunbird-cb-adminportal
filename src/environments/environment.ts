@@ -9,6 +9,7 @@ export const environment: IEnvironment = {
   portalRoles: (((window as { [key: string]: any })['env']['portalRoles'] || '').split(',')) || [],
   name: (window as { [key: string]: any })['env']['name'],
   cbpProviderRoles: (window as { [key: string]: any })['env']['cbpProvidersRoles'] || [],
+  userBucket: (window as { [key: string]: any })['env']['userBucket'] || '',
 }
 interface IEnvironment {
   name: string,
@@ -17,6 +18,7 @@ interface IEnvironment {
   karmYogiPath: string
   portalRoles: string[]
   cbpProviderRoles: string[]
+  userBucket?: string
 }
 
 /*
