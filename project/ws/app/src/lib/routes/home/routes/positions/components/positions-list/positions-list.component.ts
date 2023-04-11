@@ -20,9 +20,9 @@ export class PositionsListComponent implements OnInit {
   constructor(private aRoute: ActivatedRoute, private route: Router) {
     this.tableData = {
       columns: [
-        { key: 'id', displayName: 'Unique ID', },
-        { key: 'name', displayName: 'Position', },
-        { key: 'description', displayName: 'Position Description', },
+        { key: 'id', displayName: 'Unique ID' },
+        { key: 'name', displayName: 'Position' },
+        { key: 'description', displayName: 'Position Description' },
       ],
       actions: [
         // { name: 'edit', label: 'Edit', icon: 'edit', type: 'link' },

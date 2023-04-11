@@ -17,7 +17,7 @@ export class PositionsResolve
   ): Observable<IResolveResponse<IPosition[]>> {
     return this.positionsSvc.getPositionsList().pipe(
       map(data => ({
-        data: data.responseData, error: null
+        data: data.responseData, error: null,
       })),
       catchError(error => of({ error, data: null })),
     )

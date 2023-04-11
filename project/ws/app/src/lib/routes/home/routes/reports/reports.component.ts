@@ -9,18 +9,16 @@ import { DirectoryService } from '../../services/directory.services'
 import { UIDirectoryTableComponent } from '../../../../head/ui-admin-table/directory-list/directory-table.component'
 
 @Component({
-  selector: 'ws-app-directory',
-  templateUrl: './directory.component.html',
-  styleUrls: ['./directory.component.scss'],
-  /* tslint:disable */
-  host: { class: 'flex flex-1 margin-top-l' },
-  /* tslint:enable */
+  selector: 'ws-app-reports',
+  templateUrl: './reports.component.html',
+  styleUrls: ['./reports.component.scss'],
 })
-export class DirectoryViewComponent implements OnInit {
+export class ReportsComponent implements OnInit {
+
   @ViewChild(UIDirectoryTableComponent, { static: false })
   searchInputvalue!: UIDirectoryTableComponent
 
-  currentFilter = 'mdo'
+  currentFilter = 'ministry'
   portalProfile!: NSProfileDataV2.IProfile
   tabs: any
   tabsData: NSProfileDataV2.IProfileTab[]
@@ -32,8 +30,7 @@ export class DirectoryViewComponent implements OnInit {
   departmentHearders: any = []
   departmentHeaderArray: any = []
   isStateAdmin = false
-  key = 'mdo'
-
+  key = 'ministry'
   constructor(
     public dialog: MatDialog,
     private route: ActivatedRoute,
@@ -56,12 +53,11 @@ export class DirectoryViewComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.currentFilter = params['tab']
       if (this.currentFilter === null || this.currentFilter === undefined) {
-        this.currentFilter = 'mdo'
+        this.currentFilter = 'ministry'
       }
     })
     this.getAllDepartmentsHeaderAPI()
     this.getAllDepartments('')
-    // console.log(this.key, 'key----')
   }
   getAllDepartmentsHeaderAPI() {
     this.directoryService.getDepartmentTitles().subscribe(res => {
@@ -107,7 +103,7 @@ export class DirectoryViewComponent implements OnInit {
     })
   }
   onRoleClick(role: any) {
-    this.router.navigate([`/app/roles/${role.id}/users`], { queryParams: { currentDept: this.currentFilter, roleId: role.id, depatName: role.mdo } })
+    this.router.navigate([`/app/roles/${role.id}/users`], { queryParams: { currentDept: this.currentFilter, roleId: role.id, depatName: role.mdo, deptType: role.type } })
   }
 
   filter(value: string) {
@@ -249,11 +245,6 @@ export class DirectoryViewComponent implements OnInit {
           typeid: dept.typeid,
         }
       })
-      // this.data.sort((a: any, b: any) => {
-      //   const textA = a.mdo.trimStart().toUpperCase()
-      //   const textB = b.mdo.trimStart().toUpperCase()
-      //   return (textA < textB) ? -1 : (textA > textB) ? 1 : 0
-      // })
     }
     this.createTableHeader()
   }
@@ -268,4 +259,5 @@ export class DirectoryViewComponent implements OnInit {
   onEnterkySearch(enterValue: any) {
     this.getAllDepartments(enterValue)
   }
+
 }

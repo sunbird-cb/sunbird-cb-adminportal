@@ -13,6 +13,7 @@ import { Router, ActivatedRoute } from '@angular/router'
 import { UserPopupComponent } from '../user-popup/user-popup'
 import { CreateMDOService as MDO2 } from '../../../routes/home/services/create-mdo.services'
 import { EventService } from '@sunbird-cb/utils'
+import { environment } from '../../../../../../../../src/environments/environment'
 
 @Component({
   selector: 'ws-widget-ui-user-table',
@@ -49,12 +50,19 @@ export class UIAdminUserTableComponent implements OnInit, AfterViewInit, OnChang
   selection = new SelectionModel<any>(true, [])
   departmentName: any
   currentUserId!: any
+  userRoles: string[] = []
+  isStateAdmin = false
+  isMinistryDept = false
   constructor(
     private router: Router, public dialog: MatDialog,
     private activatedRoute: ActivatedRoute,
     private createMDOService2: MDO2,
     private events: EventService,
     private snackBar: MatSnackBar) {
+    this.userRoles = _.get(this.activatedRoute, 'snapshot.parent.data.configService.unMappedUser.roles')
+    if (this.userRoles.indexOf('STATE_ADMIN') >= 0) {
+      this.isStateAdmin = true
+    }
     this.dataSource = new MatTableDataSource<any>()
     this.actionsClick = new EventEmitter()
     this.clicked = new EventEmitter()
@@ -75,14 +83,16 @@ export class UIAdminUserTableComponent implements OnInit, AfterViewInit, OnChang
       this.departmentRole = params['currentDept']
       this.departmentName = params['depatName']
       this.departmentId = params['roleId']
-      if (this.needCreateUser !== false && this.departmentRole && this.departmentId) {
+      if (this.needCreateUser !== false && (this.departmentRole && this.departmentRole !== 'ministry') && this.departmentId) {
         this.needAddAdmin = true
         this.needCreateUser = true
       }
-
     })
     if (!this.departmentId && this.inputDepartmentId) {
       this.departmentId = this.inputDepartmentId
+    }
+    if (environment.departments && environment.departments.includes(this.departmentRole)) {
+      this.isMinistryDept = true
     }
   }
 
@@ -220,5 +230,29 @@ export class UIAdminUserTableComponent implements OnInit, AfterViewInit, OnChang
 
   onSearchEnter(event: any) {
     this.searchByEnterKey.emit(event.target.value)
+  }
+
+  downloadUsersReport(value: string) {
+    const fileName = value.replace(/\s+/g, '-')
+    const downloadUrl = `${environment.karmYogiPath}/${'content-store/user-report/'}${this.departmentId}/${fileName}-userReport.zip`
+    window.location.href = downloadUrl
+  }
+
+  downloadConsumptionReport(value: string) {
+    // const popup = this.snackBar
+    const fileName = value.replace(/\s+/g, '-')
+    const downloadUrl = `${environment.karmYogiPath}/${environment.userBucket}${this.departmentId}/${fileName}-userEnrolmentReport.zip`
+    window.location.href = downloadUrl
+    // let xhr = new XMLHttpRequest()
+    // xhr.open('GET', downloadUrl)
+    // xhr.send()
+    // xhr.onload = function () {
+    //   if (xhr.status != 200) {
+    //     console.log(xhr.status)
+    //     popup.open('File not generated yet!')
+    //   } else {
+    //     window.location.href = downloadUrl
+    //   }
+    // }
   }
 }

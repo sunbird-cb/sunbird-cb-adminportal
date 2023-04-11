@@ -176,7 +176,6 @@ export class CreateUserComponent implements OnInit {
     })
   }
 
-
   emailVerification(emailId: string) {
     this.emailLengthVal = false
     if (emailId && emailId.length > 0) {

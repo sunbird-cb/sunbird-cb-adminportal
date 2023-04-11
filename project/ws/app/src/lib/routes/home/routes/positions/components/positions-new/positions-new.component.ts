@@ -46,10 +46,10 @@ export class PositionsNewComponent implements OnInit {
   onSubmit() {
     const dialogRef = this.dialogue.open(DialogConfirmComponent, {
       data: {
-        title: "Attention!!",
+        title: 'Attention!!',
         bodyHTML: `Please click No if you are not sure about new position, otherwise click Yes
         <br />  Note: <strong>No further EDIT Or Delete will be allowed!</strong>`,
-      }
+      },
     })
 
     dialogRef.afterClosed().subscribe((response: any) => {
@@ -58,8 +58,8 @@ export class PositionsNewComponent implements OnInit {
           request: {
             contextType: 'position',
             contextData: this.positionForm.controls['description'].value.toUpperCase(),
-            contextName: this.positionForm.controls['name'].value
-          }
+            contextName: this.positionForm.controls['name'].value,
+          },
         }
         this.positionSvc.createNewPosition(data).subscribe(() => {
           this.openSnackbar('Success!')
@@ -67,7 +67,7 @@ export class PositionsNewComponent implements OnInit {
 
         })
       } else {
-        this.openSnackbar("Cancelled", 5000)
+        this.openSnackbar('Cancelled', 5000)
         this.positionForm.reset()
       }
     })
