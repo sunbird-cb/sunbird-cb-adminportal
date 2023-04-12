@@ -576,7 +576,7 @@ export class CreateMdoComponent implements OnInit {
         if (stateFromValue.sbOrgId) {
           this.disableStateCreateButton = true
           this.displayLoader = false
-          this.openSnackbar(`Selected Org is already onboarded!`)
+          this.openSnackbar(`Selected State is already onboarded!`)
         } else {
           const req = {
             orgName: stateFromValue.orgname ? stateFromValue.orgname : stateFromValue,
