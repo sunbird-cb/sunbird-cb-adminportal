@@ -12,15 +12,15 @@
             </div>
 
             <div>
-                <button mat-raised-button type="button" *ngIf="isMinistryDept && !isStateAdmin"
-                    class="download-btn margin-right-m" (click)="downloadUsersReport(departmentName)">
+                <button mat-raised-button type="button" *ngIf="isMinistryDept" class="download-btn margin-right-m"
+                    (click)="downloadUsersReport(departmentName)">
                     <mat-icon>vertical_align_bottom</mat-icon> Users Report
                 </button>
             </div>
 
             <div>
-                <button mat-raised-button type="button" *ngIf="isMinistryDept && !isStateAdmin"
-                    class="download-btn margin-right-m" (click)="downloadConsumptionReport(departmentName)">
+                <button mat-raised-button type="button" *ngIf="isMinistryDept" class="download-btn margin-right-m"
+                    (click)="downloadConsumptionReport(departmentName)">
                     <mat-icon>vertical_align_bottom</mat-icon> Consumption Report
                 </button>
             </div>

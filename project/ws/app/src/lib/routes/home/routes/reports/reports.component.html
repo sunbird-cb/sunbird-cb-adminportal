@@ -15,15 +15,20 @@
           <div *ngFor="let department of departmentHearders">
             <a *ngIf="department ==='MINISTRY'" class="filter-option"
               [ngClass]="{'ws-mat-accent-border-active' : currentFilter === 'ministry',
-                                                          'ws-mat-accent-border font-medium':currentFilter !== 'ministry'}" mat-button [routerLink]="'/app/home/ministry'"
-              (click)="filter(department.toLowerCase())" role="button">
+                                                          'ws-mat-accent-border font-medium':currentFilter !== 'ministry'}" mat-button
+              [routerLink]="'/app/home/reports/ministry'" (click)="filter(department.toLowerCase())" role="button">
               MINISTRY</a>
+            <a *ngIf="department==='STATE'" class="filter-option"
+              [ngClass]="{'ws-mat-accent-border-active' : currentFilter === 'state',
+                                                                    'ws-mat-accent-border font-medium':currentFilter !== 'state'}" mat-button
+              [routerLink]="'/app/home/reports/state'" (click)="filter(department.toLowerCase())" role="button">
+              STATE</a>
           </div>
         </div>
       </div>
       <ng-container>
         <ws-widget-directory-table [selectedDepartment]='currentDepartment' [tableData]='tabledata' [data]='data'
-          (eOnRowClick)="onRoleClick($event)" (actionsClick)="actionClick($event)"
+          [needCreate]="false" (eOnRowClick)="onRoleClick($event)" (actionsClick)="actionClick($event)"
           (searchByEnterKey)="onEnterkySearch($event)">
         </ws-widget-directory-table>
       </ng-container>

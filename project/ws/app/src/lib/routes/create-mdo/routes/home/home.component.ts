@@ -52,10 +52,10 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.urlValue = this.dept
     })
 
-    if (this.deptType === 'ministry') {
+    if (this.deptType === 'ministry' || this.deptType === 'state') {
       this.titles = [
         { title: 'Reports', url: '/app/home/reports' },
-        { title: this.dept, url: `/app/home/reports` },
+        { title: this.dept, url: `/app/home/reports/${this.urlValue}` },
         { title: this.mydept, url: 'none' },
       ]
     } else {
