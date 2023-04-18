@@ -52,7 +52,8 @@ export class UIAdminUserTableComponent implements OnInit, AfterViewInit, OnChang
   currentUserId!: any
   userRoles: string[] = []
   isStateAdmin = false
-  isMinistryDept = false
+  isReports = false
+  reportsPath: any
   constructor(
     private router: Router, public dialog: MatDialog,
     private activatedRoute: ActivatedRoute,
@@ -83,6 +84,7 @@ export class UIAdminUserTableComponent implements OnInit, AfterViewInit, OnChang
       this.departmentRole = params['currentDept']
       this.departmentName = params['depatName']
       this.departmentId = params['roleId']
+      this.reportsPath = params['path']
       if (this.needCreateUser !== false && (this.departmentRole && this.departmentRole !== 'ministry') && this.departmentId) {
         this.needAddAdmin = true
         this.needCreateUser = true
@@ -91,8 +93,8 @@ export class UIAdminUserTableComponent implements OnInit, AfterViewInit, OnChang
     if (!this.departmentId && this.inputDepartmentId) {
       this.departmentId = this.inputDepartmentId
     }
-    if (environment.departments && environment.departments.includes(this.departmentRole)) {
-      this.isMinistryDept = true
+    if (environment.departments && environment.departments.includes(this.departmentRole) && this.reportsPath === 'reports') {
+      this.isReports = true
     }
   }
 
