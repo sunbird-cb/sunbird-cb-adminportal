@@ -305,7 +305,7 @@
                     </mat-autocomplete>
                   </div>
 
-                  <div class="input-wrapper margin-top-s">
+                  <div *ngIf="departmentForm?.controls['ministry']?.value?.orgName" class="input-wrapper margin-top-s">
                     <label for="Department" class=" margin-remove-bottom form-label"
                       i18n="Department|Label which explains the user to enter Department" i18n-aria-label
                       aria-label="Department Field label">
@@ -336,7 +336,9 @@
                     </mat-autocomplete>
                   </div>
 
-                  <div class="input-wrapper margin-top-s">
+                  <div
+                    *ngIf="departmentForm?.controls['department']?.value?.orgName && departmentForm?.controls['ministry']?.value?.orgName"
+                    class="input-wrapper margin-top-s">
                     <label for="Organisation" class=" margin-remove-bottom form-label"
                       i18n="Organisation|Label which explains the user to enter Organisation" i18n-aria-label
                       aria-label="Organisation Field label">
