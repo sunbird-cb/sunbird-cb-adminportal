@@ -165,7 +165,7 @@ export class UIAdminUserTableComponent implements OnInit, AfterViewInit, OnChang
               this.router.navigate(['/app/home/directory', { department: this.departmentRole }])
             }
           },
-            (err: { error: any }) => {
+                                                                                               (err: { error: any }) => {
               this.openSnackbar(err.error.message)
             })
         }
@@ -212,7 +212,7 @@ export class UIAdminUserTableComponent implements OnInit, AfterViewInit, OnChang
   gotoCreateUser() {
     this.raiseTelemetry('button')
     this.router.navigate([`/app/home/create-user`],
-      {
+                         {
         queryParams: {
           id: this.departmentId, currentDept: this.departmentRole,
           createDept: JSON.stringify(this.otherInput),
@@ -226,7 +226,7 @@ export class UIAdminUserTableComponent implements OnInit, AfterViewInit, OnChang
       type: 'click',
       subType: sub,
     },
-      {},
+                                       {},
     )
   }
 
