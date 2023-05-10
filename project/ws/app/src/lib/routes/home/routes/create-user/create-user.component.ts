@@ -6,7 +6,7 @@ import { MatSnackBar } from '@angular/material'
 import { ActivatedRoute, Router } from '@angular/router'
 import { DirectoryService } from '../../services/directory.services'
 import * as _ from 'lodash'
-import { EventService } from '@sunbird-cb/utils'
+import { ConfigurationsService, EventService } from '@sunbird-cb/utils'
 import { environment } from '../../../../../../../../../src/environments/environment'
 
 @Component({
@@ -49,6 +49,7 @@ export class CreateUserComponent implements OnInit {
     private directoryService: DirectoryService,
     private createMDOService: CreateMDOService,
     private usersSvc: UsersService,
+    private configSvc: ConfigurationsService,
     private events: EventService) {
     this.route.queryParams.subscribe(params => {
       this.queryParam = params['id']
@@ -95,12 +96,16 @@ export class CreateUserComponent implements OnInit {
         dept: new FormControl(this.createdDepartment.depName, [Validators.required]),
       })
     } else {
+      console.log('-------------------------:: : : :', this.configSvc.userProfile)
+      console.log('-------------------------:: : : :', this.configSvc.userProfileV2)
+      console.log('-------------------------:: : : :', this.configSvc.unMappedUser)
+      console.log('oahsdohaoisdh oi', _.get(this.route, 'snapshot.data.configService.userProfile.departmentName'))
       this.createUserForm = new FormGroup({
         fname: new FormControl('', [Validators.required]),
         lname: new FormControl('', [Validators.required]),
         email: new FormControl('', [Validators.required, Validators.email]),
         role: new FormControl('', [Validators.required, Validators.required]),
-        dept: new FormControl('Karmayogi Bharat', [Validators.required]),
+        dept: new FormControl(_.get(this.route, 'snapshot.data.configService.userProfile.departmentName') || '', [Validators.required]),
       })
     }
 
