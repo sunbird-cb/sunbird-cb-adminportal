@@ -141,7 +141,7 @@ const routes: Routes = [
         },
         resolve: {
           configService: ConfigResolveService,
-        }
+        },
       },
       {
         path: 'positions',
