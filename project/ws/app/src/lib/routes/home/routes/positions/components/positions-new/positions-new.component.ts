@@ -16,6 +16,7 @@ import { PositionsService } from '../../services/position.service'
 })
 export class PositionsNewComponent implements OnInit {
   positionForm!: FormGroup
+  posData: any
 
   constructor(
     private snackBar: MatSnackBar,
@@ -25,19 +26,17 @@ export class PositionsNewComponent implements OnInit {
     private dialogue: MatDialog
   ) {
     const currentState = this.route.getCurrentNavigation()
-    let name = ''
-    let description = ''
-    let id = ''
-
     if (currentState && currentState.extras.state) {
-      name = currentState.extras.state.row.name
-      description = currentState.extras.state.row.description
-      id = currentState.extras.state.row.id
+      console.log('currentState', currentState.extras.state.row)
+      this.posData = currentState.extras.state.row
     }
     this.positionForm = new FormGroup({
-      name: new FormControl(name, [Validators.required, Validators.maxLength(500), Validators.pattern(/^[\w]+([-_\s]{1}[a-z0-9]+)*$/i)]),
-      description: new FormControl(description, [Validators.required, Validators.maxLength(500), Validators.pattern(/^[\w]+([-_\s]{1}[a-z0-9]+)*$/i)]),
-      id: new FormControl(id),
+      fullname: new FormControl({ value: this.posData.firstName, disabled: true }, []),
+      email: new FormControl({ value: this.posData.email, disabled: true }, []),
+      mobile: new FormControl({ value: this.posData.mobile, disabled: true }, []),
+      position: new FormControl(this.posData.position, [Validators.required, Validators.maxLength(500), Validators.pattern(/^[\w]+([-_\s]{1}[a-z0-9]+)*$/i)]),
+      description: new FormControl(this.posData.description, [Validators.required, Validators.maxLength(500), Validators.pattern(/^[\w]+([-_\s]{1}[a-z0-9]+)*$/i)]),
+      wfId: new FormControl(this.posData.wfId),
     })
   }
   ngOnInit(): void {
@@ -54,14 +53,36 @@ export class PositionsNewComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((response: any) => {
       if (response) {
+        // const data = {
+        //   request: {
+        //     contextType: 'position',
+        //     contextData: this.positionForm.controls['description'].value.toUpperCase(),
+        //     contextName: this.positionForm.controls['name'].value,
+        //   },
+        // }
         const data = {
-          request: {
-            contextType: 'position',
-            contextData: this.positionForm.controls['description'].value.toUpperCase(),
-            contextName: this.positionForm.controls['name'].value,
-          },
+          state: 'IN_PROGRESS',
+          action: 'APPROVE',
+          serviceName: 'position',
+          wfId: '6945db82-b74b-4ad8-8ce2-fef0cdc54515',
+          applicationId: '12345',
+          userId: '12345',
+          actorUserId: '12345',
+          deptName: 'DEPT OF ANIMAL PROTECTION',
+          updateFieldValues: [
+            {
+              toValue: {
+                position: 'Secretery General',
+              },
+              fieldKey: 'position',
+              description: 'Secretery General',
+              firstName: 'Manas',
+              email: 'manas.swain@tarento.com',
+              mobile: '9078011660',
+            },
+          ],
         }
-        this.positionSvc.createNewPosition(data).subscribe(() => {
+        this.positionSvc.approveNewPosition(data).subscribe(() => {
           this.openSnackbar('Success!')
           this.route.navigate(['active-positions'], { relativeTo: this.activatedRoute.parent })
 
