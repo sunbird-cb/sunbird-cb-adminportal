@@ -25,7 +25,6 @@ export class RequestsApprovalComponent implements OnInit {
     const currentState = this.route.getCurrentNavigation()
     if (currentState && currentState.extras.state) {
       this.requestType = currentState.extras.state.row.serviceName
-      console.log(this.requestType)
       this.posData = currentState.extras.state.row
       this.positionForm = new FormGroup({
         fullname: new FormControl({ value: this.posData.firstName, disabled: true }, []),
@@ -54,8 +53,8 @@ export class RequestsApprovalComponent implements OnInit {
     const dialogRef = this.dialogue.open(DialogConfirmComponent, {
       data: {
         title: 'Are you sure?',
-        bodyHTML: `Please click <strong>No</strong> if you are not sure about this request, otherwise click <strong>Yes</strong>
-        <br /> Note: No further EDIT will be allowed!`,
+        bodyHTML: `Please click <strong>No</strong> if you are not sure about this request, otherwise click <strong>Yes</strong>.
+        <br /><br /> Note: No further EDIT will be allowed!`,
       },
     })
 

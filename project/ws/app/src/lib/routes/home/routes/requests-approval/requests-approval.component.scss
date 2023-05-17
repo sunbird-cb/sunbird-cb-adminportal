@@ -97,3 +97,7 @@
   border-radius: 4px;
   padding: 0 12px;
 }
+
+ .btn-success:disabled {
+    opacity: 0.6;
+}
