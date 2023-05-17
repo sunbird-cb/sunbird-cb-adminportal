@@ -95,9 +95,15 @@
 .requestform-box {
   max-width: 400px;
   border-radius: 4px;
-  padding: 0 12px;
+  padding: 2em 2em;
+  margin: 0em 2em;
 }
 
  .btn-success:disabled {
     opacity: 0.6;
+}
+
+.mat-card {
+  padding: 0 !important;
+  box-shadow: none !important;
 }

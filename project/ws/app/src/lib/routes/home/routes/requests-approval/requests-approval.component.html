@@ -1,16 +1,17 @@
-<div class="flex flex-4 flex-column mt-5">
+<div class="flex flex-4 flex-column mt-5 margin-bottom-xl">
   <mat-card class="flex-custom">
-    <mat-card-header class="flex-custom-m" id="rolescs">
+    <!-- <mat-card-header class="flex-custom-m" id="rolescs">
       <div class="flex-1" role="link" tabindex="1">
         <div class="flex flex-1">
           <ws-widget-breadcrumbs-org [widgetData]="breadcrumbs">
           </ws-widget-breadcrumbs-org>
         </div>
       </div>
-    </mat-card-header>
+    </mat-card-header> -->
     <mat-card-content>
       <ng-container>
-        <div class="requestform-box">
+        <div class="requestform-box ws-mat-accent-border">
+          <h2 class="cb-title ng-star-inserted margin-bottom-xl">Manage approval</h2>
           <form [formGroup]="positionForm" (ngSubmit)="onSubmit()" class="flex-4">
             <mat-card class="no-shadow">
               <mat-card-content>

@@ -14,7 +14,7 @@ export class RequestsApprovalComponent implements OnInit {
   positionForm!: FormGroup
   posData: any
   requestType: any
-  breadcrumbs: any
+  // breadcrumbs: any
   requestObj: any
 
   constructor(
@@ -40,13 +40,13 @@ export class RequestsApprovalComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.requestType === 'position') {
-      this.breadcrumbs = { titles: [{ title: 'Requests', url: '/app/home/requests/position' }, { title: 'Approval', url: 'none' }] }
-    } else if (this.requestType === 'organisation') {
-      this.breadcrumbs = { titles: [{ title: 'Requests', url: '/app/home/requests/organisation' }, { title: 'Approval', url: 'none' }] }
-    } else if (this.requestType === 'domain') {
-      this.breadcrumbs = { titles: [{ title: 'Requests', url: '/app/home/requests/domain' }, { title: 'Approval', url: 'none' }] }
-    }
+    // if (this.requestType === 'position') {
+    //   this.breadcrumbs = { titles: [{ title: 'Requests', url: '/app/home/requests/position' }, { title: 'Approval', url: 'none' }] }
+    // } else if (this.requestType === 'organisation') {
+    //   this.breadcrumbs = { titles: [{ title: 'Requests', url: '/app/home/requests/organisation' }, { title: 'Approval', url: 'none' }] }
+    // } else if (this.requestType === 'domain') {
+    //   this.breadcrumbs = { titles: [{ title: 'Requests', url: '/app/home/requests/domain' }, { title: 'Approval', url: 'none' }] }
+    // }
   }
 
   onSubmit() {
