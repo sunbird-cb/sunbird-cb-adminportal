@@ -1,0 +1,99 @@
+@import 'ws-mixins';
+@import 'ws-vars';
+@import 'ws-common';
+
+::ng-deep.mat-form-field {
+  width: 100% !important;
+}
+.no-shadow {
+  box-shadow : none !important;
+}
+
+::ng-deep.mat-form-field-disabled .mat-form-field-underline {
+  background-image: linear-gradient( to right, rgba(0, 0, 0, 1) 0, rgba(0, 0, 0, 0.42) 33%, #c2c7cc 0 ) !important;
+  background-size: 1px 100% !important;
+  background-repeat: repeat-x !important;
+}
+
+.btn-success:disabled, .btn-success[disabled] {
+  opacity: 0.6;
+}
+
+.flex-container-div {
+  box-sizing: border-box;
+  ::ng-deep .mat-form-field-outline {
+    min-height: 40px;
+    background: #fff;
+    border-radius: 4px;
+
+    .mat-form-field-outline-start {
+      border: 1px solid #70707069;
+      border-radius: 4px 0 0 4px;
+      border-right-style: none;
+      /* border: 1px solid currentColor; */
+      min-width: 8px;
+      border-right-style: none;
+    }
+
+    .mat-form-field-outline-gap {
+      border: 1px solid currentColor;
+      border-radius: 82px;
+      border-left-style: none;
+      border-right-style: none;
+    }
+
+    .mat-form-field-outline-end {
+      border: 1px solid #70707069;
+      border-left-style: none;
+      border-radius: 0 4px 4px 0;
+    }
+  }
+
+  ::ng-deep .mat-form-field-outline.mat-form-field-outline-thick {
+    min-height: 40px;
+    background: #fff;
+    border-radius: 4px;
+
+    .mat-form-field-outline-start {
+      border-radius: 4px 0 0 4px;
+      min-width: 8px;
+      border: 1px solid currentColor;
+      border-right-style: none;
+    }
+
+    .mat-form-field-outline-gap {
+      border-width: 1px;
+      border: 1px solid currentColor;
+      border-radius: 4px;
+      border-left-style: none;
+      border-right-style: none;
+    }
+
+    .mat-form-field-outline-end {
+      border-width: 1px;
+      border-radius: 0 4px 4px 0;
+      border: 1px solid currentColor;
+      border-left-style: none;
+    }
+  }
+
+  ::ng-deep .mat-form-field-infix {
+    padding: 0.5em 0 1em 0;
+    margin: 0;
+    border: none;
+  }
+  ::ng-deep .mat-form-field-flex {
+    min-height: 40px;
+    align-items: center;
+  }
+
+  ::ng-deep .mat-select-arrow-wrapper {
+    padding-top: 10px!important;
+  }
+}
+
+.requestform-box {
+  max-width: 400px;
+  border-radius: 4px;
+  padding: 0 12px;
+}

@@ -1,0 +1,99 @@
+<div class="flex flex-4 flex-column mt-5">
+  <mat-card class="flex-custom">
+    <mat-card-header class="flex-custom-m" id="rolescs">
+      <div class="flex-1" role="link" tabindex="1">
+        <div class="flex flex-1">
+          <ws-widget-breadcrumbs-org [widgetData]="breadcrumbs">
+          </ws-widget-breadcrumbs-org>
+        </div>
+      </div>
+    </mat-card-header>
+    <mat-card-content>
+      <ng-container>
+        <div class="requestform-box">
+          <form [formGroup]="positionForm" (ngSubmit)="onSubmit()" class="flex-4">
+            <mat-card class="no-shadow">
+              <mat-card-content>
+                <div class="mobile-break mat-app-background flex-center">
+                  <div class="margin-top-s">
+                    <div class="margin-top-xs">
+                      <p class="margin-remove-bottom" i18n="new position">
+                        Full Name
+                      </p>
+                      <mat-form-field appearance="outline" class="margin-top-xs">
+                        <input matInput #fullname formControlName="fullname" type="text" readonly
+                          aria-readonly="true" />
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <div class="margin-top-s">
+                    <div class="margin-top-xs">
+                      <p class="margin-remove-bottom" i18n="new position">
+                        Email
+                      </p>
+                      <mat-form-field appearance="outline" class="margin-top-xs">
+                        <input matInput #email formControlName="email" type="text" readonly aria-readonly="true" />
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <div class="margin-top-s">
+                    <div class="margin-top-xs">
+                      <p class="margin-remove-bottom" i18n="new position">
+                        Mobile
+                      </p>
+                      <mat-form-field appearance="outline" class="margin-top-xs">
+                        <input matInput #mobile formControlName="mobile" i18n-placeholder type="text" disabled="true" />
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <div class="margin-top-s">
+                    <div class="margin-top-xs">
+                      <p class="margin-remove-bottom" i18n="new position">
+                        New Position Name
+                      </p>
+                      <mat-form-field appearance="outline" class="margin-top-xs">
+                        <input matInput #position formControlName="position" maxlength="500" i18n-placeholder
+                          placeholder="Type here" type="text" />
+                        <mat-error i18n="Position Error|Explains position is required">
+                          Position name is not valid
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <div class="margin-top-s">
+                    <div class="margin-top-xs">
+                      <p class="margin-remove-bottom" i18n="new position">
+                        Description
+                      </p>
+                      <mat-form-field appearance="outline" class="margin-top-xs">
+                        <textarea matInput #desc formControlName="description" maxlength="500" i18n-placeholder
+                          placeholder="Type here" type="text" rows="3"></textarea>
+                        <mat-error i18n="Name Error|Explains name is required">
+                          Description is not valid
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                </div>
+              </mat-card-content>
+              <mat-card-actions>
+                <button class="text-white ws-mat-primary-background margin-right-m" mat-raised-button color="primary"
+                  type="submit" i18n [disabled]="!positionForm.valid">
+                  <ng-container>
+                    <span class="text-white" i18n>Approve</span>
+                  </ng-container>
+                </button>
+                <button class="margin-right-m" mat-raised-button color="primary" type="button" (click)="navigateTo()"
+                  i18n>
+                  <ng-container>
+                    <span i18n>Cancel</span>
+                  </ng-container>
+                </button>
+              </mat-card-actions>
+            </mat-card>
+          </form>
+        </div>
+      </ng-container>
+    </mat-card-content>
+  </mat-card>
+</div>

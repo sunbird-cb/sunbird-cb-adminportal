@@ -15,6 +15,10 @@ import { RolesResolver } from './resolvers/roles-resolver.service'
 import { ModerationViewComponent } from './routes/moderation/moderation.component'
 import { RolesUsersComponent } from './routes/roles-users/roles-users.component'
 import { ReportsComponent } from './routes/reports/reports.component'
+import { OnboardingRequestsComponent } from './routes/onboarding-requests/onboarding-requests.component'
+import { RequestsApprovalComponent } from './routes/requests-approval/requests-approval.component'
+import { RequestsResolve } from './resolvers/requests-resolver.service'
+import { ApprovedRequestsResolve } from './resolvers/approvedrequests-resolver.service'
 
 const routes: Routes = [
   {
@@ -141,18 +145,50 @@ const routes: Routes = [
         },
       },
       {
-        path: 'positions',
-        loadChildren: () => import('./routes/positions/positions.module').then(u => u.PositionsModule),
-        // pathMatch: 'full',
-        // redirectTo: 'directory/mdo',
-        // component: DirectoryViewComponent,
+        path: 'requests/:type',
         data: {
-          pageId: 'app/positions',
-          module: 'positions',
+          pageId: 'app/requests',
+          module: 'home',
           pageType: 'feature',
-          pageKey: 'positions',
+          pageKey: 'Requests',
+        },
+        resolve: {
+          requestsList: RequestsResolve,
+          aprovedrequestsList: ApprovedRequestsResolve,
+        },
+        component: OnboardingRequestsComponent,
+      },
+      {
+        path: 'requests',
+        redirectTo: 'requests/:type',
+        component: OnboardingRequestsComponent,
+        data: {
+          pageId: 'app/requests',
+          module: 'requests',
+          pageType: 'feature',
+          pageKey: 'Requests',
         },
       },
+      {
+        path: 'requests-approval',
+        component: RequestsApprovalComponent,
+        data: {
+          pageId: 'app/requests',
+          module: 'requests',
+          pageType: 'feature',
+          pageKey: 'Requests',
+        },
+      },
+      // {
+      //   path: 'positions',
+      //   loadChildren: () => import('./routes/positions/positions.module').then(u => u.PositionsModule),
+      //   data: {
+      //     pageId: 'app/positions',
+      //     module: 'positions',
+      //     pageType: 'feature',
+      //     pageKey: 'positions',
+      //   },
+      // },
       {
         path: 'reports',
         component: ReportsComponent,
@@ -189,6 +225,8 @@ const routes: Routes = [
     DepartmentResolve,
     ConfigResolveService,
     RolesResolver,
+    RequestsResolve,
+    ApprovedRequestsResolve,
   ],
 })
 export class HomeRoutingModule { }

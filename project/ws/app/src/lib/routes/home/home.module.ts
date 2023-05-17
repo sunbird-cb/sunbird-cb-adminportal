@@ -27,7 +27,7 @@ import { RouterModule } from '@angular/router'
 import { HomeRoutingModule } from './home.rounting.module'
 import { HomeComponent } from './routes/home/home.component'
 import { UsersViewComponent } from './routes/users-view/users-view.component'
-import { AvatarPhotoModule, BtnPageBackModuleAdmin, UserAutocompleteModule, BreadcrumbsOrgModule } from '@sunbird-cb/collection'
+import { AvatarPhotoModule, BtnPageBackModuleAdmin, UserAutocompleteModule, BreadcrumbsOrgModule, UIORGTableModule } from '@sunbird-cb/collection'
 import { AboutComponent } from './routes/about/about.component'
 import { RolesAccessComponent } from './routes/roles-access/roles-access.component'
 import { DirectoryViewComponent } from './routes/directory/directroy.component'
@@ -43,6 +43,8 @@ import { ModerationViewComponent } from './routes/moderation/moderation.componen
 import { RolesUsersComponent } from './routes/roles-users/roles-users.component'
 import { ReportsComponent } from './routes/reports/reports.component'
 import { PositionsModule } from './routes/positions/positions.module'
+import { OnboardingRequestsComponent } from './routes/onboarding-requests/onboarding-requests.component'
+import { RequestsApprovalComponent } from './routes/requests-approval/requests-approval.component'
 @NgModule({
   declarations: [
     HomeComponent,
@@ -50,6 +52,8 @@ import { PositionsModule } from './routes/positions/positions.module'
     AboutComponent,
     RolesAccessComponent,
     DirectoryViewComponent,
+    OnboardingRequestsComponent,
+    RequestsApprovalComponent,
     CreateMdoComponent,
     UserPopupComponent,
     UsersComponent,
@@ -98,6 +102,7 @@ import { PositionsModule } from './routes/positions/positions.module'
     UserAutocompleteModule,
     ImageCropModule,
     UIAdminTableModule,
+    UIORGTableModule,
     NgMultiSelectDropDownModule.forRoot(),
   ],
   entryComponents: [UserPopupComponent, OpenRolesDialogComponent, EditDepartmentDialogComponent],

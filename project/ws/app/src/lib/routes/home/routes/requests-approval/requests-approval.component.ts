@@ -1,0 +1,149 @@
+import { Component, OnInit } from '@angular/core'
+import { FormControl, FormGroup, Validators } from '@angular/forms'
+import { MatSnackBar, MatDialog } from '@angular/material'
+import { Router } from '@angular/router'
+import { DialogConfirmComponent } from '../../../../../../../../../src/app/component/dialog-confirm/dialog-confirm.component'
+import { RequestsService } from '../../services/onboarding-requests.service'
+
+@Component({
+  selector: 'ws-app-requests-approval',
+  templateUrl: './requests-approval.component.html',
+  styleUrls: ['./requests-approval.component.scss'],
+})
+export class RequestsApprovalComponent implements OnInit {
+  positionForm!: FormGroup
+  posData: any
+  requestType: any
+  breadcrumbs: any
+  requestObj: any
+
+  constructor(
+    private snackBar: MatSnackBar,
+    private route: Router,
+    private requestService: RequestsService,
+    private dialogue: MatDialog) {
+    const currentState = this.route.getCurrentNavigation()
+    if (currentState && currentState.extras.state) {
+      this.requestType = currentState.extras.state.row.serviceName
+      console.log(this.requestType)
+      this.posData = currentState.extras.state.row
+      this.positionForm = new FormGroup({
+        fullname: new FormControl({ value: this.posData.firstName, disabled: true }, []),
+        email: new FormControl({ value: this.posData.email, disabled: true }, []),
+        mobile: new FormControl({ value: this.posData.mobile, disabled: true }, []),
+        position: new FormControl(this.posData.position, [Validators.required, Validators.maxLength(500), Validators.pattern(/^[\w]+([-_\s]{1}[a-z0-9]+)*$/i)]),
+        description: new FormControl(this.posData.description, [Validators.required, Validators.maxLength(500), Validators.pattern(/^[\w]+([-_\s]{1}[a-z0-9]+)*$/i)]),
+        wfId: new FormControl(this.posData.wfId),
+      })
+    }
+  }
+
+  ngOnInit() {
+    if (this.requestType === 'position') {
+      this.breadcrumbs = { titles: [{ title: 'Requests', url: '/app/home/requests/position' }, { title: 'Approval', url: 'none' }] }
+    } else if (this.requestType === 'organisation') {
+      this.breadcrumbs = { titles: [{ title: 'Requests', url: '/app/home/requests/organisation' }, { title: 'Approval', url: 'none' }] }
+    } else if (this.requestType === 'domain') {
+      this.breadcrumbs = { titles: [{ title: 'Requests', url: '/app/home/requests/domain' }, { title: 'Approval', url: 'none' }] }
+    }
+  }
+
+  onSubmit() {
+    const dialogRef = this.dialogue.open(DialogConfirmComponent, {
+      data: {
+        title: 'Are you sure?',
+        bodyHTML: `Please click <strong>No</strong> if you are not sure about this request, otherwise click <strong>Yes</strong>
+        <br /> Note: No further EDIT will be allowed!`,
+      },
+    })
+
+    dialogRef.afterClosed().subscribe((response: any) => {
+      if (response) {
+        this.requestObj = {
+          state: 'IN_PROGRESS',
+          action: 'APPROVE',
+          serviceName: this.requestType,
+          wfId: this.posData.wfId,
+          applicationId: this.posData.applicationId,
+          userId: this.posData.userId,
+          actorUserId: this.posData.actorUUID,
+          deptName: this.posData.deptName,
+          updateFieldValues: [],
+        }
+
+        if (this.requestType === 'position') {
+          const formobj = {
+            toValue: {
+              position: this.positionForm.value.position,
+            },
+            fieldKey: this.requestType,
+            description: this.positionForm.value.description,
+            firstName: this.posData.firstName,
+            email: this.posData.email,
+            mobile: this.posData.mobile,
+          }
+          this.requestObj.updateFieldValues.push(formobj)
+          console.log('this.requestObj', this.requestObj)
+          this.requestService.approveNewPosition(this.requestObj).subscribe(() => {
+            this.openSnackbar('Success!')
+            this.route.navigate(['/app/home/requests/position'])
+          })
+        } else if (this.requestType === 'organisation') {
+          const formobj = {
+            toValue: {
+              organisation: this.positionForm.value.organisation,
+            },
+            fieldKey: this.requestType,
+            description: this.positionForm.value.description,
+            firstName: this.posData.firstName,
+            email: this.posData.email,
+            mobile: this.posData.mobile,
+          }
+          this.requestObj.updateFieldValues.push(formobj)
+          console.log('this.requestObj', this.requestObj)
+          this.requestService.approveNewOrg(this.requestObj).subscribe(() => {
+            this.openSnackbar('Success!')
+            this.route.navigate(['/app/home/requests/organisation'])
+          })
+        } else if (this.requestType === 'domain') {
+          const formobj = {
+            toValue: {
+              domain: this.positionForm.value.domain,
+            },
+            fieldKey: this.requestType,
+            description: this.positionForm.value.description,
+            firstName: this.posData.firstName,
+            email: this.posData.email,
+            mobile: this.posData.mobile,
+          }
+          this.requestObj.updateFieldValues.push(formobj)
+          console.log('this.requestObj', this.requestObj)
+          this.requestService.approveNewDomain(this.requestObj).subscribe(() => {
+            this.openSnackbar('Success!')
+            this.route.navigate(['/app/home/requests/domain'])
+          })
+        }
+      } else {
+        this.openSnackbar('Cancelled', 5000)
+        // this.positionForm.reset()
+      }
+    })
+  }
+
+  private openSnackbar(primaryMsg: string, duration: number = 5000) {
+    this.snackBar.open(primaryMsg, 'X', {
+      duration,
+    })
+  }
+
+  navigateTo() {
+    if (this.requestType === 'position') {
+      this.route.navigate(['/app/home/requests/position'])
+    } else if (this.requestType === 'organisation') {
+      this.route.navigate(['/app/home/requests/organisation'])
+    } else if (this.requestType === 'email') {
+      this.route.navigate(['/app/home/requests/email'])
+    }
+  }
+
+}
