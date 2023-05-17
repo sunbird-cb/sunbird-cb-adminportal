@@ -1,24 +1,29 @@
+import { HttpClient } from '@angular/common/http'
 import { Injectable } from '@angular/core'
-import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router'
+import { Resolve } from '@angular/router'
 import { Observable, of } from 'rxjs'
 import { map, catchError } from 'rxjs/operators'
-import { IResolveResponse } from '@sunbird-cb/utils'
-import { RequestsService } from '../services/onboarding-requests.service'
+// import { IResolveResponse } from '@sunbird-cb/utils'
+// import { RequestsService } from '../services/onboarding-requests.service'
 
 @Injectable()
 export class RequestsResolve
   implements
-  Resolve<Observable<IResolveResponse<[]>> | IResolveResponse<[]>> {
+  Resolve<any> {
   requestType: any
-  constructor(private requestService: RequestsService) {
+  url: any
+  constructor(private http: HttpClient) { }
+  resolve(): Observable<any> {
     const reqArray = window.location.pathname.split('requests/')
     this.requestType = reqArray[1]
-    console.log('***this.requestType======================', this.requestType)
-  }
-  resolve(
-    _route: ActivatedRouteSnapshot,
-    _state: RouterStateSnapshot,
-  ): Observable<IResolveResponse<[]>> {
+
+    if (this.requestType === 'position') {
+      this.url = '/apis/proxies/v8/workflow/position/search'
+    } else if (this.requestType === 'organisation') {
+      this.url = '/apis/proxies/v8/workflow/org/search'
+    } else if (this.requestType === 'domain') {
+      this.url = '/apis/proxies/v8/workflow/domain/search'
+    }
     const reqbody = {
       serviceName: this.requestType,
       applicationStatus: 'IN_PROGRESS',
@@ -26,29 +31,11 @@ export class RequestsResolve
       offset: 0,
       deptName: 'iGOT',
     }
-    if (this.requestType === 'position') {
-      return this.requestService.getPositionsList(reqbody).pipe(
-        map((datanew: any) => ({
-          data: datanew.result.data, error: null,
-        })),
-        catchError(error => of({ error, data: null })),
-      )
-    }
-    if (this.requestType === 'organisation') {
-      return this.requestService.getOrgsList(reqbody).pipe(
-        map((datanew: any) => ({
-          data: datanew.result.data, error: null,
-        })),
-        catchError(error => of({ error, data: null })),
-      )
-    }
-    if (this.requestType === 'domain') {
-      return this.requestService.getDomainsList(reqbody).pipe(
-        map((datanew: any) => ({
-          data: datanew.result.data, error: null,
-        })),
-        catchError(error => of({ error, data: null })),
-      )
-    }
+    return this.http.post(this.url, reqbody).pipe(
+      map((datanew: any) => ({
+        data: datanew.result.data, error: null,
+      })),
+      catchError(error => of({ error, data: null })),
+    )
   }
 }

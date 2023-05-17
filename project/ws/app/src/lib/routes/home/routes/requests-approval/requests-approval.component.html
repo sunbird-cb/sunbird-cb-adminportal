@@ -46,7 +46,8 @@
                       </mat-form-field>
                     </div>
                   </div>
-                  <div class="margin-top-s">
+                  <!-- position -->
+                  <div class="margin-top-s" *ngIf="requestType === 'position'">
                     <div class="margin-top-xs">
                       <p class="margin-remove-bottom" i18n="new position">
                         New Position Name
@@ -56,6 +57,36 @@
                           placeholder="Type here" type="text" />
                         <mat-error i18n="Position Error|Explains position is required">
                           Position name is not valid
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <!-- organisation -->
+                  <div class="margin-top-s" *ngIf="requestType === 'organisation'">
+                    <div class="margin-top-xs">
+                      <p class="margin-remove-bottom" i18n="new organisation">
+                        New Organisation Name
+                      </p>
+                      <mat-form-field appearance="outline" class="margin-top-xs">
+                        <input matInput #organisation formControlName="organisation" maxlength="500" i18n-placeholder
+                          placeholder="Type here" type="text" />
+                        <mat-error i18n="Organisation Error|Explains organisation is required">
+                          Organisation name is not valid
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <!-- domain -->
+                  <div class="margin-top-s" *ngIf="requestType === 'domain'">
+                    <div class="margin-top-xs">
+                      <p class="margin-remove-bottom" i18n="new domain">
+                        New Domain Name
+                      </p>
+                      <mat-form-field appearance="outline" class="margin-top-xs">
+                        <input matInput #domain formControlName="domain" maxlength="500" i18n-placeholder
+                          placeholder="Type here" type="text" />
+                        <mat-error i18n="Domain Error|Explains domain is required">
+                          Domain name is not valid
                         </mat-error>
                       </mat-form-field>
                     </div>

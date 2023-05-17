@@ -8,8 +8,8 @@ import { RequestsService } from '../../services/onboarding-requests.service'
   styleUrls: ['./onboarding-requests.component.scss'],
 })
 export class OnboardingRequestsComponent implements OnInit {
-  tabledata: any
-  tabledataApproved: any
+  tabledata: any = []
+  tabledataApproved: any = []
   data: any = []
   requestType: any
   displayType: any
@@ -17,61 +17,62 @@ export class OnboardingRequestsComponent implements OnInit {
 
   constructor(private route: Router, private activatedRoute: ActivatedRoute, private requestService: RequestsService) {
     // this.requestType = this.activatedRoute.snapshot.params.type
-    this.activatedRoute.params.subscribe((routeParams: any) => {
-      this.requestType = routeParams.type
-      console.log('***this.requestType*******', this.requestType)
-    })
-    if (this.requestType === 'position') {
-      this.displayType = 'Position'
-    } else if (this.requestType === 'organisation') {
-      this.displayType = 'Organisation'
-    } else if (this.requestType === 'domain') {
-      this.displayType = 'Domain'
-    }
-
-    this.tabledata = {
-      columns: [
-        { key: 'createdDate', displayName: 'Created On' },
-        { key: this.requestType, displayName: this.displayType },
-        { key: 'firstName', displayName: 'Full Name' },
-        { key: 'email', displayName: 'Email' },
-      ],
-      actions: [
-        { name: 'edit', label: 'Edit', icon: 'edit', type: 'link' },
-      ],
-      needHash: false,
-      needCheckBox: false,
-      sortState: 'asc',
-      sortColumn: 'name',
-      needUserMenus: false,
-      actionColumnName: 'Edit',
-    }
-
-    this.tabledataApproved = {
-      columns: [
-        { key: 'createdDate', displayName: 'Created On' },
-        { key: this.requestType, displayName: this.displayType },
-        { key: 'firstName', displayName: 'Full Name' },
-        { key: 'email', displayName: 'Email' },
-      ],
-      actions: [],
-      needHash: false,
-      needCheckBox: false,
-      sortState: 'asc',
-      sortColumn: 'name',
-      needUserMenus: false,
-      actionColumnName: 'Edit',
-    }
   }
 
   ngOnInit() {
-    console.log('this.activatedRoute.snapshot.data', this.activatedRoute.snapshot.data)
-    if (this.activatedRoute.snapshot.data && this.activatedRoute.snapshot.data.requestsList.data) {
-      const resData = this.activatedRoute.snapshot.data.requestsList.data
-      this.formatData(resData)
-    } else {
-      this.getPendingList()
-    }
+    this.activatedRoute.params.subscribe((routeParams: any) => {
+      this.data = []
+      this.currentFilter = 'pending'
+      this.requestType = routeParams.type
+      if (this.activatedRoute.snapshot.data && this.activatedRoute.snapshot.data.requestsList.data) {
+        const resData = this.activatedRoute.snapshot.data.requestsList.data
+        this.formatData(resData)
+      } else {
+        this.getPendingList()
+      }
+
+      if (this.requestType === 'position') {
+        this.displayType = 'Position'
+      } else if (this.requestType === 'organisation') {
+        this.displayType = 'Organisation'
+      } else if (this.requestType === 'domain') {
+        this.displayType = 'Domain'
+      }
+
+      this.tabledata = {
+        columns: [
+          { key: 'createdDate', displayName: 'Created On' },
+          { key: this.requestType, displayName: this.displayType },
+          { key: 'firstName', displayName: 'Full Name' },
+          { key: 'email', displayName: 'Email' },
+        ],
+        actions: [
+          { name: 'edit', label: 'Edit', icon: 'edit', type: 'link' },
+        ],
+        needHash: false,
+        needCheckBox: false,
+        sortState: 'asc',
+        sortColumn: 'name',
+        needUserMenus: false,
+        actionColumnName: 'Edit',
+      }
+
+      this.tabledataApproved = {
+        columns: [
+          { key: 'createdDate', displayName: 'Created On' },
+          { key: this.requestType, displayName: this.displayType },
+          { key: 'firstName', displayName: 'Full Name' },
+          { key: 'email', displayName: 'Email' },
+        ],
+        actions: [],
+        needHash: false,
+        needCheckBox: false,
+        sortState: 'asc',
+        sortColumn: 'name',
+        needUserMenus: false,
+        actionColumnName: 'Edit',
+      }
+    })
   }
 
   formatData(resData: any) {
@@ -82,7 +83,7 @@ export class OnboardingRequestsComponent implements OnInit {
         const obj = newobj[0]
 
         if (obj.toValue && ((this.requestType === 'position' && obj.toValue.position) ||
-          (this.requestType === 'organisation' && obj.toValue.organisation) || (this.requestType === 'email' && obj.toValue.email))) {
+          (this.requestType === 'organisation' && obj.toValue.organisation) || (this.requestType === 'domain' && obj.toValue.domain))) {
           const date = new Date(val.createdOn).getDate()
           const mm = new Date(val.createdOn).getMonth() + 1
           const year = new Date(val.createdOn).getFullYear()

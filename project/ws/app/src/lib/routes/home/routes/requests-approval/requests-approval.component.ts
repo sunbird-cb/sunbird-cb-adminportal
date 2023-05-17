@@ -31,8 +31,10 @@ export class RequestsApprovalComponent implements OnInit {
         fullname: new FormControl({ value: this.posData.firstName, disabled: true }, []),
         email: new FormControl({ value: this.posData.email, disabled: true }, []),
         mobile: new FormControl({ value: this.posData.mobile, disabled: true }, []),
-        position: new FormControl(this.posData.position, [Validators.required, Validators.maxLength(500), Validators.pattern(/^[\w]+([-_\s]{1}[a-z0-9]+)*$/i)]),
-        description: new FormControl(this.posData.description, [Validators.required, Validators.maxLength(500), Validators.pattern(/^[\w]+([-_\s]{1}[a-z0-9]+)*$/i)]),
+        position: new FormControl(this.requestType === 'position' ? this.posData.position : '', this.requestType === 'position' ? [Validators.required, Validators.maxLength(500), Validators.pattern(/^[\w]+([-_\s]{1}[a-z0-9]+)*$/i)] : []),
+        organisation: new FormControl(this.requestType === 'organisation' ? this.posData.organisation : '', this.requestType === 'organisation' ? [Validators.required] : []),
+        domain: new FormControl(this.requestType === 'domain' ? this.posData.domain : '', this.requestType === 'domain' ? [Validators.required] : []),
+        description: new FormControl(this.posData.description, []),
         wfId: new FormControl(this.posData.wfId),
       })
     }
@@ -83,7 +85,7 @@ export class RequestsApprovalComponent implements OnInit {
             mobile: this.posData.mobile,
           }
           this.requestObj.updateFieldValues.push(formobj)
-          console.log('this.requestObj', this.requestObj)
+          // console.log('this.requestObj', this.requestObj)
           this.requestService.approveNewPosition(this.requestObj).subscribe(() => {
             this.openSnackbar('Success!')
             this.route.navigate(['/app/home/requests/position'])
@@ -100,7 +102,7 @@ export class RequestsApprovalComponent implements OnInit {
             mobile: this.posData.mobile,
           }
           this.requestObj.updateFieldValues.push(formobj)
-          console.log('this.requestObj', this.requestObj)
+          // console.log('this.requestObj', this.requestObj)
           this.requestService.approveNewOrg(this.requestObj).subscribe(() => {
             this.openSnackbar('Success!')
             this.route.navigate(['/app/home/requests/organisation'])
@@ -117,7 +119,7 @@ export class RequestsApprovalComponent implements OnInit {
             mobile: this.posData.mobile,
           }
           this.requestObj.updateFieldValues.push(formobj)
-          console.log('this.requestObj', this.requestObj)
+          // console.log('this.requestObj', this.requestObj)
           this.requestService.approveNewDomain(this.requestObj).subscribe(() => {
             this.openSnackbar('Success!')
             this.route.navigate(['/app/home/requests/domain'])
@@ -141,8 +143,8 @@ export class RequestsApprovalComponent implements OnInit {
       this.route.navigate(['/app/home/requests/position'])
     } else if (this.requestType === 'organisation') {
       this.route.navigate(['/app/home/requests/organisation'])
-    } else if (this.requestType === 'email') {
-      this.route.navigate(['/app/home/requests/email'])
+    } else if (this.requestType === 'domain') {
+      this.route.navigate(['/app/home/requests/domain'])
     }
   }
 

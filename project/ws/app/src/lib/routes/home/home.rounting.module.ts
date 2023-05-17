@@ -156,6 +156,7 @@ const routes: Routes = [
           requestsList: RequestsResolve,
           aprovedrequestsList: ApprovedRequestsResolve,
         },
+        runGuardsAndResolvers: 'always',
         component: OnboardingRequestsComponent,
       },
       {
