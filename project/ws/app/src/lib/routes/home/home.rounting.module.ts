@@ -143,6 +143,9 @@ const routes: Routes = [
           pageType: 'feature',
           pageKey: 'createUser',
         },
+        resolve: {
+          configService: ConfigResolveService,
+        },
       },
       {
         path: 'requests/:type',

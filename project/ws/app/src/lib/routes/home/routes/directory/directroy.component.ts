@@ -107,7 +107,7 @@ export class DirectoryViewComponent implements OnInit {
     })
   }
   onRoleClick(role: any) {
-    this.router.navigate([`/app/roles/${role.id}/users`], { queryParams: { currentDept: this.currentFilter, roleId: role.id, depatName: role.mdo } })
+    this.router.navigate([`/app/roles/${role.id}/users`], { queryParams: { currentDept: this.currentFilter, roleId: role.id, depatName: role.channel } })
   }
 
   filter(value: string) {
@@ -156,7 +156,8 @@ export class DirectoryViewComponent implements OnInit {
               department = key
               const obj = {
                 id: element.id,
-                mdo: element.channel,
+                mdo: element.orgName,
+                channel: element.channel,
                 currentDepartment: department,
                 type: department,
                 user: element.noOfMembers || 0,
@@ -174,7 +175,8 @@ export class DirectoryViewComponent implements OnInit {
               department = key
               const obj = {
                 id: element.id,
-                mdo: element.channel,
+                mdo: element.orgName,
+                channel: element.channel,
                 currentDepartment: department,
                 type: department,
                 user: element.noOfMembers || 0,
@@ -192,7 +194,8 @@ export class DirectoryViewComponent implements OnInit {
               department = key
               const obj = {
                 id: element.id,
-                mdo: element.channel,
+                mdo: element.orgName,
+                channel: element.channel,
                 currentDepartment: department,
                 type: department,
                 user: element.noOfMembers || 0,
@@ -210,7 +213,8 @@ export class DirectoryViewComponent implements OnInit {
               department = key
               const obj = {
                 id: element.id,
-                mdo: element.channel,
+                mdo: element.orgName,
+                channel: element.channel,
                 currentDepartment: department,
                 type: department,
                 user: element.noOfMembers || 0,
@@ -228,7 +232,8 @@ export class DirectoryViewComponent implements OnInit {
               department = key
               const obj = {
                 id: element.id,
-                mdo: element.channel,
+                mdo: element.orgName,
+                channel: element.channel,
                 currentDepartment: department,
                 type: department,
                 user: element.noOfMembers || 0,
@@ -243,6 +248,7 @@ export class DirectoryViewComponent implements OnInit {
         return {
           id: dept.id,
           mdo: dept.mdo,
+          channel: dept.channel,
           type: dept.type,
           user: dept.user,
           head: dept.head,
