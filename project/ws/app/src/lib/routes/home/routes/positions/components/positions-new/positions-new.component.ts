@@ -27,7 +27,7 @@ export class PositionsNewComponent implements OnInit {
   ) {
     const currentState = this.route.getCurrentNavigation()
     if (currentState && currentState.extras.state) {
-      console.log('currentState', currentState.extras.state.row)
+      // console.log('currentState', currentState.extras.state.row)
       this.posData = currentState.extras.state.row
     }
     this.positionForm = new FormGroup({

@@ -61,10 +61,8 @@ export class PositionsApprovalListComponent implements OnInit {
           }
         })
       })
-      console.log('res', this.data)
     } else {
       this.getPositionsList()
-      console.log('res', this.data)
     }
   }
 
@@ -88,7 +86,6 @@ export class PositionsApprovalListComponent implements OnInit {
   }
 
   actionsClick($event: { action: string, row: any }) {
-    console.log($event)
     // this.route.navigate(['new-position'], { relativeTo: this.aRoute.parent, state: $event })
     this.route.navigate(['new-position'], { relativeTo: this.aRoute.parent, state: $event })
   }

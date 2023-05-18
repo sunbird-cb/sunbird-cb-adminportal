@@ -37,10 +37,8 @@ export class PositionsListComponent implements OnInit {
   ngOnInit(): void {
     if (this.aRoute.snapshot.data && this.aRoute.snapshot.data.positions.data) {
       this.data = this.aRoute.snapshot.data.positions.data
-      console.log('res', this.data)
     } else {
       this.getPositionsList()
-      console.log('res', this.data)
     }
   }
 
