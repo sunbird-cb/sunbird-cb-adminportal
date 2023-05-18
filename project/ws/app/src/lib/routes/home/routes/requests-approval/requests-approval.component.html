@@ -115,12 +115,17 @@
                     <span class="text-white" i18n>Approve</span>
                   </ng-container>
                 </button>
-                <button class="margin-right-m" mat-raised-button color="primary" type="button" (click)="navigateTo()"
+                <button class="margin-right-m" mat-raised-button color="primary" type="button" (click)="rejectRequest()"
                   i18n>
+                  <ng-container>
+                    <span i18n class="ws-mat-default-text">Reject</span>
+                  </ng-container>
+                </button>
+                <!-- <button class="margin-right-m" mat-raised-button color="primary" type="button" (click)="navigateTo()" i18n>
                   <ng-container>
                     <span i18n class="ws-mat-default-text">Cancel</span>
                   </ng-container>
-                </button>
+                </button> -->
               </mat-card-actions>
             </mat-card>
           </form>

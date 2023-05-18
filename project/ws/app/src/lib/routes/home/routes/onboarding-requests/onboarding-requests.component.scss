@@ -295,3 +295,10 @@ a:not([href]):not([tabindex]) {
   line-height: 1;
   align-self: center;
 }
+::ng-deep.textclass {
+  margin: 0 !important;
+}
+
+::ng-deep.mat-paginator-page-size-select.mat-form-field {
+    width: 56px !important;
+}

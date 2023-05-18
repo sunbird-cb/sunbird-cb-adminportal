@@ -55,8 +55,7 @@ export class RequestsApprovalComponent implements OnInit {
     const dialogRef = this.dialogue.open(DialogConfirmComponent, {
       data: {
         title: 'Are you sure?',
-        bodyHTML: `Please click <strong>No</strong> if you are not sure about this request, otherwise click <strong>Yes</strong>.
-        <br /><br /> Note: No further EDIT will be allowed!`,
+        bodyHTML: `Please click <strong>Yes</strong> to approve.`,
       },
     })
 
@@ -127,7 +126,8 @@ export class RequestsApprovalComponent implements OnInit {
           })
         }
       } else {
-        this.openSnackbar('Cancelled', 5000)
+        this.navigateTo()
+        // this.openSnackbar('Cancelled', 5000)
         // this.positionForm.reset()
       }
     })
@@ -147,6 +147,85 @@ export class RequestsApprovalComponent implements OnInit {
     } else if (this.requestType === 'domain') {
       this.route.navigate(['/app/home/requests/domain'])
     }
+  }
+
+  rejectRequest() {
+    const dialogRef = this.dialogue.open(DialogConfirmComponent, {
+      data: {
+        title: 'Are you sure?',
+        bodyHTML: `Please click <strong>Yes</strong> to reject this request.`,
+      },
+    })
+
+    dialogRef.afterClosed().subscribe((response: any) => {
+      if (response) {
+        this.requestObj = {
+          state: 'IN_PROGRESS',
+          action: 'REJECT',
+          serviceName: this.requestType,
+          wfId: this.posData.wfId,
+          applicationId: this.posData.applicationId,
+          userId: this.posData.userId,
+          actorUserId: this.posData.actorUUID,
+          deptName: this.posData.deptName,
+          updateFieldValues: [],
+        }
+
+        if (this.requestType === 'position') {
+          const formobj = {
+            toValue: {
+              position: this.posData.position,
+            },
+            fieldKey: this.requestType,
+            description: this.posData.description,
+            firstName: this.posData.firstName,
+            email: this.posData.email,
+            mobile: this.posData.mobile,
+          }
+          this.requestObj.updateFieldValues.push(formobj)
+          this.requestService.approveNewPosition(this.requestObj).subscribe(() => {
+            this.openSnackbar('Success!')
+            this.route.navigate(['/app/home/requests/position'])
+          })
+        } else if (this.requestType === 'organisation') {
+          const formobj = {
+            toValue: {
+              organisation: this.posData.organisation,
+            },
+            fieldKey: this.requestType,
+            description: this.posData.description,
+            firstName: this.posData.firstName,
+            email: this.posData.email,
+            mobile: this.posData.mobile,
+          }
+          this.requestObj.updateFieldValues.push(formobj)
+          this.requestService.approveNewOrg(this.requestObj).subscribe(() => {
+            this.openSnackbar('Success!')
+            this.route.navigate(['/app/home/requests/organisation'])
+          })
+        } else if (this.requestType === 'domain') {
+          const formobj = {
+            toValue: {
+              domain: this.posData.domain,
+            },
+            fieldKey: this.requestType,
+            description: this.posData.description,
+            firstName: this.posData.firstName,
+            email: this.posData.email,
+            mobile: this.posData.mobile,
+          }
+          this.requestObj.updateFieldValues.push(formobj)
+          this.requestService.approveNewDomain(this.requestObj).subscribe(() => {
+            this.openSnackbar('Success!')
+            this.route.navigate(['/app/home/requests/domain'])
+          })
+        }
+      } else {
+        this.navigateTo()
+        // this.openSnackbar('Cancelled', 5000)
+        // this.positionForm.reset()
+      }
+    })
   }
 
 }

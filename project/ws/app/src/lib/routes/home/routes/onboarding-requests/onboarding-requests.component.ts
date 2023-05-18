@@ -84,8 +84,12 @@ export class OnboardingRequestsComponent implements OnInit {
 
         if (obj.toValue && ((this.requestType === 'position' && obj.toValue.position) ||
           (this.requestType === 'organisation' && obj.toValue.organisation) || (this.requestType === 'domain' && obj.toValue.domain))) {
-          const date = new Date(val.createdOn).getDate()
-          const mm = new Date(val.createdOn).getMonth() + 1
+          // const date = new Date(val.createdOn).getDate()
+          // tslint:disable-next-line:prefer-template
+          const date = ('0' + (new Date(val.createdOn).getDate())).slice(-2)
+          // const mm = new Date(val.createdOn).getMonth() + 1
+          // tslint:disable-next-line:prefer-template
+          const mm = ('0' + (new Date(val.createdOn).getMonth() + 1)).slice(-2)
           const year = new Date(val.createdOn).getFullYear()
           // tslint:disable-next-line:prefer-template
           const createdDate = date + `-` + mm + `-` + year
@@ -108,7 +112,7 @@ export class OnboardingRequestsComponent implements OnInit {
     })
   }
 
-  filter(key: 'pending' | 'approved') {
+  filter(key: 'pending' | 'approved' | 'rejected') {
     switch (key) {
       case 'pending':
         this.data = []
@@ -128,6 +132,16 @@ export class OnboardingRequestsComponent implements OnInit {
           this.formatData(resData)
         } else {
           this.getApprovedList()
+        }
+        break
+      case 'rejected':
+        this.data = []
+        this.currentFilter = 'rejected'
+        if (this.activatedRoute.snapshot.data && this.activatedRoute.snapshot.data.rejectedList.data) {
+          const resData = this.activatedRoute.snapshot.data.rejectedList.data
+          this.formatData(resData)
+        } else {
+          this.getRejectedList()
         }
         break
       default:
@@ -165,6 +179,32 @@ export class OnboardingRequestsComponent implements OnInit {
     const reqbody = {
       serviceName: this.requestType,
       applicationStatus: 'APPROVED',
+      limit: 1000,
+      offset: 0,
+      deptName: 'iGOT',
+    }
+    if (this.requestType === 'position') {
+      this.requestService.getPositionsList(reqbody).subscribe((res: any) => {
+        const resData = res.result.data
+        this.formatData(resData)
+      })
+    } else if (this.requestType === 'organisation') {
+      this.requestService.getOrgsList(reqbody).subscribe((res: any) => {
+        const resData = res.result.data
+        this.formatData(resData)
+      })
+    } else if (this.requestType === 'domain') {
+      this.requestService.getDomainsList(reqbody).subscribe((res: any) => {
+        const resData = res.result.data
+        this.formatData(resData)
+      })
+    }
+  }
+
+  getRejectedList() {
+    const reqbody = {
+      serviceName: this.requestType,
+      applicationStatus: 'REJECTED',
       limit: 1000,
       offset: 0,
       deptName: 'iGOT',

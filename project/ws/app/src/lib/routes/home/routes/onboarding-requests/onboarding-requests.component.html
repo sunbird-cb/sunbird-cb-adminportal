@@ -4,7 +4,7 @@
       <div class="flex-1" role="link" tabindex="0">
         <div class="flex flex-1">
           <mat-card-title class="flex-4 mobile-margin text-capitalize margin-remove-bottom">
-            <span class="mat-title">Manage Requests</span>
+            <span class="mat-title">Manage {{displayType}} Requests</span>
           </mat-card-title>
         </div>
       </div>
@@ -18,6 +18,10 @@
           <a class="filter-option" [ngClass]="{'ws-mat-accent-border-active' : currentFilter === 'approved',
                                                       'ws-mat-accent-border font-medium':currentFilter !== 'approved'}"
             mat-button (click)="filter('approved')" role="button">Approved requests</a>
+          <a class="filter-option"
+            [ngClass]="{'ws-mat-accent-border-active' : currentFilter === 'rejected',
+                                                                'ws-mat-accent-border font-medium':currentFilter !== 'rejected'}" mat-button
+            (click)="filter('rejected')" role="button">Rejected requests</a>
         </div>
       </div>
       <ng-container *ngIf="currentFilter === 'pending'">
@@ -25,6 +29,9 @@
           (actionsClick)="actionsClick($event)"></ws-widget-org-user-table>
       </ng-container>
       <ng-container *ngIf="currentFilter === 'approved'">
+        <ws-widget-org-user-table [tableData]="tabledataApproved" [data]='data'></ws-widget-org-user-table>
+      </ng-container>
+      <ng-container *ngIf="currentFilter === 'rejected'">
         <ws-widget-org-user-table [tableData]="tabledataApproved" [data]='data'></ws-widget-org-user-table>
       </ng-container>
     </mat-card-content>

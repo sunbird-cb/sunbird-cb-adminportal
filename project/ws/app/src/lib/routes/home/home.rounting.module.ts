@@ -19,6 +19,7 @@ import { OnboardingRequestsComponent } from './routes/onboarding-requests/onboar
 import { RequestsApprovalComponent } from './routes/requests-approval/requests-approval.component'
 import { RequestsResolve } from './resolvers/requests-resolver.service'
 import { ApprovedRequestsResolve } from './resolvers/approvedrequests-resolver.service'
+import { RejectedRequestsResolve } from './resolvers/rejectedrequests-reoslver.service'
 
 const routes: Routes = [
   {
@@ -158,6 +159,7 @@ const routes: Routes = [
         resolve: {
           requestsList: RequestsResolve,
           aprovedrequestsList: ApprovedRequestsResolve,
+          rejectedList: RejectedRequestsResolve,
         },
         runGuardsAndResolvers: 'always',
         component: OnboardingRequestsComponent,
@@ -231,6 +233,7 @@ const routes: Routes = [
     RolesResolver,
     RequestsResolve,
     ApprovedRequestsResolve,
+    RejectedRequestsResolve,
   ],
 })
 export class HomeRoutingModule { }
