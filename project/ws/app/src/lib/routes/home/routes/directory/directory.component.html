@@ -15,8 +15,8 @@
           <div *ngFor="let department of departmentHearders">
             <!-- {{ department }} -->
             <a *ngIf="department==='CBC'" class="filter-option" [ngClass]="{'ws-mat-accent-border-active' : currentFilter === 'cbc',
-                          'ws-mat-accent-border font-medium':currentFilter !== 'cbc'}"
-              mat-button [routerLink]="'/app/home/directory/cbc'" (click)="filter(department.toLowerCase())" role="button">
+                          'ws-mat-accent-border font-medium':currentFilter !== 'cbc'}" mat-button
+              [routerLink]="'/app/home/directory/cbc'" (click)="filter(department.toLowerCase())" role="button">
               CBC</a>
 
             <a *ngIf="department==='CBP Providers'" class="filter-option" [ngClass]="{'ws-mat-accent-border-active' : currentFilter === 'cbp-providers',
@@ -26,13 +26,16 @@
               CBP Providers</a>
             <a *ngIf="department==='MDO'" class="filter-option" [ngClass]="{'ws-mat-accent-border-active' : currentFilter === 'mdo',
                                                       'ws-mat-accent-border font-medium':currentFilter !== 'mdo'}"
-              mat-button [routerLink]="'/app/home/directory/mdo'" (click)="filter(department.toLowerCase())" role="button">
+              mat-button [routerLink]="'/app/home/directory/mdo'" (click)="filter(department.toLowerCase())"
+              role="button">
               MDO </a>
             <a *ngIf="department==='STATE'" class="filter-option" [ngClass]="{'ws-mat-accent-border-active' : currentFilter === 'state',
                                                       'ws-mat-accent-border font-medium':currentFilter !== 'state'}"
-              mat-button [routerLink]="'/app/home/directory/state'" (click)="filter(department.toLowerCase())" role="button">
+              mat-button [routerLink]="'/app/home/directory/state'" (click)="filter(department.toLowerCase())"
+              role="button">
               STATE</a>
           </div>
+
           <!-- <a *ngFor="let department of departmentHearders" class="filter-option" [ngClass]="{'ws-mat-accent-border-active' : currentFilter ===department,
               'ws-mat-accent-border font-medium':currentFilter !== 'department'}" mat-button
             [routerLink]="'/app/home/directory'" [queryParams]="{ status: department }" (click)="filter(department)"
@@ -42,7 +45,8 @@
       </div>
       <ng-container>
         <ws-widget-directory-table [selectedDepartment]='currentDepartment' [tableData]='tabledata' [data]='data'
-          (eOnRowClick)="onRoleClick($event)" (actionsClick)="actionClick($event)" (searchByEnterKey)="onEnterkySearch($event)">
+          (eOnRowClick)="onRoleClick($event)" (actionsClick)="actionClick($event)"
+          (searchByEnterKey)="onEnterkySearch($event)">
         </ws-widget-directory-table>
       </ng-container>
     </mat-card-content>

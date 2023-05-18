@@ -11,6 +11,7 @@ import * as _ from 'lodash'
 // import {IColums } from '../interface/interfaces'
 import { Router } from '@angular/router'
 import { EventService } from '@sunbird-cb/utils'
+import { environment } from '../../../../../../../../src/environments/environment'
 
 @Component({
   selector: 'ws-widget-directory-table',
@@ -36,10 +37,10 @@ export class UIDirectoryTableComponent implements OnInit, AfterViewInit, OnChang
   length!: number
   pageSize = 5
   pageSizeOptions = [5, 10, 20]
+  isSelectedDept = true
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator
   @ViewChild(MatSort, { static: true }) sort?: MatSort
   selection = new SelectionModel<any>(true, [])
-
   constructor(
     private router: Router, private events: EventService) {
     this.dataSource = new MatTableDataSource<any>()
@@ -51,6 +52,9 @@ export class UIDirectoryTableComponent implements OnInit, AfterViewInit, OnChang
 
     if (this.tableData) {
       // this.displayedColumns = this.tableData.columns
+    }
+    if (environment.departments && environment.departments.includes(this.selectedDepartment)) {
+      this.isSelectedDept = false
     }
     this.dataSource.data = this.data
     this.dataSource.paginator = this.paginator
@@ -85,7 +89,6 @@ export class UIDirectoryTableComponent implements OnInit, AfterViewInit, OnChang
         this.actionsClick.emit({ action, row })
       }
     }
-
   }
 
   getFinalColumns() {

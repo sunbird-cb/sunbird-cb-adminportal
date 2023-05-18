@@ -40,6 +40,7 @@ export class CreateUserComponent implements OnInit {
   loggedInUserId!: string
   disableCreateButton = false
   displayLoader = false
+  emailLengthVal = false
 
   constructor(
     private route: ActivatedRoute,
@@ -173,6 +174,20 @@ export class CreateUserComponent implements OnInit {
         this.rolesList = dept.rolesInfo
       }
     })
+  }
+
+  emailVerification(emailId: string) {
+    this.emailLengthVal = false
+    if (emailId && emailId.length > 0) {
+      const email = emailId.split('@')
+      if (email && email.length === 2) {
+        if ((email[0] && email[0].length > 64) || (email[1] && email[1].length > 255)) {
+          this.emailLengthVal = true
+        }
+      } else {
+        this.emailLengthVal = false
+      }
+    }
   }
 
   /**On unselecting the option */

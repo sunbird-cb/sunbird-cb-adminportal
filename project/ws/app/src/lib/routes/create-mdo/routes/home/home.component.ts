@@ -23,6 +23,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   dept!: string
   urlValue: any = ''
   titles: any = []
+  deptType: any
   constructor(
     private valueSvc: ValueService,
     // private router: Router,
@@ -46,16 +47,24 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.route.queryParams.subscribe(params => {
       this.dept = params['currentDept']
       this.mydept = params['depatName']
+      this.deptType = params['deptType']
 
       this.urlValue = this.dept
     })
 
-    this.titles = [
-      { title: 'Directory', url: '/app/home/directory' },
-      { title: this.dept, url: `/app/home/directory/${this.urlValue}` },
-      { title: this.mydept, url: 'none' },
-    ]
-
+    if (this.deptType === 'ministry' || this.deptType === 'state') {
+      this.titles = [
+        { title: 'Reports', url: '/app/home/reports' },
+        { title: this.dept, url: `/app/home/reports/${this.urlValue}` },
+        { title: this.mydept, url: 'none' },
+      ]
+    } else {
+      this.titles = [
+        { title: 'Directory', url: '/app/home/directory' },
+        { title: this.dept, url: `/app/home/directory/${this.urlValue}` },
+        { title: this.mydept, url: 'none' },
+      ]
+    }
     this.defaultSideNavBarOpenedSubscription = this.isLtMedium$.subscribe(isLtMedium => {
       this.sideNavBarOpened = !isLtMedium
       this.screenSizeIsLtMedium = isLtMedium

@@ -14,6 +14,7 @@ import { RolesResolver } from './resolvers/roles-resolver.service'
 // import { PageResolve } from '@sunbird-cb/utils'
 import { ModerationViewComponent } from './routes/moderation/moderation.component'
 import { RolesUsersComponent } from './routes/roles-users/roles-users.component'
+import { ReportsComponent } from './routes/reports/reports.component'
 
 const routes: Routes = [
   {
@@ -140,6 +141,39 @@ const routes: Routes = [
         },
       },
       {
+        path: 'positions',
+        loadChildren: () => import('./routes/positions/positions.module').then(u => u.PositionsModule),
+        // pathMatch: 'full',
+        // redirectTo: 'directory/mdo',
+        // component: DirectoryViewComponent,
+        data: {
+          pageId: 'app/positions',
+          module: 'positions',
+          pageType: 'feature',
+          pageKey: 'positions',
+        },
+      },
+      {
+        path: 'reports',
+        component: ReportsComponent,
+        data: {
+          pageId: 'app/reports',
+          module: 'reports',
+          pageType: 'feature',
+          pageKey: 'Reports',
+        },
+      },
+      {
+        path: 'reports/:tab',
+        data: {
+          pageId: 'app/reports',
+          module: 'reports',
+          pageType: 'feature',
+          pageKey: 'Reports',
+        },
+        component: ReportsComponent,
+      },
+      {
         path: '',
         redirectTo: 'directory',
         pathMatch: 'full',
@@ -147,7 +181,6 @@ const routes: Routes = [
     ],
   },
 ]
-
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
