@@ -16,6 +16,8 @@ export class RequestsApprovalComponent implements OnInit {
   requestType: any
   // breadcrumbs: any
   requestObj: any
+  customCharsPattern = `^[a-zA-Z0-9 \\w\-\&\(\)]*$`
+  domainPattern = `^((?!-)[A-Za-z0-9-]{1, 63}(?<!-)\\.)+[A-Za-z]{2, 6}$`
 
   constructor(
     private snackBar: MatSnackBar,
@@ -30,9 +32,9 @@ export class RequestsApprovalComponent implements OnInit {
         fullname: new FormControl({ value: this.posData.firstName, disabled: true }, []),
         email: new FormControl({ value: this.posData.email, disabled: true }, []),
         mobile: new FormControl({ value: this.posData.mobile, disabled: true }, []),
-        position: new FormControl(this.requestType === 'position' ? this.posData.position : '', this.requestType === 'position' ? [Validators.required, Validators.maxLength(500), Validators.pattern(/^[\w]+([-_\s]{1}[a-z0-9]+)*$/i)] : []),
-        organisation: new FormControl(this.requestType === 'organisation' ? this.posData.organisation : '', this.requestType === 'organisation' ? [Validators.required] : []),
-        domain: new FormControl(this.requestType === 'domain' ? this.posData.domain : '', this.requestType === 'domain' ? [Validators.required] : []),
+        position: new FormControl(this.requestType === 'position' ? this.posData.position : '', this.requestType === 'position' ? [Validators.required, Validators.maxLength(500), Validators.pattern(this.customCharsPattern)] : []),
+        organisation: new FormControl(this.requestType === 'organisation' ? this.posData.organisation : '', this.requestType === 'organisation' ? [Validators.required, Validators.pattern(this.customCharsPattern)] : []),
+        domain: new FormControl(this.requestType === 'domain' ? this.posData.domain : '', this.requestType === 'domain' ? [Validators.required, Validators.pattern(this.domainPattern)] : []),
         description: new FormControl(this.posData.description, []),
         wfId: new FormControl(this.posData.wfId),
       })
