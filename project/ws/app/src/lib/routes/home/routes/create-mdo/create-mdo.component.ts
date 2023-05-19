@@ -26,9 +26,9 @@ export function forbiddenNamesValidator(optionsArray: any): ValidatorFn {
         const index = optionsArray.findIndex((op: any) => {
           // tslint:disable-next-line: prefer-template
           // return new RegExp('^' + op.orgname + '$').test(control.orgname)
-          return op.orgname === control.value.orgname
+          return op.orgName === control.value.orgName
         })
-        return index < 0 ? { forbiddenNames: { value: control.value.orgname } } : null
+        return index < 0 ? { forbiddenNames: { value: control.value.orgName } } : null
       }
       return null
     }
@@ -467,8 +467,8 @@ export class CreateMdoComponent implements OnInit {
         debounceTime(500),
         distinctUntilChanged(),
         startWith(''),
-        map(value => typeof (value) === 'string' ? value : (value && value.orgname ? value.orgname : '')),
-        map(orgname => orgname ? this.filterStates(orgname) : this.states.slice())
+        map(value => typeof (value) === 'string' ? value : (value && value.orgName ? value.orgName : '')),
+        map(orgName => orgName ? this.filterStates(orgName) : this.states.slice())
       )
 
     this.masterStates.subscribe(() => {
@@ -485,8 +485,8 @@ export class CreateMdoComponent implements OnInit {
         debounceTime(500),
         distinctUntilChanged(),
         startWith(''),
-        map(value => typeof (value) === 'string' ? value : (value && value.orgname ? value.orgname : '')),
-        map(orgname => orgname ? this.filterMinisteries(orgname) : this.ministeries.slice())
+        map(value => typeof (value) === 'string' ? value : (value && value.orgName ? value.orgName : '')),
+        map(orgName => orgName ? this.filterMinisteries(orgName) : this.ministeries.slice())
       )
 
     this.masterMinisteries.subscribe(() => {
@@ -502,8 +502,8 @@ export class CreateMdoComponent implements OnInit {
         debounceTime(500),
         distinctUntilChanged(),
         startWith(''),
-        map(value => typeof (value) === 'string' ? value : (value && value.orgname ? value.orgname : '')),
-        map(orgname => orgname ? this.filterDepartments(orgname) : this.departments.slice())
+        map(value => typeof (value) === 'string' ? value : (value && value.orgName ? value.orgName : '')),
+        map(orgName => orgName ? this.filterDepartments(orgName) : this.departments.slice())
       )
 
     this.masterDepartments.subscribe((_event: any): void => {
@@ -522,8 +522,8 @@ export class CreateMdoComponent implements OnInit {
         debounceTime(500),
         distinctUntilChanged(),
         startWith(''),
-        map(value => typeof (value) === 'string' ? value : (value && value.orgname ? value.orgname : '')),
-        map(orgname => orgname ? this.filterOrgs(orgname) : this.orgs.slice())
+        map(value => typeof (value) === 'string' ? value : (value && value.orgName ? value.orgName : '')),
+        map(orgName => orgName ? this.filterOrgs(orgName) : this.orgs.slice())
       )
 
     this.masterOrgs.subscribe((_event: any) => {
@@ -538,7 +538,7 @@ export class CreateMdoComponent implements OnInit {
   private filterStates(orgname: string): any {
     if (orgname) {
       const filterValue = orgname.toLowerCase()
-      return this.states.filter((option: any) => option.orgname.toLowerCase().includes(filterValue))
+      return this.states.filter((option: any) => option.orgName.toLowerCase().includes(filterValue))
     }
     return this.states
   }
@@ -546,14 +546,14 @@ export class CreateMdoComponent implements OnInit {
   filterMinisteries(orgname: string) {
     if (orgname) {
       const filterValue = orgname.toLowerCase()
-      return this.ministeries.filter((option: any) => option.orgname.toLowerCase().includes(filterValue))
+      return this.ministeries.filter((option: any) => option.orgName.toLowerCase().includes(filterValue))
     }
     return this.ministeries
   }
   filterDepartments(orgname: string) {
     if (orgname) {
       const filterValue = orgname.toLowerCase()
-      return this.departments.filter((option: any) => option.orgname.toLowerCase().includes(filterValue))
+      return this.departments.filter((option: any) => option.orgName.toLowerCase().includes(filterValue))
     }
     return this.departments
   }
@@ -561,7 +561,7 @@ export class CreateMdoComponent implements OnInit {
     this.disableCreateButton = false
     if (orgname) {
       const filterValue = orgname.toLowerCase()
-      return this.orgs.filter((option: any) => option.orgname.toLowerCase().includes(filterValue))
+      return this.orgs.filter((option: any) => option.orgName.toLowerCase().includes(filterValue))
     }
     return this.orgs
   }
@@ -579,11 +579,11 @@ export class CreateMdoComponent implements OnInit {
           this.openSnackbar(`Selected State is already onboarded!`)
         } else {
           const req = {
-            orgName: stateFromValue.orgname ? stateFromValue.orgname : stateFromValue,
-            channel: stateFromValue.orgname ? stateFromValue.orgname : stateFromValue,
-            // organisationType: (stateFromValue.sborgtype || '').toLowerCase(),
-            // organisationSubType: (stateFromValue.sborgtype || '').toLowerCase(),
-            organisationType: stateFromValue.sborgtype ? (stateFromValue.sborgtype || '').toLowerCase() : 'state',
+            orgName: stateFromValue.orgName ? stateFromValue.orgName : stateFromValue,
+            channel: stateFromValue.orgName ? stateFromValue.orgName : stateFromValue,
+            // organisationType: (stateFromValue.sbOrgType || '').toLowerCase(),
+            // organisationSubType: (stateFromValue.sbOrgType || '').toLowerCase(),
+            organisationType: stateFromValue.sbOrgType ? (stateFromValue.sbOrgType || '').toLowerCase() : 'state',
             organisationSubType: stateFromValue.sbsuborgtype ? (stateFromValue.sbsuborgtype || '').toLowerCase() : 'mdo',
             // mapId: stateFromValue.mapid ? stateFromValue.mapid : "00",
             isTenant: true,
@@ -614,9 +614,9 @@ export class CreateMdoComponent implements OnInit {
       if (this.stateForm.value.state !== null) {
         const stateFromValue = this.stateForm.value.state
         const req = {
-          orgName: stateFromValue.orgname,
-          channel: stateFromValue.orgname,
-          organisationType: (stateFromValue.sborgtype || '').toLowerCase(),
+          orgName: stateFromValue.orgName,
+          channel: stateFromValue.orgName,
+          organisationType: (stateFromValue.sbOrgType || '').toLowerCase(),
           organisationSubType: (stateFromValue.sbsuborgtype || '').toLowerCase(),
           // mapId: stateFromValue.mapid,
           isTenant: true,
@@ -673,9 +673,9 @@ export class CreateMdoComponent implements OnInit {
         } else {
           if (this.departmentForm.getRawValue().ministry && !this.departmentForm.value.department && !this.departmentForm.value.organisation) {
             this.req = {
-              orgName: hierarchyObj.ministry && hierarchyObj.ministry.orgname ? hierarchyObj.ministry.orgname : hierarchyObj.ministry,
-              channel: hierarchyObj.ministry && hierarchyObj.ministry.orgname ? hierarchyObj.ministry.orgname : hierarchyObj.ministry,
-              organisationType: hierarchyObj.ministry && hierarchyObj.ministry.sborgtype ? (hierarchyObj.ministry.sborgtype || '').toLowerCase() : 'ministry',
+              orgName: hierarchyObj.ministry && hierarchyObj.ministry.orgName ? hierarchyObj.ministry.orgName : hierarchyObj.ministry,
+              channel: hierarchyObj.ministry && hierarchyObj.ministry.orgName ? hierarchyObj.ministry.orgName : hierarchyObj.ministry,
+              organisationType: hierarchyObj.ministry && hierarchyObj.ministry.sbOrgType ? (hierarchyObj.ministry.sbOrgType || '').toLowerCase() : 'ministry',
               organisationSubType: hierarchyObj.ministry && hierarchyObj.ministry.sbsuborgtype ? (hierarchyObj.ministry.sbsuborgtype || '').toLowerCase() : 'mdo',
               isTenant: true,
               ...(this.isStateAdmin && { sbRootOrgId: _.get(this.activatedRoute, 'snapshot.parent.data.configService.unMappedUser.rootOrgId') }),
@@ -683,8 +683,8 @@ export class CreateMdoComponent implements OnInit {
             }
           } else if (this.departmentForm.getRawValue().ministry && this.departmentForm.value.department && !this.departmentForm.value.organisation) {
             this.req = {
-              orgName: hierarchyObj.department && hierarchyObj.department.orgname ? hierarchyObj.department.orgname : hierarchyObj.department,
-              channel: hierarchyObj.department && hierarchyObj.department.orgname ? hierarchyObj.department.orgname : hierarchyObj.department,
+              orgName: hierarchyObj.department && hierarchyObj.department.orgName ? hierarchyObj.department.orgName : hierarchyObj.department,
+              channel: hierarchyObj.department && hierarchyObj.department.orgName ? hierarchyObj.department.orgName : hierarchyObj.department,
               organisationType: hierarchyObj.ministry.sbsuborgtype ? (hierarchyObj.ministry.sbsuborgtype || '').toLowerCase() : 'mdo',
               organisationSubType: 'department',
               isTenant: true,
@@ -694,8 +694,8 @@ export class CreateMdoComponent implements OnInit {
             }
           } else if (this.departmentForm.getRawValue().ministry && this.departmentForm.value.department && this.departmentForm.value.organisation) {
             this.req = {
-              orgName: hierarchyObj.organisation && hierarchyObj.organisation.orgname ? hierarchyObj.organisation.orgname : hierarchyObj.organisation,
-              channel: hierarchyObj.organisation && hierarchyObj.organisation.orgname ? hierarchyObj.organisation.orgname : hierarchyObj.organisation,
+              orgName: hierarchyObj.organisation && hierarchyObj.organisation.orgName ? hierarchyObj.organisation.orgName : hierarchyObj.organisation,
+              channel: hierarchyObj.organisation && hierarchyObj.organisation.orgName ? hierarchyObj.organisation.orgName : hierarchyObj.organisation,
               organisationType: hierarchyObj.ministry.sbsuborgtype ? (hierarchyObj.ministry.sbsuborgtype || '').toLowerCase() : 'mdo',
               organisationSubType: 'board',
               isTenant: true,
@@ -752,9 +752,9 @@ export class CreateMdoComponent implements OnInit {
           // this.req = {
           //   orgName: hierarchyObj.orgname,
           //   channel: hierarchyObj.orgname,
-          //   // organisationType: hierarchyObj.sborgtype.toLowerCase(),
+          //   // organisationType: hierarchyObj.sbOrgType.toLowerCase(),
           //   // organisationSubType: hierarchyObj.sbsuborgtype.toLowerCase(),
-          //   organisationType: hierarchyObj.sborgtype ? (hierarchyObj.sborgtype || '').toLowerCase() : 'mdo',
+          //   organisationType: hierarchyObj.sbOrgType ? (hierarchyObj.sbOrgType || '').toLowerCase() : 'mdo',
           //   organisationSubType: hierarchyObj.sbsuborgtype ? (hierarchyObj.sbsuborgtype || '').toLowerCase() : 'dept',
           //   mapId: hierarchyObj.mapId,
           //   isTenant: true,
@@ -762,9 +762,9 @@ export class CreateMdoComponent implements OnInit {
           // }
 
           this.req = {
-            orgName: hierarchyObj.ministry && hierarchyObj.ministry.orgname ? hierarchyObj.ministry.orgname : hierarchyObj.ministry,
-            channel: hierarchyObj.ministry && hierarchyObj.ministry.orgname ? hierarchyObj.ministry.orgname : hierarchyObj.ministry,
-            organisationType: hierarchyObj.ministry && hierarchyObj.ministry.sborgtype ? (hierarchyObj.ministry.sborgtype || '').toLowerCase() : 'ministry',
+            orgName: hierarchyObj.ministry && hierarchyObj.ministry.orgName ? hierarchyObj.ministry.orgName : hierarchyObj.ministry,
+            channel: hierarchyObj.ministry && hierarchyObj.ministry.orgName ? hierarchyObj.ministry.orgName : hierarchyObj.ministry,
+            organisationType: hierarchyObj.ministry && hierarchyObj.ministry.sbOrgType ? (hierarchyObj.ministry.sbOrgType || '').toLowerCase() : 'ministry',
             organisationSubType: hierarchyObj.ministry && hierarchyObj.ministry.sbsuborgtype ? (hierarchyObj.ministry.sbsuborgtype || '').toLowerCase() : 'mdo',
             isTenant: true,
             mapId: hierarchyObj.ministry.mapId,
@@ -848,7 +848,7 @@ export class CreateMdoComponent implements OnInit {
   }
 
   displayFnState = (value: any) => {
-    return value ? value.orgname : undefined
+    return value ? value.orgName : undefined
   }
 
 }
