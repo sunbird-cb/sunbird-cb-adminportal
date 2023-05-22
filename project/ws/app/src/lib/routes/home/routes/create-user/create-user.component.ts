@@ -218,7 +218,7 @@ export class CreateUserComponent implements OnInit {
       personalDetails: {
         email: form.value.email,
         firstName: form.value.fname,
-        lastName: form.value.lname,
+        // lastName: form.value.lname,
         channel: form.value.dept,
       },
     }

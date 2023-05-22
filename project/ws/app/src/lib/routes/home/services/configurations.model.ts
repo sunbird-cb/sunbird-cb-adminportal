@@ -253,7 +253,7 @@ export namespace NsUser {
     firstName?: string
     surName?: string
     middleName?: string
-    lastName?: string
+    // lastName?: string
     rootOrgId?: string
     rootOrgName?: string
     profileImage?: string
@@ -291,7 +291,7 @@ export namespace NsUser {
     GID: string
     SNAMPRE: string
     SNAMADD: string
-    LASTNAME: string
+    // LASTNAME: string
     SN: string
     GIVENNAME: string
     NICKNAME: string
@@ -444,7 +444,7 @@ export namespace NsUser {
     currentLoginTime: string
     userType: string
     status: number
-    lastName: string
+    // lastName: string
     gender: string
     roles: string[]
     prevUsedPhone: string

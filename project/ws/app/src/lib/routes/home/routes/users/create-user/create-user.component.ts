@@ -51,7 +51,7 @@ export class CreateUserComponent implements OnInit {
     this.registerUser = new FormGroup(
       {
         firstname: new FormControl(null, [Validators.required]),
-        lastname: new FormControl(null, [Validators.required]),
+        // lastname: new FormControl(null, [Validators.required]),
         emailid: new FormControl(null, [Validators.required, Validators.email]),
         // username: new FormControl(null, [Validators.required]),
         password: new FormControl(null, [Validators.minLength(6)]),
@@ -92,7 +92,7 @@ export class CreateUserComponent implements OnInit {
     this.userData = {
       org: this.configSvc.org ? this.configSvc.org[0] : '',
       firstName: this.registerUser.controls.firstname.value,
-      lastName: this.registerUser.controls.lastname.value,
+      // lastName: this.registerUser.controls.lastname.value,
       email: this.registerUser.controls.emailid.value,
       // username: this.registerUser.controls.username.value,
       emailVerified: true,
