@@ -89,7 +89,7 @@ export class CreateUserComponent implements OnInit {
     if (this.createdDepartment) {
       this.createUserForm = new FormGroup({
         fname: new FormControl('', [Validators.required]),
-        lname: new FormControl('', [Validators.required]),
+        // lname: new FormControl('', [Validators.required]),
         email: new FormControl('', [Validators.required, Validators.email]),
         role: new FormControl('', [Validators.required, Validators.required]),
         dept: new FormControl(this.createdDepartment.depName, [Validators.required]),
@@ -97,7 +97,7 @@ export class CreateUserComponent implements OnInit {
     } else {
       this.createUserForm = new FormGroup({
         fname: new FormControl('', [Validators.required]),
-        lname: new FormControl('', [Validators.required]),
+        // lname: new FormControl('', [Validators.required]),
         email: new FormControl('', [Validators.required, Validators.email]),
         role: new FormControl('', [Validators.required, Validators.required]),
         dept: new FormControl('Karmayogi Bharat', [Validators.required]),
