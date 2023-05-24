@@ -122,7 +122,7 @@
                     aria-label="State list masterStates" [displayWith]="displayFnState">
                     <mat-option *ngFor="let option of masterStates | async" [value]="option" i18n-aria-label
                       aria-label="State list autocomplete option">
-                      {{ option.orgname }}
+                      {{ option.orgName }}
                     </mat-option>
                   </mat-autocomplete>
                 </div>
@@ -182,12 +182,12 @@
                       (optionSelected)="ministrySelected($event.option.value)">
                       <mat-option *ngFor="let option of masterMinisteries| async" [value]="option" i18n-aria-label
                         aria-label="Ministry list autocomplete option">
-                        {{ option.orgname }}
+                        {{ option.orgName }}
                       </mat-option>
                     </mat-autocomplete>
                   </div>
                   <!-- <div>{{ departmentForm['ministry']?.value?.orgname }} </div> -->
-                  <div *ngIf="departmentForm?.controls['ministry']?.value?.orgname" class="input-wrapper margin-top-s">
+                  <div *ngIf="departmentForm?.controls['ministry']?.value?.orgName" class="input-wrapper margin-top-s">
                     <label for="Department" class=" margin-remove-bottom form-label"
                       i18n="Department|Label which explains the user to enter Department" i18n-aria-label
                       aria-label="Department Field label">
@@ -213,13 +213,13 @@
                       (optionSelected)="departmentSelected($event.option.value)">
                       <mat-option *ngFor="let option of masterDepartments | async" [value]="option" i18n-aria-label
                         aria-label="Department list autocomplete option">
-                        {{ option.orgname }}
+                        {{ option.orgName }}
                       </mat-option>
                     </mat-autocomplete>
                   </div>
 
                   <div
-                    *ngIf="departmentForm?.controls['department']?.value?.orgname && departmentForm?.controls['ministry']?.value?.orgname"
+                    *ngIf="departmentForm?.controls['department']?.value?.orgName && departmentForm?.controls['ministry']?.value?.orgName"
                     class="input-wrapper margin-top-s">
                     <label for="Organisation" class=" margin-remove-bottom form-label"
                       i18n="Organisation|Label which explains the user to enter Organisation" i18n-aria-label
@@ -246,7 +246,7 @@
                       i18n-aria-label aria-label="Organisation list masterStates" [displayWith]="displayFnState">
                       <mat-option *ngFor="let option of masterOrgs | async" [value]="option" i18n-aria-label
                         aria-label="Organisation list autocomplete option">
-                        {{ option.orgname }}
+                        {{ option.orgName }}
                       </mat-option>
                     </mat-autocomplete>
                   </div>
@@ -300,12 +300,12 @@
                       (optionSelected)="ministrySelected($event.option.value)" (change)="onChange($event)">
                       <mat-option *ngFor="let option of masterMinisteries| async" [value]="option" i18n-aria-label
                         aria-label="Ministry list autocomplete option">
-                        {{ option.orgname }}
+                        {{ option.orgName }}
                       </mat-option>
                     </mat-autocomplete>
                   </div>
 
-                  <div class="input-wrapper margin-top-s">
+                  <div *ngIf="departmentForm?.controls['ministry']?.value?.orgName" class="input-wrapper margin-top-s">
                     <label for="Department" class=" margin-remove-bottom form-label"
                       i18n="Department|Label which explains the user to enter Department" i18n-aria-label
                       aria-label="Department Field label">
@@ -331,12 +331,14 @@
                       (optionSelected)="departmentSelected($event.option.value)">
                       <mat-option *ngFor="let option of masterDepartments | async" [value]="option" i18n-aria-label
                         aria-label="Department list autocomplete option">
-                        {{ option.orgname }}
+                        {{ option.orgName }}
                       </mat-option>
                     </mat-autocomplete>
                   </div>
 
-                  <div class="input-wrapper margin-top-s">
+                  <div
+                    *ngIf="departmentForm?.controls['department']?.value?.orgName && departmentForm?.controls['ministry']?.value?.orgName"
+                    class="input-wrapper margin-top-s">
                     <label for="Organisation" class=" margin-remove-bottom form-label"
                       i18n="Organisation|Label which explains the user to enter Organisation" i18n-aria-label
                       aria-label="Organisation Field label">
@@ -362,7 +364,7 @@
                       i18n-aria-label aria-label="Organisation list masterStates" [displayWith]="displayFnState">
                       <mat-option *ngFor="let option of masterOrgs | async" [value]="option" i18n-aria-label
                         aria-label="Organisation list autocomplete option">
-                        {{ option.orgname }}
+                        {{ option.orgName }}
                       </mat-option>
                     </mat-autocomplete>
                   </div>

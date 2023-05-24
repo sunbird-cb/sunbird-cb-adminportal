@@ -6,8 +6,8 @@ import { MatSnackBar } from '@angular/material'
 import { ActivatedRoute, Router } from '@angular/router'
 import { DirectoryService } from '../../services/directory.services'
 import * as _ from 'lodash'
-import { EventService } from '@sunbird-cb/utils'
 import { environment } from '../../../../../../../../../src/environments/environment'
+import { EventService } from '@sunbird-cb/utils'
 
 @Component({
   selector: 'ws-app-create-user',
@@ -100,7 +100,7 @@ export class CreateUserComponent implements OnInit {
         // lname: new FormControl('', [Validators.required]),
         email: new FormControl('', [Validators.required, Validators.email]),
         role: new FormControl('', [Validators.required, Validators.required]),
-        dept: new FormControl('Karmayogi Bharat', [Validators.required]),
+        dept: new FormControl(_.get(this.route, 'snapshot.data.configService.userProfile.departmentName') || '', [Validators.required]),
       })
     }
 
