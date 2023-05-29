@@ -108,9 +108,9 @@ export class UIUserTablePopUpComponent implements OnInit, AfterViewInit, OnChang
     this.createMDOService2.searchedUserdata.subscribe(res => {
       if (res.length > 0) {
         res.forEach((element: any) => {
-          element.organisations.forEach((element: any) => {
-            if (row.userId === element.userId) {
-              const roles = element.roles
+          element.organisations.forEach((elem: any) => {
+            if (row.userId === elem.userId) {
+              const roles = elem.roles
               if (roles.includes('MDO_ADMIN') || roles.includes('STATE_ADMIN')) {
                 this.createMDOService2.adminButton.next(true)
               } else {
@@ -122,9 +122,7 @@ export class UIUserTablePopUpComponent implements OnInit, AfterViewInit, OnChang
       }
     })
 
-
   }
-  //Afzal code Search API change
   getAllActiveUsersAPI(searchString: string) {
     this.userService.searchUserByenter(searchString, this.deparmentId).subscribe(res => {
       this.getAllUserByKey(res.result.response.content)

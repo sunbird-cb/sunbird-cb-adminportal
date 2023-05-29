@@ -20,7 +20,7 @@ const API_END_POINTS = {
   providedIn: 'root',
 })
 export class CreateMDOService {
-  searchedUserdata = new BehaviorSubject<any>({ "filteredData": [] })
+  searchedUserdata = new BehaviorSubject<any>({ filteredData: [] })
   adminButton = new BehaviorSubject<any>(false)
   constructor(private http: HttpClient) { }
   getAllSubDepartments(deptName: string): Observable<any> {
