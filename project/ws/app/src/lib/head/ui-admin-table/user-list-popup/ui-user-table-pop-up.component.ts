@@ -8,8 +8,10 @@ import { MatPaginator } from '@angular/material'
 import { MatSort } from '@angular/material/sort'
 import * as _ from 'lodash'
 import { ITableData, IColums } from '../interface/interfaces'
-import { UserViewPopUpService } from './ui-user-table-pop-up.services'
 import { ProfileV2UtillService } from '../../../routes/home/services/home-utill.service'
+import { UsersService } from '../../../routes/home/services/users.service'
+import { ActivatedRoute } from '@angular/router'
+import { CreateMDOService } from '../../../routes/home/services/create-mdo.services'
 
 interface IUser { fullname: string; email: string, userId: string }
 
@@ -29,6 +31,7 @@ export class UIUserTablePopUpComponent implements OnInit, AfterViewInit, OnChang
   viewPaginator = false
   dataSource!: any
   widgetData: any
+  deparmentId: any
   length!: number
   chkBox = false
   isSearched = false
@@ -38,7 +41,10 @@ export class UIUserTablePopUpComponent implements OnInit, AfterViewInit, OnChang
   @ViewChild(MatSort, { static: true }) sort?: MatSort
   selection = new SelectionModel<any>(true, [])
 
-  constructor(private userViewPopUpService: UserViewPopUpService, private profileUtilSvc: ProfileV2UtillService) {
+  constructor(private profileUtilSvc: ProfileV2UtillService,
+    private userService: UsersService,
+    private activatedRoute: ActivatedRoute,
+    private createMDOService2: CreateMDOService) {
     this.dataSource = new MatTableDataSource<any>()
     this.actionsClick = new EventEmitter()
     this.clicked = new EventEmitter()
@@ -66,6 +72,9 @@ export class UIUserTablePopUpComponent implements OnInit, AfterViewInit, OnChang
       sortState: 'asc',
       needUserMenus: false,
     }
+    this.activatedRoute.queryParams.subscribe(params => {
+      this.deparmentId = params['roleId']
+    })
   }
 
   ngOnChanges(data: SimpleChanges) {
@@ -96,10 +105,28 @@ export class UIUserTablePopUpComponent implements OnInit, AfterViewInit, OnChang
         this.actionsClick.emit({ action, row })
       }
     }
+    this.createMDOService2.searchedUserdata.subscribe(res => {
+      if (res.length > 0) {
+        res.forEach((element: any) => {
+          element.organisations.forEach((element: any) => {
+            if (row.userId === element.userId) {
+              const roles = element.roles
+              if (roles.includes('MDO_ADMIN') || roles.includes('STATE_ADMIN')) {
+                this.createMDOService2.adminButton.next(true)
+              } else {
+                this.createMDOService2.adminButton.next(false)
+              }
+            }
+          })
+        })
+      }
+    })
+
 
   }
+  //Afzal code Search API change
   getAllActiveUsersAPI(searchString: string) {
-    this.userViewPopUpService.getAllUsersByDepartments(searchString).subscribe(res => {
+    this.userService.searchUserByenter(searchString, this.deparmentId).subscribe(res => {
       this.getAllUserByKey(res.result.response.content)
     })
 
@@ -107,6 +134,7 @@ export class UIUserTablePopUpComponent implements OnInit, AfterViewInit, OnChang
   getAllUserByKey(userObj: any) {
     if (userObj && userObj !== null && userObj !== undefined) {
       this.dataSource.data = []
+      this.createMDOService2.searchedUserdata.next(userObj)
       userObj.forEach((users: any) => {
         const obj: IUser = {
           userId: users.id,
