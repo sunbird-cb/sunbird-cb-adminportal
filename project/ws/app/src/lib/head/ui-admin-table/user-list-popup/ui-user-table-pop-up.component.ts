@@ -42,9 +42,9 @@ export class UIUserTablePopUpComponent implements OnInit, AfterViewInit, OnChang
   selection = new SelectionModel<any>(true, [])
 
   constructor(private profileUtilSvc: ProfileV2UtillService,
-    private userService: UsersService,
-    private activatedRoute: ActivatedRoute,
-    private createMDOService2: CreateMDOService) {
+              private userService: UsersService,
+              private activatedRoute: ActivatedRoute,
+              private createMDOService2: CreateMDOService) {
     this.dataSource = new MatTableDataSource<any>()
     this.actionsClick = new EventEmitter()
     this.clicked = new EventEmitter()
