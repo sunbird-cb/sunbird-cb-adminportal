@@ -1,5 +1,5 @@
 <div class="example-container">
-    <h1  style="margin-top: 30px; margin-left: 20px;">Add admin users</h1>
+    <h1 style="margin-top: 30px; margin-left: 20px;">Add admin users</h1>
     <div class="example-table-container">
 
         <div class="search">
@@ -12,7 +12,7 @@
 
         <!-- </mat-form-field> -->
         <mat-table #table matSort [ngStyle]="{'height': bodyHeight}" [matSortActive]="tableData!.sortColumn"
-            [matSortDirection]="tableData!.sortState" [dataSource]="dataSource"
+            [matSortDirection]="tableData!.sortState" [dataSource]="dataSource.data"
             class=" example-table table1 responsiveTable" *ngIf="this.dataSource.data.length>0">
             <ng-container matColumnDef="Actions" *ngIf="tableData!.actions && tableData!.actions.length > 0">
                 <mat-header-cell *matHeaderCellDef class="clr-darkish-blue action-header"> Mark as admin
@@ -53,7 +53,8 @@
             <mat-row *matRowDef="let row; columns: getFinalColumns();" (click)="selection.toggle(row); onRowClick(row)">
             </mat-row>
         </mat-table>
-        <div class="no-information-found" *ngIf="dataSource.filteredData.length===0 && isSearched">No user information found
+        <div class="no-information-found" *ngIf="dataSource.data.length===0 && isSearched">No user information
+            found
         </div>
     </div>
 
