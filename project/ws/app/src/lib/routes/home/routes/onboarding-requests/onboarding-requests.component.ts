@@ -107,6 +107,10 @@ export class OnboardingRequestsComponent implements OnInit {
             val.domain = obj.toValue.domain
           }
           this.data.push(val)
+
+          this.data.sort((a: any, b: any) => {
+            return new Date(b.createdOn).getTime() - new Date(a.createdOn).getTime()
+          })
         }
       })
     })
