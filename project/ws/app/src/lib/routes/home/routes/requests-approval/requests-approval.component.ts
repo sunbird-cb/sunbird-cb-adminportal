@@ -17,7 +17,8 @@ export class RequestsApprovalComponent implements OnInit {
   // breadcrumbs: any
   requestObj: any
   customCharsPattern = `^[a-zA-Z0-9 \\w\-\&\(\)]*$`
-  domainPattern = `^((?!-)[A-Za-z0-9-]{1, 63}(?<!-)\\.)+[A-Za-z]{2, 6}$`
+  // domainPattern = `^((?!-)[A-Za-z0-9-]{1,63}(?<!-)\\.)+[A-Za-z]{2,6}$`
+  domainPattern = `([a-zA-z0-9\-]+\.){1,2}[a-z]{2,4}`
 
   constructor(
     private snackBar: MatSnackBar,
