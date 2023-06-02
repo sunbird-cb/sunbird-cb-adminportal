@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
-import { Observable } from 'rxjs'
+import { BehaviorSubject, Observable } from 'rxjs'
 
 const API_END_POINTS = {
   GET_ALL_DEPARTMENTS: '/apis/protected/v8/portal/departmentType/',
@@ -20,6 +20,8 @@ const API_END_POINTS = {
   providedIn: 'root',
 })
 export class CreateMDOService {
+  searchedUserdata = new BehaviorSubject<any>({ filteredData: [] })
+  adminButton = new BehaviorSubject<any>(false)
   constructor(private http: HttpClient) { }
   getAllSubDepartments(deptName: string): Observable<any> {
     return this.http.get<any>(`${API_END_POINTS.GET_ALL_DEPARTMENTS}${deptName}`)

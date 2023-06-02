@@ -49,6 +49,7 @@ export class UIAdminUserTableComponent implements OnInit, AfterViewInit, OnChang
   @ViewChild(MatSort, { static: true }) sort?: MatSort
   selection = new SelectionModel<any>(true, [])
   departmentName: any
+  userRoleDetails: any
   currentUserId!: any
   userRoles: string[] = []
   isStateAdmin = false
@@ -154,24 +155,44 @@ export class UIAdminUserTableComponent implements OnInit, AfterViewInit, OnChang
       panelClass: 'remove-pad',
     })
     dialogRef.afterClosed().subscribe((response: any) => {
-      response.data.forEach((user: { userId: string }) => {
-        if (this.departmentName) {
-          if (this.otherInput && this.otherInput.depName) {
-            this.departmentName = this.otherInput.depName
-          }
-          this.createMDOService2.migrateDepartment(user.userId, this.departmentName).subscribe(res => {
-            if (res) {
-              this.snackBar.open('Admin assigned Successfully')
-              this.router.navigate(['/app/home/directory', { department: this.departmentRole }])
+      if (response !== undefined && response.data !== undefined && response.data.length > 0) {
+        response.data.forEach((user: { userId: string }) => {
+          if (this.departmentName) {
+            if (this.otherInput && this.otherInput.depName) {
+              this.departmentName = this.otherInput.depName
             }
-          },
-            // tslint:disable-next-line:align
-            (err: { error: any }) => {
-              this.openSnackbar(err.error.message)
+            this.createMDOService2.searchedUserdata.subscribe(data => {
+              this.userRoleDetails = []
+              if (data.length > 0) {
+                data.forEach((usr: any) => {
+                  if (user.userId === usr.userId) {
+                    usr.organisations.forEach((role: any) => {
+                      this.userRoleDetails = role.roles
+                    })
+                  }
+                })
+              }
             })
-        }
-      })
+            if (this.departmentRole === 'state') {
+              this.userRoleDetails.push('STATE_ADMIN')
+            } else {
+              this.userRoleDetails.push('MDO_ADMIN')
+            }
 
+            if (this.departmentId !== undefined) {
+              this.createMDOService2.assignAdminToDepartment(user.userId, this.departmentId, this.userRoleDetails).subscribe(res => {
+                if (res) {
+                  this.snackBar.open('Admin assigned Successfully')
+                  this.router.navigate(['/app/home/directory', { department: this.departmentRole }])
+                }
+              },
+                                                                                                                             (err: { error: any }) => {
+                  this.openSnackbar(err.error.message)
+                })
+            }
+          }
+        })
+      }
     })
 
   }
