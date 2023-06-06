@@ -27,8 +27,8 @@ const routes: Routes = [
       configService: ConfigResolveService,
     },
     data: {
-      pageId: 'app/directory/mdo',
-      module: 'Directory',
+      pageId: '',
+      module: '',
       pageType: 'feature',
       pageKey: 'directory',
     },
@@ -38,7 +38,7 @@ const routes: Routes = [
         component: UsersViewComponent,
         children: [],
         data: {
-          pageId: 'app/users',
+          pageId: 'home/users',
           module: 'user',
           pageType: 'feature',
           pageKey: 'Users',
@@ -52,8 +52,8 @@ const routes: Routes = [
         // component: UsersViewComponent,
         children: [],
         data: {
-          pageId: 'app/directory',
-          module: 'home',
+          pageId: '',
+          module: '',
           pageType: 'feature',
           pageKey: 'Directory',
         },
@@ -65,7 +65,7 @@ const routes: Routes = [
           rolesList: RolesResolver,
         },
         data: {
-          pageId: 'app/roles-access',
+          pageId: 'home/roles-access',
           module: 'roles-access',
           pageType: 'feature',
           pageKey: 'RolesAndAccess',
@@ -78,7 +78,7 @@ const routes: Routes = [
           rolesList: RolesResolver,
         },
         data: {
-          pageId: 'app/roles-users',
+          pageId: 'home/roles-users',
           module: 'roles-users',
           pageType: 'feature',
           pageKey: 'RolesAndAccess',
@@ -87,8 +87,8 @@ const routes: Routes = [
       {
         path: 'directory/:tab',
         data: {
-          pageId: 'app/directory',
-          module: 'home',
+          pageId: 'home/directory',
+          module: 'Home',
           pageType: 'feature',
           pageKey: 'Directory',
         },
@@ -100,7 +100,7 @@ const routes: Routes = [
         redirectTo: 'directory/mdo',
         component: DirectoryViewComponent,
         data: {
-          pageId: 'app/directory',
+          //pageId: 'app/directory',
           module: 'directory',
           pageType: 'feature',
           pageKey: 'Directory',
