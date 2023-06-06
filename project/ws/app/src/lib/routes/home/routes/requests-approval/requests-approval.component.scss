@@ -2,6 +2,13 @@
 @import 'ws-vars';
 @import 'ws-common';
 
+::ng-deep.mat-form-field {
+  width: 100% !important;
+}
+.no-shadow {
+  box-shadow : none !important;
+}
+
 ::ng-deep.mat-form-field-disabled .mat-form-field-underline {
   background-image: linear-gradient( to right, rgba(0, 0, 0, 1) 0, rgba(0, 0, 0, 0.42) 33%, #c2c7cc 0 ) !important;
   background-size: 1px 100% !important;
@@ -71,8 +78,8 @@
   }
 
   ::ng-deep .mat-form-field-infix {
-    padding: 0;
-    margin: 8px 0 0 0;
+    padding: 0.5em 0 1em 0;
+    margin: 0;
     border: none;
   }
   ::ng-deep .mat-form-field-flex {
@@ -88,7 +95,15 @@
 .requestform-box {
   max-width: 400px;
   border-radius: 4px;
-  margin: 20px 44px;
-  padding: 1.25rem 1.25rem;
-  box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
+  padding: 2em 2em;
+  margin: 0em 2em;
+}
+
+ .btn-success:disabled {
+    opacity: 0.6;
+}
+
+.mat-card {
+  padding: 0 !important;
+  box-shadow: none !important;
 }

@@ -1,0 +1,136 @@
+<div class="flex flex-4 flex-column mt-5 margin-bottom-xl">
+  <mat-card class="flex-custom">
+    <!-- <mat-card-header class="flex-custom-m" id="rolescs">
+      <div class="flex-1" role="link" tabindex="1">
+        <div class="flex flex-1">
+          <ws-widget-breadcrumbs-org [widgetData]="breadcrumbs">
+          </ws-widget-breadcrumbs-org>
+        </div>
+      </div>
+    </mat-card-header> -->
+    <mat-card-content>
+      <ng-container>
+        <div class="requestform-box ws-mat-accent-border">
+          <h2 class="cb-title ng-star-inserted margin-bottom-xl">Manage approval</h2>
+          <form [formGroup]="positionForm" (ngSubmit)="onSubmit()" class="flex-4">
+            <mat-card class="no-shadow">
+              <mat-card-content>
+                <div class="mobile-break mat-app-background flex-center">
+                  <div class="margin-top-s">
+                    <div class="margin-top-xs">
+                      <p class="margin-remove-bottom" i18n="new position">
+                        Full Name
+                      </p>
+                      <mat-form-field appearance="outline" class="margin-top-xs">
+                        <input matInput #fullname formControlName="fullname" type="text" readonly
+                          aria-readonly="true" />
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <div class="margin-top-s">
+                    <div class="margin-top-xs">
+                      <p class="margin-remove-bottom" i18n="new position">
+                        Email
+                      </p>
+                      <mat-form-field appearance="outline" class="margin-top-xs">
+                        <input matInput #email formControlName="email" type="text" readonly aria-readonly="true" />
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <div class="margin-top-s">
+                    <div class="margin-top-xs">
+                      <p class="margin-remove-bottom" i18n="new position">
+                        Mobile
+                      </p>
+                      <mat-form-field appearance="outline" class="margin-top-xs">
+                        <input matInput #mobile formControlName="mobile" i18n-placeholder type="text" disabled="true" />
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <!-- position -->
+                  <div class="margin-top-s" *ngIf="requestType === 'position'">
+                    <div class="margin-top-xs">
+                      <p class="margin-remove-bottom" i18n="new position">
+                        New Position Name
+                      </p>
+                      <mat-form-field appearance="outline" class="margin-top-xs">
+                        <input matInput #position formControlName="position" maxlength="500" i18n-placeholder
+                          placeholder="Type here" type="text" />
+                        <mat-error i18n="Position Error|Explains position is required">
+                          Position name is not valid
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <!-- organisation -->
+                  <div class="margin-top-s" *ngIf="requestType === 'organisation'">
+                    <div class="margin-top-xs">
+                      <p class="margin-remove-bottom" i18n="new organisation">
+                        New Organisation Name
+                      </p>
+                      <mat-form-field appearance="outline" class="margin-top-xs">
+                        <input matInput #organisation formControlName="organisation" maxlength="500" i18n-placeholder
+                          placeholder="Type here" type="text" />
+                        <mat-error i18n="Organisation Error|Explains organisation is required">
+                          Organisation name is not valid
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <!-- domain -->
+                  <div class="margin-top-s" *ngIf="requestType === 'domain'">
+                    <div class="margin-top-xs">
+                      <p class="margin-remove-bottom" i18n="new domain">
+                        New Domain Name
+                      </p>
+                      <mat-form-field appearance="outline" class="margin-top-xs">
+                        <input matInput #domain formControlName="domain" maxlength="500" i18n-placeholder
+                          placeholder="Type here" type="text" />
+                        <mat-error i18n="Domain Error|Explains domain is required">
+                          Domain name is not valid
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <div class="margin-top-s">
+                    <div class="margin-top-xs">
+                      <p class="margin-remove-bottom" i18n="new position">
+                        Description
+                      </p>
+                      <mat-form-field appearance="outline" class="margin-top-xs">
+                        <textarea matInput #desc formControlName="description" maxlength="500" i18n-placeholder
+                          placeholder="Type here" type="text" rows="3"></textarea>
+                        <mat-error i18n="Name Error|Explains name is required">
+                          Description is not valid
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                </div>
+              </mat-card-content>
+              <mat-card-actions>
+                <button class="text-white ws-mat-primary-background margin-right-m btn-success" mat-raised-button
+                  color="primary" type="submit" i18n [disabled]="!positionForm.valid">
+                  <ng-container>
+                    <span class="text-white" i18n>Approve</span>
+                  </ng-container>
+                </button>
+                <button class="margin-right-m" mat-raised-button color="primary" type="button" (click)="rejectRequest()"
+                  i18n>
+                  <ng-container>
+                    <span i18n class="ws-mat-default-text">Reject</span>
+                  </ng-container>
+                </button>
+                <!-- <button class="margin-right-m" mat-raised-button color="primary" type="button" (click)="navigateTo()" i18n>
+                  <ng-container>
+                    <span i18n class="ws-mat-default-text">Cancel</span>
+                  </ng-container>
+                </button> -->
+              </mat-card-actions>
+            </mat-card>
+          </form>
+        </div>
+      </ng-container>
+    </mat-card-content>
+  </mat-card>
+</div>

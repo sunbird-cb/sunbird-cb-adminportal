@@ -1,5 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core'
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog'
+import { CreateMDOService } from '../../../routes/home/services/create-mdo.services'
+import { MatSnackBar } from '@angular/material'
 // tslint:disable-next-line:import-spacing
 // import  *  as  contentQuality  from  './content-quality.json'
 export interface IDialogData {
@@ -21,20 +23,26 @@ export class UserPopupComponent implements OnInit {
   dataTable: any = []
   score: any
   currentSelection = false
+  adminButton = false
   constructor(
     public dialogRef: MatDialogRef<UserPopupComponent>,
 
-    @Inject(MAT_DIALOG_DATA) public data: IDialogData) { }
+    @Inject(MAT_DIALOG_DATA) public data: IDialogData, private createMDOService2: CreateMDOService, private snackBar: MatSnackBar) { }
 
   ngOnInit() {
-
+    this.createMDOService2.adminButton.subscribe((res: any) => {
+      this.adminButton = res
+    })
   }
 
   onNoClick(): void {
     this.dialogRef.close()
   }
   markAsComplete() {
-    if (!this.currentSelection) {
+    if (this.adminButton) {
+      this.snackBar.open('User already have Admin role')
+    }
+    if (!this.currentSelection && !this.adminButton) {
       this.dialogRef.close({ event: 'close', data: this.selectedUser })
       this.currentSelection = true
       this.dialogRef = this.selectedUser

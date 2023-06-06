@@ -117,7 +117,8 @@ export class RolesUsersComponent implements OnInit, AfterViewInit, OnDestroy {
           userRole.push(role.roleName)
         })
         return {
-          fullName: `${user.firstName} ${user.lastName}`,
+          fullName: `${user.firstName}`,
+          // fullName: `${user.firstName} ${user.lastName}`,
           email: this.profileUtilSvc.emailTransform(user.emailId),
           position: userRole,
           role: user.roleInfo.roleName,
@@ -135,7 +136,8 @@ export class RolesUsersComponent implements OnInit, AfterViewInit, OnDestroy {
           userRole.push(role.roleName)
         })
         return {
-          fullName: `${user.firstName} ${user.lastName}`,
+          fullName: `${user.firstName}`,
+          // fullName: `${user.firstName} ${user.lastName}`,
           email: this.profileUtilSvc.emailTransform(user.emailId),
           position: userRole,
           role: user.roleInfo.roleName,
@@ -169,7 +171,8 @@ export class RolesUsersComponent implements OnInit, AfterViewInit, OnDestroy {
       const email = _.get(user, 'profileDetails.personalDetails.primaryEmail')
       if (!(user.isDeleted)) {
         usersData.push({
-          fullName: user ? `${user.firstName} ${user.lastName}` : null,
+          fullName: user ? `${user.firstName}` : null,
+          // fullName: user ? `${user.firstName} ${user.lastName}` : null,
           email: this.profileUtilSvc.emailTransform(email) || this.profileUtilSvc.emailTransform(user.email),
           position: this.getRoleList(user).toString().replace(',', ', '),
           userId: user.userId,
@@ -210,7 +213,8 @@ export class RolesUsersComponent implements OnInit, AfterViewInit, OnDestroy {
         // tslint:disable-next-line
         user => {
           return {
-            fullName: `${user.firstName} ${user.lastName}`,
+            fullName: `${user.firstName}`,
+            // fullName: `${user.firstName} ${user.lastName}`,
             email: this.profileUtilSvc.emailTransform(_.get(user, 'profileDetails.personalDetails.primaryEmail'))
               || this.profileUtilSvc.emailTransform(user.email),
             position: this.getRoleList(user).toString().replace(',', ', '),

@@ -2,7 +2,7 @@ export interface IUserForm {
   org: string
   firstName: string
   middleName?: string
-  lastName: string
+  // lastName: string
   email: string
   username?: string
   enabled?: boolean

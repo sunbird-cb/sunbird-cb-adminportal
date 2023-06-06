@@ -469,7 +469,7 @@ export class InitService {
             givenName: userPidProfile.firstName,
             userId: userPidProfile.userId,
             firstName: userPidProfile.firstName,
-            lastName: userPidProfile.lastName,
+            // lastName: userPidProfile.lastName,
             rootOrgId: userPidProfile.rootOrg.rootOrgId,
             rootOrgName: userPidProfile.rootOrg.orgName,
             // tslint:disable-next-line: max-line-length
@@ -484,7 +484,7 @@ export class InitService {
             userId: _.get(profileV2, 'userId') || userPidProfile.userId,
             email: _.get(profileV2, 'personalDetails.officialEmail') || userPidProfile.email,
             firstName: _.get(profileV2, 'personalDetails.firstname') || userPidProfile.firstName,
-            surName: _.get(profileV2, 'personalDetails.surname') || userPidProfile.lastName,
+            // surName: _.get(profileV2, 'personalDetails.surname') || userPidProfile.lastName,
             middleName: _.get(profileV2, 'personalDetails.middlename') || '',
             departmentName: _.get(profileV2, 'employmentDetails.departmentName') || userPidProfile.channel,
             givenName: _.get(userPidProfile, 'userName'),

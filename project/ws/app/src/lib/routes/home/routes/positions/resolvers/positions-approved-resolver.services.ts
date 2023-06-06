@@ -7,7 +7,7 @@ import { IPosition } from '../models/positions.model'
 import { PositionsService } from '../services/position.service'
 
 @Injectable()
-export class PositionsResolve
+export class PositionsApprovedResolve
   implements
   Resolve<Observable<IResolveResponse<IPosition[]>> | IResolveResponse<IPosition[]>> {
   constructor(private positionsSvc: PositionsService) { }
@@ -17,7 +17,7 @@ export class PositionsResolve
   ): Observable<IResolveResponse<IPosition[]>> {
     const reqbody = {
       serviceName: 'position',
-      applicationStatus: 'IN_PROGRESS',
+      applicationStatus: 'APPROVED',
       limit: 1000,
       offset: 0,
       deptName: 'iGOT',
