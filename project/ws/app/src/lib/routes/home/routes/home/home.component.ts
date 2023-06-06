@@ -1,6 +1,6 @@
 
 import { Component, OnInit, OnDestroy, AfterViewInit, ElementRef, HostListener, ViewChild } from '@angular/core'
-import { Router, Event, NavigationEnd, NavigationError, ActivatedRoute } from '@angular/router'
+import { Router, Event, NavigationEnd, NavigationError, ActivatedRoute, ActivatedRouteSnapshot } from '@angular/router'
 import { EventService, TelemetryService, UtilityService, ValueService } from '@sunbird-cb/utils'
 import { map } from 'rxjs/operators'
 /* tslint:disable */
@@ -40,6 +40,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   department: any = {}
   departmentName = ''
   private defaultSideNavBarOpenedSubscription: any
+  currentRouteData: any = []
   @HostListener('window:scroll', ['$event'])
   handleScroll() {
     const windowScroll = window.pageYOffset
@@ -64,16 +65,20 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
       if (event instanceof NavigationEnd) {
         // Hide loading indicator
         // console.log(event.url)
+        const snapshot = this.activeRoute.snapshot
+        const firstChild = snapshot.root.firstChild
+        this.getChildRouteData(snapshot, firstChild)
+        this.utilitySvc.setRouteData(this.currentRouteData)
         const pageContext = this.utilitySvc.routeData
         const data = {
           pageContext,
         }
-        // console.log('data: ', data)
         if (data.pageContext.pageId && data.pageContext.module) {
           this.telemetrySvc.impression(data)
         } else {
           this.telemetrySvc.impression()
         }
+        this.currentRouteData = []
         // this.widgetData = this.activeRoute.snapshot.data &&
         //   this.activeRoute.snapshot.data.pageData.data.menus || []
         if (this.activeRoute.snapshot.data.pageData) {
@@ -108,7 +113,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
       this.screenSizeIsLtMedium = isLtMedium
     })
     // Application start telemetry
-    this.telemetrySvc.start('app', 'view', { module: 'SPV', pageId: 'Home' })
+    this.telemetrySvc.start('app', '', { module: 'SPV', pageId: 'Home' })
   }
   ngAfterViewInit() {
     // this.elementPosition = this.menuElement.nativeElement.offsetTop
@@ -142,6 +147,18 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
       },
       {},
     )
+  }
+
+  getChildRouteData(snapshot: ActivatedRouteSnapshot, firstChild: ActivatedRouteSnapshot | null) {
+    if (firstChild) {
+      if (firstChild.data) {
+        // console.log('firstChild.data', firstChild.data)
+        this.currentRouteData.push(firstChild.data)
+      }
+      if (firstChild.firstChild) {
+        this.getChildRouteData(snapshot, firstChild.firstChild)
+      }
+    }
   }
 
 }
