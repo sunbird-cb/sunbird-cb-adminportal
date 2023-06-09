@@ -14,6 +14,7 @@ import { ILeftMenu } from '@sunbird-cb/collection'
 import { debounceTime, distinctUntilChanged, map, startWith } from 'rxjs/operators'
 import * as _ from 'lodash'
 import { Observable } from 'rxjs'
+// import { AcsendingOrderPipe } from '../../pipes/acsending-order.pipe'
 interface IUser { userId: string, fullName: string; email: string; role: string }
 
 export function forbiddenNamesValidator(optionsArray: any): ValidatorFn {
@@ -117,7 +118,8 @@ export class CreateMdoComponent implements OnInit {
     private directoryService: DirectoryService,
     private valueSvc: ValueService,
     private activatedRoute: ActivatedRoute,
-    private events: EventService
+    private events: EventService,
+    // private ascOrder: AcsendingOrderPipe
   ) {
     {
       this.loggedInUserId = _.get(this.activatedRoute, 'snapshot.parent.data.configService.userProfile.userId')
@@ -221,6 +223,7 @@ export class CreateMdoComponent implements OnInit {
     this.fetchDropDownValues()
     this.onStateChange()
     this.onMinisteriesChange()
+    console.log(this.onMinisteriesChange(), "this.onMinisteriesChange()===")
     this.onDepartmentChange()
     this.onOrgsChange()
   }
@@ -304,13 +307,15 @@ export class CreateMdoComponent implements OnInit {
         this.createMdoService.getStatesOrMinisteries('ministry').subscribe(res => {
           if (res && res.result && res.result && res.result.response && res.result.response.content) {
             this.ministeries = res.result.response.content
+            console.log(this.ministeries, "sort data")
+            console.log(res.result.response.content.sort((a: any, b: any) => { a['orgName'] - b['orgName'] }), "res.result.response.content.sort() sort")
             this.onMinisteriesChange()
           }
         })
       } else {
         this.createMdoService.getStatesOrMinisteries('state').subscribe(res => {
           if (res && res.result && res.result && res.result.response && res.result.response.content) {
-            this.ministeries = res.result.response.content
+            this.ministeries = res.result.response.content.sort()
             const state = this.ministeries.find(x => x.sbOrgId === _.get(this.activatedRoute, 'snapshot.parent.data.configService.unMappedUser.rootOrgId'))
             this.onMinisteriesChange()
             this.ministrySelected(state)
