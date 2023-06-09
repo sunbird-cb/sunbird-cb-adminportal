@@ -105,7 +105,7 @@ const routes: Routes = [
         redirectTo: 'directory/mdo',
         component: DirectoryViewComponent,
         data: {
-          //pageId: 'app/directory',
+          // pageId: 'app/directory',
           module: 'directory',
           pageType: 'feature',
           pageKey: 'Directory',
