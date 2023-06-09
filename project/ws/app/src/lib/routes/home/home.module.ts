@@ -44,7 +44,7 @@ import { RolesUsersComponent } from './routes/roles-users/roles-users.component'
 import { ReportsComponent } from './routes/reports/reports.component'
 import { PositionsModule } from './routes/positions/positions.module'
 import { OnboardingRequestsComponent } from './routes/onboarding-requests/onboarding-requests.component'
-import { RequestsApprovalComponent } from './routes/requests-approval/requests-approval.component';
+import { RequestsApprovalComponent } from './routes/requests-approval/requests-approval.component'
 import { AcsendingOrderPipe } from './pipes/acsending-order.pipe'
 @NgModule({
   declarations: [

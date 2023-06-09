@@ -223,7 +223,6 @@ export class CreateMdoComponent implements OnInit {
     this.fetchDropDownValues()
     this.onStateChange()
     this.onMinisteriesChange()
-    console.log(this.onMinisteriesChange(), "this.onMinisteriesChange()===")
     this.onDepartmentChange()
     this.onOrgsChange()
   }
@@ -307,8 +306,6 @@ export class CreateMdoComponent implements OnInit {
         this.createMdoService.getStatesOrMinisteries('ministry').subscribe(res => {
           if (res && res.result && res.result && res.result.response && res.result.response.content) {
             this.ministeries = res.result.response.content
-            console.log(this.ministeries, "sort data")
-            console.log(res.result.response.content.sort((a: any, b: any) => { a['orgName'] - b['orgName'] }), "res.result.response.content.sort() sort")
             this.onMinisteriesChange()
           }
         })

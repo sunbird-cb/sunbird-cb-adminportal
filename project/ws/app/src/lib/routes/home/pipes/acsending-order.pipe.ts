@@ -2,7 +2,7 @@ import { Pipe, PipeTransform } from '@angular/core'
 import { orderBy, sortBy } from 'lodash'
 
 @Pipe({
-  name: 'acsendingOrder'
+  name: 'acsendingOrder',
 })
 export class AcsendingOrderPipe implements PipeTransform {
 
@@ -11,11 +11,10 @@ export class AcsendingOrderPipe implements PipeTransform {
     if (!column || column === '') {
       // const sorted = this.sortOnCaseSensitivity(value, caseInsensitive)
       if (order === 'asc') { return value.sort() }
-      else { return value.sort().reverse() }
+       return value.sort().reverse()
     } // sort 1d array
     if (value.length <= 1) { return value } // array with only one item
     return orderBy(value, [column], [order])
   }
-
 
 }
