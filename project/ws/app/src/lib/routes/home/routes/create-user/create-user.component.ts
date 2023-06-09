@@ -89,7 +89,7 @@ export class CreateUserComponent implements OnInit {
     if (this.createdDepartment) {
       this.createUserForm = new FormGroup({
         fname: new FormControl('', [Validators.required]),
-        lname: new FormControl('', [Validators.required]),
+        // lname: new FormControl('', [Validators.required]),
         email: new FormControl('', [Validators.required,
         Validators.pattern(/^[a-z0-9_-]+(?:\.[a-z0-9_-]+)*@((?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?){2,}\.){1,3}(?:\w){2,}$/)]),
         role: new FormControl('', [Validators.required, Validators.required]),
@@ -98,7 +98,7 @@ export class CreateUserComponent implements OnInit {
     } else {
       this.createUserForm = new FormGroup({
         fname: new FormControl('', [Validators.required]),
-        lname: new FormControl('', [Validators.required]),
+        // lname: new FormControl('', [Validators.required]),
         email: new FormControl('', [Validators.required,
         Validators.pattern(/^[a-z0-9_-]+(?:\.[a-z0-9_-]+)*@((?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?){2,}\.){1,3}(?:\w){2,}$/)]),
         role: new FormControl('', [Validators.required, Validators.required]),
