@@ -12,7 +12,7 @@
             <label for="fname" class="margin-remove-bottom form-label required"
               i18n="First Name label|Label which explains the user to enter first name" i18n-aria-label
               aria-label="First name label">
-              First name
+              Full name
             </label>
             <mat-form-field appearance="outline" class="margin-top-xs">
               <input id="fname" matInput #fname formControlName="fname" pattern="[a-zA-Z ']*" i18n-placeholder
@@ -29,7 +29,7 @@
               </mat-error>
             </mat-form-field>
 
-            <label for="lname" class="margin-remove-bottom margin-top-xs form-label required"
+            <!-- <label for="lname" class="margin-remove-bottom margin-top-xs form-label required"
               i18n="Last name label|Label which explains the user to enter last name" i18n-aria-label
               aria-label="Last name label">
               Last name
@@ -47,7 +47,7 @@
                 aria-label="Last name Error|Name fields cannot contain numbers and special characters except ">
                 Last name fields cannot contain numbers and special characters except '
               </mat-error>
-            </mat-form-field>
+            </mat-form-field> -->
 
             <label for="email" class="margin-remove-bottom margin-top-xs form-label required"
               i18n="Email label|Label which explains the user to enter email" i18n-aria-label aria-label="Email label">
@@ -57,14 +57,19 @@
               <input id="email" matInput #email formControlName="email" i18n-placeholder placeholder="Type here"
                 i18n-aria-label aria-label="Email input" class="form-input" autocomplete="off" maxlength="320"
                 (input)="emailVerification($event.target.value)" />
-              <mat-error [hidden]="false" i18n="Email Error|Explains name is required" i18n-aria-label
-                aria-label="Email Error|Explains name is required "
+              <mat-error [hidden]="false" i18n="Email Error|Explains email is required" i18n-aria-label
+                aria-label="Email Error|Explains email is required "
                 *ngIf="createUserForm?.controls['email']?.touched && createUserForm?.controls['email'].errors?.required">
                 Email is mandatory
               </mat-error>
               <mat-error [hidden]="false" *ngIf="createUserForm?.controls['email'].errors?.invalid" i18n-aria-label
-                aria-label="Email Error|Name fields not valid ">
+                aria-label="Email Error|Email fields not valid ">
                 Email field is not valid
+              </mat-error>
+              <mat-error [hidden]="false"
+                *ngIf="createUserForm?.controls['email']?.touched && createUserForm?.controls['email']?.errors?.pattern"
+                i18n-aria-label aria-label="Email Error|Email fields not valid ">
+                Email pattern is not valid
               </mat-error>
               <div *ngIf="emailLengthVal" class="email-error" i18n="Email Error|Explains character validation">
                 Max 64 characters before "@" & 255 characters after "@" are valid.

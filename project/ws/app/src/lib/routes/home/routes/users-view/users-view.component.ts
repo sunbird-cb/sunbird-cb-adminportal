@@ -225,7 +225,8 @@ export class UsersViewComponent implements OnInit {
       const email = this.profileUtilSvc.emailTransform(_.get(user, 'profileDetails.personalDetails.primaryEmail')) || ''
       if (active === user.isDeleted) {
         usersData.push({
-          fullname: user ? `${user.firstName} ${user.lastName}` : null,
+          fullname: user ? `${user.firstName}` : null,
+          // fullname: user ? `${user.firstName} ${user.lastName}` : null,
           email: email || 'NA',
           roles: roles.toString().replace(',', ', '),
           userId: user.userId,

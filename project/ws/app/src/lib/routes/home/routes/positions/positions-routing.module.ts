@@ -5,6 +5,7 @@ import { PositionsApprovalListComponent } from './components/positions-approval-
 import { PositionsHomeComponent } from './components/positions-home/positions-home.component'
 import { PositionsListComponent } from './components/positions-list/positions-list.component'
 import { PositionsNewComponent } from './components/positions-new/positions-new.component'
+import { PositionsApprovedResolve } from './resolvers/positions-approved-resolver.services'
 import { PositionsResolve } from './resolvers/positions-resolver.service'
 
 const routes: Routes = [
@@ -24,12 +25,15 @@ const routes: Routes = [
       path: 'active-positions',
       component: PositionsListComponent,
       resolve: {
-        positions: PositionsResolve,
+        positions: PositionsApprovedResolve,
       },
     },
     {
       path: 'positions-for-approval',
       component: PositionsApprovalListComponent,
+      resolve: {
+        positions: PositionsResolve,
+      },
     },
     {
       path: 'new-position',
@@ -43,12 +47,11 @@ const routes: Routes = [
     },
     ],
   },
-
 ]
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
-  providers: [PositionsResolve],
+  providers: [PositionsResolve, PositionsApprovedResolve],
 })
 
 export class PositionsRoutingModule { }

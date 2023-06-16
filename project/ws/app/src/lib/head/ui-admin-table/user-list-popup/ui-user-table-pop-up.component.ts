@@ -136,7 +136,8 @@ export class UIUserTablePopUpComponent implements OnInit, AfterViewInit, OnChang
       userObj.forEach((users: any) => {
         const obj: IUser = {
           userId: users.id,
-          fullname: `${users.firstName} ${users.lastName}`,
+          fullname: `${users.firstName}`,
+          // fullname: `${users.firstName} ${users.lastName}`,
           email: this.profileUtilSvc.emailTransform(users.profileDetails.personalDetails.primaryEmail),
         }
         this.dataSource.data.push(obj)
