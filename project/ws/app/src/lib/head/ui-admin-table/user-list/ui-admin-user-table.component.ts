@@ -264,16 +264,18 @@ export class UIAdminUserTableComponent implements OnInit, AfterViewInit, OnChang
     const downloadUrl = `${environment.karmYogiPath}/${'content-store/user-report/'}${this.departmentId}/${fileName}-userReport.zip`
     // window.location.href = downloadUrl
     const xhr = new XMLHttpRequest()
-    xhr.open('GET', downloadUrl)
-    xhr.send()
-    xhr.onload = function () {
-      if (xhr.status !== 200) {
-        // console.log(xhr.status)
-        popup.open('File not generated yet!')
-      } else {
+    xhr.onreadystatechange = () => {
+      if (xhr.readyState !== 4) {
+        return
+      }
+      if (xhr.status === 200) {
         window.location.href = downloadUrl
+      } else {
+        popup.open('File not generated yet!')
       }
     }
+    xhr.open('GET', downloadUrl)
+    xhr.send()
   }
 
   downloadConsumptionReport(value: string) {
@@ -282,15 +284,17 @@ export class UIAdminUserTableComponent implements OnInit, AfterViewInit, OnChang
     const downloadUrl = `${environment.karmYogiPath}/${environment.userBucket}${this.departmentId}/${fileName}-userEnrolmentReport.zip`
     // window.location.href = downloadUrl
     const xhr = new XMLHttpRequest()
-    xhr.open('GET', downloadUrl)
-    xhr.send()
-    xhr.onload = function () {
-      if (xhr.status !== 200) {
-        // console.log(xhr.status)
-        popup.open('File not generated yet!')
-      } else {
+    xhr.onreadystatechange = () => {
+      if (xhr.readyState !== 4) {
+        return
+      }
+      if (xhr.status === 200) {
         window.location.href = downloadUrl
+      } else {
+        popup.open('File not generated yet!')
       }
     }
+    xhr.open('GET', downloadUrl)
+    xhr.send()
   }
 }
