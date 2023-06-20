@@ -186,7 +186,7 @@ export class UIAdminUserTableComponent implements OnInit, AfterViewInit, OnChang
                   this.router.navigate(['/app/home/directory', { department: this.departmentRole }])
                 }
               },
-                                                                                                                             (err: { error: any }) => {
+                (err: { error: any }) => {
                   this.openSnackbar(err.error.message)
                 })
             }
@@ -259,26 +259,38 @@ export class UIAdminUserTableComponent implements OnInit, AfterViewInit, OnChang
   }
 
   downloadUsersReport(value: string) {
+    const popup = this.snackBar
     const fileName = value.replace(/\s+/g, '-')
     const downloadUrl = `${environment.karmYogiPath}/${'content-store/user-report/'}${this.departmentId}/${fileName}-userReport.zip`
-    window.location.href = downloadUrl
+    // window.location.href = downloadUrl
+    const xhr = new XMLHttpRequest()
+    xhr.open('GET', downloadUrl)
+    xhr.send()
+    xhr.onload = function () {
+      if (xhr.status !== 200) {
+        // console.log(xhr.status)
+        popup.open('File not generated yet!')
+      } else {
+        window.location.href = downloadUrl
+      }
+    }
   }
 
   downloadConsumptionReport(value: string) {
-    // const popup = this.snackBar
+    const popup = this.snackBar
     const fileName = value.replace(/\s+/g, '-')
     const downloadUrl = `${environment.karmYogiPath}/${environment.userBucket}${this.departmentId}/${fileName}-userEnrolmentReport.zip`
-    window.location.href = downloadUrl
-    // let xhr = new XMLHttpRequest()
-    // xhr.open('GET', downloadUrl)
-    // xhr.send()
-    // xhr.onload = function () {
-    //   if (xhr.status != 200) {
-    //     console.log(xhr.status)
-    //     popup.open('File not generated yet!')
-    //   } else {
-    //     window.location.href = downloadUrl
-    //   }
-    // }
+    // window.location.href = downloadUrl
+    const xhr = new XMLHttpRequest()
+    xhr.open('GET', downloadUrl)
+    xhr.send()
+    xhr.onload = function () {
+      if (xhr.status !== 200) {
+        // console.log(xhr.status)
+        popup.open('File not generated yet!')
+      } else {
+        window.location.href = downloadUrl
+      }
+    }
   }
 }
