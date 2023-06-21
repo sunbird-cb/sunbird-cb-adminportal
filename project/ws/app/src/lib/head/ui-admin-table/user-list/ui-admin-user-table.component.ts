@@ -271,7 +271,7 @@ export class UIAdminUserTableComponent implements OnInit, AfterViewInit, OnChang
       if (xhr.status === 200) {
         window.location.href = downloadUrl
       } else {
-        popup.open('File not generated yet!')
+        popup.open('Report is not available')
       }
     }
     xhr.open('GET', downloadUrl)
@@ -291,7 +291,7 @@ export class UIAdminUserTableComponent implements OnInit, AfterViewInit, OnChang
       if (xhr.status === 200) {
         window.location.href = downloadUrl
       } else {
-        popup.open('File not generated yet!')
+        popup.open('Report is not available')
       }
     }
     xhr.open('GET', downloadUrl)
