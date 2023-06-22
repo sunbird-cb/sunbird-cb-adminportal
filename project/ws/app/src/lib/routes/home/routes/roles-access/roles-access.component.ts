@@ -83,12 +83,35 @@ export class RolesAccessComponent implements OnInit {
 
   fetchIndidualRoleData(rootOrgId: string, rolename: string) {
     this.usersService.getAllRoleUsers(rootOrgId, rolename).subscribe(data => {
+      // const individualCount = data.count
+      // let userCount = 0
+      // for (let i = 0; i < this.data.length; i += 1) {
+      //  if (this.data[i].role === rolename) {
+      //     this.data[i].count = individualCount.count
+      //   }
+      // }
+      let users: any[] = []
       this.individualRoleCount = true
-      const individualCount = data.count
-      for (let i = 0; i < this.data.length; i += 1) {
-        if (this.data[i].role === rolename) {
-          this.data[i].count = individualCount.count
-        }
+      if (data.count.content && data.count.content.length > 0) {
+        users = _.map(_.compact(_.map(data.count.content, i => {
+          let consider = false
+          if (!i.isDeleted && i.organisations && i.organisations.length > 0) {
+            _.each(i.organisations, o => {
+              if (!o.isDeleted && (o.roles || []).indexOf(rolename) >= 0) {
+                consider = true
+              }
+            })
+          }
+          return consider ? i : null
+        }))
+        ),
+          _.forEach(this.data, (value, i) => {
+            // tslint:disable-next-line:no-console
+            console.log('v', value)
+            if (this.data[i].role === rolename) {
+              this.data[i].count = users.length
+            }
+          })
       }
     })
   }
