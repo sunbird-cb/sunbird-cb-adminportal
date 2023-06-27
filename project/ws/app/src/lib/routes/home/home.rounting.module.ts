@@ -139,7 +139,7 @@ const routes: Routes = [
         component: CreateUserComponent,
         children: [],
         data: {
-          pageId: 'app/create-user',
+          pageId: 'home/create-user',
           module: 'Users',
           pageType: 'feature',
           pageKey: 'createUser',
@@ -151,7 +151,7 @@ const routes: Routes = [
       {
         path: 'requests/:type',
         data: {
-          pageId: 'app/requests',
+          pageId: 'home/requests',
           module: 'Requests',
           pageType: 'feature',
           pageKey: 'Requests',
@@ -169,7 +169,7 @@ const routes: Routes = [
         redirectTo: 'requests/:type',
         component: OnboardingRequestsComponent,
         data: {
-          pageId: 'app/requests',
+          pageId: 'home/requests',
           module: 'Requests',
           pageType: 'feature',
           pageKey: 'Requests',
@@ -179,7 +179,7 @@ const routes: Routes = [
         path: 'requests-approval',
         component: RequestsApprovalComponent,
         data: {
-          pageId: 'app/requests',
+          pageId: 'home/requests',
           module: 'Requests',
           pageType: 'feature',
           pageKey: 'Requests',
@@ -199,7 +199,7 @@ const routes: Routes = [
         path: 'reports',
         component: ReportsComponent,
         data: {
-          pageId: 'app/reports',
+          pageId: 'home/reports',
           module: 'Reports',
           pageType: 'feature',
           pageKey: 'Reports',
@@ -208,7 +208,7 @@ const routes: Routes = [
       {
         path: 'reports/:tab',
         data: {
-          pageId: 'app/reports',
+          pageId: 'home/reports',
           module: 'Reports',
           pageType: 'feature',
           pageKey: 'Reports',
