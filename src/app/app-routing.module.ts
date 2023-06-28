@@ -61,7 +61,7 @@ const routes: Routes = [
       pageType: 'feature',
       pageKey: 'roles-access',
       pageId: 'app',
-      module: 'Roles-Access',
+      module: 'Reports',
     },
     resolve: {
       pageData: PageResolve,
