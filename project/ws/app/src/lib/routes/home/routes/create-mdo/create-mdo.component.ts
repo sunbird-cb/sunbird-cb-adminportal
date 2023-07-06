@@ -130,7 +130,7 @@ export class CreateMdoComponent implements OnInit {
       }
       const noSpecialChar = new RegExp(/^[\u0900-\u097Fa-zA-Z()-]*$/)
       this.contentForm = new FormGroup({
-        name: new FormControl(),
+        name: new FormControl('', [Validators.required, Validators.pattern(noSpecialChar)]),
         head: new FormControl(),
         deptSubTypeId: new FormControl(),
         deptMdoSubTypeId: new FormControl(),

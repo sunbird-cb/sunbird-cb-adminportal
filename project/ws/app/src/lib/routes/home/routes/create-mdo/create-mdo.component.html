@@ -23,10 +23,10 @@
                         [ngClass]="{ 'mat-form-field-invalid': showError('name') }">
                         <input matInput #name formControlName="name" maxlength="500" i18n-placeholder
                           placeholder="Type here" type="text" (keyup)="specialCharachters($event)"
-                          [required]="checkCondition('name', 'required') ? true : null"
-                          pattern="[a-zA-Z',-.&()\[\]\s]*" />
-                        <mat-error *ngIf="showError('name')" i18n="Name Error|Explains name is required">
-                          Department name not valid
+                          [required]="checkCondition('name', 'required') ? true : null" />
+                        <mat-error *ngIf="contentForm.controls['name'].errors?.pattern"
+                          i18n="name Error|Explains name is required">
+                          Only {{specialCharList}} characters are supported
                         </mat-error>
                       </mat-form-field>
                     </div>
