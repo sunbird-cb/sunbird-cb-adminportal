@@ -106,6 +106,7 @@ export class CreateMdoComponent implements OnInit {
   deptSubType!: string
   mdoDepartmentID!: number
   loggedInUserId!: string
+  specialCharList = `( a-z/A-Z - ( ) )`
   workFlow = [{ isActive: true, isCompleted: false, name: 'Basic Details', step: 0 },
   { isActive: false, isCompleted: false, name: 'Classification', step: 1 },
   { isActive: false, isCompleded: false, name: 'Intended for', step: 2 }]
@@ -127,7 +128,7 @@ export class CreateMdoComponent implements OnInit {
       if (this.userRoles.indexOf('STATE_ADMIN') >= 0) {
         this.isStateAdmin = true
       }
-
+      const noSpecialChar = new RegExp(/^[\u0900-\u097Fa-zA-Z()-]*$/)
       this.contentForm = new FormGroup({
         name: new FormControl(),
         head: new FormControl(),
@@ -135,12 +136,13 @@ export class CreateMdoComponent implements OnInit {
         deptMdoSubTypeId: new FormControl(),
       })
       this.stateForm = new FormGroup({
-        state: new FormControl('', [Validators.required]),
+        state: new FormControl('', [Validators.required, Validators.pattern(noSpecialChar)]),
       })
       this.departmentForm = new FormGroup({
-        ministry: new FormControl('', [Validators.required]),
-        department: new FormControl('', [forbiddenNamesValidator(this.masterDepartments)]),
-        organisation: new FormControl('', [forbiddenNamesValidator(this.masterOrgs)]),
+
+        ministry: new FormControl('', [Validators.required, Validators.pattern(noSpecialChar)]),
+        department: new FormControl('', [forbiddenNamesValidator(this.masterDepartments), Validators.pattern(noSpecialChar)]),
+        organisation: new FormControl('', [forbiddenNamesValidator(this.masterOrgs), Validators.pattern(noSpecialChar)]),
       })
       this.activatedRoute.params.subscribe(params => {
         let data = params['data']
@@ -843,7 +845,7 @@ export class CreateMdoComponent implements OnInit {
       {
         type: 'click',
         subType: 'button',
-        id: 'button-click'
+        id: 'button-click',
       },
       {
       },

@@ -113,6 +113,10 @@
                       aria-label="State is mandatory">
                       State is mandatory
                     </mat-error>
+                    <mat-error *ngIf="stateForm?.controls['state'].errors?.pattern"
+                      i18n="name Error|Explains name is required">
+                      Only {{specialCharList}} characters are supported
+                    </mat-error>
                     <!-- <mat-error *ngIf="stateForm?.controls['state'].errors?.forbiddenNames" i18n-aria-label
                                           aria-label="You must enter value from suggested list only.">
                                           You must enter value from suggested list only.
@@ -171,6 +175,10 @@
                         aria-label="Ministry is mandatory">
                         Ministry is mandatory
                       </mat-error>
+                      <mat-error *ngIf="departmentForm?.controls['ministry'].errors?.pattern"
+                        i18n="name Error|Explains name is required">
+                        Only {{specialCharList}} characters are supported
+                      </mat-error>
 
                       <!-- <mat-error *ngIf="departmentForm?.controls['ministry'].errors?.forbiddenNames" i18n-aria-label
                         aria-label="You must enter value from suggested list only.">
@@ -202,6 +210,10 @@
                         *ngIf="departmentForm?.controls['department'].errors?.required" i18n-aria-label
                         aria-label="Department is mandatory">
                         Department is mandatory
+                      </mat-error>
+                      <mat-error *ngIf="departmentForm?.controls['department'].errors?.pattern"
+                        i18n="name Error|Explains name is required">
+                        Only {{specialCharList}} characters are supported
                       </mat-error>
                       <mat-error *ngIf="departmentForm?.controls['department'].errors?.forbiddenNames" i18n-aria-label
                         aria-label="You must enter value from suggested list only.">
@@ -241,6 +253,10 @@
                       <mat-error *ngIf="departmentForm?.controls['organisation'].errors?.forbiddenNames" i18n-aria-label
                         aria-label="You must enter value from suggested list only.">
                         You must enter value from suggested list only.
+                      </mat-error>
+                      <mat-error *ngIf="departmentForm?.controls['organisation'].errors?.pattern"
+                        i18n="name Error|Explains name is required">
+                        Only {{specialCharList}} characters are supported
                       </mat-error>
                     </mat-form-field>
                     <mat-autocomplete #organisationAutocomplete="matAutocomplete" autoActiveFirstOption="true"
