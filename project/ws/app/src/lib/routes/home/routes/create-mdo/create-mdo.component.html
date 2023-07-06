@@ -21,7 +21,7 @@
                       </p>
                       <mat-form-field appearance="outline" class="margin-top-xs"
                         [ngClass]="{ 'mat-form-field-invalid': showError('name') }">
-                        <input matInput #name formControlName="name" maxlength="500" i18n-placeholder
+                        <input matInput #name formControlName="name" maxlength="250" i18n-placeholder
                           placeholder="Type here" type="text" (keyup)="specialCharachters($event)"
                           [required]="checkCondition('name', 'required') ? true : null" />
                         <mat-error *ngIf="contentForm.controls['name'].errors?.pattern"
