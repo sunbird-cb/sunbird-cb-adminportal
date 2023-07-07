@@ -149,6 +149,16 @@ const routes: Routes = [
         },
       },
       {
+        path: 'requests/:type/new',
+        component: RequestsApprovalComponent,
+        data: {
+          pageId: 'app/requests-new',
+          module: 'requests',
+          pageType: 'feature',
+          pageKey: 'Requests',
+        },
+      },
+      {
         path: 'requests/:type',
         data: {
           pageId: 'app/requests',

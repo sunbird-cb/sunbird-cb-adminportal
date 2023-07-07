@@ -11,8 +11,9 @@
     <mat-card-content>
       <ng-container>
         <div class="requestform-box ws-mat-accent-border">
-          <h2 class="cb-title ng-star-inserted margin-bottom-xl">Manage approval</h2>
-          <form [formGroup]="positionForm" (ngSubmit)="onSubmit()" class="flex-4">
+          <h2 class="cb-title ng-star-inserted margin-bottom-xl">{{ newPosition ? 'Add new position' : 'Manage approval'
+            }}</h2>
+          <form [formGroup]="positionForm" (ngSubmit)="newPosition ? addNewPosistion() : onSubmit()" class="flex-4">
             <mat-card class="no-shadow">
               <mat-card-content>
                 <div class="mobile-break mat-app-background flex-center">
@@ -108,7 +109,7 @@
                   </div>
                 </div>
               </mat-card-content>
-              <mat-card-actions>
+              <mat-card-actions *ngIf="!newPosition">
                 <button class="text-white ws-mat-primary-background margin-right-m btn-success" mat-raised-button
                   color="primary" type="submit" i18n [disabled]="!positionForm.valid">
                   <ng-container>
@@ -126,6 +127,20 @@
                     <span i18n class="ws-mat-default-text">Cancel</span>
                   </ng-container>
                 </button> -->
+              </mat-card-actions>
+              <mat-card-actions *ngIf="newPosition">
+                <button class="text-white ws-mat-primary-background margin-right-m btn-success" mat-raised-button
+                  color="primary" type="submit" i18n [disabled]="!positionForm.valid">
+                  <ng-container>
+                    <span class="text-white" i18n>Add position</span>
+                  </ng-container>
+                </button>
+                <button class="margin-right-m" mat-raised-button color="primary" type="button" (click)="cancelRequest()"
+                  i18n>
+                  <ng-container>
+                    <span i18n class="ws-mat-default-text">Cancel</span>
+                  </ng-container>
+                </button>
               </mat-card-actions>
             </mat-card>
           </form>
