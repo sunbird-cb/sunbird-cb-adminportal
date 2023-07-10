@@ -267,25 +267,25 @@ export class CreateMdoComponent implements OnInit {
 
   specialCharachters(event: any, deptName: any) {
     const regexMatch = event.target.value.match(this.noSpecialChar)
-    if (deptName == 'cbpProvider') {
+    if (deptName === 'cbpProvider') {
       if (!regexMatch) {
-        this.contentForm.controls['name'].setErrors({ 'invalid': true })
+        this.contentForm.controls['name'].setErrors({ invalid: true })
       }
-    } else if (deptName == 'state') {
+    } else if (deptName === 'state') {
       if (!regexMatch) {
-        this.stateForm.controls['state'].setErrors({ 'invalid': true })
+        this.stateForm.controls['state'].setErrors({ invalid: true })
       }
-    } else if (deptName == 'ministry') {
+    } else if (deptName === 'ministry') {
       if (!regexMatch) {
-        this.departmentForm.controls['ministry'].setErrors({ 'invalid': true })
+        this.departmentForm.controls['ministry'].setErrors({ invalid: true })
       }
-    } else if (deptName == 'organization') {
+    } else if (deptName === 'organization') {
       if (!regexMatch) {
-        this.departmentForm.controls['organisation'].setErrors({ 'invalid': true })
+        this.departmentForm.controls['organisation'].setErrors({ invalid: true })
       }
-    } else if (deptName == 'department') {
+    } else if (deptName === 'department') {
       if (!regexMatch) {
-        this.departmentForm.controls['department'].setErrors({ 'invalid': true })
+        this.departmentForm.controls['department'].setErrors({ invalid: true })
       }
     }
 
@@ -359,8 +359,8 @@ export class CreateMdoComponent implements OnInit {
   }
 
   ministrySelected(value: any) {
-    // tslint:disable-next-line: no-non-null-assertion
     const ministryRegex = value.channel.match(this.noSpecialChar)
+    // tslint:disable-next-line: no-non-null-assertion
     this.departmentForm.get('department')!.setValue('')
     // tslint:disable-next-line: no-non-null-assertion
     this.departmentForm.get('organisation')!.setValue('')
@@ -374,13 +374,13 @@ export class CreateMdoComponent implements OnInit {
       })
     }
     if (!ministryRegex) {
-      this.departmentForm.controls['ministry'].setErrors({ 'invalid': true })
+      this.departmentForm.controls['ministry'].setErrors({ invalid: true })
     }
   }
 
   departmentSelected(value: any) {
-    // tslint:disable-next-line: no-non-null-assertion
     const ministryRegex = value.channel.match(this.noSpecialChar)
+    // tslint:disable-next-line: no-non-null-assertion
     this.departmentForm.get('organisation')!.setValue('')
     this.disableCreateButton = true
     if (value && value.mapId) {
@@ -392,7 +392,7 @@ export class CreateMdoComponent implements OnInit {
       })
     }
     if (value.channel.match(!ministryRegex)) {
-      this.departmentForm.controls['department'].setErrors({ 'invalid': true })
+      this.departmentForm.controls['department'].setErrors({ invalid: true })
     }
   }
   getAllResponse(response: any) {
@@ -574,7 +574,7 @@ export class CreateMdoComponent implements OnInit {
     if (orgname.match(this.noSpecialChar)) {
       this.validationCreateButton = false
     } else {
-      this.stateForm.controls['state'].setErrors({ 'invalid': true })
+      this.stateForm.controls['state'].setErrors({ invalid: true })
       this.validationCreateButton = true
     }
     if (orgname) {
@@ -603,7 +603,7 @@ export class CreateMdoComponent implements OnInit {
       this.validationCreateButton = false
     } else {
       this.validationCreateButton = true
-      this.departmentForm.controls['organisation'].setErrors({ 'invalid': true })
+      this.departmentForm.controls['organisation'].setErrors({ invalid: true })
     }
     this.disableCreateButton = false
     if (orgname) {
