@@ -91,6 +91,7 @@ export class CreateMdoComponent implements OnInit {
   depts = ['Domain', 'Exact']
 
   disableCreateButton = false
+  validationCreateButton = false
   disableStateCreateButton = false
   displayLoader = false
 
@@ -107,6 +108,7 @@ export class CreateMdoComponent implements OnInit {
   mdoDepartmentID!: number
   loggedInUserId!: string
   specialCharList = `( a-z/A-Z - ( ) )`
+  noSpecialChar = new RegExp(/^[\u0900-\u097Fa-zA-Z() -]*$/)
   workFlow = [{ isActive: true, isCompleted: false, name: 'Basic Details', step: 0 },
   { isActive: false, isCompleted: false, name: 'Classification', step: 1 },
   { isActive: false, isCompleded: false, name: 'Intended for', step: 2 }]
@@ -128,21 +130,19 @@ export class CreateMdoComponent implements OnInit {
       if (this.userRoles.indexOf('STATE_ADMIN') >= 0) {
         this.isStateAdmin = true
       }
-      const noSpecialChar = new RegExp(/^[\u0900-\u097Fa-zA-Z()-]*$/)
       this.contentForm = new FormGroup({
-        name: new FormControl('', [Validators.required, Validators.pattern(noSpecialChar)]),
+        name: new FormControl(),
         head: new FormControl(),
         deptSubTypeId: new FormControl(),
         deptMdoSubTypeId: new FormControl(),
       })
       this.stateForm = new FormGroup({
-        state: new FormControl('', [Validators.required, Validators.pattern(noSpecialChar)]),
+        state: new FormControl('', [Validators.required]),
       })
       this.departmentForm = new FormGroup({
-
-        ministry: new FormControl('', [Validators.required, Validators.pattern(noSpecialChar)]),
-        department: new FormControl('', [forbiddenNamesValidator(this.masterDepartments), Validators.pattern(noSpecialChar)]),
-        organisation: new FormControl('', [forbiddenNamesValidator(this.masterOrgs), Validators.pattern(noSpecialChar)]),
+        ministry: new FormControl('', [Validators.required]),
+        department: new FormControl('', [forbiddenNamesValidator(this.masterDepartments)]),
+        organisation: new FormControl('', [forbiddenNamesValidator(this.masterOrgs)]),
       })
       this.activatedRoute.params.subscribe(params => {
         let data = params['data']
@@ -265,7 +265,30 @@ export class CreateMdoComponent implements OnInit {
     })
   }
 
-  specialCharachters(event: any) {
+  specialCharachters(event: any, deptName: any) {
+    const regexMatch = event.target.value.match(this.noSpecialChar)
+    if (deptName == 'cbpProvider') {
+      if (!regexMatch) {
+        this.contentForm.controls['name'].setErrors({ 'invalid': true })
+      }
+    } else if (deptName == 'state') {
+      if (!regexMatch) {
+        this.stateForm.controls['state'].setErrors({ 'invalid': true })
+      }
+    } else if (deptName == 'ministry') {
+      if (!regexMatch) {
+        this.departmentForm.controls['ministry'].setErrors({ 'invalid': true })
+      }
+    } else if (deptName == 'organization') {
+      if (!regexMatch) {
+        this.departmentForm.controls['organisation'].setErrors({ 'invalid': true })
+      }
+    } else if (deptName == 'department') {
+      if (!regexMatch) {
+        this.departmentForm.controls['department'].setErrors({ 'invalid': true })
+      }
+    }
+
     if (event.which === 32) {
       event.preventDefault()
       this.disableCreateButton = true
@@ -337,6 +360,7 @@ export class CreateMdoComponent implements OnInit {
 
   ministrySelected(value: any) {
     // tslint:disable-next-line: no-non-null-assertion
+    const ministryRegex = value.channel.match(this.noSpecialChar)
     this.departmentForm.get('department')!.setValue('')
     // tslint:disable-next-line: no-non-null-assertion
     this.departmentForm.get('organisation')!.setValue('')
@@ -349,10 +373,14 @@ export class CreateMdoComponent implements OnInit {
         }
       })
     }
+    if (!ministryRegex) {
+      this.departmentForm.controls['ministry'].setErrors({ 'invalid': true })
+    }
   }
 
   departmentSelected(value: any) {
     // tslint:disable-next-line: no-non-null-assertion
+    const ministryRegex = value.channel.match(this.noSpecialChar)
     this.departmentForm.get('organisation')!.setValue('')
     this.disableCreateButton = true
     if (value && value.mapId) {
@@ -362,6 +390,9 @@ export class CreateMdoComponent implements OnInit {
           this.onOrgsChange()
         }
       })
+    }
+    if (value.channel.match(!ministryRegex)) {
+      this.departmentForm.controls['department'].setErrors({ 'invalid': true })
     }
   }
   getAllResponse(response: any) {
@@ -540,6 +571,12 @@ export class CreateMdoComponent implements OnInit {
   }
 
   private filterStates(orgname: string): any {
+    if (orgname.match(this.noSpecialChar)) {
+      this.validationCreateButton = false
+    } else {
+      this.stateForm.controls['state'].setErrors({ 'invalid': true })
+      this.validationCreateButton = true
+    }
     if (orgname) {
       const filterValue = orgname.toLowerCase()
       return this.states.filter((option: any) => option.orgName.toLowerCase().includes(filterValue))
@@ -562,6 +599,12 @@ export class CreateMdoComponent implements OnInit {
     return this.departments
   }
   filterOrgs(orgname: string) {
+    if (orgname.match(this.noSpecialChar)) {
+      this.validationCreateButton = false
+    } else {
+      this.validationCreateButton = true
+      this.departmentForm.controls['organisation'].setErrors({ 'invalid': true })
+    }
     this.disableCreateButton = false
     if (orgname) {
       const filterValue = orgname.toLowerCase()
