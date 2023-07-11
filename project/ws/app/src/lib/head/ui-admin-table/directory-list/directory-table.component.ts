@@ -149,6 +149,7 @@ export class UIDirectoryTableComponent implements OnInit, AfterViewInit, OnChang
       type: 'click',
       subType: sub,
       // tslint:disable-next-line:align
+      id: `${sub}-click`,
     }, {
       id: e.id,
       type: 'department',

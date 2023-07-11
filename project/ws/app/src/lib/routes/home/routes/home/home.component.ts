@@ -113,7 +113,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
       this.screenSizeIsLtMedium = isLtMedium
     })
     // Application start telemetry
-    this.telemetrySvc.start('app', '', { module: 'SPV', pageId: 'Home' })
+    this.telemetrySvc.start('app', '', { module: 'Home', pageId: 'Home' })
   }
   ngAfterViewInit() {
     // this.elementPosition = this.menuElement.nativeElement.offsetTop

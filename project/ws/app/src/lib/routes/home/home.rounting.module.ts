@@ -44,7 +44,7 @@ const routes: Routes = [
         children: [],
         data: {
           pageId: 'home/users',
-          module: 'user',
+          module: 'Users',
           pageType: 'feature',
           pageKey: 'Users',
         },
@@ -71,7 +71,7 @@ const routes: Routes = [
         },
         data: {
           pageId: 'home/roles-access',
-          module: 'roles-access',
+          module: 'Roles',
           pageType: 'feature',
           pageKey: 'RolesAndAccess',
         },
@@ -84,7 +84,7 @@ const routes: Routes = [
         },
         data: {
           pageId: 'home/roles-users',
-          module: 'roles-users',
+          module: 'Roles',
           pageType: 'feature',
           pageKey: 'RolesAndAccess',
         },
@@ -93,7 +93,7 @@ const routes: Routes = [
         path: 'directory/:tab',
         data: {
           pageId: 'home/directory',
-          module: 'Home',
+          module: 'Directory',
           pageType: 'feature',
           pageKey: 'Directory',
         },
@@ -106,7 +106,7 @@ const routes: Routes = [
         component: DirectoryViewComponent,
         data: {
           // pageId: 'app/directory',
-          module: 'directory',
+          module: 'Directory',
           pageType: 'feature',
           pageKey: 'Directory',
         },
@@ -129,7 +129,7 @@ const routes: Routes = [
         component: CreateMdoComponent,
         data: {
           pageId: 'app/create-department',
-          module: 'create-department',
+          module: 'Directory',
           pageType: 'feature',
           pageKey: 'createDepartment',
         },
@@ -139,8 +139,8 @@ const routes: Routes = [
         component: CreateUserComponent,
         children: [],
         data: {
-          pageId: 'app/create-user',
-          module: 'create-user',
+          pageId: 'home/create-user',
+          module: 'Users',
           pageType: 'feature',
           pageKey: 'createUser',
         },
@@ -151,8 +151,8 @@ const routes: Routes = [
       {
         path: 'requests/:type',
         data: {
-          pageId: 'app/requests',
-          module: 'home',
+          pageId: 'home/requests',
+          module: 'Requests',
           pageType: 'feature',
           pageKey: 'Requests',
         },
@@ -169,8 +169,8 @@ const routes: Routes = [
         redirectTo: 'requests/:type',
         component: OnboardingRequestsComponent,
         data: {
-          pageId: 'app/requests',
-          module: 'requests',
+          pageId: 'home/requests',
+          module: 'Requests',
           pageType: 'feature',
           pageKey: 'Requests',
         },
@@ -179,8 +179,8 @@ const routes: Routes = [
         path: 'requests-approval',
         component: RequestsApprovalComponent,
         data: {
-          pageId: 'app/requests',
-          module: 'requests',
+          pageId: 'home/requests',
+          module: 'Requests',
           pageType: 'feature',
           pageKey: 'Requests',
         },
@@ -199,8 +199,8 @@ const routes: Routes = [
         path: 'reports',
         component: ReportsComponent,
         data: {
-          pageId: 'app/reports',
-          module: 'reports',
+          pageId: 'home/reports',
+          module: 'Reports',
           pageType: 'feature',
           pageKey: 'Reports',
         },
@@ -208,8 +208,8 @@ const routes: Routes = [
       {
         path: 'reports/:tab',
         data: {
-          pageId: 'app/reports',
-          module: 'reports',
+          pageId: 'home/reports',
+          module: 'Reports',
           pageType: 'feature',
           pageKey: 'Reports',
         },
