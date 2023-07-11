@@ -24,11 +24,7 @@ export class OnboardingRequestsComponent implements OnInit {
 
   ngOnInit() {
     const userRoles = _.get(this.activatedRoute, 'snapshot.parent.data.configService.userRoles')
-    userRoles.forEach((value: any) => {
-      if (value === 'spv_admin') {
-        this.isSpvAdmin = true
-      }
-    })
+    this.findSpvAdmin(userRoles)
     this.activatedRoute.params.subscribe((routeParams: any) => {
       this.data = []
       this.currentFilter = 'pending'
@@ -81,11 +77,11 @@ export class OnboardingRequestsComponent implements OnInit {
         needUserMenus: false,
         actionColumnName: 'Edit',
       }
-
       this.tabledataPositions = {
         columns: [
-          { key: 'createdDate', displayName: 'Created On' },
-          { key: this.requestType, displayName: this.displayType },
+          { key: 'id', displayName: 'Id' },
+          { key: 'name', displayName: 'Name' },
+          { key: 'description', displayName: 'Descriiption' }
         ],
         actions: [],
         needHash: false,
@@ -174,11 +170,14 @@ export class OnboardingRequestsComponent implements OnInit {
       case 'positions':
         this.data = []
         this.currentFilter = 'positions'
-        if (this.activatedRoute.snapshot.data && this.activatedRoute.snapshot.data.aprovedrequestsList.data) {
-          const resData = this.activatedRoute.snapshot.data.aprovedrequestsList.data
-          this.formatData(resData)
+        if (this.activatedRoute.snapshot.data && this.activatedRoute.snapshot.data.positionsList.data) {
+          const resData = this.activatedRoute.snapshot.data.positionsList.data
+          resData.forEach((req: any) => {
+            this.data.push(req)
+          })
+          this.data.sort((a: any, b: any) => a.name - b.name)
         } else {
-          this.getApprovedList()
+          this.data = []
         }
         break
       default:
@@ -266,5 +265,13 @@ export class OnboardingRequestsComponent implements OnInit {
 
   actionsClick($event: { action: string, row: any }) {
     this.route.navigate(['requests-approval'], { relativeTo: this.activatedRoute.parent, state: $event })
+  }
+
+  findSpvAdmin(roles: any) {
+    roles.forEach((value: any) => {
+      if (value === 'spv_admin') {
+        this.isSpvAdmin = true
+      }
+    })
   }
 }

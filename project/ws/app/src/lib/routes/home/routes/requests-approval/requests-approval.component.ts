@@ -261,7 +261,7 @@ export class RequestsApprovalComponent implements OnInit {
           request: {
             contextType: this.requestType,
             contextName: this.positionForm.value.position,
-            contextData: this.positionForm.value.position,
+            contextData: this.positionForm.value.description,
           },
         }
         this.requestService.addNewPosition(this.requestObj).subscribe(() => {
