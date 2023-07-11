@@ -108,7 +108,7 @@ export class CreateMdoComponent implements OnInit {
   mdoDepartmentID!: number
   loggedInUserId!: string
   specialCharList = `( a-z/A-Z - ( ) )`
-  noSpecialChar = new RegExp(/^[\u0900-\u097Fa-zA-Z() -]*$/)
+  noSpecialChar = new RegExp(/^[a-zA-Z() -]*$/)
   workFlow = [{ isActive: true, isCompleted: false, name: 'Basic Details', step: 0 },
   { isActive: false, isCompleted: false, name: 'Classification', step: 1 },
   { isActive: false, isCompleded: false, name: 'Intended for', step: 2 }]
@@ -391,7 +391,7 @@ export class CreateMdoComponent implements OnInit {
         }
       })
     }
-    if (value.channel.match(!ministryRegex)) {
+    if (!ministryRegex) {
       this.departmentForm.controls['department'].setErrors({ invalid: true })
     }
   }
