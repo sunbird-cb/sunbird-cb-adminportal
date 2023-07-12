@@ -44,6 +44,22 @@ export class RequestsApprovalComponent implements OnInit {
       }
     }
 
+    // const currentState = this.route.getCurrentNavigation()
+    // if (currentState && currentState.extras.state) {
+    //   this.requestType = currentState.extras.state.row.serviceName
+    //   this.posData = currentState.extras.state.row
+    //   this.positionForm = new FormGroup({
+    //     fullname: new FormControl({ value: this.posData.firstName, disabled: true }, []),
+    //     email: new FormControl({ value: this.posData.email, disabled: true }, []),
+    //     mobile: new FormControl({ value: this.posData.mobile, disabled: true }, []),
+    //     position: new FormControl(this.requestType === 'position' ? this.posData.position : '', this.requestType === 'position' ? [Validators.required, Validators.maxLength(500), Validators.pattern(this.customCharsPattern)] : []),
+    //     organisation: new FormControl(this.requestType === 'organisation' ? this.posData.organisation : '', this.requestType === 'organisation' ? [Validators.required, Validators.pattern(this.customCharsPattern)] : []),
+    //     domain: new FormControl(this.requestType === 'domain' ? this.posData.domain : '', this.requestType === 'domain' ? [Validators.required, Validators.pattern(this.domainPattern)] : []),
+    //     description: new FormControl(this.posData.description, []),
+    //     wfId: new FormControl(this.posData.wfId),
+    //   })
+    // }
+
     this.positionForm = new FormGroup({
       fullname: new FormControl({ value: this.posData.firstName, disabled: true }, []),
       email: new FormControl({ value: this.posData.email, disabled: true }, []),
