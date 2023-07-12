@@ -1179,10 +1179,10 @@
   resolved "https://registry.yarnpkg.com/@sindresorhus/is/-/is-0.14.0.tgz#9fb3a3cf3132328151f353de4632e01e52102bea"
   integrity sha512-9NET910DNaIPngYnLLPeg+Ogzqsi9uM4mSboU5y6p8S5DzMTVEsJZrawi+BoDNUVBa2DhJqQYUFvMDfgU062LQ==
 
-"@sunbird-cb/collection@^1.0.23":
-  version "1.0.23"
-  resolved "https://registry.yarnpkg.com/@sunbird-cb/collection/-/collection-1.0.23.tgz#1d35d12a1dcf2ad0daead88ed8e51bdf64491169"
-  integrity sha512-sGx/p00N/wSIFWamGDI5CPHXkkCxv5HrfCi49GXAQ+xsnWP4riMhRrKhqt+lnLgxUrY7nk0Xy1YWzIR0kA97dw==
+"@sunbird-cb/collection@^1.0.24":
+  version "1.0.24"
+  resolved "https://registry.yarnpkg.com/@sunbird-cb/collection/-/collection-1.0.24.tgz#944e893d20627503a44d20f0ab158547e378cf68"
+  integrity sha512-DlFZFwDB4ASZWA8aPn445gEaWulTOXfxBriTQ/6BVT5KW9hA0v48s3kBnjkApRjhnOixJtADXHkY56go+jiV2w==
   dependencies:
     tslib "^1.9.0"
 
@@ -1200,10 +1200,10 @@
   dependencies:
     tslib "^1.9.0"
 
-"@sunbird-cb/utils@^1.0.12":
-  version "1.0.12"
-  resolved "https://registry.yarnpkg.com/@sunbird-cb/utils/-/utils-1.0.12.tgz#a5c76678769bfd4858bce457a64946e7ebb55fd9"
-  integrity sha512-QkcVHXthZGDtaJWWQgYHXp8vaY/V/oCrR4xXNrKK0qeZJ5NlrwjqRiDoyVNziG37sNX0V/G0ejmqqTUSBG0Oew==
+"@sunbird-cb/utils@^1.0.13":
+  version "1.0.13"
+  resolved "https://registry.yarnpkg.com/@sunbird-cb/utils/-/utils-1.0.13.tgz#250b52bd9bf1328b377659e32780720bd778a4ae"
+  integrity sha512-w73n90Y/Ikf8A2NDM/LP+fgViN9QecYyF5APWtN3n4p1kiFiWtbHa/djwOIdarWmYeKX+pZZ3VdyEVJG6lnIKA==
   dependencies:
     tslib "^1.9.0"
 
