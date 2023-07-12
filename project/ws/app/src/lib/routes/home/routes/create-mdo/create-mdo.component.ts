@@ -379,7 +379,7 @@ export class CreateMdoComponent implements OnInit {
   }
 
   departmentSelected(value: any) {
-    const ministryRegex = value.channel.match(this.noSpecialChar)
+    const ministryRegex = value.orgName.match(this.noSpecialChar)
     // tslint:disable-next-line: no-non-null-assertion
     this.departmentForm.get('organisation')!.setValue('')
     this.disableCreateButton = true
@@ -465,6 +465,12 @@ export class CreateMdoComponent implements OnInit {
 
             // this.router.navigate([`/app/home/directory`])
           }
+        }, (error: any) => {
+          this.openSnackbar(`Something went wrong, please try again later`)
+          this.disableStateCreateButton = false
+          this.displayLoader = false
+          // tslint:disable-next-line: no-console
+          console.log('Error :', error)
         })
       }
     } else {
