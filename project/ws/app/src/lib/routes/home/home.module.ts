@@ -46,6 +46,7 @@ import { PositionsModule } from './routes/positions/positions.module'
 import { OnboardingRequestsComponent } from './routes/onboarding-requests/onboarding-requests.component'
 import { RequestsApprovalComponent } from './routes/requests-approval/requests-approval.component'
 import { AcsendingOrderPipe } from './pipes/acsending-order.pipe'
+import { RejectReasonDialogComponent } from './routes/reject-reason-dialog/reject-reason-dialog.component'
 @NgModule({
   declarations: [
     HomeComponent,
@@ -65,6 +66,7 @@ import { AcsendingOrderPipe } from './pipes/acsending-order.pipe'
     RolesUsersComponent,
     ReportsComponent,
     AcsendingOrderPipe,
+    RejectReasonDialogComponent,
   ],
   imports: [
     CommonModule,
@@ -107,7 +109,7 @@ import { AcsendingOrderPipe } from './pipes/acsending-order.pipe'
     UIORGTableModule,
     NgMultiSelectDropDownModule.forRoot(),
   ],
-  entryComponents: [UserPopupComponent, OpenRolesDialogComponent, EditDepartmentDialogComponent],
+  entryComponents: [UserPopupComponent, OpenRolesDialogComponent, EditDepartmentDialogComponent, RejectReasonDialogComponent],
   providers: [
     // CKEditorService,
     // LoaderService,

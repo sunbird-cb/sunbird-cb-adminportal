@@ -4,6 +4,7 @@ import { MatSnackBar, MatDialog } from '@angular/material'
 import { Router } from '@angular/router'
 import { DialogConfirmComponent } from '../../../../../../../../../src/app/component/dialog-confirm/dialog-confirm.component'
 import { RequestsService } from '../../services/onboarding-requests.service'
+import { RejectReasonDialogComponent } from '../reject-reason-dialog/reject-reason-dialog.component'
 
 @Component({
   selector: 'ws-app-requests-approval',
@@ -151,11 +152,8 @@ export class RequestsApprovalComponent implements OnInit {
   }
 
   rejectRequest() {
-    const dialogRef = this.dialogue.open(DialogConfirmComponent, {
-      data: {
-        title: 'Are you sure?',
-        bodyHTML: `Please click <strong>Yes</strong> to reject this request.`,
-      },
+    const dialogRef = this.dialogue.open(RejectReasonDialogComponent, {
+      width: '450px',
     })
 
     dialogRef.afterClosed().subscribe((response: any) => {
@@ -182,6 +180,7 @@ export class RequestsApprovalComponent implements OnInit {
             firstName: this.posData.firstName,
             email: this.posData.email,
             mobile: this.posData.mobile,
+            reason: response.reason,
           }
           this.requestObj.updateFieldValues.push(formobj)
           this.requestService.approveNewPosition(this.requestObj).subscribe(() => {
@@ -198,6 +197,7 @@ export class RequestsApprovalComponent implements OnInit {
             firstName: this.posData.firstName,
             email: this.posData.email,
             mobile: this.posData.mobile,
+            reason: response.reason,
           }
           this.requestObj.updateFieldValues.push(formobj)
           this.requestService.approveNewOrg(this.requestObj).subscribe(() => {
@@ -214,6 +214,7 @@ export class RequestsApprovalComponent implements OnInit {
             firstName: this.posData.firstName,
             email: this.posData.email,
             mobile: this.posData.mobile,
+            reason: response.reason,
           }
           this.requestObj.updateFieldValues.push(formobj)
           this.requestService.approveNewDomain(this.requestObj).subscribe(() => {
@@ -223,8 +224,6 @@ export class RequestsApprovalComponent implements OnInit {
         }
       } else {
         this.navigateTo()
-        // this.openSnackbar('Cancelled', 5000)
-        // this.positionForm.reset()
       }
     })
   }
