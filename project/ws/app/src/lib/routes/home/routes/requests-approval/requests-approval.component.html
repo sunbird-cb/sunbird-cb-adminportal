@@ -17,7 +17,7 @@
             <mat-card class="no-shadow">
               <mat-card-content>
                 <div class="mobile-break mat-app-background flex-center">
-                  <div class="margin-top-s">
+                  <div class="margin-top-s" *ngIf="!newPosition">
                     <div class="margin-top-xs">
                       <p class="margin-remove-bottom" i18n="new position">
                         Full Name
@@ -28,7 +28,7 @@
                       </mat-form-field>
                     </div>
                   </div>
-                  <div class="margin-top-s">
+                  <div class="margin-top-s" *ngIf="!newPosition">
                     <div class="margin-top-xs">
                       <p class="margin-remove-bottom" i18n="new position">
                         Email
@@ -38,7 +38,7 @@
                       </mat-form-field>
                     </div>
                   </div>
-                  <div class="margin-top-s">
+                  <div class="margin-top-s" *ngIf="!newPosition">
                     <div class="margin-top-xs">
                       <p class="margin-remove-bottom" i18n="new position">
                         Mobile

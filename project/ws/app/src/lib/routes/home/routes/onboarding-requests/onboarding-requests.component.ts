@@ -79,7 +79,6 @@ export class OnboardingRequestsComponent implements OnInit {
       }
       this.tabledataPositions = {
         columns: [
-          { key: 'id', displayName: 'Id' },
           { key: 'name', displayName: 'Name' },
           { key: 'description', displayName: 'Descriiption' }
         ],
