@@ -107,8 +107,8 @@ export class CreateMdoComponent implements OnInit {
   deptSubType!: string
   mdoDepartmentID!: number
   loggedInUserId!: string
-  specialCharList = `( a-z/A-Z - ( ) )`
-  noSpecialChar = new RegExp(/^[a-zA-Z() -]*$/)
+  specialCharList = `( a-z A-Z - , ( ) )`
+  noSpecialChar = new RegExp(/^[a-zA-Z(), -]*$/)
   workFlow = [{ isActive: true, isCompleted: false, name: 'Basic Details', step: 0 },
   { isActive: false, isCompleted: false, name: 'Classification', step: 1 },
   { isActive: false, isCompleded: false, name: 'Intended for', step: 2 }]
