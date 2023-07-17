@@ -24,6 +24,7 @@ export class UIAdminUserTableComponent implements OnInit, AfterViewInit, OnChang
   @Input() tableData!: ITableData | undefined
   @Input() data?: []
   @Input() needCreateUser?: boolean = undefined
+  @Input() needCreatePosition?: boolean = undefined
   @Input() needAddAdmin?: boolean
   @Input() isUpload?: boolean
   @Input() isCreate?: boolean
@@ -241,6 +242,13 @@ export class UIAdminUserTableComponent implements OnInit, AfterViewInit, OnChang
           redirectionPath: window.location.href,
         },
       })
+  }
+
+  gotoCreatePosition() {
+    this.raiseTelemetry('button')
+    this.router.navigate([`/app/home/requests/positions/new`],
+                         {}
+    )
   }
 
   raiseTelemetry(sub: string) {

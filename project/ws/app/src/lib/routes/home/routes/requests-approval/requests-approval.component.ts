@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core'
 import { FormControl, FormGroup, Validators } from '@angular/forms'
 import { MatSnackBar, MatDialog } from '@angular/material'
-import { Router } from '@angular/router'
+import { ActivatedRoute, Router } from '@angular/router'
 import { DialogConfirmComponent } from '../../../../../../../../../src/app/component/dialog-confirm/dialog-confirm.component'
 import { RequestsService } from '../../services/onboarding-requests.service'
 import { RejectReasonDialogComponent } from '../reject-reason-dialog/reject-reason-dialog.component'
+import * as _ from 'lodash'
 
 @Component({
   selector: 'ws-app-requests-approval',
@@ -13,34 +14,64 @@ import { RejectReasonDialogComponent } from '../reject-reason-dialog/reject-reas
 })
 export class RequestsApprovalComponent implements OnInit {
   positionForm!: FormGroup
-  posData: any
+  posData: any = {}
   requestType: any
   // breadcrumbs: any
   requestObj: any
   customCharsPattern = `^[a-zA-Z0-9 \\w\-\&\(\)]*$`
   // domainPattern = `^((?!-)[A-Za-z0-9-]{1,63}(?<!-)\\.)+[A-Za-z]{2,6}$`
   domainPattern = `([a-zA-z0-9\-]+\.){1,2}[a-z]{2,4}`
+  newPosition = false
 
   constructor(
     private snackBar: MatSnackBar,
     private route: Router,
+    private activatedRoute: ActivatedRoute,
     private requestService: RequestsService,
     private dialogue: MatDialog) {
-    const currentState = this.route.getCurrentNavigation()
-    if (currentState && currentState.extras.state) {
-      this.requestType = currentState.extras.state.row.serviceName
-      this.posData = currentState.extras.state.row
-      this.positionForm = new FormGroup({
-        fullname: new FormControl({ value: this.posData.firstName, disabled: true }, []),
-        email: new FormControl({ value: this.posData.email, disabled: true }, []),
-        mobile: new FormControl({ value: this.posData.mobile, disabled: true }, []),
-        position: new FormControl(this.requestType === 'position' ? this.posData.position : '', this.requestType === 'position' ? [Validators.required, Validators.maxLength(500), Validators.pattern(this.customCharsPattern)] : []),
-        organisation: new FormControl(this.requestType === 'organisation' ? this.posData.organisation : '', this.requestType === 'organisation' ? [Validators.required, Validators.pattern(this.customCharsPattern)] : []),
-        domain: new FormControl(this.requestType === 'domain' ? this.posData.domain : '', this.requestType === 'domain' ? [Validators.required, Validators.pattern(this.domainPattern)] : []),
-        description: new FormControl(this.posData.description, []),
-        wfId: new FormControl(this.posData.wfId),
-      })
+
+    if (this.route.url.includes('new')) {
+      this.newPosition = true
+      this.requestType = 'position'
+      const configData = _.get(this.activatedRoute, 'snapshot.parent.data.configService')
+      this.posData.firstName = configData.unMappedUser.firstName
+      this.posData.email = configData.unMappedUser.email
+      this.posData.mobile = configData.unMappedUser.phone
+    } else {
+      const currentState = this.route.getCurrentNavigation()
+      if (currentState && currentState.extras.state) {
+        this.requestType = currentState.extras.state.row.serviceName
+        this.posData = currentState.extras.state.row
+      }
     }
+
+    // const currentState = this.route.getCurrentNavigation()
+    // if (currentState && currentState.extras.state) {
+    //   this.requestType = currentState.extras.state.row.serviceName
+    //   this.posData = currentState.extras.state.row
+    //   this.positionForm = new FormGroup({
+    //     fullname: new FormControl({ value: this.posData.firstName, disabled: true }, []),
+    //     email: new FormControl({ value: this.posData.email, disabled: true }, []),
+    //     mobile: new FormControl({ value: this.posData.mobile, disabled: true }, []),
+    //     position: new FormControl(this.requestType === 'position' ? this.posData.position : '', this.requestType === 'position' ? [Validators.required, Validators.maxLength(500), Validators.pattern(this.customCharsPattern)] : []),
+    //     organisation: new FormControl(this.requestType === 'organisation' ? this.posData.organisation : '', this.requestType === 'organisation' ? [Validators.required, Validators.pattern(this.customCharsPattern)] : []),
+    //     domain: new FormControl(this.requestType === 'domain' ? this.posData.domain : '', this.requestType === 'domain' ? [Validators.required, Validators.pattern(this.domainPattern)] : []),
+    //     description: new FormControl(this.posData.description, []),
+    //     wfId: new FormControl(this.posData.wfId),
+    //   })
+    // }
+
+    this.positionForm = new FormGroup({
+      fullname: new FormControl({ value: this.posData.firstName, disabled: true }, []),
+      email: new FormControl({ value: this.posData.email, disabled: true }, []),
+      mobile: new FormControl({ value: this.posData.mobile, disabled: true }, []),
+      position: new FormControl(this.requestType === 'position' ? this.posData.position : '', this.requestType === 'position' ? [Validators.required, Validators.maxLength(500), Validators.pattern(this.customCharsPattern)] : []),
+      organisation: new FormControl(this.requestType === 'organisation' ? this.posData.organisation : '', this.requestType === 'organisation' ? [Validators.required, Validators.pattern(this.customCharsPattern)] : []),
+      domain: new FormControl(this.requestType === 'domain' ? this.posData.domain : '', this.requestType === 'domain' ? [Validators.required, Validators.pattern(this.domainPattern)] : []),
+      description: new FormControl(this.posData.description, []),
+      wfId: new FormControl(this.posData.wfId),
+    })
+
   }
 
   ngOnInit() {
@@ -226,6 +257,37 @@ export class RequestsApprovalComponent implements OnInit {
         this.navigateTo()
       }
     })
+  }
+
+  cancelRequest() {
+    this.route.navigate(['/app/home/requests/position'])
+  }
+
+  addNewPosistion() {
+    const dialogRef = this.dialogue.open(DialogConfirmComponent, {
+      data: {
+        title: 'Are you sure?',
+        bodyHTML: `Please click <strong>Yes</strong> to save.`,
+      },
+    })
+    dialogRef.afterClosed().subscribe((response: any) => {
+      if (response) {
+        this.requestObj = {
+          request: {
+            contextType: this.requestType,
+            contextName: this.positionForm.value.position,
+            contextData: this.positionForm.value.description,
+          },
+        }
+        this.requestService.addNewPosition(this.requestObj).subscribe(() => {
+          this.openSnackbar('Success!')
+          this.route.navigate(['/app/home/requests/position'])
+        })
+      } else {
+        this.navigateTo()
+      }
+    })
+
   }
 
 }
