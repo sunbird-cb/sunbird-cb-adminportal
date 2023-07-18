@@ -43,9 +43,9 @@ export class UIAdminUserTableComponent implements OnInit, AfterViewInit, OnChang
   length!: number
   departmentRole!: string
   departmentId!: string | undefined
-  pageSize = 5
+  pageSize = 20
   currentTabName!: string
-  pageSizeOptions = [5, 10, 20]
+  pageSizeOptions = [20, 30, 40]
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator
   @ViewChild(MatSort, { static: true }) sort?: MatSort
   selection = new SelectionModel<any>(true, [])
@@ -187,6 +187,7 @@ export class UIAdminUserTableComponent implements OnInit, AfterViewInit, OnChang
                   this.router.navigate(['/app/home/directory', { department: this.departmentRole }])
                 }
               },
+                // tslint:disable-next-line:align
                 (error: any) => {
                   this.openSnackbar(error.error.message)
                 })
@@ -247,7 +248,8 @@ export class UIAdminUserTableComponent implements OnInit, AfterViewInit, OnChang
   gotoCreatePosition() {
     this.raiseTelemetry('button')
     this.router.navigate([`/app/home/requests/positions/new`],
-                         {}
+      // tslint:disable-next-line:align
+      {}
     )
   }
 
@@ -255,7 +257,7 @@ export class UIAdminUserTableComponent implements OnInit, AfterViewInit, OnChang
     this.events.raiseInteractTelemetry({
       type: 'click',
       subType: sub,
-      id: `${sub}-click`
+      id: `${sub}-click`,
     },
       // tslint:disable-next-line:align
       {},

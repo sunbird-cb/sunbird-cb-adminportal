@@ -35,16 +35,19 @@ export class UIUserTablePopUpComponent implements OnInit, AfterViewInit, OnChang
   length!: number
   chkBox = false
   isSearched = false
-  pageSize = 5
-  pageSizeOptions = [5, 10, 20]
+  pageSize = 20
+  pageSizeOptions = [20, 30, 40]
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator
   @ViewChild(MatSort, { static: true }) sort?: MatSort
   selection = new SelectionModel<any>(true, [])
 
   constructor(private profileUtilSvc: ProfileV2UtillService,
-              private userService: UsersService,
-              private activatedRoute: ActivatedRoute,
-              private createMDOService2: CreateMDOService) {
+    // tslint:disable-next-line:align
+    private userService: UsersService,
+    // tslint:disable-next-line:align
+    private activatedRoute: ActivatedRoute,
+    // tslint:disable-next-line:align
+    private createMDOService2: CreateMDOService) {
     this.dataSource = new MatTableDataSource<any>()
     this.actionsClick = new EventEmitter()
     this.clicked = new EventEmitter()

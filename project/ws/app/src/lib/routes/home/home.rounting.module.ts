@@ -171,7 +171,7 @@ const routes: Routes = [
           requestsList: RequestsResolve,
           aprovedrequestsList: ApprovedRequestsResolve,
           rejectedList: RejectedRequestsResolve,
-          positionsList: ApprovedlistResolve
+          positionsList: ApprovedlistResolve,
         },
         runGuardsAndResolvers: 'always',
         component: OnboardingRequestsComponent,
@@ -246,7 +246,7 @@ const routes: Routes = [
     RequestsResolve,
     ApprovedRequestsResolve,
     RejectedRequestsResolve,
-    ApprovedlistResolve
+    ApprovedlistResolve,
   ],
 })
 export class HomeRoutingModule { }

@@ -285,7 +285,7 @@ export class CreateUserComponent implements OnInit {
       {
         type: 'click',
         subType: 'button',
-        id: 'button-click'
+        id: 'button-click',
       },
       {},
     )

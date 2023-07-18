@@ -35,8 +35,8 @@ export class UIDirectoryTableComponent implements OnInit, AfterViewInit, OnChang
   dataSource!: any
   widgetData: any
   length!: number
-  pageSize = 5
-  pageSizeOptions = [5, 10, 20]
+  pageSize = 20
+  pageSizeOptions = [20, 30, 40]
   isSelectedDept = true
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator
   @ViewChild(MatSort, { static: true }) sort?: MatSort
@@ -150,6 +150,7 @@ export class UIDirectoryTableComponent implements OnInit, AfterViewInit, OnChang
       subType: sub,
       // tslint:disable-next-line:align
       id: `${sub}-click`,
+      // tslint:disable-next-line:align
     }, {
       id: e.id,
       type: 'department',

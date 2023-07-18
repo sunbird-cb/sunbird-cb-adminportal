@@ -843,7 +843,7 @@ export class CreateMdoComponent implements OnInit {
       {
         type: 'click',
         subType: 'button',
-        id: 'button-click'
+        id: 'button-click',
       },
       {
       },
