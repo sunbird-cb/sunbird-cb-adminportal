@@ -302,3 +302,7 @@ a:not([href]):not([tabindex]) {
 ::ng-deep.mat-paginator-page-size-select.mat-form-field {
     width: 56px !important;
 }
+
+::ng-deep.mat-cell {
+  font-size: 14px !important;
+}
