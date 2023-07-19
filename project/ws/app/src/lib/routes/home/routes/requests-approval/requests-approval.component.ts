@@ -198,6 +198,7 @@ export class RequestsApprovalComponent implements OnInit {
           userId: this.posData.userId,
           actorUserId: this.posData.actorUUID,
           deptName: this.posData.deptName,
+          comment: response.reason,
           updateFieldValues: [],
         }
 
@@ -211,7 +212,6 @@ export class RequestsApprovalComponent implements OnInit {
             firstName: this.posData.firstName,
             email: this.posData.email,
             mobile: this.posData.mobile,
-            reason: response.reason,
           }
           this.requestObj.updateFieldValues.push(formobj)
           this.requestService.approveNewPosition(this.requestObj).subscribe(() => {
@@ -228,7 +228,6 @@ export class RequestsApprovalComponent implements OnInit {
             firstName: this.posData.firstName,
             email: this.posData.email,
             mobile: this.posData.mobile,
-            reason: response.reason,
           }
           this.requestObj.updateFieldValues.push(formobj)
           this.requestService.approveNewOrg(this.requestObj).subscribe(() => {
@@ -245,7 +244,6 @@ export class RequestsApprovalComponent implements OnInit {
             firstName: this.posData.firstName,
             email: this.posData.email,
             mobile: this.posData.mobile,
-            reason: response.reason,
           }
           this.requestObj.updateFieldValues.push(formobj)
           this.requestService.approveNewDomain(this.requestObj).subscribe(() => {
