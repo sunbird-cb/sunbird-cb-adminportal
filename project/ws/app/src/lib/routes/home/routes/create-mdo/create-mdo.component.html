@@ -21,12 +21,12 @@
                       </p>
                       <mat-form-field appearance="outline" class="margin-top-xs"
                         [ngClass]="{ 'mat-form-field-invalid': showError('name') }">
-                        <input matInput #name formControlName="name" maxlength="500" i18n-placeholder
-                          placeholder="Type here" type="text" (keyup)="specialCharachters($event)"
-                          [required]="checkCondition('name', 'required') ? true : null"
-                          pattern="[a-zA-Z',-.&()\[\]\s]*" />
-                        <mat-error *ngIf="showError('name')" i18n="Name Error|Explains name is required">
-                          Department name not valid
+                        <input matInput #name formControlName="name" maxlength="250" i18n-placeholder
+                          placeholder="Type here" type="text" (keyup)="specialCharachters($event, 'cbpProvider')"
+                          [required]="checkCondition('name', 'required') ? true : null" />
+                        <mat-error *ngIf="contentForm?.controls['name'].errors"
+                          i18n="name Error|Explains name is required">
+                          Only {{specialCharList}} characters are supported
                         </mat-error>
                       </mat-form-field>
                     </div>
@@ -105,13 +105,16 @@
                   </label>
                   <mat-form-field appearance="outline" class="margin-top-s w-full">
                     <input id="state" matInput tab-directive type="text" placeholder="Select your state"
-                      (keyup)="specialCharachters($event)" i18n-placeholder="State" formControlName="state"
+                      (keyup)="specialCharachters($event, 'state')" i18n-placeholder="State" formControlName="state"
                       [matAutocomplete]="stateAutocomplete" i18n-aria-label aria-label="State" #state i18n-aria-label
                       aria-label="State Field input" maxlength="250" />
                     <mat-error [hidden]="false" i18n="State Error|Explains State is required"
                       *ngIf="stateForm?.controls['state'].errors?.required" i18n-aria-label
                       aria-label="State is mandatory">
                       State is mandatory
+                    </mat-error>
+                    <mat-error *ngIf="stateForm?.controls['state'].errors" i18n="name Error|Explains name is required">
+                      Only {{specialCharList}} characters are supported
                     </mat-error>
                     <!-- <mat-error *ngIf="stateForm?.controls['state'].errors?.forbiddenNames" i18n-aria-label
                                           aria-label="You must enter value from suggested list only.">
@@ -163,13 +166,18 @@
                     </label>
                     <mat-form-field appearance="outline" class="margin-top-s w-full">
                       <input id="ministry" matInput tab-directive type="text" placeholder="Select your ministry"
-                        i18n-placeholder="Ministry" formControlName="ministry" (keyup)="specialCharachters($event)"
-                        [matAutocomplete]="ministryAutocomplete" i18n-aria-label aria-label="Ministry" #ministry
-                        i18n-aria-label aria-label="Ministry Field input" maxlength="250" />
+                        i18n-placeholder="Ministry" formControlName="ministry"
+                        (keyup)="specialCharachters($event, 'ministry')" [matAutocomplete]="ministryAutocomplete"
+                        i18n-aria-label aria-label="Ministry" #ministry i18n-aria-label
+                        aria-label="Ministry Field input" maxlength="250" />
                       <mat-error [hidden]="false" i18n="Ministry Error|Explains Ministry is required"
                         *ngIf="departmentForm?.controls['ministry'].errors?.required" i18n-aria-label
                         aria-label="Ministry is mandatory">
                         Ministry is mandatory
+                      </mat-error>
+                      <mat-error *ngIf="departmentForm?.controls['ministry'].errors"
+                        i18n="name Error|Explains name is required">
+                        Only {{specialCharList}} characters are supported
                       </mat-error>
 
                       <!-- <mat-error *ngIf="departmentForm?.controls['ministry'].errors?.forbiddenNames" i18n-aria-label
@@ -195,13 +203,18 @@
                     </label>
                     <mat-form-field appearance="outline" class="margin-top-s w-full">
                       <input id="department" matInput tab-directive type="text" placeholder="Select your department"
-                        (keyup)="specialCharachters($event)" i18n-placeholder="department" formControlName="department"
-                        [matAutocomplete]="departmentAutocomplete" i18n-aria-label aria-label="Department" #department
-                        i18n-aria-label aria-label="Department Field input" maxlength="250" />
+                        (keyup)="specialCharachters($event, 'department')" i18n-placeholder="department"
+                        formControlName="department" [matAutocomplete]="departmentAutocomplete" i18n-aria-label
+                        aria-label="Department" #department i18n-aria-label aria-label="Department Field input"
+                        maxlength="250" />
                       <mat-error [hidden]="false" i18n="Department Error|Explains Department is required"
                         *ngIf="departmentForm?.controls['department'].errors?.required" i18n-aria-label
                         aria-label="Department is mandatory">
                         Department is mandatory
+                      </mat-error>
+                      <mat-error *ngIf="departmentForm?.controls['department'].errors"
+                        i18n="name Error|Explains name is required">
+                        Only {{specialCharList}} characters are supported
                       </mat-error>
                       <mat-error *ngIf="departmentForm?.controls['department'].errors?.forbiddenNames" i18n-aria-label
                         aria-label="You must enter value from suggested list only.">
@@ -229,7 +242,7 @@
                     </label>
                     <mat-form-field appearance="outline" class="margin-top-s w-full">
                       <input id="Organisation" matInput tab-directive type="text" placeholder="Select your organisation"
-                        (keyup)="specialCharachters($event)" i18n-placeholder="Organisation"
+                        (keyup)="specialCharachters($event, 'organization')" i18n-placeholder="Organisation"
                         formControlName="organisation" [matAutocomplete]="organisationAutocomplete" i18n-aria-label
                         aria-label="Organisation" #organisation i18n-aria-label aria-label="Organisation Field input"
                         maxlength="250" />
@@ -241,6 +254,10 @@
                       <mat-error *ngIf="departmentForm?.controls['organisation'].errors?.forbiddenNames" i18n-aria-label
                         aria-label="You must enter value from suggested list only.">
                         You must enter value from suggested list only.
+                      </mat-error>
+                      <mat-error *ngIf="departmentForm?.controls['organisation'].errors"
+                        i18n="name Error|Explains name is required">
+                        Only {{specialCharList}} characters are supported
                       </mat-error>
                     </mat-form-field>
                     <mat-autocomplete #organisationAutocomplete="matAutocomplete" autoActiveFirstOption="true"
@@ -283,9 +300,10 @@
                     </label>
                     <mat-form-field appearance="outline" class="margin-top-s w-full">
                       <input id="ministry" matInput tab-directive type="text" placeholder="Select your state"
-                        (keyup)="specialCharachters($event)" i18n-placeholder="Ministry" formControlName="ministry"
-                        [matAutocomplete]="ministryAutocomplete" i18n-aria-label aria-label="Ministry" #ministry
-                        i18n-aria-label aria-label="Ministry Field input" readonly maxlength="250" />
+                        (keyup)="specialCharachters($event, 'ministry')" i18n-placeholder="Ministry"
+                        formControlName="ministry" [matAutocomplete]="ministryAutocomplete" i18n-aria-label
+                        aria-label="Ministry" #ministry i18n-aria-label aria-label="Ministry Field input" readonly
+                        maxlength="250" />
                       <mat-error [hidden]="false" i18n="Ministry Error|Explains Ministry is required"
                         *ngIf="departmentForm?.controls['ministry'].errors?.required" i18n-aria-label
                         aria-label="Ministry is mandatory">
@@ -314,9 +332,10 @@
                     </label>
                     <mat-form-field appearance="outline" class="margin-top-s w-full">
                       <input id="department" matInput tab-directive type="text" placeholder="Select your department"
-                        (keyup)="specialCharachters($event)" i18n-placeholder="department" formControlName="department"
-                        [matAutocomplete]="departmentAutocomplete" i18n-aria-label aria-label="Department" #department
-                        i18n-aria-label aria-label="Department Field input" maxlength="250" />
+                        (keyup)="specialCharachters($event, 'department')" i18n-placeholder="department"
+                        formControlName="department" [matAutocomplete]="departmentAutocomplete" i18n-aria-label
+                        aria-label="Department" #department i18n-aria-label aria-label="Department Field input"
+                        maxlength="250" />
                       <mat-error [hidden]="false" i18n="Department Error|Explains Department is required"
                         *ngIf="departmentForm?.controls['department'].errors?.required" i18n-aria-label
                         aria-label="Department is mandatory">

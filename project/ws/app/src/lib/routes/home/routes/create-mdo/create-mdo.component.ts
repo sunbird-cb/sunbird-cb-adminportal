@@ -91,6 +91,7 @@ export class CreateMdoComponent implements OnInit {
   depts = ['Domain', 'Exact']
 
   disableCreateButton = false
+  validationCreateButton = false
   disableStateCreateButton = false
   displayLoader = false
 
@@ -106,6 +107,8 @@ export class CreateMdoComponent implements OnInit {
   deptSubType!: string
   mdoDepartmentID!: number
   loggedInUserId!: string
+  specialCharList = `( a-z A-Z - , ( ) )`
+  noSpecialChar = new RegExp(/^[a-zA-Z(), -]*$/)
   workFlow = [{ isActive: true, isCompleted: false, name: 'Basic Details', step: 0 },
   { isActive: false, isCompleted: false, name: 'Classification', step: 1 },
   { isActive: false, isCompleded: false, name: 'Intended for', step: 2 }]
@@ -127,7 +130,6 @@ export class CreateMdoComponent implements OnInit {
       if (this.userRoles.indexOf('STATE_ADMIN') >= 0) {
         this.isStateAdmin = true
       }
-
       this.contentForm = new FormGroup({
         name: new FormControl(),
         head: new FormControl(),
@@ -263,7 +265,30 @@ export class CreateMdoComponent implements OnInit {
     })
   }
 
-  specialCharachters(event: any) {
+  specialCharachters(event: any, deptName: any) {
+    const regexMatch = event.target.value.match(this.noSpecialChar)
+    if (deptName === 'cbpProvider') {
+      if (!regexMatch) {
+        this.contentForm.controls['name'].setErrors({ invalid: true })
+      }
+    } else if (deptName === 'state') {
+      if (!regexMatch) {
+        this.stateForm.controls['state'].setErrors({ invalid: true })
+      }
+    } else if (deptName === 'ministry') {
+      if (!regexMatch) {
+        this.departmentForm.controls['ministry'].setErrors({ invalid: true })
+      }
+    } else if (deptName === 'organization') {
+      if (!regexMatch) {
+        this.departmentForm.controls['organisation'].setErrors({ invalid: true })
+      }
+    } else if (deptName === 'department') {
+      if (!regexMatch) {
+        this.departmentForm.controls['department'].setErrors({ invalid: true })
+      }
+    }
+
     if (event.which === 32) {
       event.preventDefault()
       this.disableCreateButton = true
@@ -334,6 +359,7 @@ export class CreateMdoComponent implements OnInit {
   }
 
   ministrySelected(value: any) {
+    const ministryRegex = value.channel.match(this.noSpecialChar)
     // tslint:disable-next-line: no-non-null-assertion
     this.departmentForm.get('department')!.setValue('')
     // tslint:disable-next-line: no-non-null-assertion
@@ -347,9 +373,13 @@ export class CreateMdoComponent implements OnInit {
         }
       })
     }
+    if (!ministryRegex) {
+      this.departmentForm.controls['ministry'].setErrors({ invalid: true })
+    }
   }
 
   departmentSelected(value: any) {
+    const ministryRegex = value.orgName.match(this.noSpecialChar)
     // tslint:disable-next-line: no-non-null-assertion
     this.departmentForm.get('organisation')!.setValue('')
     this.disableCreateButton = true
@@ -360,6 +390,9 @@ export class CreateMdoComponent implements OnInit {
           this.onOrgsChange()
         }
       })
+    }
+    if (!ministryRegex) {
+      this.departmentForm.controls['department'].setErrors({ invalid: true })
     }
   }
   getAllResponse(response: any) {
@@ -432,6 +465,12 @@ export class CreateMdoComponent implements OnInit {
 
             // this.router.navigate([`/app/home/directory`])
           }
+        },          (error: any) => {
+          this.openSnackbar(`Something went wrong, please try again later`)
+          this.disableStateCreateButton = false
+          this.displayLoader = false
+          // tslint:disable-next-line: no-console
+          console.log('Error :', error)
         })
       }
     } else {
@@ -538,6 +577,12 @@ export class CreateMdoComponent implements OnInit {
   }
 
   private filterStates(orgname: string): any {
+    if (orgname.match(this.noSpecialChar)) {
+      this.validationCreateButton = false
+    } else {
+      this.stateForm.controls['state'].setErrors({ invalid: true })
+      this.validationCreateButton = true
+    }
     if (orgname) {
       const filterValue = orgname.toLowerCase()
       return this.states.filter((option: any) => option.orgName.toLowerCase().includes(filterValue))
@@ -560,6 +605,12 @@ export class CreateMdoComponent implements OnInit {
     return this.departments
   }
   filterOrgs(orgname: string) {
+    if (orgname.match(this.noSpecialChar)) {
+      this.validationCreateButton = false
+    } else {
+      this.validationCreateButton = true
+      this.departmentForm.controls['organisation'].setErrors({ invalid: true })
+    }
     this.disableCreateButton = false
     if (orgname) {
       const filterValue = orgname.toLowerCase()

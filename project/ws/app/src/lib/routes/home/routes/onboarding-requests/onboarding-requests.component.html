@@ -22,10 +22,10 @@
             [ngClass]="{'ws-mat-accent-border-active' : currentFilter === 'rejected',
                                                                 'ws-mat-accent-border font-medium':currentFilter !== 'rejected'}" mat-button
             (click)="filter('rejected')" role="button">Rejected requests</a>
-          <a class="filter-option" *ngIf="isSpvAdmin"
+          <a class="filter-option" *ngIf="isSpvAdmin && displayType === 'Position'"
             [ngClass]="{'ws-mat-accent-border-active' : currentFilter === 'positions',
-                                                                          'ws-mat-accent-border font-medium':currentFilter !== 'positions'}" mat-button
-            (click)="filter('positions')" role="button">Positions</a>
+                                                                'ws-mat-accent-border font-medium':currentFilter !== 'positions'}" mat-button (click)="filter('positions')"
+            role="button">Positions</a>
         </div>
         <div>
 
