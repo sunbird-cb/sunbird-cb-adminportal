@@ -13,3 +13,13 @@
 .ws-mat-primary-background:disabled, .ws-mat-primary-background[disabled] {
   opacity: 0.6;
 }
+
+.reason-dialog {
+  position: relative;
+}
+.required:after {
+  content:" *";
+  color: red;
+  position: absolute;
+  right: -5px;
+}
