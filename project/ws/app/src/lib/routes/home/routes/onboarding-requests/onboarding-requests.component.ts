@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
 import { RequestsService } from '../../services/onboarding-requests.service'
+import * as _ from 'lodash'
 
 @Component({
   selector: 'ws-app-onboarding-requests',
@@ -10,16 +11,20 @@ import { RequestsService } from '../../services/onboarding-requests.service'
 export class OnboardingRequestsComponent implements OnInit {
   tabledata: any = []
   tabledataApproved: any = []
+  tabledataPositions: any = []
   data: any = []
   requestType: any
   displayType: any
   currentFilter = 'pending'
+  isSpvAdmin = false
 
   constructor(private route: Router, private activatedRoute: ActivatedRoute, private requestService: RequestsService) {
     // this.requestType = this.activatedRoute.snapshot.params.type
   }
 
   ngOnInit() {
+    const userRoles = _.get(this.activatedRoute, 'snapshot.parent.data.configService.userRoles')
+    this.findSpvAdmin(userRoles)
     this.activatedRoute.params.subscribe((routeParams: any) => {
       this.data = []
       this.currentFilter = 'pending'
@@ -63,6 +68,19 @@ export class OnboardingRequestsComponent implements OnInit {
           { key: this.requestType, displayName: this.displayType },
           { key: 'firstName', displayName: 'Full Name' },
           { key: 'email', displayName: 'Email' },
+        ],
+        actions: [],
+        needHash: false,
+        needCheckBox: false,
+        sortState: 'asc',
+        sortColumn: 'name',
+        needUserMenus: false,
+        actionColumnName: 'Edit',
+      }
+      this.tabledataPositions = {
+        columns: [
+          { key: 'name', displayName: 'Name' },
+          { key: 'description', displayName: 'Descriiption' }
         ],
         actions: [],
         needHash: false,
@@ -116,7 +134,7 @@ export class OnboardingRequestsComponent implements OnInit {
     })
   }
 
-  filter(key: 'pending' | 'approved' | 'rejected') {
+  filter(key: 'pending' | 'approved' | 'rejected' | 'positions') {
     switch (key) {
       case 'pending':
         this.data = []
@@ -146,6 +164,19 @@ export class OnboardingRequestsComponent implements OnInit {
           this.formatData(resData)
         } else {
           this.getRejectedList()
+        }
+        break
+      case 'positions':
+        this.data = []
+        this.currentFilter = 'positions'
+        if (this.activatedRoute.snapshot.data && this.activatedRoute.snapshot.data.positionsList.data) {
+          const resData = this.activatedRoute.snapshot.data.positionsList.data
+          resData.forEach((req: any) => {
+            this.data.push(req)
+          })
+          this.data.sort((a: any, b: any) => a.name - b.name)
+        } else {
+          this.data = []
         }
         break
       default:
@@ -233,5 +264,13 @@ export class OnboardingRequestsComponent implements OnInit {
 
   actionsClick($event: { action: string, row: any }) {
     this.route.navigate(['requests-approval'], { relativeTo: this.activatedRoute.parent, state: $event })
+  }
+
+  findSpvAdmin(roles: any) {
+    roles.forEach((value: any) => {
+      if (value === 'spv_admin') {
+        this.isSpvAdmin = true
+      }
+    })
   }
 }

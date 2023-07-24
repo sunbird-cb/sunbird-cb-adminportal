@@ -5,7 +5,7 @@ import { Observable } from 'rxjs'
 
 const API_END_POINTS = {
   // GET_POSITIONS: '/apis/proxies/v8/user/v1/positions',
-  // NEW_POSITION: '/apis/proxies/v8/masterData/v1/upsert',
+  NEW_POSITION: '/apis/proxies/v8/masterData/v1/upsert',
   UPDATE_POSITION: '/apis/proxies/v8/workflow/position/update',
   SEARCH_POSITION: '/apis/proxies/v8/workflow/position/search',
 
@@ -27,6 +27,9 @@ export class RequestsService {
   }
   approveNewPosition(data: any) {
     return this.http.post(API_END_POINTS.UPDATE_POSITION, data)
+  }
+  addNewPosition(data: any) {
+    return this.http.post(API_END_POINTS.NEW_POSITION, data)
   }
 
   // org

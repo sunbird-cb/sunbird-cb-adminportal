@@ -20,6 +20,7 @@ import { RequestsApprovalComponent } from './routes/requests-approval/requests-a
 import { RequestsResolve } from './resolvers/requests-resolver.service'
 import { ApprovedRequestsResolve } from './resolvers/approvedrequests-resolver.service'
 import { RejectedRequestsResolve } from './resolvers/rejectedrequests-reoslver.service'
+import { ApprovedlistResolve } from './resolvers/positionlist-resolver.service'
 
 const routes: Routes = [
   {
@@ -149,6 +150,16 @@ const routes: Routes = [
         },
       },
       {
+        path: 'requests/:type/new',
+        component: RequestsApprovalComponent,
+        data: {
+          pageId: 'app/requests-new',
+          module: 'requests',
+          pageType: 'feature',
+          pageKey: 'Requests',
+        },
+      },
+      {
         path: 'requests/:type',
         data: {
           pageId: 'home/requests',
@@ -160,6 +171,7 @@ const routes: Routes = [
           requestsList: RequestsResolve,
           aprovedrequestsList: ApprovedRequestsResolve,
           rejectedList: RejectedRequestsResolve,
+          positionsList: ApprovedlistResolve
         },
         runGuardsAndResolvers: 'always',
         component: OnboardingRequestsComponent,
@@ -234,6 +246,7 @@ const routes: Routes = [
     RequestsResolve,
     ApprovedRequestsResolve,
     RejectedRequestsResolve,
+    ApprovedlistResolve
   ],
 })
 export class HomeRoutingModule { }
