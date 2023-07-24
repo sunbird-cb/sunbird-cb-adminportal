@@ -31,7 +31,7 @@ export class OnboardingRequestsComponent implements OnInit {
       this.requestType = routeParams.type
       if (this.activatedRoute.snapshot.data && this.activatedRoute.snapshot.data.requestsList.data) {
         const resData = this.activatedRoute.snapshot.data.requestsList.data
-        this.formatData(resData)
+        this.formatData(resData, 'pending')
       } else {
         this.getPendingList()
       }
@@ -64,7 +64,7 @@ export class OnboardingRequestsComponent implements OnInit {
 
       this.tabledataApproved = {
         columns: [
-          { key: 'createdDate', displayName: 'Created On' },
+          { key: 'lastupdateDate', displayName: 'Last Updated On' },
           { key: this.requestType, displayName: this.displayType },
           { key: 'firstName', displayName: 'Full Name' },
           { key: 'email', displayName: 'Email' },
@@ -80,7 +80,7 @@ export class OnboardingRequestsComponent implements OnInit {
       this.tabledataPositions = {
         columns: [
           { key: 'name', displayName: 'Name' },
-          { key: 'description', displayName: 'Descriiption' }
+          { key: 'description', displayName: 'Descriiption' },
         ],
         actions: [],
         needHash: false,
@@ -93,7 +93,7 @@ export class OnboardingRequestsComponent implements OnInit {
     })
   }
 
-  formatData(resData: any) {
+  formatData(resData: any, list: any) {
     resData.forEach((req: any) => {
       req.wfInfo.forEach((val: any) => {
         // this.data.push(val)
@@ -113,6 +113,15 @@ export class OnboardingRequestsComponent implements OnInit {
           const createdDate = date + `-` + mm + `-` + year
           val.createdDate = createdDate
 
+          // tslint:disable-next-line:prefer-template
+          const udate = ('0' + (new Date(val.lastUpdatedOn).getDate())).slice(-2)
+          // tslint:disable-next-line:prefer-template
+          const umm = ('0' + (new Date(val.lastUpdatedOn).getMonth() + 1)).slice(-2)
+          const uyear = new Date(val.lastUpdatedOn).getFullYear()
+          // tslint:disable-next-line:prefer-template
+          const updatedDate = udate + `-` + umm + `-` + uyear
+          val.lastupdateDate = updatedDate
+
           val.description = obj.description
           val.firstName = obj.firstName
           val.email = obj.email
@@ -129,6 +138,16 @@ export class OnboardingRequestsComponent implements OnInit {
           this.data.sort((a: any, b: any) => {
             return new Date(b.createdOn).getTime() - new Date(a.createdOn).getTime()
           })
+
+          if (list === 'rejected' || list === 'approved') {
+            this.data.sort((a: any, b: any) => {
+              return new Date(b.lastUpdatedOn).getTime() - new Date(a.lastUpdatedOn).getTime()
+            })
+          } else {
+            this.data.sort((a: any, b: any) => {
+              return new Date(b.createdOn).getTime() - new Date(a.createdOn).getTime()
+            })
+          }
         }
       })
     })
@@ -141,7 +160,7 @@ export class OnboardingRequestsComponent implements OnInit {
         this.currentFilter = 'pending'
         if (this.activatedRoute.snapshot.data && this.activatedRoute.snapshot.data.requestsList.data) {
           const resData = this.activatedRoute.snapshot.data.requestsList.data
-          this.formatData(resData)
+          this.formatData(resData, 'pending')
         } else {
           this.getPendingList()
         }
@@ -151,7 +170,7 @@ export class OnboardingRequestsComponent implements OnInit {
         this.currentFilter = 'approved'
         if (this.activatedRoute.snapshot.data && this.activatedRoute.snapshot.data.aprovedrequestsList.data) {
           const resData = this.activatedRoute.snapshot.data.aprovedrequestsList.data
-          this.formatData(resData)
+          this.formatData(resData, 'approved')
         } else {
           this.getApprovedList()
         }
@@ -161,7 +180,7 @@ export class OnboardingRequestsComponent implements OnInit {
         this.currentFilter = 'rejected'
         if (this.activatedRoute.snapshot.data && this.activatedRoute.snapshot.data.rejectedList.data) {
           const resData = this.activatedRoute.snapshot.data.rejectedList.data
-          this.formatData(resData)
+          this.formatData(resData, 'rejected')
         } else {
           this.getRejectedList()
         }
@@ -195,17 +214,17 @@ export class OnboardingRequestsComponent implements OnInit {
     if (this.requestType === 'position') {
       this.requestService.getPositionsList(reqbody).subscribe((res: any) => {
         const resData = res.result.data
-        this.formatData(resData)
+        this.formatData(resData, 'pending')
       })
     } else if (this.requestType === 'organisation') {
       this.requestService.getOrgsList(reqbody).subscribe((res: any) => {
         const resData = res.result.data
-        this.formatData(resData)
+        this.formatData(resData, 'pending')
       })
     } else if (this.requestType === 'domain') {
       this.requestService.getDomainsList(reqbody).subscribe((res: any) => {
         const resData = res.result.data
-        this.formatData(resData)
+        this.formatData(resData, 'pending')
       })
     }
   }
@@ -221,17 +240,17 @@ export class OnboardingRequestsComponent implements OnInit {
     if (this.requestType === 'position') {
       this.requestService.getPositionsList(reqbody).subscribe((res: any) => {
         const resData = res.result.data
-        this.formatData(resData)
+        this.formatData(resData, 'approved')
       })
     } else if (this.requestType === 'organisation') {
       this.requestService.getOrgsList(reqbody).subscribe((res: any) => {
         const resData = res.result.data
-        this.formatData(resData)
+        this.formatData(resData, 'approved')
       })
     } else if (this.requestType === 'domain') {
       this.requestService.getDomainsList(reqbody).subscribe((res: any) => {
         const resData = res.result.data
-        this.formatData(resData)
+        this.formatData(resData, 'approved')
       })
     }
   }
@@ -247,17 +266,17 @@ export class OnboardingRequestsComponent implements OnInit {
     if (this.requestType === 'position') {
       this.requestService.getPositionsList(reqbody).subscribe((res: any) => {
         const resData = res.result.data
-        this.formatData(resData)
+        this.formatData(resData, 'rejected')
       })
     } else if (this.requestType === 'organisation') {
       this.requestService.getOrgsList(reqbody).subscribe((res: any) => {
         const resData = res.result.data
-        this.formatData(resData)
+        this.formatData(resData, 'rejected')
       })
     } else if (this.requestType === 'domain') {
       this.requestService.getDomainsList(reqbody).subscribe((res: any) => {
         const resData = res.result.data
-        this.formatData(resData)
+        this.formatData(resData, 'rejected')
       })
     }
   }

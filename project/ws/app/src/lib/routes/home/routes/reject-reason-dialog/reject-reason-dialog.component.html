@@ -1,0 +1,24 @@
+<div class="reason-dialog">
+  <h2 mat-dialog-title class="required">Please provide the reason for rejection</h2>
+  <form [formGroup]="reasonForm" (ngSubmit)="onSubmit()" class="flex-4">
+    <div mat-dialog-content>
+      <mat-form-field appearance="outline" class="margin-top-xs">
+        <textarea matInput #reason formControlName="reason" maxlength="500" i18n-placeholder
+          placeholder="Enter your reason here" type="text" rows="5"></textarea>
+        <mat-hint i18n>
+          Limited to 500 characters.
+        </mat-hint>
+        <mat-error i18n="Reason Error | Explains reason is required">
+          Reason is required
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div mat-dialog-actions class="flex-row-reverse margin-top-m">
+      <button class="text-white ws-mat-primary-background margin-right-m" mat-raised-button color="primary"
+        type="submit" i18n [disabled]="!reasonForm.valid"><span class="text-white">Reject</span></button>
+      <button mat-raised-button type="button"
+        class="flex-auto-display mat-button-base margin-right-m ws-mat-default-text" [mat-dialog-close] cdkFocusInitial
+        i18n>Cancel</button>
+    </div>
+  </form>
+</div>

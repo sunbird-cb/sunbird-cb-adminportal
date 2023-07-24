@@ -4,6 +4,7 @@ import { MatSnackBar, MatDialog } from '@angular/material'
 import { ActivatedRoute, Router } from '@angular/router'
 import { DialogConfirmComponent } from '../../../../../../../../../src/app/component/dialog-confirm/dialog-confirm.component'
 import { RequestsService } from '../../services/onboarding-requests.service'
+import { RejectReasonDialogComponent } from '../reject-reason-dialog/reject-reason-dialog.component'
 import * as _ from 'lodash'
 
 @Component({
@@ -182,11 +183,8 @@ export class RequestsApprovalComponent implements OnInit {
   }
 
   rejectRequest() {
-    const dialogRef = this.dialogue.open(DialogConfirmComponent, {
-      data: {
-        title: 'Are you sure?',
-        bodyHTML: `Please click <strong>Yes</strong> to reject this request.`,
-      },
+    const dialogRef = this.dialogue.open(RejectReasonDialogComponent, {
+      width: '450px',
     })
 
     dialogRef.afterClosed().subscribe((response: any) => {
@@ -200,6 +198,7 @@ export class RequestsApprovalComponent implements OnInit {
           userId: this.posData.userId,
           actorUserId: this.posData.actorUUID,
           deptName: this.posData.deptName,
+          comment: response.reason,
           updateFieldValues: [],
         }
 
@@ -254,8 +253,6 @@ export class RequestsApprovalComponent implements OnInit {
         }
       } else {
         this.navigateTo()
-        // this.openSnackbar('Cancelled', 5000)
-        // this.positionForm.reset()
       }
     })
   }

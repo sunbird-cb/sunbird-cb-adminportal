@@ -48,8 +48,8 @@ export class UIDiscussionPostComponent implements OnInit, OnChanges {
   dataSource!: any
   widgetData: any
   length!: number
-  pageSize = 5
-  pageSizeOptions = [5, 10, 20]
+  pageSize = 20
+  pageSizeOptions = [20, 30, 40]
 
   category: any[] = []
   discussionData: any[] = []

@@ -1,0 +1,25 @@
+@import 'ws-mixins';
+@import 'ws-vars';
+@import 'ws-common';
+
+
+.ws-mat-primary-background {
+  background-color: #0075B7 !important;
+  border-radius: 4px;
+  margin-right: 16px;
+  color: white !important;
+}
+
+.ws-mat-primary-background:disabled, .ws-mat-primary-background[disabled] {
+  opacity: 0.6;
+}
+
+.reason-dialog {
+  position: relative;
+}
+.required:after {
+  content:" *";
+  color: red;
+  position: absolute;
+  right: -5px;
+}
