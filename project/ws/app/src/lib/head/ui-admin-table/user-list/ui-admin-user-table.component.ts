@@ -186,7 +186,7 @@ export class UIAdminUserTableComponent implements OnInit, AfterViewInit, OnChang
                   this.router.navigate(['/app/home/directory', { department: this.departmentRole }])
                 }
               },
-                                                                                                                             (error: any) => {
+                (error: any) => {
                   this.openSnackbar(error.error.message)
                 })
             }

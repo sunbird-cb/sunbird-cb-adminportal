@@ -220,7 +220,7 @@ export class CreateUserComponent implements OnInit {
         firstName: form.value.fname,
         // lastName: form.value.lname,
         channel: form.value.dept,
-        roles: this.createUserForm.value.role
+        roles: this.createUserForm.value.role,
       },
     }
     this.usersSvc.createUser(userreq).subscribe(
@@ -237,6 +237,12 @@ export class CreateUserComponent implements OnInit {
           }
           if (!this.deptId) {
             this.deptId = _.get(this.route, 'snapshot.parent.data.configService.unMappedUser.rootOrg.rootOrgId')
+          }
+          this.openSnackbar('User Created Successfully')
+          if (this.redirectionPath.indexOf('/app/home/') < 0) {
+            location.replace(this.redirectionPath)
+          } else {
+            this.router.navigate(['/app/home/users'])
           }
           // this.createMDOService.assignAdminToDepartment(userdata.userId, this.deptId, this.createUserForm.value.role)
           //   .subscribe(
