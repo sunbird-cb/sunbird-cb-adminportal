@@ -359,7 +359,7 @@ export class CreateMdoComponent implements OnInit {
   }
 
   ministrySelected(value: any) {
-    const ministryRegex = value.channel.match(this.noSpecialChar)
+    const ministryRegex = value && value.channel.match(this.noSpecialChar)
     // tslint:disable-next-line: no-non-null-assertion
     this.departmentForm.get('department')!.setValue('')
     // tslint:disable-next-line: no-non-null-assertion
@@ -465,7 +465,7 @@ export class CreateMdoComponent implements OnInit {
 
             // this.router.navigate([`/app/home/directory`])
           }
-        },          (error: any) => {
+        }, (error: any) => {
           this.openSnackbar(`Something went wrong, please try again later`)
           this.disableStateCreateButton = false
           this.displayLoader = false
