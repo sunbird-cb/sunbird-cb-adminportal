@@ -21,7 +21,7 @@
               <mat-error [hidden]="false" i18n="First name Error|Explains name is required" i18n-aria-label
                 aria-label="First name Error|Explains name is required "
                 *ngIf="createUserForm?.controls['fname']?.touched && createUserForm?.controls['fname'].errors?.required">
-                First name is mandatory
+                Full name is mandatory
               </mat-error>
               <mat-error [hidden]="false" *ngIf="createUserForm?.controls['fname'].errors?.pattern" i18n-aria-label
                 aria-label="First name Error|Name fields cannot contain numbers and special characters except">
