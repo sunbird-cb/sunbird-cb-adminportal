@@ -63,3 +63,7 @@
     left: 0;
     margin-left: 45%;
 }
+
+::ng-deep .mat-drawer {
+  overflow-y: unset !important;
+}
