@@ -41,6 +41,8 @@ export class CreateUserComponent implements OnInit {
   disableCreateButton = false
   displayLoader = false
   emailLengthVal = false
+  hideRole: any = []
+
 
   constructor(
     private route: ActivatedRoute,
@@ -123,6 +125,7 @@ export class CreateUserComponent implements OnInit {
       itemsShowLimit: 10000,
       allowSearchFilter: true,
     }
+    this.getAllRoleUsers()
   }
   getAllDepartmentsHeaderAPI() {
     this.directoryService.getDepartmentTitles().subscribe(res => {
@@ -298,5 +301,24 @@ export class CreateUserComponent implements OnInit {
     } else {
       this.router.navigate([`/app/home/users`])
     }
+  }
+  getAllRoleUsers() {
+    let rolesToBeHidden = ["MDO_LEADER"]
+    let req = {
+      "request": {
+        "filters": {
+          "status": 1,
+          "organisations.roles": rolesToBeHidden,
+          "rootOrgId": this.deptId
+        },
+        "fields": ["identifier", "firstName", "organisations", "status", "roles"]
+      }
+    }
+    this.usersSvc.getAllUsersOfRole(req).subscribe(res => {
+      // if multiple roles to be hidden then need to modify below cbpProviderRoles
+      if (res.result.response.count >= 1) {
+        this.hideRole.push('MDO_LEADER')
+      }
+    })
   }
 }

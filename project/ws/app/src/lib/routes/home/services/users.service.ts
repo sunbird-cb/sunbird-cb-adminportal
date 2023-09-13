@@ -145,4 +145,7 @@ export class UsersService {
 
     return this.http.post<any>(`${API_END_POINTS.SEARCH_USER_TABLE}`, reqBody)
   }
+  getAllUsersOfRole(request: any) {
+    return this.http.post<any>(`${API_END_POINTS.SEARCH_USER_TABLE}`, request)
+  }
 }
