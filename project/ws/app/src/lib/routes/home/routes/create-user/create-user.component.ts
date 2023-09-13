@@ -43,7 +43,6 @@ export class CreateUserComponent implements OnInit {
   emailLengthVal = false
   hideRole: any = []
 
-
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -303,16 +302,16 @@ export class CreateUserComponent implements OnInit {
     }
   }
   getAllRoleUsers() {
-    let rolesToBeHidden = ["MDO_LEADER"]
-    let req = {
-      "request": {
-        "filters": {
-          "status": 1,
-          "organisations.roles": rolesToBeHidden,
-          "rootOrgId": this.deptId
+    const rolesToBeHidden = ['MDO_LEADER']
+    const req = {
+      request: {
+        filters: {
+          status: 1,
+          'organisations.roles': rolesToBeHidden,
+          rootOrgId: this.deptId,
         },
-        "fields": ["identifier", "firstName", "organisations", "status", "roles"]
-      }
+        fields: ['identifier', 'firstName', 'organisations', 'status', 'roles'],
+      },
     }
     this.usersSvc.getAllUsersOfRole(req).subscribe(res => {
       // if multiple roles to be hidden then need to modify below cbpProviderRoles
