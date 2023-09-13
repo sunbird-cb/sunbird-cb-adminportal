@@ -21,7 +21,7 @@
               <mat-error [hidden]="false" i18n="First name Error|Explains name is required" i18n-aria-label
                 aria-label="First name Error|Explains name is required "
                 *ngIf="createUserForm?.controls['fname']?.touched && createUserForm?.controls['fname'].errors?.required">
-                First name is mandatory
+                Full name is mandatory
               </mat-error>
               <mat-error [hidden]="false" *ngIf="createUserForm?.controls['fname'].errors?.pattern" i18n-aria-label
                 aria-label="First name Error|Name fields cannot contain numbers and special characters except">
@@ -123,10 +123,12 @@
 
 
             <mat-selection-list id="role" formControlName="role" #role>
-              <mat-list-option *ngFor="let role of roles" (click)="modifyUserRoles(role)"
-                [selected]="userRoles.has(role)" [value]="role">
-                {{role}}
-              </mat-list-option>
+              <ng-container *ngFor="let role of roles">
+                <mat-list-option *ngIf="!hideRole.includes(role)" (click)="modifyUserRoles(role)"
+                  [selected]="userRoles.has(role)" [value]="role">
+                  {{role}}
+                </mat-list-option>
+              </ng-container>
             </mat-selection-list>
 
             <!-- <label for="dept" class="margin-remove-bottom margin-top-xs form-label required"
