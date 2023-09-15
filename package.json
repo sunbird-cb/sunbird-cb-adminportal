@@ -41,7 +41,7 @@
     "@angular/service-worker": "~8.2.1",
     "@project-sunbird/telemetry-sdk": "0.0.26",
     "@sunbird-cb/collection": "^1.0.25",
-    "@sunbird-cb/rain-dashboards": "0.4.30",
+    "@sunbird-cb/rain-dashboards": "0.4.31",
     "@sunbird-cb/resolver": "^1.0.0",
     "@sunbird-cb/utils": "^1.0.13",
     "@types/file-saver": "^2.0.1",
