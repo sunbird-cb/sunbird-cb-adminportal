@@ -1,4 +1,4 @@
-import { CreateMDOService } from './../../services/create-mdo.services'
+// import { CreateMDOService } from './../../services/create-mdo.services'
 import { Component, OnInit } from '@angular/core'
 import { FormControl, FormGroup, Validators } from '@angular/forms'
 import { UsersService } from '../../services/users.service'
@@ -47,7 +47,7 @@ export class CreateUserComponent implements OnInit {
     private router: Router,
     private snackBar: MatSnackBar,
     private directoryService: DirectoryService,
-    private createMDOService: CreateMDOService,
+    // private createMDOService: CreateMDOService,
     private usersSvc: UsersService,
     private events: EventService) {
     this.route.queryParams.subscribe(params => {
@@ -222,6 +222,7 @@ export class CreateUserComponent implements OnInit {
         firstName: form.value.fname,
         // lastName: form.value.lname,
         channel: form.value.dept,
+        roles: this.createUserForm.value.role
       },
     }
     this.usersSvc.createUser(userreq).subscribe(
@@ -239,29 +240,39 @@ export class CreateUserComponent implements OnInit {
           if (!this.deptId) {
             this.deptId = _.get(this.route, 'snapshot.parent.data.configService.unMappedUser.rootOrg.rootOrgId')
           }
-          this.createMDOService.assignAdminToDepartment(userdata.userId, this.deptId, this.createUserForm.value.role)
-            .subscribe(
-              data => {
-                // this.displayLoader = false
-                // this.disableCreateButton = false
-                this.openSnackbar(`${data.result.response}`)
-                if (this.redirectionPath.indexOf('/app/home/') < 0) {
-                  // this.exact = this.redirectionPath.split("/app")
-                  // this.exactPath = "/app" + this.exact[1]
-                  // this.exactPath = this.exactPath.replace("%3B", ";")
-                  // this.exactPath = this.exactPath.replace("%3D", "=")
-                  location.replace(this.redirectionPath)
-                } else {
-                  this.router.navigate(['/app/home/directory'])
-                }
+          // this.createMDOService.assignAdminToDepartment(userdata.userId, this.deptId, this.createUserForm.value.role)
+          //   .subscribe(
+          //     data => {
+          //       // this.displayLoader = false
+          //       // this.disableCreateButton = false
+          //       this.openSnackbar(`${data.result.response}`)
+          //       if (this.redirectionPath.indexOf('/app/home/') < 0) {
+          //         // this.exact = this.redirectionPath.split("/app")
+          //         // this.exactPath = "/app" + this.exact[1]
+          //         // this.exactPath = this.exactPath.replace("%3B", ";")
+          //         // this.exactPath = this.exactPath.replace("%3D", "=")
+          //         location.replace(this.redirectionPath)
+          //       } else {
+          //         this.router.navigate(['/app/home/directory'])
+          //       }
 
-              },
-              (_err: any) => {
-                // this.displayLoader = false
-                // this.disableCreateButton = false
-                this.router.navigate([`/app/home/users`])
-                this.openSnackbar(`Error in assigning roles`)
-              })
+          //     },
+          //     (_err: any) => {
+          //       // this.displayLoader = false
+          //       // this.disableCreateButton = false
+          //       this.router.navigate([`/app/home/users`])
+          //       this.openSnackbar(`Error in assigning roles`)
+          //     })
+          this.openSnackbar(`User created successfully!`)
+          if (this.redirectionPath.indexOf('/app/home/') < 0) {
+            // this.exact = this.redirectionPath.split("/app")
+            // this.exactPath = "/app" + this.exact[1]
+            // this.exactPath = this.exactPath.replace("%3B", ";")
+            // this.exactPath = this.exactPath.replace("%3D", "=")
+            location.replace(this.redirectionPath)
+          } else {
+            this.router.navigate(['/app/home/directory'])
+          }
         }
       },
       err => {
@@ -272,6 +283,7 @@ export class CreateUserComponent implements OnInit {
         } else {
           this.openSnackbar(`User creation error`)
         }
+        this.router.navigate([`/app/home/users`])
       })
   }
 

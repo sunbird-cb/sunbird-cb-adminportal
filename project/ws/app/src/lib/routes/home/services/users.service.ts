@@ -78,6 +78,21 @@ export class UsersService {
     return this.http.post<any>(API_END_POINTS.CREATE_USER, req)
   }
 
+  searchMDOLeaders(userRootOrgId: string): Observable<any> {
+    const req = {
+      request: {
+        filters: {
+          status: 1,
+          rootOrgId: userRootOrgId,
+          "organisations.roles": ["MDO_LEADER"]
+        },
+        limit: 0,
+        fields: []
+      }
+    }
+    return this.http.post<any>(API_END_POINTS.SEARCH_USER_TABLE, req)
+  }
+
   getUserById(userid: string): Observable<any> {
     return this.http.get<any>(API_END_POINTS.PROFILE_REGISTRY + userid)
   }
