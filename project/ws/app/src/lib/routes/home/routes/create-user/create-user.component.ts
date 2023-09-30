@@ -8,6 +8,7 @@ import { DirectoryService } from '../../services/directory.services'
 import * as _ from 'lodash'
 import { environment } from '../../../../../../../../../src/environments/environment'
 import { EventService } from '@sunbird-cb/utils'
+import { ProfileV2UtillService } from '../../services/home-utill.service'
 
 @Component({
   selector: 'ws-app-create-user',
@@ -41,6 +42,9 @@ export class CreateUserComponent implements OnInit {
   disableCreateButton = false
   displayLoader = false
   emailLengthVal = false
+  editUserInfo: any
+  updateButton = false
+  mdoLeadersCount = 0
 
   constructor(
     private route: ActivatedRoute,
@@ -48,8 +52,18 @@ export class CreateUserComponent implements OnInit {
     private snackBar: MatSnackBar,
     private directoryService: DirectoryService,
     private createMDOService: CreateMDOService,
+    private profileUtilSvc: ProfileV2UtillService,
     private usersSvc: UsersService,
     private events: EventService) {
+    const navigation = this.router.getCurrentNavigation()
+    if (navigation && navigation.extras && navigation.extras.state) {
+      const extraData = navigation.extras.state as {
+        userData: any,
+        updateButton: boolean
+      }
+      this.editUserInfo = extraData.userData
+      this.updateButton = extraData.updateButton
+    }
     this.route.queryParams.subscribe(params => {
       this.queryParam = params['id']
       this.deptId = params['id']
@@ -64,7 +78,11 @@ export class CreateUserComponent implements OnInit {
       }
       // tslint:disable-next-line:radix
       this.queryParam = parseInt(this.queryParam)
+      if (this.editUserInfo) {
+        this.getMdoLeader()
+      }
     })
+
     if (!this.currentDept) {
       if (this.route.snapshot.queryParams.createDept) {
         const deptObj = JSON.parse(this.route.snapshot.queryParams.createDept)
@@ -87,10 +105,12 @@ export class CreateUserComponent implements OnInit {
     }
 
     if (this.createdDepartment) {
+      const email = this.editUserInfo && this.editUserInfo.email || ''
+      const name = this.editUserInfo && this.editUserInfo.fullName || ''
       this.createUserForm = new FormGroup({
-        fname: new FormControl('', [Validators.required]),
+        fname: new FormControl({ value: name, disabled: name ? true : false }, [Validators.required]),
         // lname: new FormControl('', [Validators.required]),
-        email: new FormControl('', [Validators.required,
+        email: new FormControl({ value: this.profileUtilSvc.transformToEmail(email), disabled: email ? true : false }, [Validators.required,
         Validators.pattern(/^[a-z0-9_-]+(?:\.[a-z0-9_-]+)*@((?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?){2,}\.){1,3}(?:\w){2,}$/)]),
         role: new FormControl('', [Validators.required, Validators.required]),
         dept: new FormControl(this.createdDepartment.depName, [Validators.required]),
@@ -105,7 +125,13 @@ export class CreateUserComponent implements OnInit {
         dept: new FormControl(_.get(this.route, 'snapshot.data.configService.userProfile.departmentName') || '', [Validators.required]),
       })
     }
-
+    if (this.editUserInfo) {
+      if (this.editUserInfo.position) {
+        this.editUserInfo.position.forEach((role: any) => {
+          this.modifyUserRoles(role)
+        })
+      }
+    }
   }
 
   ngOnInit() {
@@ -222,6 +248,7 @@ export class CreateUserComponent implements OnInit {
         firstName: form.value.fname,
         // lastName: form.value.lname,
         channel: form.value.dept,
+        roles: this.createUserForm.value.role,
       },
     }
     this.usersSvc.createUser(userreq).subscribe(
@@ -239,29 +266,39 @@ export class CreateUserComponent implements OnInit {
           if (!this.deptId) {
             this.deptId = _.get(this.route, 'snapshot.parent.data.configService.unMappedUser.rootOrg.rootOrgId')
           }
-          this.createMDOService.assignAdminToDepartment(userdata.userId, this.deptId, this.createUserForm.value.role)
-            .subscribe(
-              data => {
-                // this.displayLoader = false
-                // this.disableCreateButton = false
-                this.openSnackbar(`${data.result.response}`)
-                if (this.redirectionPath.indexOf('/app/home/') < 0) {
-                  // this.exact = this.redirectionPath.split("/app")
-                  // this.exactPath = "/app" + this.exact[1]
-                  // this.exactPath = this.exactPath.replace("%3B", ";")
-                  // this.exactPath = this.exactPath.replace("%3D", "=")
-                  location.replace(this.redirectionPath)
-                } else {
-                  this.router.navigate(['/app/home/directory'])
-                }
+          // this.createMDOService.assignAdminToDepartment(userdata.userId, this.deptId, this.createUserForm.value.role)
+          //   .subscribe(
+          //     data => {
+          //       // this.displayLoader = false
+          //       // this.disableCreateButton = false
+          //       this.openSnackbar(`${data.result.response}`)
+          //       if (this.redirectionPath.indexOf('/app/home/') < 0) {
+          //         // this.exact = this.redirectionPath.split("/app")
+          //         // this.exactPath = "/app" + this.exact[1]
+          //         // this.exactPath = this.exactPath.replace("%3B", ";")
+          //         // this.exactPath = this.exactPath.replace("%3D", "=")
+          //         location.replace(this.redirectionPath)
+          //       } else {
+          //         this.router.navigate(['/app/home/directory'])
+          //       }
 
-              },
-              (_err: any) => {
-                // this.displayLoader = false
-                // this.disableCreateButton = false
-                this.router.navigate([`/app/home/users`])
-                this.openSnackbar(`Error in assigning roles`)
-              })
+          //     },
+          //     (_err: any) => {
+          //       // this.displayLoader = false
+          //       // this.disableCreateButton = false
+          //       this.router.navigate([`/app/home/users`])
+          //       this.openSnackbar(`Error in assigning roles`)
+          //     })
+          this.openSnackbar(`User created successfully!`)
+          if (this.redirectionPath.indexOf('/app/home/') < 0) {
+            // this.exact = this.redirectionPath.split("/app")
+            // this.exactPath = "/app" + this.exact[1]
+            // this.exactPath = this.exactPath.replace("%3B", ";")
+            // this.exactPath = this.exactPath.replace("%3D", "=")
+            location.replace(this.redirectionPath)
+          } else {
+            this.router.navigate(['/app/home/directory'])
+          }
         }
       },
       err => {
@@ -272,6 +309,7 @@ export class CreateUserComponent implements OnInit {
         } else {
           this.openSnackbar(`User creation error`)
         }
+        this.router.navigate([`/app/home/users`])
       })
   }
 
@@ -298,5 +336,52 @@ export class CreateUserComponent implements OnInit {
     } else {
       this.router.navigate([`/app/home/users`])
     }
+  }
+
+  getMdoLeader() {
+    this.usersSvc.searchMDOLeaders(this.deptId).subscribe(
+      userdata => {
+        if (userdata.result && userdata.result.response) {
+          this.mdoLeadersCount = userdata.result.response.count
+        }
+      })
+  }
+  onUpdate(userData: any) {
+    this.displayLoader = true
+    const userInfo = userData.value
+    if (userInfo.role.includes('MDO_LEADER') && this.mdoLeadersCount < 1) {
+      this.roleAssign(userInfo)
+    } else if (!userInfo.role.includes('MDO_LEADER')) {
+      this.roleAssign(userInfo)
+    } else {
+      this.displayLoader = false
+      this.openSnackbar(`MDO Leader role has already been allocated to another user from the Ministry; kindly revise the role for that user before assigning a different user as an MDO Leader`)
+    }
+
+  }
+  roleAssign(userInfo: any) {
+    this.createMDOService.assignAdminToDepartment(this.editUserInfo.userId, this.deptId, userInfo.role)
+      .subscribe(
+        data => {
+          this.displayLoader = false
+          // this.disableCreateButton = false
+          this.openSnackbar(`${data.result.response}`)
+          if (this.redirectionPath.indexOf('/app/home/') < 0) {
+            // this.exact = this.redirectionPath.split("/app")
+            // this.exactPath = "/app" + this.exact[1]
+            // this.exactPath = this.exactPath.replace("%3B", ";")
+            // this.exactPath = this.exactPath.replace("%3D", "=")
+            location.replace(this.redirectionPath)
+          } else {
+            this.router.navigate(['/app/home/directory'])
+          }
+
+        },
+        (_err: any) => {
+          this.displayLoader = false
+          // this.disableCreateButton = false
+          this.router.navigate([`/app/home/users`])
+          this.openSnackbar(`Error in assigning roles`)
+        })
   }
 }

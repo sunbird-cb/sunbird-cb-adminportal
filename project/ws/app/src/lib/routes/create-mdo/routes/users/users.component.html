@@ -9,7 +9,7 @@
   </div>
   <div class="flex-display">
     <ws-widget-ui-user-table [hidden]="currentTab==='rolesandaccess'" [tableData]="tabledata" [data]="data"
-      [otherInput]="createdDepartment" [needAddAdmin]="true" [needCreateUser]="true"
+      [otherInput]="createdDepartment" [needAddAdmin]="true" [needCreateUser]="true" (actionsClick)="editUser($event)"
       (searchByEnterKey)="onEnterkySearch($event)">
     </ws-widget-ui-user-table>
     <ws-app-roles-access [hidden]="currentTab==='users'" (clickedDepartment)="fClickedDepartment($event)">
