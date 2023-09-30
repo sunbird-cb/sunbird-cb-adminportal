@@ -84,11 +84,11 @@ export class UsersService {
         filters: {
           status: 1,
           rootOrgId: userRootOrgId,
-          "organisations.roles": ["MDO_LEADER"]
+          'organisations.roles': ['MDO_LEADER'],
         },
         limit: 0,
-        fields: []
-      }
+        fields: [],
+      },
     }
     return this.http.post<any>(API_END_POINTS.SEARCH_USER_TABLE, req)
   }

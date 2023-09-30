@@ -100,6 +100,10 @@ export class UsersComponent implements OnInit, AfterViewInit, OnDestroy {
       sortState: 'asc',
     }
 
+    if (this.currentDept === 'mdo') {
+      this.tabledata['actions'] = [{ name: 'Edit', label: 'Edit info', optional: true, icon: 'remove_red_eye', type: 'button' }]
+    }
+
   }
   ngAfterViewInit() {
     // this.elementPosition = this.menuElement.nativeElement.parentElement.offsetTop
@@ -231,5 +235,14 @@ export class UsersComponent implements OnInit, AfterViewInit, OnDestroy {
       this.newKongUser()
     }
     )
+  }
+  editUser(event: any) {
+    this.router.navigate(['app/home/create-user'], {
+      queryParams: {
+        id: this.id, currentDept: this.currentDept,
+        createDept: JSON.stringify({ depName: this.deptName }),
+        redirectionPath: window.location.href,
+      }, state: { userData: event.row, updateButton: true },
+    })
   }
 }

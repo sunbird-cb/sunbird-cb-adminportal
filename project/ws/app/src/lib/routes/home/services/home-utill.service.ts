@@ -35,6 +35,12 @@ export class ProfileV2UtillService {
     if (value !== undefined) {
       return value.replace('@', '[at]').replace(/\./g, '[dot]')
     }
+  }
 
+  transformToEmail(value: any): any {
+    if (value !== undefined) {
+      return value.replace('[at]', '@').replaceAll('[dot]', '.')
+    }
+    return ''
   }
 }

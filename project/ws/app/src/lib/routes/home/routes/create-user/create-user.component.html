@@ -183,10 +183,16 @@
 
 
         <div class="flex flex-1 mt-5">
-          <button mat-raised-button type="submit" (click)="onSubmit(createUserForm)" class="text-white btn-success"
-            [disabled]="createUserForm?.invalid || disableCreateButton">
+          <button mat-raised-button type="submit" *ngIf="!updateButton" (click)="onSubmit(createUserForm)"
+            class="text-white btn-success" [disabled]="createUserForm?.invalid || disableCreateButton">
             <span class="text-white" i18n>
               Create user
+            </span>
+          </button>
+          <button mat-raised-button type="submit" *ngIf="updateButton" (click)="onUpdate(createUserForm)"
+            class="text-white btn-success" [disabled]="createUserForm?.invalid || disableCreateButton">
+            <span class="text-white" i18n>
+              Update user
             </span>
           </button>
           <button mat-raised-button type="button" class="flex-auto-display mar" (click)="navigateTo()">
