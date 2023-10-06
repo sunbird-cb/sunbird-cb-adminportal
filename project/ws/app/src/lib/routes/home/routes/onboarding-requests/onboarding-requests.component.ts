@@ -45,7 +45,7 @@ export class OnboardingRequestsComponent implements OnInit {
       this.tabledata = {
         columns: [
           { key: 'createdDate', displayName: 'Created on' },
-          { key: this.requestType, displayName: this.displayType },
+          { key: this.requestType, displayName: this.getDisplayName() },
           { key: 'firstName', displayName: 'Full name' },
           { key: 'email', displayName: 'Email' },
         ],
@@ -62,8 +62,8 @@ export class OnboardingRequestsComponent implements OnInit {
 
       this.tabledataApproved = {
         columns: [
-          { key: 'lastupdateDate', displayName: 'Last Updated on' },
-          { key: this.requestType, displayName: this.displayType },
+          { key: 'lastupdateDate', displayName: 'Last updated on' },
+          { key: this.requestType, displayName: this.getDisplayName() },
           { key: 'firstName', displayName: 'Full name' },
           { key: 'email', displayName: 'Email' },
         ],
@@ -78,7 +78,7 @@ export class OnboardingRequestsComponent implements OnInit {
       this.tabledataPositions = {
         columns: [
           { key: 'name', displayName: 'Name' },
-          { key: 'description', displayName: 'Descriiption' },
+          { key: 'description', displayName: 'Description' },
         ],
         actions: [],
         needHash: false,
@@ -89,6 +89,10 @@ export class OnboardingRequestsComponent implements OnInit {
         actionColumnName: 'Edit',
       }
     })
+  }
+
+  getDisplayName() {
+    return this.displayType.charAt(0).toUpperCase() + this.displayType.substr(1).toLowerCase()
   }
 
   formatData(resData: any, list: any) {
