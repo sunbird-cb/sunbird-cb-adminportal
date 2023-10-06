@@ -11,7 +11,8 @@
     <mat-card-content>
       <ng-container>
         <div class="requestform-box ws-mat-accent-border">
-          <h2 class="cb-title ng-star-inserted margin-bottom-xl">{{ newPosition ? 'Add new position' : 'Manage approval'
+          <h2 class="cb-title ng-star-inserted margin-bottom-xl">{{ newPosition ? 'Add new designation' : 'Manage
+            approval'
             }}</h2>
           <form [formGroup]="positionForm" (ngSubmit)="newPosition ? addNewPosistion() : onSubmit()" class="flex-4">
             <mat-card class="no-shadow">
@@ -20,7 +21,7 @@
                   <div class="margin-top-s" *ngIf="!newPosition">
                     <div class="margin-top-xs">
                       <p class="margin-remove-bottom" i18n="new position">
-                        Full Name
+                        Full name
                       </p>
                       <mat-form-field appearance="outline" class="margin-top-xs">
                         <input matInput #fullname formControlName="fullname" type="text" readonly
@@ -52,13 +53,13 @@
                   <div class="margin-top-s" *ngIf="requestType === 'position'">
                     <div class="margin-top-xs">
                       <p class="margin-remove-bottom" i18n="new position">
-                        New Position Name
+                        New designation name
                       </p>
                       <mat-form-field appearance="outline" class="margin-top-xs">
                         <input matInput #position formControlName="position" maxlength="500" i18n-placeholder
                           placeholder="Type here" type="text" />
                         <mat-error i18n="Position Error|Explains position is required">
-                          Position name is not valid
+                          Designation name is not valid
                         </mat-error>
                       </mat-form-field>
                     </div>
@@ -132,7 +133,7 @@
                 <button class="text-white ws-mat-primary-background margin-right-m btn-success" mat-raised-button
                   color="primary" type="submit" i18n [disabled]="!positionForm.valid">
                   <ng-container>
-                    <span class="text-white" i18n>Add position</span>
+                    <span class="text-white" i18n>Add designation</span>
                   </ng-container>
                 </button>
                 <button class="margin-right-m" mat-raised-button color="primary" type="button" (click)="cancelRequest()"

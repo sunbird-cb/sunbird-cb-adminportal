@@ -37,18 +37,16 @@ export class OnboardingRequestsComponent implements OnInit {
       }
 
       if (this.requestType === 'position') {
-        this.displayType = 'Position'
-      } else if (this.requestType === 'organisation') {
-        this.displayType = 'Organisation'
-      } else if (this.requestType === 'domain') {
-        this.displayType = 'Domain'
+        this.displayType = 'designation'
+      } else {
+        this.displayType = this.requestType
       }
 
       this.tabledata = {
         columns: [
-          { key: 'createdDate', displayName: 'Created On' },
+          { key: 'createdDate', displayName: 'Created on' },
           { key: this.requestType, displayName: this.displayType },
-          { key: 'firstName', displayName: 'Full Name' },
+          { key: 'firstName', displayName: 'Full name' },
           { key: 'email', displayName: 'Email' },
         ],
         actions: [
@@ -64,9 +62,9 @@ export class OnboardingRequestsComponent implements OnInit {
 
       this.tabledataApproved = {
         columns: [
-          { key: 'lastupdateDate', displayName: 'Last Updated On' },
+          { key: 'lastupdateDate', displayName: 'Last Updated on' },
           { key: this.requestType, displayName: this.displayType },
-          { key: 'firstName', displayName: 'Full Name' },
+          { key: 'firstName', displayName: 'Full name' },
           { key: 'email', displayName: 'Email' },
         ],
         actions: [],
