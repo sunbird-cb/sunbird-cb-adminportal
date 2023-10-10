@@ -76,7 +76,7 @@ export class RequestsApprovalComponent implements OnInit {
 
   ngOnInit() {
     // if (this.requestType === 'position') {
-    //   this.breadcrumbs = { titles: [{ title: 'Requests', url: '/app/home/requests/position' }, { title: 'Approval', url: 'none' }] }
+    //   this.breadcrumbs = { titles: [{ title: 'Requests', url: '/app/home/requests/designation' }, { title: 'Approval', url: 'none' }] }
     // } else if (this.requestType === 'organisation') {
     //   this.breadcrumbs = { titles: [{ title: 'Requests', url: '/app/home/requests/organisation' }, { title: 'Approval', url: 'none' }] }
     // } else if (this.requestType === 'domain') {
@@ -121,7 +121,7 @@ export class RequestsApprovalComponent implements OnInit {
           // console.log('this.requestObj', this.requestObj)
           this.requestService.approveNewPosition(this.requestObj).subscribe(() => {
             this.openSnackbar('Success!')
-            this.route.navigate(['/app/home/requests/position'])
+            this.route.navigate(['/app/home/requests/designation'])
           })
         } else if (this.requestType === 'organisation') {
           const formobj = {
@@ -174,7 +174,7 @@ export class RequestsApprovalComponent implements OnInit {
 
   navigateTo() {
     if (this.requestType === 'position') {
-      this.route.navigate(['/app/home/requests/position'])
+      this.route.navigate(['/app/home/requests/designation'])
     } else if (this.requestType === 'organisation') {
       this.route.navigate(['/app/home/requests/organisation'])
     } else if (this.requestType === 'domain') {
@@ -216,7 +216,7 @@ export class RequestsApprovalComponent implements OnInit {
           this.requestObj.updateFieldValues.push(formobj)
           this.requestService.approveNewPosition(this.requestObj).subscribe(() => {
             this.openSnackbar('Success!')
-            this.route.navigate(['/app/home/requests/position'])
+            this.route.navigate(['/app/home/requests/designation'])
           })
         } else if (this.requestType === 'organisation') {
           const formobj = {
@@ -258,7 +258,7 @@ export class RequestsApprovalComponent implements OnInit {
   }
 
   cancelRequest() {
-    this.route.navigate(['/app/home/requests/position'])
+    this.route.navigate(['/app/home/requests/designation'])
   }
 
   addNewPosistion() {
@@ -279,7 +279,7 @@ export class RequestsApprovalComponent implements OnInit {
         }
         this.requestService.addNewPosition(this.requestObj).subscribe(() => {
           this.openSnackbar('Success!')
-          this.route.navigate(['/app/home/requests/position'])
+          this.route.navigate(['/app/home/requests/designation'])
         })
       } else {
         this.navigateTo()

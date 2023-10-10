@@ -27,19 +27,31 @@ export class OnboardingRequestsComponent implements OnInit {
     this.findSpvAdmin(userRoles)
     this.activatedRoute.params.subscribe((routeParams: any) => {
       this.data = []
-      this.currentFilter = 'pending'
       this.requestType = routeParams.type
-      if (this.activatedRoute.snapshot.data && this.activatedRoute.snapshot.data.requestsList.data) {
-        const resData = this.activatedRoute.snapshot.data.requestsList.data
-        this.formatData(resData, 'pending')
+      this.displayType = this.requestType
+      if (this.requestType === 'designation') {
+        this.requestType = 'position'
+        this.currentFilter = 'designations'
       } else {
-        this.getPendingList()
+        this.currentFilter = 'pending'
       }
-
       if (this.requestType === 'position') {
-        this.displayType = 'designation'
+        if (this.activatedRoute.snapshot.data && this.activatedRoute.snapshot.data.positionsList.data) {
+          const resData = this.activatedRoute.snapshot.data.positionsList.data
+          resData.forEach((req: any) => {
+            this.data.push(req)
+          })
+          this.data.sort((a: any, b: any) => a.name - b.name)
+        } else {
+          this.data = []
+        }
       } else {
-        this.displayType = this.requestType
+        if (this.activatedRoute.snapshot.data && this.activatedRoute.snapshot.data.requestsList.data) {
+          const resData = this.activatedRoute.snapshot.data.requestsList.data
+          this.formatData(resData, this.currentFilter)
+        } else {
+          this.getPendingList()
+        }
       }
 
       this.tabledata = {
@@ -155,7 +167,7 @@ export class OnboardingRequestsComponent implements OnInit {
     })
   }
 
-  filter(key: 'pending' | 'approved' | 'rejected' | 'positions') {
+  filter(key: 'pending' | 'approved' | 'rejected' | 'designations') {
     switch (key) {
       case 'pending':
         this.data = []
@@ -187,9 +199,9 @@ export class OnboardingRequestsComponent implements OnInit {
           this.getRejectedList()
         }
         break
-      case 'positions':
+      case 'designations':
         this.data = []
-        this.currentFilter = 'positions'
+        this.currentFilter = 'designations'
         if (this.activatedRoute.snapshot.data && this.activatedRoute.snapshot.data.positionsList.data) {
           const resData = this.activatedRoute.snapshot.data.positionsList.data
           resData.forEach((req: any) => {
