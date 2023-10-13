@@ -107,7 +107,7 @@ export class DirectoryViewComponent implements OnInit {
     })
   }
   onRoleClick(role: any) {
-    this.router.navigate([`/app/roles/${role.id}/users`], { queryParams: { currentDept: this.currentFilter, roleId: role.id, depatName: role.channel } })
+    this.router.navigate([`/app/roles/${role.id}/users`], { queryParams: { currentDept: this.currentFilter, roleId: role.id, depatName: role.mdo } })
   }
 
   filter(value: string) {
