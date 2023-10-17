@@ -45,6 +45,7 @@ export class CreateUserComponent implements OnInit {
   editUserInfo: any
   updateButton = false
   mdoLeadersCount = 0
+  // hideRole: any = []
 
   constructor(
     private route: ActivatedRoute,
@@ -343,9 +344,13 @@ export class CreateUserComponent implements OnInit {
       userdata => {
         if (userdata.result && userdata.result.response) {
           this.mdoLeadersCount = userdata.result.response.count
+          // if (userdata.result.response.count >= 1) {
+          //   this.hideRole.push('MDO_LEADER')
+          // }
         }
       })
   }
+
   onUpdate(userData: any) {
     this.displayLoader = true
     const userInfo = userData.value
