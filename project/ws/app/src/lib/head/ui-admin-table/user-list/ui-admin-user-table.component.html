@@ -35,7 +35,7 @@
                 <button mat-raised-button type="button" *ngIf="needCreatePosition"
                     class="text-white ws-mat-primary-background text-white margin-right-l"
                     (click)="gotoCreatePosition()">
-                    <b class="text-white" i18n>Add new position</b>
+                    <b class="text-white" i18n>Add new designation</b>
                 </button>
             </div>
             <div *ngIf="!isReports">
@@ -107,7 +107,7 @@
             <mat-row *matRowDef="let row; columns: getFinalColumns();" (click)="selection.toggle(row);">
             </mat-row>
         </mat-table>
-        <div class="no-information-found" *ngIf="dataSource.filteredData.length===0">No user information found
+        <div class="no-information-found" *ngIf="dataSource.filteredData.length===0">No data found
         </div>
     </div>
 

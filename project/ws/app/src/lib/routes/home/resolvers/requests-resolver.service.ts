@@ -17,6 +17,10 @@ export class RequestsResolve
     const reqArray = window.location.pathname.split('requests/')
     this.requestType = reqArray[1]
 
+    if (this.requestType === 'designation') {
+      this.requestType = 'position'
+    }
+
     if (this.requestType === 'position') {
       this.url = '/apis/proxies/v8/workflow/position/search'
     } else if (this.requestType === 'organisation') {

@@ -3,8 +3,9 @@
     <mat-card-header class="flex-custom-m margin-bottom-l" id="directorycs">
       <div class="flex-1" role="link" tabindex="0">
         <div class="flex flex-1">
-          <mat-card-title class="flex-4 mobile-margin text-capitalize margin-remove-bottom">
-            <span class="mat-title">Manage {{displayType}} Requests</span>
+          <mat-card-title class="flex-4 mobile-margin margin-remove-bottom">
+            <span *ngIf="currentFilter !== 'designations'" class="mat-title">Manage {{displayType}} requests</span>
+            <span *ngIf="currentFilter === 'designations'" class="mat-title">Manage designations</span>
           </mat-card-title>
         </div>
       </div>
@@ -12,6 +13,10 @@
     <mat-card-content>
       <div class="flex flex-1 flex-column margin-fix">
         <div class="flex flex-1 filter max-height-60">
+          <a class="filter-option" *ngIf="isSpvAdmin && displayType === 'designation'"
+            [ngClass]="{'ws-mat-accent-border-active' : currentFilter === 'designations',
+                                                                          'ws-mat-accent-border font-medium':currentFilter !== 'designations'}" mat-button (click)="filter('designations')"
+            role="button">Designations</a>
           <a class="filter-option" [ngClass]="{'ws-mat-accent-border-active' : currentFilter === 'pending',
                                         'ws-mat-accent-border font-medium':currentFilter !== 'pending'}" mat-button
             (click)="filter('pending')" role="button">Pending requests</a>
@@ -22,10 +27,7 @@
             [ngClass]="{'ws-mat-accent-border-active' : currentFilter === 'rejected',
                                                                 'ws-mat-accent-border font-medium':currentFilter !== 'rejected'}" mat-button
             (click)="filter('rejected')" role="button">Rejected requests</a>
-          <a class="filter-option" *ngIf="isSpvAdmin && displayType === 'Position'"
-            [ngClass]="{'ws-mat-accent-border-active' : currentFilter === 'positions',
-                                                                'ws-mat-accent-border font-medium':currentFilter !== 'positions'}" mat-button (click)="filter('positions')"
-            role="button">Positions</a>
+
         </div>
         <div>
 
@@ -41,10 +43,12 @@
       <ng-container *ngIf="currentFilter === 'rejected'">
         <ws-widget-org-user-table [tableData]="tabledataApproved" [data]='data'></ws-widget-org-user-table>
       </ng-container>
-      <ng-container *ngIf="currentFilter === 'positions'">
-        <ws-widget-ui-user-table [tableData]='tabledataPositions' [data]='data' isCreate=true
-          [currentTabData]='currentFilter' [needCreatePosition]="true">
-        </ws-widget-ui-user-table>
+      <ng-container *ngIf="currentFilter === 'designations'">
+        <div class="margin-top-m">
+          <ws-widget-ui-user-table [tableData]='tabledataPositions' [data]='data' isCreate=true
+            [currentTabData]='currentFilter' [needCreatePosition]="true">
+          </ws-widget-ui-user-table>
+        </div>
       </ng-container>
     </mat-card-content>
   </mat-card>

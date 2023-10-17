@@ -168,10 +168,11 @@ const routes: Routes = [
           pageKey: 'Requests',
         },
         resolve: {
+          positionsList: ApprovedlistResolve,
           requestsList: RequestsResolve,
           aprovedrequestsList: ApprovedRequestsResolve,
           rejectedList: RejectedRequestsResolve,
-          positionsList: ApprovedlistResolve,
+
         },
         runGuardsAndResolvers: 'always',
         component: OnboardingRequestsComponent,

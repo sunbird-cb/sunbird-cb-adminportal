@@ -15,7 +15,7 @@ export class ApprovedlistResolve
     const reqArray = window.location.pathname.split('requests/')
     this.requestType = reqArray[1]
     this.url = '/apis/proxies/v8/user/v1/positions'
-    if (this.requestType && this.requestType === 'position') {
+    if (this.requestType && this.requestType === 'designation') {
       return this.http.get(this.url).pipe(
         map((datanew: any) => ({
           data: datanew.responseData, error: null,
