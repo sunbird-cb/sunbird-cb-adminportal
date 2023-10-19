@@ -56,6 +56,7 @@ export class UIAdminUserTableComponent implements OnInit, AfterViewInit, OnChang
   isStateAdmin = false
   isReports = false
   reportsPath: any
+  orgName!: string
   constructor(
     private router: Router, public dialog: MatDialog,
     private activatedRoute: ActivatedRoute,
@@ -85,6 +86,7 @@ export class UIAdminUserTableComponent implements OnInit, AfterViewInit, OnChang
     this.activatedRoute.queryParams.subscribe(params => {
       this.departmentRole = params['currentDept']
       this.departmentName = params['depatName']
+      this.orgName = params['orgName']
       this.departmentId = params['roleId']
       this.reportsPath = params['path']
       if (this.needCreateUser !== false && (this.departmentRole && this.departmentRole !== 'ministry') && this.departmentId) {
@@ -240,6 +242,7 @@ export class UIAdminUserTableComponent implements OnInit, AfterViewInit, OnChang
         queryParams: {
           id: this.departmentId, currentDept: this.departmentRole,
           createDept: JSON.stringify(this.otherInput),
+          orgName: this.orgName,
           redirectionPath: window.location.href,
         },
       })
