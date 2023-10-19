@@ -329,6 +329,7 @@ export class CreateMdoComponent implements OnInit {
     if (this.formType === 'department') {
       if (!this.isStateAdmin) {
         this.createMdoService.getStatesOrMinisteries('ministry').subscribe(res => {
+          console.log(res, 'res====')
           if (res && res.result && res.result && res.result.response && res.result.response.content) {
             this.ministeries = res.result.response.content
             this.onMinisteriesChange()
@@ -359,7 +360,7 @@ export class CreateMdoComponent implements OnInit {
   }
 
   ministrySelected(value: any) {
-    const ministryRegex = value.channel.match(this.noSpecialChar)
+    const ministryRegex = value.orgName.match(this.noSpecialChar)
     // tslint:disable-next-line: no-non-null-assertion
     this.departmentForm.get('department')!.setValue('')
     // tslint:disable-next-line: no-non-null-assertion
