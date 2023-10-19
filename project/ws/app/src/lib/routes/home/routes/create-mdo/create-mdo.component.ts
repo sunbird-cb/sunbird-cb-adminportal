@@ -329,7 +329,6 @@ export class CreateMdoComponent implements OnInit {
     if (this.formType === 'department') {
       if (!this.isStateAdmin) {
         this.createMdoService.getStatesOrMinisteries('ministry').subscribe(res => {
-          console.log(res, 'res====')
           if (res && res.result && res.result && res.result.response && res.result.response.content) {
             this.ministeries = res.result.response.content
             this.onMinisteriesChange()
