@@ -359,7 +359,7 @@ export class CreateMdoComponent implements OnInit {
   }
 
   ministrySelected(value: any) {
-    const ministryRegex = value.channel.match(this.noSpecialChar)
+    const ministryRegex = value.orgName.match(this.noSpecialChar)
     // tslint:disable-next-line: no-non-null-assertion
     this.departmentForm.get('department')!.setValue('')
     // tslint:disable-next-line: no-non-null-assertion
