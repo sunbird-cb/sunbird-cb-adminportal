@@ -169,11 +169,7 @@ const routes: Routes = [
           pageKey: 'Requests',
         },
         resolve: {
-          positionsList: ApprovedlistResolve,
           requestsList: RequestsResolve,
-          aprovedrequestsList: ApprovedRequestsResolve,
-          rejectedList: RejectedRequestsResolve,
-
         },
         runGuardsAndResolvers: 'always',
         component: EmailDomainsComponent,
