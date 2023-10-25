@@ -47,6 +47,7 @@ import { OnboardingRequestsComponent } from './routes/onboarding-requests/onboar
 import { RequestsApprovalComponent } from './routes/requests-approval/requests-approval.component'
 import { AcsendingOrderPipe } from './pipes/acsending-order.pipe'
 import { RejectReasonDialogComponent } from './routes/reject-reason-dialog/reject-reason-dialog.component'
+import { EmailDomainsComponent } from './routes/email-domains/email-domains.component'
 @NgModule({
   declarations: [
     HomeComponent,
@@ -55,6 +56,7 @@ import { RejectReasonDialogComponent } from './routes/reject-reason-dialog/rejec
     RolesAccessComponent,
     DirectoryViewComponent,
     OnboardingRequestsComponent,
+    EmailDomainsComponent,
     RequestsApprovalComponent,
     CreateMdoComponent,
     UserPopupComponent,

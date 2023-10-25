@@ -144,8 +144,6 @@ export class OnboardingRequestsComponent implements OnInit {
             val.position = obj.toValue.position
           } else if (this.requestType === 'organisation') {
             val.organisation = obj.toValue.organisation
-          } else if (this.requestType === 'domain') {
-            val.domain = obj.toValue.domain
           }
           this.data.push(val)
 
@@ -235,11 +233,6 @@ export class OnboardingRequestsComponent implements OnInit {
         const resData = res.result.data
         this.formatData(resData, 'pending')
       })
-    } else if (this.requestType === 'domain') {
-      this.requestService.getDomainsList(reqbody).subscribe((res: any) => {
-        const resData = res.result.data
-        this.formatData(resData, 'pending')
-      })
     }
   }
 
@@ -261,11 +254,6 @@ export class OnboardingRequestsComponent implements OnInit {
         const resData = res.result.data
         this.formatData(resData, 'approved')
       })
-    } else if (this.requestType === 'domain') {
-      this.requestService.getDomainsList(reqbody).subscribe((res: any) => {
-        const resData = res.result.data
-        this.formatData(resData, 'approved')
-      })
     }
   }
 
@@ -284,11 +272,6 @@ export class OnboardingRequestsComponent implements OnInit {
       })
     } else if (this.requestType === 'organisation') {
       this.requestService.getOrgsList(reqbody).subscribe((res: any) => {
-        const resData = res.result.data
-        this.formatData(resData, 'rejected')
-      })
-    } else if (this.requestType === 'domain') {
-      this.requestService.getDomainsList(reqbody).subscribe((res: any) => {
         const resData = res.result.data
         this.formatData(resData, 'rejected')
       })
