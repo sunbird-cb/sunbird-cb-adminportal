@@ -12,6 +12,7 @@ export class RequestsResolve
   Resolve<any> {
   requestType: any
   url: any
+  pageLimit = 1000
   constructor(private http: HttpClient) { }
   resolve(): Observable<any> {
     const reqArray = window.location.pathname.split('requests/')
@@ -27,17 +28,18 @@ export class RequestsResolve
       this.url = '/apis/proxies/v8/workflow/org/search'
     } else if (this.requestType === 'domain') {
       this.url = '/apis/proxies/v8/workflow/domain/search'
+      this.pageLimit = 20
     }
     const reqbody = {
       serviceName: this.requestType,
       applicationStatus: 'IN_PROGRESS',
-      limit: 1000,
+      limit: this.pageLimit,
       offset: 0,
       deptName: 'iGOT',
     }
     return this.http.post(this.url, reqbody).pipe(
       map((datanew: any) => ({
-        data: datanew.result.data, error: null,
+        data: this.requestType === 'domain' ? datanew.result : datanew.result.data, error: null,
       })),
       catchError(error => of({ error, data: null })),
     )

@@ -21,6 +21,7 @@ import { RequestsResolve } from './resolvers/requests-resolver.service'
 import { ApprovedRequestsResolve } from './resolvers/approvedrequests-resolver.service'
 import { RejectedRequestsResolve } from './resolvers/rejectedrequests-reoslver.service'
 import { ApprovedlistResolve } from './resolvers/positionlist-resolver.service'
+import { EmailDomainsComponent } from './routes/email-domains/email-domains.component'
 
 const routes: Routes = [
   {
@@ -158,6 +159,24 @@ const routes: Routes = [
           pageType: 'feature',
           pageKey: 'Requests',
         },
+      },
+      {
+        path: 'requests/domain',
+        data: {
+          pageId: 'home/requests',
+          module: 'Requests',
+          pageType: 'feature',
+          pageKey: 'Requests',
+        },
+        resolve: {
+          positionsList: ApprovedlistResolve,
+          requestsList: RequestsResolve,
+          aprovedrequestsList: ApprovedRequestsResolve,
+          rejectedList: RejectedRequestsResolve,
+
+        },
+        runGuardsAndResolvers: 'always',
+        component: EmailDomainsComponent,
       },
       {
         path: 'requests/:type',
