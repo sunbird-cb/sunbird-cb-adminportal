@@ -109,7 +109,7 @@ export class EmailDomainsComponent implements OnInit {
           val.noOfRequests = 0
           if (val.additionalProperties) {
             const additionalProperties = JSON.parse(val.additionalProperties)
-            val.noOfRequest = additionalProperties.noOfRequest
+            val.noOfRequests = additionalProperties.noOfRequest
           }
           this.data.push(val)
           this.data.sort((a: any, b: any) => {
