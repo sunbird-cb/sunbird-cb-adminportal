@@ -40,6 +40,7 @@ export class EmailDomainsComponent implements OnInit {
         { key: this.requestType, displayName: 'Domain' },
         { key: 'firstName', displayName: 'Full name' },
         { key: 'email', displayName: 'Email' },
+        { key: 'noOfRequests', displayName: 'No of requests' },
       ],
       actions: [
         { name: 'edit', label: 'Edit', icon: 'edit', type: 'link' },
@@ -58,6 +59,7 @@ export class EmailDomainsComponent implements OnInit {
         { key: this.requestType, displayName: 'Domain' },
         { key: 'firstName', displayName: 'Full name' },
         { key: 'email', displayName: 'Email' },
+        { key: 'noOfRequests', displayName: 'No of requests' },
       ],
       actions: [],
       needHash: false,
@@ -104,6 +106,11 @@ export class EmailDomainsComponent implements OnInit {
           val.email = obj.email
           val.mobile = obj.mobile
           val.domain = obj.toValue.domain
+          val.noOfRequests = 0
+          if (val.additionalProperties) {
+            const additionalProperties = JSON.parse(val.additionalProperties)
+            val.noOfRequest = additionalProperties.noOfRequest
+          }
           this.data.push(val)
           this.data.sort((a: any, b: any) => {
             return new Date(b.createdOn).getTime() - new Date(a.createdOn).getTime()
