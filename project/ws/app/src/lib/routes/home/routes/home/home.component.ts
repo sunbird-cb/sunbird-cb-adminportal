@@ -37,8 +37,8 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('stickyMenu', { static: true }) menuElement!: ElementRef
   elementPosition: any
   sticky = false
-  department: any = {}
-  departmentName = ''
+  // department: any = {}
+  // departmentName = ''
   private defaultSideNavBarOpenedSubscription: any
   currentRouteData: any = []
   @HostListener('window:scroll', ['$event'])
@@ -85,7 +85,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
           const leftData = this.activeRoute.snapshot.data.pageData.data.menus
           _.set(leftData, 'widgetData.logo', true)
           _.set(leftData, 'widgetData.logoPath', _.get(this.activeRoute, 'snapshot.data.department.data.logo'))
-          _.set(leftData, 'widgetData.name', _.get(this.activeRoute, 'snapshot.data.configService.userProfile.departmentName'))
+          _.set(leftData, 'widgetData.name', _.get(this.activeRoute, 'snapshot.data.configService.unMappedUser.rootOrg.orgName'))
           _.set(leftData, 'widgetData.userRoles', this.myRoles)
           this.widgetData = leftData
         } else {
@@ -93,8 +93,8 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
 
         }
 
-        this.department = this.activeRoute.snapshot.data.department.data
-        this.departmentName = this.department ? this.department.deptName : ''
+        // this.department = this.activeRoute.snapshot.data.configService.unMappedUser.rootOrg.orgName
+        // this.departmentName = this.department ? this.department : ''
 
       }
 
