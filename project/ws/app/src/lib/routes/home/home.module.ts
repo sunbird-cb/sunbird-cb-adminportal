@@ -19,6 +19,11 @@ import {
   MatProgressBarModule,
   MatCheckboxModule,
   MatAutocompleteModule,
+  MatTableModule,
+  MatSortModule,
+  MatMenuModule,
+  MatPaginatorModule,
+  MAT_DIALOG_DATA,
 } from '@angular/material'
 import { MatCardModule } from '@angular/material/card'
 import { ReactiveFormsModule, FormsModule } from '@angular/forms'
@@ -48,6 +53,9 @@ import { RequestsApprovalComponent } from './routes/requests-approval/requests-a
 import { AcsendingOrderPipe } from './pipes/acsending-order.pipe'
 import { RejectReasonDialogComponent } from './routes/reject-reason-dialog/reject-reason-dialog.component'
 import { EmailDomainsComponent } from './routes/email-domains/email-domains.component'
+import { EventsListComponent } from './routes/events/events-list/events-list.component'
+import { EventListViewComponent } from './routes/events/event-list-view/event-list-view.component'
+import { EventThumbnailComponent } from './routes/events/event-thumbnail/event-thumbnail.component'
 @NgModule({
   declarations: [
     HomeComponent,
@@ -67,6 +75,9 @@ import { EmailDomainsComponent } from './routes/email-domains/email-domains.comp
     ModerationViewComponent,
     RolesUsersComponent,
     ReportsComponent,
+    EventsListComponent,
+    EventListViewComponent,
+    EventThumbnailComponent,
     AcsendingOrderPipe,
     RejectReasonDialogComponent,
   ],
@@ -109,13 +120,23 @@ import { EmailDomainsComponent } from './routes/email-domains/email-domains.comp
     ImageCropModule,
     UIAdminTableModule,
     UIORGTableModule,
+    MatTableModule,
+    MatSortModule,
+    MatMenuModule,
+    MatPaginatorModule,
     NgMultiSelectDropDownModule.forRoot(),
   ],
-  entryComponents: [UserPopupComponent, OpenRolesDialogComponent, EditDepartmentDialogComponent, RejectReasonDialogComponent],
+  entryComponents: [
+    UserPopupComponent,
+    OpenRolesDialogComponent,
+    EditDepartmentDialogComponent,
+    RejectReasonDialogComponent,
+    EventThumbnailComponent],
   providers: [
     // CKEditorService,
     // LoaderService,
     InitResolver,
+    { provide: MAT_DIALOG_DATA, useValue: {} },
   ],
 })
 export class HomeModule {

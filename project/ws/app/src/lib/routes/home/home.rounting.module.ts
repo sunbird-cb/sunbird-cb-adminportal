@@ -22,6 +22,7 @@ import { ApprovedRequestsResolve } from './resolvers/approvedrequests-resolver.s
 import { RejectedRequestsResolve } from './resolvers/rejectedrequests-reoslver.service'
 import { ApprovedlistResolve } from './resolvers/positionlist-resolver.service'
 import { EmailDomainsComponent } from './routes/email-domains/email-domains.component'
+import { EventsListComponent } from './routes/events/events-list/events-list.component'
 
 const routes: Routes = [
   {
@@ -223,6 +224,19 @@ const routes: Routes = [
       //     pageKey: 'positions',
       //   },
       // },
+      {
+        path: 'events',
+        component: EventsListComponent,
+        data: {
+          pageId: 'home/events',
+          module: 'Events',
+          pageType: 'feature',
+          pageKey: 'Events',
+        },
+        resolve: {
+          configService: ConfigResolveService,
+        }
+      },
       {
         path: 'reports',
         component: ReportsComponent,
