@@ -176,7 +176,7 @@ export class EventListViewComponent implements OnInit, AfterViewInit, OnChanges,
   }
 
   onCreateClick() {
-    this.router.navigate([`/app/events/create-event`])
+    this.router.navigate([`/app/home/events/create-event`])
     // this.telemetrySvc.impression()
     this.events.raiseInteractTelemetry(
       {

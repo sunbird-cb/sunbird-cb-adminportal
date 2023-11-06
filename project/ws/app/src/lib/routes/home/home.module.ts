@@ -24,6 +24,8 @@ import {
   MatMenuModule,
   MatPaginatorModule,
   MAT_DIALOG_DATA,
+  MatDatepickerModule,
+  MatNativeDateModule,
 } from '@angular/material'
 import { MatCardModule } from '@angular/material/card'
 import { ReactiveFormsModule, FormsModule } from '@angular/forms'
@@ -56,6 +58,10 @@ import { EmailDomainsComponent } from './routes/email-domains/email-domains.comp
 import { EventsListComponent } from './routes/events/events-list/events-list.component'
 import { EventListViewComponent } from './routes/events/event-list-view/event-list-view.component'
 import { EventThumbnailComponent } from './routes/events/event-thumbnail/event-thumbnail.component'
+import { CreateEventComponent } from './routes/events/create-event/create-event.component'
+import { ParticipantsComponent } from './routes/events/participants/participants.component'
+import { SuccessComponent } from './routes/events/success/success.component'
+import { PipeEmailPipe } from './pipes/pipe-email.pipe'
 @NgModule({
   declarations: [
     HomeComponent,
@@ -78,7 +84,11 @@ import { EventThumbnailComponent } from './routes/events/event-thumbnail/event-t
     EventsListComponent,
     EventListViewComponent,
     EventThumbnailComponent,
+    CreateEventComponent,
+    ParticipantsComponent,
+    SuccessComponent,
     AcsendingOrderPipe,
+    PipeEmailPipe,
     RejectReasonDialogComponent,
   ],
   imports: [
@@ -109,6 +119,8 @@ import { EventThumbnailComponent } from './routes/events/event-thumbnail/event-t
     MatProgressSpinnerModule,
     MatProgressBarModule,
     PipeFilterModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
     PipeHtmlTagRemovalModule,
     PipeRelativeTimeModule,
     AvatarPhotoModule,
@@ -131,12 +143,15 @@ import { EventThumbnailComponent } from './routes/events/event-thumbnail/event-t
     OpenRolesDialogComponent,
     EditDepartmentDialogComponent,
     RejectReasonDialogComponent,
-    EventThumbnailComponent],
+    EventThumbnailComponent,
+    ParticipantsComponent,
+    SuccessComponent],
   providers: [
     // CKEditorService,
     // LoaderService,
     InitResolver,
     { provide: MAT_DIALOG_DATA, useValue: {} },
+    MatDatepickerModule, MatNativeDateModule,
   ],
 })
 export class HomeModule {

@@ -1,0 +1,26 @@
+<div class="example-card" fxLayoutAlign="center">
+    <div>
+        <div class="text-center">
+            <img src="/assets/icons/Publish_Success.svg" alt="Event Creation"
+                class="margin-top-s margin-bottom-s text-center">
+        </div>
+        <div class="margin-top-l">
+            <mat-card-title>Event Created Successfully</mat-card-title>
+        </div>
+    </div>
+    <div class="margin-top-xl">
+        <p>
+            Event will be listed under 'Upcoming'. You will be able to make updates to <br />
+            the event later.
+        </p>
+    </div>
+</div>
+<div class="margin-top-xl">
+    <mat-divider></mat-divider>
+    <div class="flex flex-1 custom button-row margin-top-m" align="end">
+        <button mat-stroked-button color="accent" type="button" class="mat-accent-border flex-auto-display"
+            (click)="dialogRef.close()">
+            <span i18n>Dismiss</span>
+        </button>
+    </div>
+</div>

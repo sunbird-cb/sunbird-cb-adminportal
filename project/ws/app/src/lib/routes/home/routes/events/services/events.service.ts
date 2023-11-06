@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
 import { Observable } from 'rxjs'
-import { environment } from '../../../../../../../../../src/environments/environment'
+import { environment } from '..//../../../../../../../../../src/environments/environment'
 
 
 const API_END_POINTS = {
@@ -46,8 +46,8 @@ export class EventsService {
     return this.http.post<any>(API_END_POINTS.UPDATE_EVENT, req)
   }
 
-  publishEvent(eventId: string): Observable<any> {
-    return this.http.post<any>(`${API_END_POINTS.PUBLISH_EVENT}/${eventId}`, '')
+  publishEvent(eventId: string, req: any): Observable<any> {
+    return this.http.post<any>(`${API_END_POINTS.PUBLISH_EVENT}/${eventId}`, req)
   }
 
   searchEvent(req: any) {

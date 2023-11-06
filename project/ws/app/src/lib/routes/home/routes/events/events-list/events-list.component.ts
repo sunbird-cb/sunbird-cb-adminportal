@@ -5,7 +5,7 @@ import { ConfigurationsService } from '@sunbird-cb/utils'
 import * as moment from 'moment'
 /* tslint:disable */
 import _ from 'lodash'
-import { EventsService } from '../events.service'
+import { EventsService } from '../services/events.service'
 
 @Component({
   selector: 'ws-app-events-list',
@@ -84,7 +84,7 @@ export class EventsListComponent implements OnInit {
       request: {
         query: '',
         filters: {
-          status: ['Live'],
+          status: ['Live', 'Retired'],
           contentType: 'Event',
         },
         sort_by: {
@@ -129,8 +129,13 @@ export class EventsListComponent implements OnInit {
             this.eventSvc.getPublicUrl(obj.appIcon) :
             '/assets/icons/Events_default.png',
         }
-        const isPast = this.compareDate(expiryDateFormat);
-        (isPast) ? this.eventData['pastEvents'].push(eventDataObj) : this.eventData['upcomingEvents'].push(eventDataObj)
+        console.log("obj.status ", obj.status)
+        if (obj.status === 'Retired') {
+          this.eventData['archiveEvents'].push(eventDataObj)
+        } else {
+          const isPast = this.compareDate(expiryDateFormat);
+          (isPast) ? this.eventData['pastEvents'].push(eventDataObj) : this.eventData['upcomingEvents'].push(eventDataObj)
+        }
         //}
       })
       this.filter('upcoming')
@@ -146,7 +151,6 @@ export class EventsListComponent implements OnInit {
 
   customDateFormat(date: string, time: string) {
     const fDate = date.split("-")
-    console.log(date)
     const fTime = time.split("+")
     const ffTime = fTime[0].split(":")
     const formatedDate = new Date(+fDate[0], +fDate[2], +fDate[1], +ffTime[0], +ffTime[1], +ffTime[2], 0)
@@ -211,10 +215,7 @@ export class EventsListComponent implements OnInit {
     const minutes = new Date(datetime).getMinutes()
     const seconds = new Date(datetime).getSeconds()
     const formatedDate = new Date(year, month, date, hours, minutes, seconds, 0)
-    // let format = 'YYYY-MM-DD hh:mm a'
-    // if (!timeAllow) {
     const format = 'Do MMM YYYY HH:mm'
-    // }
     const readableDateMonth = moment(formatedDate).format(format)
     const finalDateTimeValue = `${readableDateMonth}`
     return finalDateTimeValue
