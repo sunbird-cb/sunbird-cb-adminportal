@@ -691,6 +691,16 @@ input.mat-input-element {
 
 }
 
+.images {
+  display: flex;
+  justify-content: center;
+  align-content: space-between;
+  .img {
+    text-align: center;
+    margin: 5px;
+  }
+}
+
 .create-user-form{
   border-radius: 4px;
   margin: 0 114px;

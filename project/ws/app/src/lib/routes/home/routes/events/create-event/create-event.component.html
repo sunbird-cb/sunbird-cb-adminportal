@@ -54,14 +54,17 @@
                                                         [ngClass]="imageSrcURL ? 'button-row' : 'button-row-inline'">
                                                         <div class="item text-center margin-top-xl">
                                                             <ng-container *ngIf="!imageSrcURL">
-                                                                <div class="flex-row">
-                                                                    <div class="flex-1">
+                                                                <div class="images">
+                                                                    <div class="img">
+                                                                        <img class="imgicon display-block"
+                                                                            src="/assets/icons/jpg.svg">
+                                                                    </div>
+                                                                    <div class="img">
                                                                         <img class="imgicon display-block"
                                                                             src="/assets/icons/jpg.svg">
                                                                     </div>
                                                                 </div>
                                                             </ng-container>
-
                                                             <ng-container>
                                                                 <div id="thumbnail" class="deleteIcon"
                                                                     *ngIf="imageSrcURL">
