@@ -40,11 +40,12 @@
             </ng-container>
             <ng-container matColumnDef="Menu">
                 <mat-header-cell *matHeaderCellDef class="clr-darkish-blue action-header">
-                    <mat-icon>view_comfy</mat-icon>
+
                 </mat-header-cell>
                 <mat-cell *matCellDef="let row" class="action-cell">
                     <button type="button" mat-icon-button i18n-aria-label aria-label="action items"
-                        [matMenuTriggerFor]="cardMenu" [matMenuTriggerData]="{'data':row}" class="action-btn">
+                        *ngIf="currentFilter !== 'archive'" [matMenuTriggerFor]="cardMenu"
+                        [matMenuTriggerData]="{'data':row}" class="action-btn">
                         <mat-icon>more_horiz</mat-icon>
                     </button>
                 </mat-cell>
@@ -67,3 +68,17 @@
         [pageSizeOptions]="pageSizeOptions" class="mt-1">
     </mat-paginator>
 </div>
+
+<mat-menu #cardMenu="matMenu">
+    <ng-template matMenuContent let-rowData="data">
+        <!-- <div > -->
+        <button (click)="buttonClick('update event',rowData)" mat-menu-item name="channel-analytics-button"
+            class="ws-mat-primary-text" i18n-aria-label aria-label="Analytics">
+            <mat-icon>create</mat-icon> <span>Update event</span>
+        </button>
+        <button (click)="buttonClick('archive',rowData)" mat-menu-item name="channel-analytics-button"
+            class="ws-mat-primary-text" i18n-aria-label aria-label="Analytics">
+            <mat-icon>archive</mat-icon> <span>Archive event</span>
+        </button>
+    </ng-template>
+</mat-menu>

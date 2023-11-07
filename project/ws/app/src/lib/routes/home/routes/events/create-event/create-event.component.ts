@@ -361,7 +361,7 @@ export class CreateEventComponent implements OnInit {
     this.eventsSvc.updateEvent(formJson).subscribe(
       res => {
         if (res || !res) {
-          this.publishEvent(identifier)
+          this.publishEvent(identifier, '')
         }
       },
       (err: any) => {

@@ -58,6 +58,7 @@ export class EventsListComponent implements OnInit {
 
   ngOnInit() {
     this.tabledata = {
+      actions: [],
       columns: [
         // { displayName: 'Cover picture', key: 'eventThumbnail' },
         { displayName: 'Event title', key: 'eventName' },
@@ -70,6 +71,7 @@ export class EventsListComponent implements OnInit {
       needHash: false,
       sortColumn: 'eventCreatedOn',
       sortState: 'desc',
+      needUserMenus: true,
     }
     this.fetchEvents()
 
@@ -243,5 +245,9 @@ export class EventsListComponent implements OnInit {
     //   TelemetryEvents.EnumInteractSubTypes.APPROVAL_TAB,
     //   data,
     // )
+  }
+
+  menuActions($event: { action: string, row: any }) {
+    console.log($event)
   }
 }
