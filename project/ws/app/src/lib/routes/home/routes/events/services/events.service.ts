@@ -16,6 +16,7 @@ const API_END_POINTS = {
   GET_EVENTS: '/apis/proxies/v8/sunbirdigot/search',
   CREATE_ASSET: 'apis/proxies/v8/action/content/v3/create',
   UPLOAD_FILE: 'apis/proxies/v8/upload/action/content/v3/upload',
+  ARCHIVE_EVENT: '/apis/proxies/v8/event/v4/retire'
 }
 
 @Injectable({
@@ -76,6 +77,10 @@ export class EventsService {
 
   getEventDetails(eventID: any): Observable<any> {
     return this.http.get<any>(`${API_END_POINTS.EVENT_DETAILS}/${eventID}`)
+  }
+
+  retireEvent(eventId: any): Observable<any> {
+    return this.http.delete<any>(`${API_END_POINTS.ARCHIVE_EVENT}/${eventId}`)
   }
 
   getPublicUrl(url: string): string {

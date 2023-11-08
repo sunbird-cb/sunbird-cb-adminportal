@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core'
 import { MatDialog } from '@angular/material/dialog'
-import { ActivatedRoute } from '@angular/router'
+import { ActivatedRoute, Router } from '@angular/router'
 import { ConfigurationsService } from '@sunbird-cb/utils'
 import * as moment from 'moment'
 /* tslint:disable */
 import _ from 'lodash'
 import { EventsService } from '../services/events.service'
+import { DialogConfirmComponent } from '../../../../../../../../../../src/app/component/dialog-confirm/dialog-confirm.component'
+import { MatSnackBar } from '@angular/material'
 
 @Component({
   selector: 'ws-app-events-list',
@@ -28,9 +30,11 @@ export class EventsListComponent implements OnInit {
     public dialog: MatDialog,
     private activeRoute: ActivatedRoute,
     private configSvc: ConfigurationsService,
-    // private router: Router,
+    private router: Router,
     // private events: EventService,
     private eventSvc: EventsService,
+    private dialogue: MatDialog,
+    private snackBar: MatSnackBar,
   ) {
 
     this.configService = this.activeRoute.snapshot.data.configService
@@ -96,7 +100,6 @@ export class EventsListComponent implements OnInit {
     }
 
     this.eventSvc.getEventsList(requestObj).subscribe((events: any) => {
-      console.log("events ", events)
       this.setEventListData(events)
     })
   }
@@ -121,6 +124,7 @@ export class EventsListComponent implements OnInit {
         const str = creatordata && creatordata.length > 0 ? creatordata.replace(/\\/g, '') : []
         const creatorDetails = str && str.length > 0 ? JSON.parse(str) : creatordata
         const eventDataObj = {
+          identifier: obj.identifier,
           eventName: obj.name.substring(0, 100),
           eventStartDate: this.customDateFormat(obj.startDate, obj.startTime),
           eventCreatedOn: this.allEventDateFormat(obj.createdOn),
@@ -131,7 +135,6 @@ export class EventsListComponent implements OnInit {
             this.eventSvc.getPublicUrl(obj.appIcon) :
             '/assets/icons/Events_default.png',
         }
-        console.log("obj.status ", obj.status)
         if (obj.status === 'Retired') {
           this.eventData['archiveEvents'].push(eventDataObj)
         } else {
@@ -140,7 +143,7 @@ export class EventsListComponent implements OnInit {
         }
         //}
       })
-      this.filter('upcoming')
+      this.filter(this.currentFilter)
     }
   }
 
@@ -248,6 +251,32 @@ export class EventsListComponent implements OnInit {
   }
 
   menuActions($event: { action: string, row: any }) {
-    console.log($event)
+    console.log("event ", $event)
+    if ($event.action === 'archive') {
+      const dialogRef = this.dialogue.open(DialogConfirmComponent, {
+        data: {
+          title: 'Do you want to archive this event?',
+          bodyHTML: `Please click <strong>Yes</strong> to archive.`,
+        },
+      })
+      dialogRef.afterClosed().subscribe((response: any) => {
+        if (response) {
+          this.eventSvc.retireEvent($event.row.identifier).subscribe((result: any) => {
+            if (result.responseCode === 'OK') {
+              this.openSnackbar('Event is successfully archived.')
+              this.fetchEvents()
+              this.currentFilter = 'archive'
+              this.filter(this.currentFilter)
+            }
+          })
+        }
+      })
+    }
+  }
+
+  private openSnackbar(primaryMsg: string, duration: number = 5000) {
+    this.snackBar.open(primaryMsg, 'X', {
+      duration,
+    })
   }
 }
