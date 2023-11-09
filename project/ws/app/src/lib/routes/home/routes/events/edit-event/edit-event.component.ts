@@ -12,20 +12,20 @@ import { ConfigurationsService, EventService } from '@sunbird-cb/utils'
 import * as moment from 'moment'
 /* tslint:disable */
 import _ from 'lodash'
-import { TelemetryEvents } from '../../events/model/telemetry.event.model'
+import { TelemetryEvents } from '../model/telemetry.event.model'
 import { ProfileV2UtillService } from '../services/home-utill.service'
 /* tslint:enable */
 @Component({
-  selector: 'ws-app-create-event',
-  templateUrl: './create-event.component.html',
-  styleUrls: ['./create-event.component.scss'],
+  selector: 'ws-app-edit-event',
+  templateUrl: './edit-event.component.html',
+  styleUrls: ['./edit-event.component.scss'],
 })
-export class CreateEventComponent implements OnInit {
+export class EditEventComponent implements OnInit {
 
   artifactURL: any
   participantsArr: any = []
   presentersArr: any = []
-  displayedColumns: string[] = ['fullname', 'email', 'type']
+  displayedColumns: string[] = ['fullname', 'email', 'type', 'mdoName']
   @Input() tableData!: ITableData | undefined
   @Input() data?: []
   @Input() isUpload?: boolean
@@ -46,9 +46,6 @@ export class CreateEventComponent implements OnInit {
 
   eventTypes = [
     { title: 'Webinar', desc: 'General discussion involving', border: 'rgb(0, 116, 182)', disabled: false },
-    //   // { title: 'Ask me anything', desc: 'Session targeted at answering questions from attendees', border: '', disabled: true },
-    //   // { title: 'Workshop', desc: 'Live learning session', border: '', disabled: true },
-    //   // { title: 'Interview', desc: 'Interview session involving one or more guests', border: '', disabled: true },
   ]
 
   timeArr = [
@@ -85,6 +82,8 @@ export class CreateEventComponent implements OnInit {
   maxDate: any
   todayDate: any
   todayTime: any
+  hours: any
+  minutes: any
   eventimageURL: any
   departmentID: any
   orgtimeArr!: {
@@ -93,6 +92,7 @@ export class CreateEventComponent implements OnInit {
   newtimearray: any = []
   disableCreateButton = false
   displayLoader = false
+  eventId: any
 
   constructor(private snackBar: MatSnackBar, private eventsSvc: EventsService, private matDialog: MatDialog,
     // tslint:disable-next-line:align
@@ -119,6 +119,8 @@ export class CreateEventComponent implements OnInit {
         this.username = _.get(this.activeRoute, 'snapshot.data.configService.userProfile.userName')
       }
     }
+
+
     this.createEventForm = new FormGroup({
       eventPicture: new FormControl(''),
       eventTitle: new FormControl('', [Validators.required]),
@@ -135,6 +137,30 @@ export class CreateEventComponent implements OnInit {
       presenters: new FormControl('', [Validators.required]),
     })
 
+    this.activeRoute.params.subscribe(params => {
+      this.eventId = params['id']
+      this.eventsSvc.getEventDetails(this.eventId).subscribe(res => {
+        console.log("res ", res.result.event)
+        const eventObj = res.result.event
+        this.createEventForm.controls['eventTitle'].setValue(eventObj.name)
+        this.createEventForm.controls['summary'].setValue(eventObj.instructions)
+        this.createEventForm.controls['description'].setValue(eventObj.description)
+        this.createEventForm.controls['agenda'].setValue(eventObj.learningObjective)
+        this.createEventForm.controls['conferenceLink'].setValue(eventObj.registrationLink)
+        this.createEventForm.controls['eventTime'].setValue(eventObj.endDate)
+        this.todayDate = new Date((new Date(eventObj.endDate).getTime()))
+        const dateStr = eventObj.startTime.split(":")
+        this.todayTime = `${dateStr[0]}:${dateStr[1]}`
+        console.log("todayTime  ", this.todayTime)
+        this.hours = eventObj.duration / 60
+        this.minutes = eventObj.duration % 60
+        this.imageSrcURL = eventObj.appIcon
+        this.eventimageURL = eventObj.appIcon && (eventObj.appIcon !== null || eventObj.appIcon !== undefined) ?
+          this.eventsSvc.getPublicUrl(eventObj.appIcon) :
+          '/assets/icons/Events_default.png'
+      })
+    })
+
     this.createEventForm.controls['eventDurationHours'].setValue(0)
     this.createEventForm.controls['eventDurationMinutes'].setValue(30)
     this.createEventForm.controls['eventType'].setValue('Webinar')
@@ -142,33 +168,34 @@ export class CreateEventComponent implements OnInit {
     const maxNewDate = new Date()
     this.minDate = minCurrentDate
     this.maxDate = maxNewDate.setMonth(maxNewDate.getMonth() + 1)
-    this.todayDate = new Date((new Date().getTime()))
-    this.todayTime = '00:00'
+    //this.todayDate = new Date((new Date().getTime()))
+    //this.todayTime = '00:00'
   }
 
   ngOnInit() {
+
     this.orgtimeArr = this.timeArr
 
-    if (this.timeArr) {
-      const hr = new Date().getHours()
-      const min = new Date().getMinutes()
+    // if (this.timeArr) {
+    //   const hr = new Date().getHours()
+    //   const min = new Date().getMinutes()
 
-      // tslint:disable-next-line:prefer-template
-      const nhr = ('0' + hr).slice(-2)
-      // tslint:disable-next-line:prefer-template
-      const nmin = ('0' + min).slice(-2)
+    //   // tslint:disable-next-line:prefer-template
+    //   const nhr = ('0' + hr).slice(-2)
+    //   // tslint:disable-next-line:prefer-template
+    //   const nmin = ('0' + min).slice(-2)
 
-      const currentTime = `${nhr}:${nmin}`
-      const newtimearray: any = []
-      this.timeArr.forEach((time: any) => {
-        if (time.value > currentTime) {
-          newtimearray.push(time)
-        }
-      })
-      this.newtimearray = newtimearray
-      this.timeArr = newtimearray
-      this.todayTime = this.timeArr[0].value
-    }
+    //   const currentTime = `${nhr}:${nmin}`
+    //   const newtimearray: any = []
+    //   this.timeArr.forEach((time: any) => {
+    //     if (time.value > currentTime) {
+    //       newtimearray.push(time)
+    //     }
+    //   })
+    //   this.newtimearray = newtimearray
+    //   this.timeArr = newtimearray
+    //   this.todayTime = this.timeArr[0].value
+    // }
   }
 
   openDialog() {
@@ -197,7 +224,6 @@ export class CreateEventComponent implements OnInit {
         firstname: obj.firstName || obj.firstname,
         email: this.profileUtilSvc.emailTransform(obj.profileDetails.personalDetails.primaryEmail),
         type: 'Karmayogi User',
-        mdoName: obj.rootOrgName
       }
       const contactsObj = {
         id: obj.id,

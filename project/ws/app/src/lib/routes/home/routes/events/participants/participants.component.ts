@@ -24,7 +24,7 @@ export interface IParticipantElement {
 export class ParticipantsComponent implements OnInit {
 
     participants: any = []
-    displayedColumns: string[] = ['select', 'fullname', 'email']
+    displayedColumns: string[] = ['select', 'fullname', 'email', 'mdoName']
     dataSource: any
     selection = new SelectionModel<IParticipantElement>(true, [])
     searchUserCtrl = new FormControl()
@@ -111,6 +111,7 @@ export class ParticipantsComponent implements OnInit {
                             firstname: obj.firstName,
                             // lastname: obj.lastName,
                             id: obj.userId,
+                            mdoName: obj.rootOrgName,
                         }
                         this.participants.push(participantObj)
                     }

@@ -62,6 +62,7 @@ import { CreateEventComponent } from './routes/events/create-event/create-event.
 import { ParticipantsComponent } from './routes/events/participants/participants.component'
 import { SuccessComponent } from './routes/events/success/success.component'
 import { PipeEmailPipe } from './pipes/pipe-email.pipe'
+import { EditEventComponent } from './routes/events/edit-event/edit-event.component'
 @NgModule({
   declarations: [
     HomeComponent,
@@ -85,6 +86,7 @@ import { PipeEmailPipe } from './pipes/pipe-email.pipe'
     EventListViewComponent,
     EventThumbnailComponent,
     CreateEventComponent,
+    EditEventComponent,
     ParticipantsComponent,
     SuccessComponent,
     AcsendingOrderPipe,

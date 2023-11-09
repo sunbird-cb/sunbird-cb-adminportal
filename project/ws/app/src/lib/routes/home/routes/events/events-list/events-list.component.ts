@@ -251,7 +251,6 @@ export class EventsListComponent implements OnInit {
   }
 
   menuActions($event: { action: string, row: any }) {
-    console.log("event ", $event)
     if ($event.action === 'archive') {
       const dialogRef = this.dialogue.open(DialogConfirmComponent, {
         data: {
@@ -271,6 +270,8 @@ export class EventsListComponent implements OnInit {
           })
         }
       })
+    } else {
+      this.router.navigate([`/app/home/events/${$event.row.identifier}/edit`], {})
     }
   }
 

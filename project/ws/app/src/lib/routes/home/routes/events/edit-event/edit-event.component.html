@@ -16,7 +16,7 @@
                         </button>
                         <button mat-button class="create-btn btn-success" type="button" (click)="onSubmit()"
                             [disabled]="!createEventForm.valid || disableCreateButton">
-                            <span i18n>Save and Publish</span>
+                            <span i18n>Update</span>
                         </button>
                     </div>
                     <div *ngIf="displayLoader" class="mt-5 pr-4 flex items-center justify-center">
@@ -71,7 +71,7 @@
                                                                 <input type="file" id="coverPicture"
                                                                     (change)="onFileSelect($event);"
                                                                     accept="image/x-png,image/gif,image/jpeg" />
-                                                                <img *ngIf="imageSrcURL" id="blah" [src]="imageSrcURL"
+                                                                <img *ngIf="imageSrcURL" id="blah" [src]="eventimageURL"
                                                                     alt="your image" />
                                                                 <div class="margin-top-xl">
                                                                     <a *ngIf="!imageSrcURL" color="accent"
@@ -328,7 +328,8 @@
                                                 <div class="dispaly-inlineflex">
                                                     <mat-form-field appearance="outline"
                                                         class="margin-right-l width-250 maxwidth-150">
-                                                        <mat-select formControlName="eventDurationHours" #eventDuration>
+                                                        <mat-select formControlName="eventDurationHours" #eventDuration
+                                                            [(ngModel)]="hours">
                                                             <mat-option *ngFor="let hourObj of [0,1,2,3,4,5,6,7,8,9,10]"
                                                                 [value]="hourObj">
                                                                 {{hourObj}}
@@ -344,7 +345,7 @@
                                                     </mat-form-field>
                                                     <mat-form-field appearance="outline" class="maxwidth-150">
                                                         <mat-select formControlName="eventDurationMinutes"
-                                                            #eventDuration>
+                                                            #eventDuration [(ngModel)]="minutes">
                                                             <mat-option *ngFor="let minObj of [0,15,30,45,60]"
                                                                 [value]="minObj">
                                                                 {{minObj}}
@@ -382,14 +383,12 @@
                                                             <td>Name</td>
                                                             <td>Email</td>
                                                             <td>Type</td>
-                                                            <td>MDO name</td>
                                                         </tr>
                                                         <tr *ngFor="let row of participantsArr">
                                                             <td>{{ row.firstname }} </td>
                                                             <!-- <td>{{ row.firstname }} {{ row.lastname }}</td> -->
                                                             <td>{{ row.email }}</td>
                                                             <td>{{ row.type }}</td>
-                                                            <td>{{ row.mdoName }}</td>
                                                         </tr>
                                                     </table>
                                                 </div>
