@@ -41,6 +41,8 @@
                                                 i18n-aria-label aria-label="Event title label">
                                                 Upload conver photo
                                             </label>
+                                            <br>
+                                            Image will be cropped to 16:9 aspect ratio
                                             <div class="input-wrapper margin-top-s">
                                                 <div class="image-box display-block">
                                                     <mat-card class="mb-10 text-center margin-right-l"
@@ -74,14 +76,22 @@
                                                                 <img *ngIf="imageSrcURL" id="blah" [src]="imageSrcURL"
                                                                     alt="your image" />
                                                                 <div class="margin-top-xl">
+                                                                    <div>
+                                                                        <a *ngIf="!imageSrcURL" color="accent"
+                                                                            class="browse-link"
+                                                                            (click)="selectCover()">Browse
+                                                                            files</a>
+                                                                    </div>
+                                                                    or<br>
                                                                     <a *ngIf="!imageSrcURL" color="accent"
-                                                                        class="browse-link"
-                                                                        (click)="selectCover()">Browse
-                                                                        files</a>
+                                                                        class="drag-files" (click)="selectCover()">Drag
+                                                                        file to upload
+                                                                    </a>
                                                                 </div>
                                                                 <mat-card-content *ngIf="!imageSrcURL"
                                                                     class="caption dispaly-block ws-mat-black60-text text-center">
                                                                     <div class="margin-top-xl supported-files">
+                                                                        Max file size: 500KB<br>
                                                                         Supported file types: jpg,png
                                                                     </div>
                                                                 </mat-card-content>
@@ -100,7 +110,7 @@
                                                         formControlName="eventTitle" i18n-placeholder
                                                         placeholder="Type here" i18n-aria-label
                                                         aria-label="Event Title input" class="form-input"
-                                                        (keypress)="omit_special_char($event)" maxlength="500" />
+                                                        (keypress)="omit_special_char($event)" maxlength="250" />
                                                     <mat-error [hidden]="false"
                                                         i18n="Event title Error|Explains event title is required"
                                                         i18n-aria-label
@@ -108,10 +118,8 @@
                                                         *ngIf="createEventForm?.controls['eventTitle']?.touched && createEventForm?.controls['eventTitle'].errors?.required">
                                                         Event title is mandatory
                                                     </mat-error>
-                                                    <!-- <mat-error [hidden]="false" *ngIf="createEventForm?.controls['eventTitle'].errors?.pattern" i18n-aria-label
-                                                        aria-label="Event title Error|Event title fields cannot contain numbers and special characters except">
-                                                        Event title fields cannot contain numbers and special characters except '
-                                                    </mat-error> -->
+                                                    <mat-hint class=''>{{eventTitle.value.length}}/250
+                                                        characters</mat-hint>
                                                 </mat-form-field>
                                                 <label for="summary" class=" margin-remove-bottom form-label required"
                                                     i18n="summary label|Label which explains the user to enter summary"
@@ -123,7 +131,7 @@
                                                     <textarea id="summary" matInput #summary formControlName="summary"
                                                         i18n-placeholder placeholder="Type here" i18n-aria-label
                                                         aria-label="Summary input" class="form-input" rows="8" cols="40"
-                                                        maxlength="2000"></textarea>
+                                                        maxlength="500"></textarea>
                                                     <mat-error [hidden]="false"
                                                         i18n="Summary Error|Explains summary is required"
                                                         i18n-aria-label
@@ -131,10 +139,8 @@
                                                         *ngIf="createEventForm?.controls['summary']?.touched && createEventForm?.controls['summary'].errors?.required">
                                                         Summary is mandatory
                                                     </mat-error>
-                                                    <!-- <mat-error [hidden]="false" *ngIf="createEventForm?.controls['summary'].errors?.pattern" i18n-aria-label
-                                                        aria-label="Summary Error|Summary fields cannot contain numbers and special characters except">
-                                                        Summary fields cannot contain numbers and special characters except '
-                                                    </mat-error> -->
+                                                    <mat-hint class=''>{{summary.value.length}}/500
+                                                        characters</mat-hint>
                                                 </mat-form-field>
                                                 <label for="description"
                                                     class=" margin-remove-bottom form-label required"
@@ -149,7 +155,7 @@
                                                         formControlName="description" i18n-placeholder
                                                         placeholder="Type here" i18n-aria-label
                                                         aria-label="description input" class="form-input" rows="8"
-                                                        cols="40" maxlength="2000"></textarea>
+                                                        cols="40" maxlength="1000"></textarea>
                                                     <mat-error [hidden]="false"
                                                         i18n="description Error|Explains description is required"
                                                         i18n-aria-label
@@ -158,10 +164,8 @@
                                                         createEventForm?.controls['description'].errors?.required">
                                                         Description is mandatory
                                                     </mat-error>
-                                                    <!--  <mat-error [hidden]="false" *ngIf="createEventForm?.controls['description'].errors?.pattern" i18n-aria-label
-                                                        aria-label="description Error|description fields cannot contain numbers and special characters except">
-                                                        Description fields cannot contain numbers and special characters except '
-                                                    </mat-error> -->
+                                                    <mat-hint class=''>{{description.value.length}}/1000
+                                                        characters</mat-hint>
                                                 </mat-form-field>
                                                 <label for="agenda" class=" margin-remove-bottom form-label required"
                                                     i18n="agenda label|Label which explains the user to enter agenda"
@@ -172,17 +176,15 @@
                                                     <textarea id="agenda" matInput #agenda formControlName="agenda"
                                                         i18n-placeholder placeholder="Type here" i18n-aria-label
                                                         aria-label="agenda input" class="form-input" rows="8" cols="40"
-                                                        maxlength="2000"></textarea>
+                                                        maxlength="500"></textarea>
                                                     <mat-error [hidden]="false"
                                                         i18n="agenda Error|Explains agenda is required" i18n-aria-label
                                                         aria-label="agenda Error|Explains agenda is required "
                                                         *ngIf="createEventForm?.controls['agenda']?.touched && createEventForm?.controls['agenda'].errors?.required">
                                                         Agenda is mandatory
                                                     </mat-error>
-                                                    <!-- <mat-error [hidden]="false" *ngIf="createEventForm?.controls['agenda'].errors?.pattern" i18n-aria-label
-                                                        aria-label="agenda Error|agenda fields cannot contain numbers and special characters except">
-                                                        Agenda fields cannot contain numbers and special characters except '
-                                                    </mat-error> -->
+                                                    <mat-hint class=''>{{agenda.value.length}}/500
+                                                        characters</mat-hint>
                                                 </mat-form-field>
                                                 <label>Event type</label>
                                                 <div class="flex custom mt-5" fxLayout="row wrap">
@@ -256,108 +258,124 @@
                                             id="datetime">
                                             <label class="heading">Date time</label>
                                             <div class="input-wrapper margin-top-s">
-                                                <label for="eventDate" class=" margin-remove-bottom form-label required"
-                                                    i18n="Event Date label|Label which explains the user to enter event date"
-                                                    i18n-aria-label aria-label="Event Date label">
-                                                    Date
-                                                </label>
-                                                <mat-form-field color="accent" appearance="outline">
-                                                    <input matInput [matDatepicker]="eventDate"
-                                                        formControlName="eventDate" [max]="maxDate"
-                                                        [(ngModel)]="todayDate" (dateChange)="updateDate($event)">
-                                                    <mat-datepicker-toggle matSuffix [for]="eventDate">
-                                                    </mat-datepicker-toggle>
-                                                    <mat-datepicker #eventDate></mat-datepicker>
-                                                    <mat-error [hidden]="false"
-                                                        i18n="eventDate Error|Explains eventDate is required"
-                                                        i18n-aria-label
-                                                        aria-label="eventDate Error|Explains eventDate is required "
-                                                        *ngIf="createEventForm?.controls['eventDate']?.touched && createEventForm?.controls['eventDate'].errors?.required">
-                                                        Event Date is mandatory
-                                                    </mat-error>
-                                                    <mat-error [hidden]="false"
-                                                        *ngIf="createEventForm?.controls['eventDate'].errors?.pattern"
-                                                        i18n-aria-label
-                                                        aria-label="eventDate Error|eventDate fields cannot contain numbers and special characters except">
-                                                        Event Date fields cannot contain numbers and special characters
-                                                        except '
-                                                    </mat-error>
-                                                </mat-form-field>
-                                                <label for="eventTime" class=" margin-remove-bottom form-label required"
-                                                    i18n="Event Time label|Label which explains the user to enter event time"
-                                                    i18n-aria-label aria-label="Event Time label">
-                                                    When
-                                                </label>
-                                                <mat-form-field appearance="outline">
-                                                    <mat-select formControlName="eventTime" #eventTime
-                                                        [(ngModel)]="todayTime">
-                                                        <mat-option *ngFor="let timeObj of timeArr"
-                                                            [value]="timeObj.value">
-                                                            {{ timeObj.value }}
-                                                        </mat-option>
-                                                    </mat-select>
-                                                    <mat-error [hidden]="false"
-                                                        i18n="eventTime Error|Explains eventTime is required"
-                                                        i18n-aria-label
-                                                        aria-label="eventTime Error|Explains eventTime is required "
-                                                        *ngIf="createEventForm?.controls['eventTime']?.touched && createEventForm?.controls['eventTime'].errors?.required">
-                                                        Event Time is mandatory
-                                                    </mat-error>
-                                                    <mat-error [hidden]="false"
-                                                        *ngIf="createEventForm?.controls['eventTime'].errors?.pattern"
-                                                        i18n-aria-label
-                                                        aria-label="eventTime Error|eventTime fields cannot contain numbers and special characters except">
-                                                        Event Time fields cannot contain numbers and special characters
-                                                        except '
-                                                    </mat-error>
-                                                </mat-form-field>
-                                                <div class="dispaly-inlineflex margin-right-l">
-                                                    <label for="eventDurationHours"
-                                                        class=" margin-remove-bottom form-label required"
-                                                        i18n="Event Duration label|Label which explains the user to enter event duration"
-                                                        i18n-aria-label aria-label="Event Duration label">
-                                                        Duration Hours
-                                                    </label>
-                                                    <label for="eventDurationMinutes"
-                                                        class="margin-l65 margin-remove-bottom form-label required"
-                                                        i18n="Event Duration label|Label which explains the user to enter event duration"
-                                                        i18n-aria-label aria-label="Event Duration label">
-                                                        Duration Minutes
-                                                    </label>
+
+                                                <div class="flex-parent-element">
+                                                    <div class="flex-child-element">
+                                                        <label for="eventDate"
+                                                            class=" margin-remove-bottom form-label required"
+                                                            i18n="Event Date label|Label which explains the user to enter event date"
+                                                            i18n-aria-label aria-label="Event Date label">
+                                                            Date
+                                                        </label>
+                                                        <mat-form-field color="accent" appearance="outline">
+                                                            <input matInput [matDatepicker]="eventDate"
+                                                                formControlName="eventDate" [max]="maxDate"
+                                                                [(ngModel)]="todayDate"
+                                                                (dateChange)="updateDate($event)">
+                                                            <mat-datepicker-toggle matSuffix [for]="eventDate">
+                                                            </mat-datepicker-toggle>
+                                                            <mat-datepicker #eventDate></mat-datepicker>
+                                                            <mat-error [hidden]="false"
+                                                                i18n="eventDate Error|Explains eventDate is required"
+                                                                i18n-aria-label
+                                                                aria-label="eventDate Error|Explains eventDate is required "
+                                                                *ngIf="createEventForm?.controls['eventDate']?.touched && createEventForm?.controls['eventDate'].errors?.required">
+                                                                Event Date is mandatory
+                                                            </mat-error>
+                                                            <mat-error [hidden]="false"
+                                                                *ngIf="createEventForm?.controls['eventDate'].errors?.pattern"
+                                                                i18n-aria-label
+                                                                aria-label="eventDate Error|eventDate fields cannot contain numbers and special characters except">
+                                                                Event Date fields cannot contain numbers and special
+                                                                characters
+                                                                except '
+                                                            </mat-error>
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="flex-child-element">
+                                                        <label for="eventTime"
+                                                            class=" margin-remove-bottom form-label required"
+                                                            i18n="Event Time label|Label which explains the user to enter event time"
+                                                            i18n-aria-label aria-label="Event Time label">
+                                                            When
+                                                        </label>
+                                                        <mat-form-field appearance="outline">
+                                                            <mat-select formControlName="eventTime" #eventTime
+                                                                [(ngModel)]="todayTime">
+                                                                <mat-option *ngFor="let timeObj of timeArr"
+                                                                    [value]="timeObj.value">
+                                                                    {{ timeObj.value }}
+                                                                </mat-option>
+                                                            </mat-select>
+                                                            <mat-error [hidden]="false"
+                                                                i18n="eventTime Error|Explains eventTime is required"
+                                                                i18n-aria-label
+                                                                aria-label="eventTime Error|Explains eventTime is required "
+                                                                *ngIf="createEventForm?.controls['eventTime']?.touched && createEventForm?.controls['eventTime'].errors?.required">
+                                                                Event Time is mandatory
+                                                            </mat-error>
+                                                            <mat-error [hidden]="false"
+                                                                *ngIf="createEventForm?.controls['eventTime'].errors?.pattern"
+                                                                i18n-aria-label
+                                                                aria-label="eventTime Error|eventTime fields cannot contain numbers and special characters except">
+                                                                Event Time fields cannot contain numbers and special
+                                                                characters
+                                                                except '
+                                                            </mat-error>
+                                                        </mat-form-field>
+                                                    </div>
                                                 </div>
-                                                <div class="dispaly-inlineflex">
-                                                    <mat-form-field appearance="outline"
-                                                        class="margin-right-l width-250 maxwidth-150">
-                                                        <mat-select formControlName="eventDurationHours" #eventDuration>
-                                                            <mat-option *ngFor="let hourObj of [0,1,2,3,4,5,6,7,8,9,10]"
-                                                                [value]="hourObj">
-                                                                {{hourObj}}
-                                                            </mat-option>
-                                                        </mat-select>
-                                                        <mat-error [hidden]="false"
-                                                            i18n="eventDurationHours Error|Explains eventDurationHours is required"
-                                                            i18n-aria-label
-                                                            aria-label="eventDurationHours Error|Explains eventDurationHours is required "
-                                                            *ngIf="createEventForm?.controls['eventDurationHours']?.touched && createEventForm?.controls['eventDurationHours'].errors?.required">
-                                                            Duration Hours field is mandatory
-                                                        </mat-error>
-                                                    </mat-form-field>
-                                                    <mat-form-field appearance="outline" class="maxwidth-150">
-                                                        <mat-select formControlName="eventDurationMinutes"
-                                                            #eventDuration>
-                                                            <mat-option *ngFor="let minObj of [0,15,30,45,60]"
-                                                                [value]="minObj">
-                                                                {{minObj}}
-                                                            </mat-option>
-                                                        </mat-select>
-                                                        <mat-error [hidden]="false"
-                                                            i18n="eventDurationMinutes Error|Explains eventDurationMinutes is required"
-                                                            i18n-aria-label
-                                                            aria-label="eventDurationMinutes Error|Explains eventDurationMinutes is required "
-                                                            *ngIf="createEventForm?.controls['eventDurationMinutes']?.touched && createEventForm?.controls['eventDurationMinutes'].errors?.required">
-                                                            Duration Minutes field is mandatory
-                                                        </mat-error>
-                                                    </mat-form-field>
+
+                                                <div class="flex-parent-element">
+                                                    <div class="flex-child-element">
+                                                        <label for="eventDurationHours"
+                                                            class=" margin-remove-bottom form-label required"
+                                                            i18n="Event Duration label|Label which explains the user to enter event duration"
+                                                            i18n-aria-label aria-label="Event Duration label">
+                                                            Duration Hours
+                                                        </label>
+                                                        <mat-form-field appearance="outline" class="margin-right-l">
+                                                            <mat-select formControlName="eventDurationHours"
+                                                                #eventDuration>
+                                                                <mat-option
+                                                                    *ngFor="let hourObj of [0,1,2,3,4,5,6,7,8,9,10]"
+                                                                    [value]="hourObj">
+                                                                    {{hourObj}}
+                                                                </mat-option>
+                                                            </mat-select>
+                                                            <mat-error [hidden]="false"
+                                                                i18n="eventDurationHours Error|Explains eventDurationHours is required"
+                                                                i18n-aria-label
+                                                                aria-label="eventDurationHours Error|Explains eventDurationHours is required "
+                                                                *ngIf="createEventForm?.controls['eventDurationHours']?.touched && createEventForm?.controls['eventDurationHours'].errors?.required">
+                                                                Duration Hours field is mandatory
+                                                            </mat-error>
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="flex-child-element">
+                                                        <label for="eventDurationMinutes"
+                                                            class="margin-remove-bottom form-label required"
+                                                            i18n="Event Duration label|Label which explains the user to enter event duration"
+                                                            i18n-aria-label aria-label="Event Duration label">
+                                                            Duration Minutes
+                                                        </label>
+                                                        <mat-form-field appearance="outline">
+                                                            <mat-select formControlName="eventDurationMinutes"
+                                                                #eventDuration>
+                                                                <mat-option *ngFor="let minObj of [0,15,30,45,60]"
+                                                                    [value]="minObj">
+                                                                    {{minObj}}
+                                                                </mat-option>
+                                                            </mat-select>
+                                                            <mat-error [hidden]="false"
+                                                                i18n="eventDurationMinutes Error|Explains eventDurationMinutes is required"
+                                                                i18n-aria-label
+                                                                aria-label="eventDurationMinutes Error|Explains eventDurationMinutes is required "
+                                                                *ngIf="createEventForm?.controls['eventDurationMinutes']?.touched && createEventForm?.controls['eventDurationMinutes'].errors?.required">
+                                                                Duration Minutes field is mandatory
+                                                            </mat-error>
+                                                        </mat-form-field>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>

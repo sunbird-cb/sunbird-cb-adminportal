@@ -6,7 +6,7 @@ import { environment } from '..//../../../../../../../../../src/environments/env
 
 const API_END_POINTS = {
   CREATE_EVENT: '/apis/proxies/v8/event/v4/create',
-  UPDATE_EVENT: '/apis/authApi/action/content/v2/hierarchy/update?rootOrg=igot&org=dopt',
+  UPDATE_EVENT: '/apis/proxies/v8/event/v4/update',
   PUBLISH_EVENT: '/apis/proxies/v8/event/v4/publish',
   SEARCH_EVENT: '/apis/proxies/v8/sunbirdigot/read',
   GET_PARTICIPANTS: '/apis/protected/v8/portal/mdo/mydepartment?allUsers=true',
@@ -43,8 +43,8 @@ export class EventsService {
     return this.http.post<any>(API_END_POINTS.CREATE_EVENT, req)
   }
 
-  updateEvent(req: any): Observable<any> {
-    return this.http.post<any>(API_END_POINTS.UPDATE_EVENT, req)
+  updateEvent(eventId: any, req: any): Observable<any> {
+    return this.http.patch<any>(`${API_END_POINTS.UPDATE_EVENT}/${eventId}`, req)
   }
 
   publishEvent(eventId: string, req: any): Observable<any> {

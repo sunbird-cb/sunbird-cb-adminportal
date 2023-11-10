@@ -93,6 +93,7 @@ export class EditEventComponent implements OnInit {
   disableCreateButton = false
   displayLoader = false
   eventId: any
+  eventObject: any
 
   constructor(private snackBar: MatSnackBar, private eventsSvc: EventsService, private matDialog: MatDialog,
     // tslint:disable-next-line:align
@@ -142,6 +143,7 @@ export class EditEventComponent implements OnInit {
       this.eventsSvc.getEventDetails(this.eventId).subscribe(res => {
         console.log("res ", res.result.event)
         const eventObj = res.result.event
+        this.eventObject = eventObj
         this.createEventForm.controls['eventTitle'].setValue(eventObj.name)
         this.createEventForm.controls['summary'].setValue(eventObj.instructions)
         this.createEventForm.controls['description'].setValue(eventObj.description)
@@ -151,13 +153,30 @@ export class EditEventComponent implements OnInit {
         this.todayDate = new Date((new Date(eventObj.endDate).getTime()))
         const dateStr = eventObj.startTime.split(":")
         this.todayTime = `${dateStr[0]}:${dateStr[1]}`
-        console.log("todayTime  ", this.todayTime)
         this.hours = eventObj.duration / 60
         this.minutes = eventObj.duration % 60
         this.imageSrcURL = eventObj.appIcon
         this.eventimageURL = eventObj.appIcon && (eventObj.appIcon !== null || eventObj.appIcon !== undefined) ?
           this.eventsSvc.getPublicUrl(eventObj.appIcon) :
           '/assets/icons/Events_default.png'
+        const presents = eventObj.creatorDetails
+        if (presents) {
+          this.presentersArr = []
+          for (let obj of JSON.parse(presents.replace(/\\/g, ''))) {
+            const setSelectedPresentersObj = {
+              firstname: obj.name,
+              email: obj.email,
+              type: 'Karmayogi User',
+              mdoName: obj.mdoName
+            }
+            this.presentersArr.push(setSelectedPresentersObj)
+            this.participantsArr.push(setSelectedPresentersObj)
+            this.changeDetectorRefs.detectChanges()
+            this.createEventForm.controls['presenters'].setValue(this.presentersArr)
+          }
+        }
+
+        console.log("this.presentersArr ", this.presentersArr)
       })
     })
 
@@ -224,13 +243,10 @@ export class EditEventComponent implements OnInit {
         firstname: obj.firstName || obj.firstname,
         email: this.profileUtilSvc.emailTransform(obj.profileDetails.personalDetails.primaryEmail),
         type: 'Karmayogi User',
+        mdoName: obj.rootOrgName
       }
-      const contactsObj = {
-        id: obj.id,
-        name: `${obj.firstName || obj.firstname}`,
-        // name: `${obj.firstName || obj.firstname} ${obj.lastName || obj.lastname}`,
-      }
-      this.presentersArr.push(contactsObj)
+
+      this.presentersArr.push(setSelectedPresentersObj)
       this.participantsArr.push(setSelectedPresentersObj)
       this.changeDetectorRefs.detectChanges()
       this.createEventForm.controls['presenters'].setValue(this.presentersArr)
@@ -302,49 +318,8 @@ export class EditEventComponent implements OnInit {
     this.eventimageURL = ''
   }
 
-  fileSubmit(identifier: string) {
-    const formData = new FormData()
-    formData.append('file', this.imageSrc)
-    this.eventsSvc.uploadCoverImage(formData, identifier).subscribe(
-      res => {
-        this.artifactURL = res.artifactURL
-        this.updateContent(identifier)
-      },
-      (err: any) => {
-        this.openSnackbar(err.error.split(':')[1])
-      }
-    )
-  }
-
   changeEventType(event: any) {
     this.createEventForm.controls['eventType'].setValue(event.target.value)
-  }
-
-  updateContent(identifier: any) {
-    const contentObj = {
-      nodesModified: {
-        [identifier]: {
-          isNew: false,
-          root: true,
-          metadata: {
-            appIcon: this.artifactURL,
-          },
-        },
-      },
-      hierarchy: {
-      },
-    }
-    const formJson = this.encodeToBase64(contentObj)
-    this.eventsSvc.updateEvent(formJson).subscribe(
-      res => {
-        if (res || !res) {
-          this.publishEvent(identifier, '')
-        }
-      },
-      (err: any) => {
-        this.openSnackbar(err.error.split(':')[1])
-      }
-    )
   }
 
   updateDate(event: any) {
@@ -472,6 +447,8 @@ export class EditEventComponent implements OnInit {
           registrationEndDate: moment(this.createEventForm.controls['eventDate'].value).format('YYYY-MM-DD'),
           owner: this.department,
           createdFor: createdforarray,
+          identifier: this.eventId,
+          versionKey: this.eventObject.versionKey
         },
       },
     }
@@ -481,14 +458,12 @@ export class EditEventComponent implements OnInit {
       this.disableCreateButton = false
       this.openSnackbar('Duration cannot be zero')
     } else {
-      this.eventsSvc.createEvent(form).subscribe(
+      this.eventsSvc.updateEvent(this.eventId, form).subscribe(
         res => {
           this.displayLoader = false
           this.disableCreateButton = false
-          const identifier = res.result.identifier
-          const versionKey = res.result.versionKey
-          // this.fileSubmit(identifier)
-          this.publishEvent(identifier, versionKey)
+          this.openSnackbar('Event details are successfuly updated.')
+          this.router.navigate([`/app/home/events`])
         },
         (err: any) => {
           this.displayLoader = false
@@ -515,26 +490,6 @@ export class EditEventComponent implements OnInit {
   addMinutes(hrs: number, mins: number) {
     const minutes = (hrs * 60) + mins
     return minutes
-  }
-
-  publishEvent(identifierkey: any, versionKey: any) {
-    const reqestBody = {
-      request: {
-        event: {
-          status: "Live",
-          versionKey: versionKey,
-          identifier: identifierkey
-        }
-      }
-    }
-    this.eventsSvc.publishEvent(identifierkey, reqestBody).subscribe(
-      res => {
-        this.showSuccess(res)
-      },
-      (err: any) => {
-        this.openSnackbar(err.error.split(':')[1])
-      }
-    )
   }
 
   goToList() {

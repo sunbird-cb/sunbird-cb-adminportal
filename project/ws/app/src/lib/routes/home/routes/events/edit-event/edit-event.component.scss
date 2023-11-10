@@ -140,6 +140,24 @@ mat-card.dull {
 .button-row-add-user .mat-button-base {
   margin: 8px 16px 8px 0;
 }
+.drag-files {
+  font-size: 16px;
+  color: #4e4c4c;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.flex-parent-element {
+  display: flex;
+}
+
+.flex-child-element {
+  flex: 1;
+}
+
+.flex-child-element:first-child {
+  margin-right: 20px;
+}
 
 table {
   width: 100%;

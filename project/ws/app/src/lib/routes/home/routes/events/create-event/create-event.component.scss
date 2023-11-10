@@ -46,6 +46,25 @@ textarea.mat-input-element {
 .supported-files {
   font-size: 0.8rem;
 }
+.drag-files {
+  font-size: 16px;
+  color: #4e4c4c;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.flex-parent-element {
+  display: flex;
+}
+
+.flex-child-element {
+  flex: 1;
+}
+
+.flex-child-element:first-child {
+  margin-right: 20px;
+}
+
 
 .browse-link {
   color: #0075B7 !important;

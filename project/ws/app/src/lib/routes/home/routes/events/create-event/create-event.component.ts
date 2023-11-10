@@ -194,17 +194,12 @@ export class CreateEventComponent implements OnInit {
     Object.keys(responseObj.data).forEach((index: any) => {
       const obj = responseObj.data[index]
       const setSelectedPresentersObj = {
-        firstname: obj.firstName || obj.firstname,
+        name: obj.firstName || obj.firstname,
         email: this.profileUtilSvc.emailTransform(obj.profileDetails.personalDetails.primaryEmail),
         type: 'Karmayogi User',
         mdoName: obj.rootOrgName
       }
-      const contactsObj = {
-        id: obj.id,
-        name: `${obj.firstName || obj.firstname}`,
-        // name: `${obj.firstName || obj.firstname} ${obj.lastName || obj.lastname}`,
-      }
-      this.presentersArr.push(contactsObj)
+      this.presentersArr.push(setSelectedPresentersObj)
       this.participantsArr.push(setSelectedPresentersObj)
       this.changeDetectorRefs.detectChanges()
       this.createEventForm.controls['presenters'].setValue(this.presentersArr)
@@ -276,49 +271,8 @@ export class CreateEventComponent implements OnInit {
     this.eventimageURL = ''
   }
 
-  fileSubmit(identifier: string) {
-    const formData = new FormData()
-    formData.append('file', this.imageSrc)
-    this.eventsSvc.uploadCoverImage(formData, identifier).subscribe(
-      res => {
-        this.artifactURL = res.artifactURL
-        this.updateContent(identifier)
-      },
-      (err: any) => {
-        this.openSnackbar(err.error.split(':')[1])
-      }
-    )
-  }
-
   changeEventType(event: any) {
     this.createEventForm.controls['eventType'].setValue(event.target.value)
-  }
-
-  updateContent(identifier: any) {
-    const contentObj = {
-      nodesModified: {
-        [identifier]: {
-          isNew: false,
-          root: true,
-          metadata: {
-            appIcon: this.artifactURL,
-          },
-        },
-      },
-      hierarchy: {
-      },
-    }
-    const formJson = this.encodeToBase64(contentObj)
-    this.eventsSvc.updateEvent(formJson).subscribe(
-      res => {
-        if (res || !res) {
-          this.publishEvent(identifier, '')
-        }
-      },
-      (err: any) => {
-        this.openSnackbar(err.error.split(':')[1])
-      }
-    )
   }
 
   updateDate(event: any) {
