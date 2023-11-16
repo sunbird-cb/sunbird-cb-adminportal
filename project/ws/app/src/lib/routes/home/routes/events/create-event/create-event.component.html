@@ -39,7 +39,7 @@
                                             <label for="eventTitle" class=" margin-remove-bottom form-label required"
                                                 i18n="Event Title label|Label which explains the user to enter event title"
                                                 i18n-aria-label aria-label="Event title label">
-                                                Upload conver photo
+                                                Upload cover photo
                                             </label>
                                             <br>
                                             Image will be cropped to 16:9 aspect ratio
@@ -82,7 +82,7 @@
                                                                             (click)="selectCover()">Browse
                                                                             files</a>
                                                                     </div>
-                                                                    or<br>
+                                                                    <span *ngIf="!imageSrcURL">or</span><br>
                                                                     <a *ngIf="!imageSrcURL" color="accent"
                                                                         class="drag-files" (click)="selectCover()">Drag
                                                                         file to upload
@@ -403,7 +403,7 @@
                                                             <td>MDO name</td>
                                                         </tr>
                                                         <tr *ngFor="let row of participantsArr">
-                                                            <td>{{ row.firstname }} </td>
+                                                            <td>{{ row.firstname || row.name}} </td>
                                                             <!-- <td>{{ row.firstname }} {{ row.lastname }}</td> -->
                                                             <td>{{ row.email }}</td>
                                                             <td>{{ row.type }}</td>

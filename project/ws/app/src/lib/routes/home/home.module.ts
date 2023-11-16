@@ -63,6 +63,7 @@ import { ParticipantsComponent } from './routes/events/participants/participants
 import { SuccessComponent } from './routes/events/success/success.component'
 import { PipeEmailPipe } from './pipes/pipe-email.pipe'
 import { EditEventComponent } from './routes/events/edit-event/edit-event.component'
+import { PipePublicURLModule } from './pipes/pipe-public-URL/pipe-public-URL.module'
 @NgModule({
   declarations: [
     HomeComponent,
@@ -138,6 +139,7 @@ import { EditEventComponent } from './routes/events/edit-event/edit-event.compon
     MatSortModule,
     MatMenuModule,
     MatPaginatorModule,
+    PipePublicURLModule,
     NgMultiSelectDropDownModule.forRoot(),
   ],
   entryComponents: [

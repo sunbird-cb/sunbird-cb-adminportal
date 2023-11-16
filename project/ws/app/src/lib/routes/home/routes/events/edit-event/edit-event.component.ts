@@ -156,9 +156,9 @@ export class EditEventComponent implements OnInit {
         this.hours = eventObj.duration / 60
         this.minutes = eventObj.duration % 60
         this.imageSrcURL = eventObj.appIcon
-        this.eventimageURL = eventObj.appIcon && (eventObj.appIcon !== null || eventObj.appIcon !== undefined) ?
-          this.eventsSvc.getPublicUrl(eventObj.appIcon) :
-          '/assets/icons/Events_default.png'
+        this.eventimageURL = eventObj.appIcon
+        // this.eventimageURL = eventObj.appIcon && (eventObj.appIcon !== null || eventObj.appIcon !== undefined) ?
+        //   this.eventsSvc.getPublicUrl(eventObj.appIcon) : this.eventsSvc.getPublicUrl('/assets/icons/Events_default.png')
         const presents = eventObj.creatorDetails
         if (presents) {
           this.presentersArr = []
@@ -460,6 +460,7 @@ export class EditEventComponent implements OnInit {
     } else {
       this.eventsSvc.updateEvent(this.eventId, form).subscribe(
         res => {
+          console.log('res', res)
           this.displayLoader = false
           this.disableCreateButton = false
           this.openSnackbar('Event details are successfuly updated.')

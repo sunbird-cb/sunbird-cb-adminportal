@@ -31,9 +31,10 @@
                         {{element[col.key]}} {{col.isList}}
                     </span>
                     <span *ngIf="!col.isList && col.key == 'eventName'" class="h-400-r-14-l color-87 textclass">
-                        <img src="{{element.eventThumbnail}}" height="40" width="50"
-                            *ngIf="element.eventThumbnail != undefined"
-                            (click)="showImageDialog(element.eventThumbnail)">
+                        <img src="{{element.eventThumbnail | pipePublicURL }}" height="40" width="50"
+                            *ngIf="element.eventThumbnail" (click)="showImageDialog(element.eventThumbnail)">
+                        <img src="/assets/icons/Events_default.png" *ngIf="!element.eventThumbnail" height="40"
+                            width="50">
                         <span class="margin-left-m">{{element[col.key]}} {{col.isList}}</span>
                     </span>
                 </mat-cell>

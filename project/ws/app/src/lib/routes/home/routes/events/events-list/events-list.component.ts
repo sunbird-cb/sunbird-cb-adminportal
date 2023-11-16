@@ -15,8 +15,6 @@ import { MatSnackBar } from '@angular/material'
   styleUrls: ['./events-list.component.scss'],
 })
 export class EventsListComponent implements OnInit {
-
-
   currentUser!: string | null
   configService: any
   department: any
@@ -131,9 +129,9 @@ export class EventsListComponent implements OnInit {
           eventDuration: duration,
           eventjoined: (creatorDetails !== undefined && creatorDetails.length > 0) ?
             ((creatorDetails.length === 1) ? '1 person' : `${creatorDetails.length} people`) : ' --- ',
-          eventThumbnail: obj.appIcon && (obj.appIcon !== null || obj.appIcon !== undefined) ?
-            this.eventSvc.getPublicUrl(obj.appIcon) :
-            '/assets/icons/Events_default.png',
+          eventThumbnail: obj.appIcon,
+          // eventThumbnail: obj.appIcon && (obj.appIcon !== null || obj.appIcon !== undefined) ?
+          //   this.eventSvc.getPublicUrl(obj.appIcon) : this.eventSvc.getPublicUrl('/assets/icons/Events_default.png'),
         }
         if (obj.status === 'Retired') {
           this.eventData['archiveEvents'].push(eventDataObj)

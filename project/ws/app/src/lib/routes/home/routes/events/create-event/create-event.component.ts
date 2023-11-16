@@ -24,7 +24,7 @@ export class CreateEventComponent implements OnInit {
 
   artifactURL: any
   participantsArr: any = []
-  presentersArr: any = []
+  // presentersArr: any = []
   displayedColumns: string[] = ['fullname', 'email', 'type']
   @Input() tableData!: ITableData | undefined
   @Input() data?: []
@@ -199,10 +199,11 @@ export class CreateEventComponent implements OnInit {
         type: 'Karmayogi User',
         mdoName: obj.rootOrgName
       }
-      this.presentersArr.push(setSelectedPresentersObj)
+      // this.presentersArr.push(setSelectedPresentersObj)
       this.participantsArr.push(setSelectedPresentersObj)
+      // console.log('this.participantsArr', this.participantsArr)
       this.changeDetectorRefs.detectChanges()
-      this.createEventForm.controls['presenters'].setValue(this.presentersArr)
+      this.createEventForm.controls['presenters'].setValue(this.participantsArr)
     })
   }
 
