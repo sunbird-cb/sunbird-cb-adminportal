@@ -143,7 +143,6 @@ export class EditEventComponent implements OnInit {
     this.activeRoute.params.subscribe(params => {
       this.eventId = params['id']
       this.eventsSvc.getEventDetails(this.eventId).subscribe(res => {
-        console.log('res ', res.result.event)
         const eventObj = res.result.event
         this.eventObject = eventObj
         this.createEventForm.controls['eventTitle'].setValue(eventObj.name)
@@ -506,12 +505,14 @@ export class EditEventComponent implements OnInit {
       this.openSnackbar('Duration cannot be zero')
     } else {
       this.eventsSvc.updateEvent(this.eventId, this.reqPayload).subscribe(
-        res => {
-          console.log('res', res)
-          this.displayLoader = false
-          this.disableCreateButton = false
-          this.openSnackbar('Event details are successfuly updated.')
-          this.router.navigate([`/app/home/events`])
+        (res: any) => {
+          if (res) {
+            // console.log('res', res)
+            this.displayLoader = false
+            this.disableCreateButton = false
+            this.openSnackbar('Event details are successfuly updated.')
+            this.router.navigate([`/app/home/events`])
+          }
         },
         (err: any) => {
           this.displayLoader = false
@@ -537,8 +538,7 @@ export class EditEventComponent implements OnInit {
 
   addMinutes(hrs: number, mins: number) {
     if (mins > 0) {
-      const minutes = (hrs * 60) + mins
-      return minutes
+      return (hrs * 60) + mins
     }
     const minutes = (hrs * 60) + 0
     return minutes

@@ -491,8 +491,7 @@ export class CreateEventComponent implements OnInit {
 
   addMinutes(hrs: number, mins: number) {
     if (mins > 0) {
-      const minutes = (hrs * 60) + mins
-      return minutes
+      return (hrs * 60) + mins
     }
     const minutes = (hrs * 60) + 0
     return minutes
@@ -502,8 +501,8 @@ export class CreateEventComponent implements OnInit {
     const reqestBody = {
       request: {
         event: {
-          status: 'Live',
           versionKey,
+          status: 'Live',
           identifier: identifierkey,
         },
       },
