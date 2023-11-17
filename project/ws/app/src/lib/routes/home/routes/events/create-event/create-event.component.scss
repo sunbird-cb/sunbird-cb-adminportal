@@ -74,7 +74,7 @@ textarea.mat-input-element {
 }
 
 .create-btn {
-  width: 130px;
+  // width: 130px;
   background: #0075B7 !important;
   color: white !important;
   font-family: 'Lato';
@@ -830,7 +830,7 @@ input.mat-input-element {
     max-width: 60px;
   }
 }
-.mat-form-field-hint-wrapper {
+::ng-deep.mat-form-field-hint-wrapper {
   flex-direction: row-reverse !important;
 }
 .custom-width {

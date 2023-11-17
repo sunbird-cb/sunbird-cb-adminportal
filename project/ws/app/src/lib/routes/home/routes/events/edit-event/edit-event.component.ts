@@ -130,7 +130,7 @@ export class EditEventComponent implements OnInit {
       summary: new FormControl('', [Validators.required]),
       description: new FormControl('', [Validators.required]),
       agenda: new FormControl('', [Validators.required]),
-      isItKarmayogiTalk: new FormControl('', []),
+      // isItKarmayogiTalk: new FormControl('', []),
       eventType: new FormControl('', [Validators.required]),
       eventDate: new FormControl('', [Validators.required]),
       eventTime: new FormControl('', [Validators.required]),
@@ -152,6 +152,7 @@ export class EditEventComponent implements OnInit {
         this.createEventForm.controls['agenda'].setValue(eventObj.learningObjective)
         this.createEventForm.controls['conferenceLink'].setValue(eventObj.registrationLink)
         this.createEventForm.controls['eventTime'].setValue(eventObj.endDate)
+        this.createEventForm.controls['eventType'].setValue(eventObj.resourceType)
         this.todayDate = new Date((new Date(eventObj.endDate).getTime()))
         const dateStr = eventObj.startTime.split(':')
         this.todayTime = `${dateStr[0]}:${dateStr[1]}`
@@ -177,14 +178,12 @@ export class EditEventComponent implements OnInit {
             this.createEventForm.controls['presenters'].setValue(this.presentersArr)
           }
         }
-
-        console.log('this.presentersArr ', this.presentersArr)
       })
     })
 
     // this.createEventForm.controls['eventDurationHours'].setValue(0)
     // this.createEventForm.controls['eventDurationMinutes'].setValue(30)
-    this.createEventForm.controls['eventType'].setValue('Webinar')
+    // this.createEventForm.controls['eventType'].setValue('Webinar')
     const minCurrentDate = new Date()
     const maxNewDate = new Date()
     this.minDate = minCurrentDate

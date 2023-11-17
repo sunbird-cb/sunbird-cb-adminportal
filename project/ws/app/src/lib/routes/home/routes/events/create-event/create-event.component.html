@@ -26,7 +26,7 @@
         <div class="profile-container">
             <div class="profile-box">
                 <form class="create-event-form" [formGroup]="createEventForm">
-                    <div class="input-column px-2 ws-mat-accent-border mb-5 padding-top-l padding-bottom-l padding-right-xl padding-left-xl"
+                    <div class="input-column px-2 ws-mat-accent-border mb-5 padding-top-m padding-bottom-m padding-right-xl padding-left-xl"
                         id="eventInfo">
                         <div class="margin-bottom-s">
                             <label class="heading">Event details</label>
@@ -102,8 +102,7 @@
                                     *ngIf="createEventForm?.controls['eventTitle']?.touched && createEventForm?.controls['eventTitle'].errors?.required">
                                     Event title is mandatory
                                 </mat-error>
-                                <mat-hint class=''>{{eventTitle.value.length}}/250
-                                    characters</mat-hint>
+                                <mat-hint>{{eventTitle.value.length}}/250 characters</mat-hint>
                             </mat-form-field>
                         </div>
                         <div class="margin-bottom-s">
@@ -122,8 +121,7 @@
                                     *ngIf="createEventForm?.controls['summary']?.touched && createEventForm?.controls['summary'].errors?.required">
                                     Summary is mandatory
                                 </mat-error>
-                                <mat-hint class=''>{{summary.value.length}}/500
-                                    characters</mat-hint>
+                                <mat-hint>{{summary.value.length}}/500 characters</mat-hint>
                             </mat-form-field>
                         </div>
                         <div class="margin-bottom-s">
@@ -145,8 +143,7 @@
                                                                                     createEventForm?.controls['description'].errors?.required">
                                     Description is mandatory
                                 </mat-error>
-                                <mat-hint class=''>{{description.value.length}}/1000
-                                    characters</mat-hint>
+                                <mat-hint>{{description.value.length}}/1000 characters</mat-hint>
                             </mat-form-field>
                         </div>
                         <div class="margin-bottom-s">
@@ -164,8 +161,7 @@
                                     *ngIf="createEventForm?.controls['agenda']?.touched && createEventForm?.controls['agenda'].errors?.required">
                                     Agenda is mandatory
                                 </mat-error>
-                                <mat-hint class=''>{{agenda.value.length}}/500
-                                    characters</mat-hint>
+                                <mat-hint>{{agenda.value.length}}/500 characters</mat-hint>
                             </mat-form-field>
                         </div>
                         <div class="margin-bottom-s">
@@ -206,7 +202,7 @@
                             </mat-checkbox> -->
                         </div>
                     </div>
-                    <div class="input-column px-2 ws-mat-accent-border mb-5 padding-top-xl padding-bottom-l padding-right-xl padding-left-l"
+                    <div class="input-column px-2 ws-mat-accent-border mb-5 padding-top-m padding-bottom-m padding-right-xl padding-left-l"
                         id="videoinfo">
                         <label class="heading">Add link</label>
                         <div class="input-wrapper margin-top-s">
@@ -236,7 +232,7 @@
                             </mat-form-field>
                         </div>
                     </div>
-                    <div class="input-column px-2 ws-mat-accent-border mb-5 padding-top-xl padding-bottom-l padding-right-xl padding-left-l"
+                    <div class="input-column px-2 ws-mat-accent-border mb-5 padding-top-m padding-bottom-m padding-right-xl padding-left-l"
                         id="datetime">
                         <label class="heading">Date time</label>
                         <div class="input-wrapper margin-top-s">
@@ -381,7 +377,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="input-column px-2 ws-mat-accent-border mb-5 padding-top-xl padding-bottom-l padding-right-xl padding-left-l"
+                    <div class="input-column px-2 ws-mat-accent-border mb-5 padding-top-m padding-bottom-m padding-right-xl padding-left-l"
                         id="presenter">
                         <label class="heading">Presenters</label>
                         <div class="input-wrapper margin-top-s">
