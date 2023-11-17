@@ -49,13 +49,9 @@ export class EventListViewComponent implements OnInit, AfterViewInit, OnChanges,
   pageSizeOptions = [20, 30, 40]
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator
   @ViewChild(MatSort, { static: false }) set matSort(sort: MatSort) {
-
     if (!this.dataSource.sort) {
-
       this.dataSource.sort = sort
-
     }
-
   }
   // @ViewChild(MatSort, { static: true }) sort?: MatSort
   selection = new SelectionModel<any>(true, [])
@@ -121,7 +117,6 @@ export class EventListViewComponent implements OnInit, AfterViewInit, OnChanges,
         this.actionsClick.emit({ action, row })
       }
     }
-
   }
 
   getFinalColumns() {
@@ -193,5 +188,4 @@ export class EventListViewComponent implements OnInit, AfterViewInit, OnChanges,
       data: img,
     })
   }
-
 }

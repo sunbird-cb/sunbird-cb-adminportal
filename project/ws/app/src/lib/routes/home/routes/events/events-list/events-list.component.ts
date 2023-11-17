@@ -251,9 +251,11 @@ export class EventsListComponent implements OnInit {
   menuActions($event: { action: string, row: any }) {
     if ($event.action === 'archive') {
       const dialogRef = this.dialogue.open(DialogConfirmComponent, {
+        height: 'auto',
+        width: '25%',
         data: {
-          title: 'Do you want to archive this event?',
-          bodyHTML: `Please click <strong>Yes</strong> to archive.`,
+          title: 'Confirmation',
+          bodyHTML: `Are you sure you want to archive this event? Once an event is archived, it will remain archived forever and learners will no longer have access to it.`,
         },
       })
       dialogRef.afterClosed().subscribe((response: any) => {
