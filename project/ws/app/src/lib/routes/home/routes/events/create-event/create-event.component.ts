@@ -44,12 +44,10 @@ export class CreateEventComponent implements OnInit {
   pictureObj: any
   myreg = /(^|\s)((https?:\/\/)?[\w-]+(\.[\w-]+)+\.?(:\d+)?(\/\S*)?)/gi
 
-  eventTypes = [
-    { title: 'Webinar', desc: 'General discussion involving', border: 'rgb(0, 116, 182)', disabled: false },
-    //   // { title: 'Ask me anything', desc: 'Session targeted at answering questions from attendees', border: '', disabled: true },
-    //   // { title: 'Workshop', desc: 'Live learning session', border: '', disabled: true },
-    //   // { title: 'Interview', desc: 'Interview session involving one or more guests', border: '', disabled: true },
-  ]
+  // eventTypes = [
+  //   { title: 'Webinar', desc: 'General discussion involving', border: 'rgb(0, 116, 182)', disabled: false },
+  // ]
+  evntTypesList = ['Webinar', 'Karmayogi Talks']
 
   timeArr = [
     { value: '00:00' }, { value: '00:30' }, { value: '01:00' }, { value: '01:30' },
@@ -125,18 +123,18 @@ export class CreateEventComponent implements OnInit {
       summary: new FormControl('', [Validators.required]),
       description: new FormControl('', [Validators.required]),
       agenda: new FormControl('', [Validators.required]),
-      isItKarmayogiTalk: new FormControl('', []),
+      // isItKarmayogiTalk: new FormControl('', []),
       eventType: new FormControl('', [Validators.required]),
       eventDate: new FormControl('', [Validators.required]),
       eventTime: new FormControl('', [Validators.required]),
       eventDurationHours: new FormControl('', [Validators.required]),
-      eventDurationMinutes: new FormControl('', [Validators.required]),
+      eventDurationMinutes: new FormControl('', []),
       conferenceLink: new FormControl('', [Validators.required, Validators.pattern(this.myreg)]),
       presenters: new FormControl('', [Validators.required]),
     })
 
-    this.createEventForm.controls['eventDurationHours'].setValue(0)
-    this.createEventForm.controls['eventDurationMinutes'].setValue(30)
+    // this.createEventForm.controls['eventDurationHours'].setValue(0)
+    // this.createEventForm.controls['eventDurationMinutes'].setValue(30)
     this.createEventForm.controls['eventType'].setValue('Webinar')
     const minCurrentDate = new Date()
     const maxNewDate = new Date()
@@ -197,7 +195,7 @@ export class CreateEventComponent implements OnInit {
         name: obj.firstName || obj.firstname,
         email: this.profileUtilSvc.emailTransform(obj.profileDetails.personalDetails.primaryEmail),
         type: 'Karmayogi User',
-        mdoName: obj.rootOrgName
+        mdoName: obj.rootOrgName,
       }
       // this.presentersArr.push(setSelectedPresentersObj)
       this.participantsArr.push(setSelectedPresentersObj)
@@ -450,11 +448,11 @@ export class CreateEventComponent implements OnInit {
     const reqestBody = {
       request: {
         event: {
-          status: "Live",
-          versionKey: versionKey,
-          identifier: identifierkey
-        }
-      }
+          status: 'Live',
+          versionKey,
+          identifier: identifierkey,
+        },
+      },
     }
     this.eventsSvc.publishEvent(identifierkey, reqestBody).subscribe(
       res => {

@@ -44,9 +44,11 @@ export class EditEventComponent implements OnInit {
   pictureObj: any
   myreg = /(^|\s)((https?:\/\/)?[\w-]+(\.[\w-]+)+\.?(:\d+)?(\/\S*)?)/gi
 
-  eventTypes = [
-    { title: 'Webinar', desc: 'General discussion involving', border: 'rgb(0, 116, 182)', disabled: false },
-  ]
+  // eventTypes = [
+  //   { title: 'Webinar', desc: 'General discussion involving', border: 'rgb(0, 116, 182)', disabled: false },
+  // ]
+
+  evntTypesList = ['Webinar', 'Karmayogi Talks']
 
   timeArr = [
     { value: '00:00' }, { value: '00:30' }, { value: '01:00' }, { value: '01:30' },
@@ -121,7 +123,6 @@ export class EditEventComponent implements OnInit {
       }
     }
 
-
     this.createEventForm = new FormGroup({
       eventPicture: new FormControl(''),
       eventTitle: new FormControl('', [Validators.required]),
@@ -133,7 +134,7 @@ export class EditEventComponent implements OnInit {
       eventDate: new FormControl('', [Validators.required]),
       eventTime: new FormControl('', [Validators.required]),
       eventDurationHours: new FormControl('', [Validators.required]),
-      eventDurationMinutes: new FormControl('', [Validators.required]),
+      eventDurationMinutes: new FormControl('', []),
       conferenceLink: new FormControl('', [Validators.required, Validators.pattern(this.myreg)]),
       presenters: new FormControl('', [Validators.required]),
     })
@@ -141,7 +142,7 @@ export class EditEventComponent implements OnInit {
     this.activeRoute.params.subscribe(params => {
       this.eventId = params['id']
       this.eventsSvc.getEventDetails(this.eventId).subscribe(res => {
-        console.log("res ", res.result.event)
+        console.log('res ', res.result.event)
         const eventObj = res.result.event
         this.eventObject = eventObj
         this.createEventForm.controls['eventTitle'].setValue(eventObj.name)
@@ -151,7 +152,7 @@ export class EditEventComponent implements OnInit {
         this.createEventForm.controls['conferenceLink'].setValue(eventObj.registrationLink)
         this.createEventForm.controls['eventTime'].setValue(eventObj.endDate)
         this.todayDate = new Date((new Date(eventObj.endDate).getTime()))
-        const dateStr = eventObj.startTime.split(":")
+        const dateStr = eventObj.startTime.split(':')
         this.todayTime = `${dateStr[0]}:${dateStr[1]}`
         this.hours = eventObj.duration / 60
         this.minutes = eventObj.duration % 60
@@ -162,12 +163,12 @@ export class EditEventComponent implements OnInit {
         const presents = eventObj.creatorDetails
         if (presents) {
           this.presentersArr = []
-          for (let obj of JSON.parse(presents.replace(/\\/g, ''))) {
+          for (const obj of JSON.parse(presents.replace(/\\/g, ''))) {
             const setSelectedPresentersObj = {
               firstname: obj.name,
               email: obj.email,
               type: 'Karmayogi User',
-              mdoName: obj.mdoName
+              mdoName: obj.mdoName,
             }
             this.presentersArr.push(setSelectedPresentersObj)
             this.participantsArr.push(setSelectedPresentersObj)
@@ -176,19 +177,19 @@ export class EditEventComponent implements OnInit {
           }
         }
 
-        console.log("this.presentersArr ", this.presentersArr)
+        console.log('this.presentersArr ', this.presentersArr)
       })
     })
 
-    this.createEventForm.controls['eventDurationHours'].setValue(0)
-    this.createEventForm.controls['eventDurationMinutes'].setValue(30)
+    // this.createEventForm.controls['eventDurationHours'].setValue(0)
+    // this.createEventForm.controls['eventDurationMinutes'].setValue(30)
     this.createEventForm.controls['eventType'].setValue('Webinar')
     const minCurrentDate = new Date()
     const maxNewDate = new Date()
     this.minDate = minCurrentDate
     this.maxDate = maxNewDate.setMonth(maxNewDate.getMonth() + 1)
-    //this.todayDate = new Date((new Date().getTime()))
-    //this.todayTime = '00:00'
+    // this.todayDate = new Date((new Date().getTime()))
+    // this.todayTime = '00:00'
   }
 
   ngOnInit() {
@@ -243,7 +244,7 @@ export class EditEventComponent implements OnInit {
         firstname: obj.firstName || obj.firstname,
         email: this.profileUtilSvc.emailTransform(obj.profileDetails.personalDetails.primaryEmail),
         type: 'Karmayogi User',
-        mdoName: obj.rootOrgName
+        mdoName: obj.rootOrgName,
       }
 
       this.presentersArr.push(setSelectedPresentersObj)
@@ -448,7 +449,7 @@ export class EditEventComponent implements OnInit {
           owner: this.department,
           createdFor: createdforarray,
           identifier: this.eventId,
-          versionKey: this.eventObject.versionKey
+          versionKey: this.eventObject.versionKey,
         },
       },
     }

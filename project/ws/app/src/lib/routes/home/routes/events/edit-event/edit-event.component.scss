@@ -29,6 +29,7 @@ textarea.mat-input-element {
   font-size: 12px;
   color: rgba(0, 0, 0, 0.7);
   line-height: 18px;
+  display: flex;
 }
 
 .deleteIcon {
@@ -38,9 +39,9 @@ textarea.mat-input-element {
   padding: 2px;
   border: 1px solid red;
   border-radius: 50%;
-  width: 20px;
-  height: 20px;
-  line-height: 19px;
+  width: 14px;
+  height: 14px;
+  line-height: 16px;
 }
 
 .supported-files {
@@ -64,7 +65,9 @@ textarea.mat-input-element {
 
 #btnDelete {
   color:red;
-  font-weight: bold;
+  height: 13px;
+  width: 13px;
+  font-size: 14px;
 }
 
 mat-card.highlight {
@@ -752,8 +755,9 @@ input.mat-input-element {
   justify-content: right;
   .mat-card {
     width: 350px;
-    border:1px solid #ededed;
+    border: 1px dashed rgba(0, 0, 0, 0.16);
     height: 300px;
+    box-shadow: none;
   }
 
   .imgicon {
@@ -784,4 +788,51 @@ input.mat-input-element {
     left: 0;
     margin-left: 45%;
     z-index: 1;
+}
+
+
+.duration-time {
+  display: flex;
+  flex: 1;
+
+  .duration-d {
+    display: flex;
+    // flex: 1;
+  }
+
+  @include breakpoint-xs {
+    flex-wrap: wrap;
+  }
+
+  @include breakpoint-s {
+    flex-wrap: wrap;
+  }
+
+  @include breakpoint-m {
+    flex-wrap: wrap;
+    flex: auto;
+  }
+}
+
+.duration-width {
+  max-width: 50px;
+
+  @include breakpoint-s {
+    max-width: 50px;
+  }
+
+  @include breakpoint-xs {
+    max-width: 50px;
+  }
+
+  @include breakpoint-m {
+    max-width: 60px;
+  }
+}
+.custom-width {
+  width: 30% !important;
+  display: block;
+}
+.mat-form-field-hint-wrapper {
+  flex-direction: row-reverse !important;
 }
