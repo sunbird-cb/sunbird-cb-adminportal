@@ -3,7 +3,6 @@ import { HttpClient } from '@angular/common/http'
 import { Observable } from 'rxjs'
 import { environment } from '..//../../../../../../../../../src/environments/environment'
 
-
 const API_END_POINTS = {
   CREATE_EVENT: '/apis/proxies/v8/event/v4/create',
   UPDATE_EVENT: '/apis/proxies/v8/event/v4/update',
@@ -16,7 +15,7 @@ const API_END_POINTS = {
   GET_EVENTS: '/apis/proxies/v8/sunbirdigot/search',
   CREATE_ASSET: 'apis/proxies/v8/action/content/v3/create',
   UPLOAD_FILE: 'apis/proxies/v8/upload/action/content/v3/upload',
-  ARCHIVE_EVENT: '/apis/proxies/v8/event/v4/retire'
+  ARCHIVE_EVENT: '/apis/proxies/v8/event/v4/retire',
 }
 
 @Injectable({

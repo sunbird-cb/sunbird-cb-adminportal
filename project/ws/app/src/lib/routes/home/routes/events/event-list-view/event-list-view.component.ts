@@ -84,8 +84,6 @@ export class EventListViewComponent implements OnInit, AfterViewInit, OnChanges,
       this.displayedColumns = this.tableData.columns
     }
     this.dataSource.data = this.data
-
-    console.log("this.data ", this.data)
   }
 
   ngOnChanges(data: SimpleChanges) {
@@ -182,7 +180,7 @@ export class EventListViewComponent implements OnInit, AfterViewInit, OnChanges,
     this.events.raiseInteractTelemetry(
       {
         type: 'click',
-        subType: 'btn-content'
+        subType: 'btn-content',
       },
       {}
     )
