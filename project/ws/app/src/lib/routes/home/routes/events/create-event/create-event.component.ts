@@ -91,6 +91,7 @@ export class CreateEventComponent implements OnInit {
   newtimearray: any = []
   disableCreateButton = false
   displayLoader = false
+  reqPayload: any
 
   constructor(private snackBar: MatSnackBar, private eventsSvc: EventsService, private matDialog: MatDialog,
     // tslint:disable-next-line:align
@@ -302,6 +303,8 @@ export class CreateEventComponent implements OnInit {
       this.createEventForm.controls['eventDurationMinutes'].value
     )
     const timeArr = this.createEventForm.controls['eventTime'].value.split(':')
+    const todayDate = moment(new Date()).toDate()
+    const eventDate = moment(this.createEventForm.controls['eventDate'].value).toDate()
     const expiryDateTime = moment(this.createEventForm.controls['eventDate'].value)
       .set('hour', timeArr[0])
       .set('minute', timeArr[1]).format('YYYYMMDDTHHmmss+0000')
@@ -312,9 +315,10 @@ export class CreateEventComponent implements OnInit {
     // tslint:disable-next-line:radix
     const endMinutes = parseInt(this.createEventForm.controls['eventDurationHours'].value) * 60
     // tslint:disable-next-line:radix
-    const totalMinutes = startMinutes + endMinutes + parseInt(this.createEventForm.controls['eventDurationMinutes'].value)
+    const totalMinutes = startMinutes + endMinutes + parseInt(this.createEventForm.controls['eventDurationMinutes'].value || 0)
     // tslint:disable-next-line:prefer-template
-    const hours = (Math.floor(totalMinutes / 60) < 10) ? '0' + Math.floor(totalMinutes / 60) : Math.floor(totalMinutes / 60)
+    let hours = (Math.floor(totalMinutes / 60) < 10) ? '0' + Math.floor(totalMinutes / 60) : Math.floor(totalMinutes / 60)
+    hours = Number(hours)
     const minutes = totalMinutes % 60
     let finalTime
     let newendDate
@@ -364,51 +368,97 @@ export class CreateEventComponent implements OnInit {
     const createdforarray: any[] = []
     createdforarray.push(this.departmentID)
 
-    const form = {
-      request: {
-        event: {
-          mimeType: 'application/html',
-          locale: 'en',
-          isExternal: true,
-          name: this.createEventForm.controls['eventTitle'].value,
-          description: this.createEventForm.controls['description'].value,
-          instructions: this.createEventForm.controls['summary'].value,
-          appIcon: this.eventimageURL,
-          category: 'Event',
-          createdBy: this.userId,
-          authoringDisabled: false,
-          isContentEditingDisabled: false,
-          isMetaEditingDisabled: false,
-          learningObjective: this.createEventForm.controls['agenda'].value,
-          expiryDate: expiryDateTime,
-          duration: eventDurationMinutes,
-          registrationLink: this.createEventForm.controls['conferenceLink'].value,
-          resourceType: this.createEventForm.controls['eventType'].value,
-          categoryType: 'Article',
-          creatorDetails: this.createEventForm.controls['presenters'].value,
-          sourceName: this.department,
-          startDate: moment(this.createEventForm.controls['eventDate'].value).format('YYYY-MM-DD'),
-          endDate: newendDate ? newendDate : moment(this.createEventForm.controls['eventDate'].value).format('YYYY-MM-DD'),
-          // tslint:disable-next-line:prefer-template
-          startTime: this.createEventForm.controls['eventTime'].value + ':00+05:30',
-          endTime: finalTime,
-          code: this.createEventForm.controls['eventTitle'].value,
-          eventType: 'Online',
-          // contentType: 'Event',
-          // onlineProvider: 'Zoom',
-          registrationEndDate: moment(this.createEventForm.controls['eventDate'].value).format('YYYY-MM-DD'),
-          owner: this.department,
-          createdFor: createdforarray,
+    if (eventDate < todayDate) {
+      const linkArry = []
+      linkArry.push(this.createEventForm.controls['conferenceLink'].value)
+      // form.request.event.recordedLinks = arry
+      this.reqPayload = {
+        request: {
+          event: {
+            mimeType: 'application/html',
+            locale: 'en',
+            isExternal: true,
+            name: this.createEventForm.controls['eventTitle'].value,
+            description: this.createEventForm.controls['description'].value,
+            instructions: this.createEventForm.controls['summary'].value,
+            appIcon: this.eventimageURL,
+            category: 'Event',
+            createdBy: this.userId,
+            authoringDisabled: false,
+            isContentEditingDisabled: false,
+            isMetaEditingDisabled: false,
+            learningObjective: this.createEventForm.controls['agenda'].value,
+            expiryDate: expiryDateTime,
+            duration: eventDurationMinutes,
+            // registrationLink: this.createEventForm.controls['conferenceLink'].value,
+            recordedLinks: linkArry,
+            resourceType: this.createEventForm.controls['eventType'].value,
+            categoryType: 'Article',
+            creatorDetails: this.createEventForm.controls['presenters'].value,
+            sourceName: this.department,
+            startDate: moment(this.createEventForm.controls['eventDate'].value).format('YYYY-MM-DD'),
+            endDate: newendDate ? newendDate : moment(this.createEventForm.controls['eventDate'].value).format('YYYY-MM-DD'),
+            // tslint:disable-next-line:prefer-template
+            startTime: this.createEventForm.controls['eventTime'].value + ':00+05:30',
+            endTime: finalTime,
+            code: this.createEventForm.controls['eventTitle'].value,
+            eventType: 'Online',
+            // contentType: 'Event',
+            // onlineProvider: 'Zoom',
+            registrationEndDate: moment(this.createEventForm.controls['eventDate'].value).format('YYYY-MM-DD'),
+            owner: this.department,
+            createdFor: createdforarray,
+          },
         },
-      },
+      }
+    } else {
+      this.reqPayload = {
+        request: {
+          event: {
+            mimeType: 'application/html',
+            locale: 'en',
+            isExternal: true,
+            name: this.createEventForm.controls['eventTitle'].value,
+            description: this.createEventForm.controls['description'].value,
+            instructions: this.createEventForm.controls['summary'].value,
+            appIcon: this.eventimageURL,
+            category: 'Event',
+            createdBy: this.userId,
+            authoringDisabled: false,
+            isContentEditingDisabled: false,
+            isMetaEditingDisabled: false,
+            learningObjective: this.createEventForm.controls['agenda'].value,
+            expiryDate: expiryDateTime,
+            duration: eventDurationMinutes,
+            registrationLink: this.createEventForm.controls['conferenceLink'].value,
+            resourceType: this.createEventForm.controls['eventType'].value,
+            categoryType: 'Article',
+            creatorDetails: this.createEventForm.controls['presenters'].value,
+            sourceName: this.department,
+            startDate: moment(this.createEventForm.controls['eventDate'].value).format('YYYY-MM-DD'),
+            endDate: newendDate ? newendDate : moment(this.createEventForm.controls['eventDate'].value).format('YYYY-MM-DD'),
+            // tslint:disable-next-line:prefer-template
+            startTime: this.createEventForm.controls['eventTime'].value + ':00+05:30',
+            endTime: finalTime,
+            code: this.createEventForm.controls['eventTitle'].value,
+            eventType: 'Online',
+            // contentType: 'Event',
+            // onlineProvider: 'Zoom',
+            registrationEndDate: moment(this.createEventForm.controls['eventDate'].value).format('YYYY-MM-DD'),
+            owner: this.department,
+            createdFor: createdforarray,
+          },
+        },
+      }
     }
+
     // const formJson = this.encodeToBase64(form)
     if (eventDurationMinutes === 0) {
       this.displayLoader = false
       this.disableCreateButton = false
       this.openSnackbar('Duration cannot be zero')
     } else {
-      this.eventsSvc.createEvent(form).subscribe(
+      this.eventsSvc.createEvent(this.reqPayload).subscribe(
         res => {
           this.displayLoader = false
           this.disableCreateButton = false
@@ -440,7 +490,11 @@ export class CreateEventComponent implements OnInit {
   }
 
   addMinutes(hrs: number, mins: number) {
-    const minutes = (hrs * 60) + mins
+    if (mins > 0) {
+      const minutes = (hrs * 60) + mins
+      return minutes
+    }
+    const minutes = (hrs * 60) + 0
     return minutes
   }
 
