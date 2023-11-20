@@ -51,6 +51,7 @@
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>
     </div>
+    <div class="dialog-btn-items" *ngIf="participants.length === 0">No data found.</div>
     <mat-card-actions>
         <div class="flex flex-1 custom button-row" align="end" *ngIf="participants.length > 0">
             <button mat-stroked-button color="accent" type="button" class="mat-accent-border flex-auto-display"
