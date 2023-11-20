@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core'
 import { MatDialog } from '@angular/material/dialog'
 import { ActivatedRoute, Router } from '@angular/router'
-import { ConfigurationsService } from '@sunbird-cb/utils'
+import { ConfigurationsService, EventService } from '@sunbird-cb/utils'
 import * as moment from 'moment'
 /* tslint:disable */
 import _ from 'lodash'
 import { EventsService } from '../services/events.service'
 import { DialogConfirmComponent } from '../../../../../../../../../../src/app/component/dialog-confirm/dialog-confirm.component'
 import { MatSnackBar } from '@angular/material'
+import { TelemetryEvents } from '../model/telemetry.event.model'
 
 @Component({
   selector: 'ws-app-events-list',
@@ -29,7 +30,7 @@ export class EventsListComponent implements OnInit {
     private activeRoute: ActivatedRoute,
     private configSvc: ConfigurationsService,
     private router: Router,
-    // private events: EventService,
+    private events: EventService,
     private eventSvc: EventsService,
     private dialogue: MatDialog,
     private snackBar: MatSnackBar,
@@ -153,12 +154,10 @@ export class EventsListComponent implements OnInit {
   }
 
   customDateFormat(date: string, time: string) {
-    const fDate = date.split("-")
     const fTime = time.split("+")
-    const ffTime = fTime[0].split(":")
-    const formatedDate = new Date(+fDate[0], +fDate[2], +fDate[1], +ffTime[0], +ffTime[1], +ffTime[2], 0)
+    const datetimetest = moment(`${date}T${fTime[0]}`).toISOString()
     const format = 'Do MMM YYYY HH:mm'
-    const readableDateMonth = moment(formatedDate).format(format)
+    const readableDateMonth = moment(datetimetest).format(format)
     const finalDateTimeValue = `${readableDateMonth}`
     return finalDateTimeValue
   }
@@ -236,16 +235,14 @@ export class EventsListComponent implements OnInit {
   }
 
   public tabTelemetry(label: string, index: number) {
-    console.log("label ", label)
-    console.log("index ", index)
-    // const data: TelemetryEvents.ITelemetryTabData = {
-    //   label,
-    //   index,
-    // }
-    // this.events.handleTabTelemetry(
-    //   TelemetryEvents.EnumInteractSubTypes.APPROVAL_TAB,
-    //   data,
-    // )
+    const data: TelemetryEvents.ITelemetryTabData = {
+      label,
+      index,
+    }
+    this.events.handleTabTelemetry(
+      TelemetryEvents.EnumInteractSubTypes.APPROVAL_TAB,
+      data,
+    )
   }
 
   menuActions($event: { action: string, row: any }) {
