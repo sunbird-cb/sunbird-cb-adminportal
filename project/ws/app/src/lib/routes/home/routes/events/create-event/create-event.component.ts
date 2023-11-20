@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ChangeDetectorRef } from '@angular/core'
 import { FormControl, FormGroup, Validators } from '@angular/forms'
 import { EventsService } from '../services/events.service'
-import { MatSnackBar, MatPaginator } from '@angular/material'
+import { MatSnackBar, MatPaginator, DateAdapter, MAT_DATE_LOCALE, MAT_DATE_FORMATS } from '@angular/material'
 import { MatSort } from '@angular/material/sort'
 import { ITableData } from '../interfaces/interfaces'
 import { MatDialog } from '@angular/material/dialog'
@@ -10,16 +10,34 @@ import { SuccessComponent } from '../success/success.component'
 import { Router, ActivatedRoute } from '@angular/router'
 import { ConfigurationsService, EventService } from '@sunbird-cb/utils'
 import * as moment from 'moment'
+import { MomentDateAdapter } from '@angular/material-moment-adapter'
 /* tslint:disable */
 import _ from 'lodash'
 import { TelemetryEvents } from '../../events/model/telemetry.event.model'
 import { ProfileV2UtillService } from '../services/home-utill.service'
 /* tslint:enable */
+
+export const MY_FORMATS = {
+  parse: {
+    dateInput: 'LL',
+  },
+  display: {
+    dateInput: 'DD/MM/YYYY',
+    monthYearLabel: 'YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'YYYY',
+  },
+}
 @Component({
   selector: 'ws-app-create-event',
   templateUrl: './create-event.component.html',
   styleUrls: ['./create-event.component.scss'],
+  providers: [
+    { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
+    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
+  ],
 })
+
 export class CreateEventComponent implements OnInit {
 
   artifactURL: any
@@ -318,25 +336,27 @@ export class CreateEventComponent implements OnInit {
     const totalMinutes = startMinutes + endMinutes + parseInt(this.createEventForm.controls['eventDurationMinutes'].value || 0)
     // tslint:disable-next-line:prefer-template
     let hours = (Math.floor(totalMinutes / 60) < 10) ? '0' + Math.floor(totalMinutes / 60) : Math.floor(totalMinutes / 60)
+    let hoursStr = (Math.floor(totalMinutes / 60) < 10) ? '0' + Math.floor(totalMinutes / 60) : Math.floor(totalMinutes / 60)
     hours = Number(hours)
     const minutes = totalMinutes % 60
+    let minutesstr = (Math.floor(minutes) < 10) ? '0' + Math.floor(minutes) : Math.floor(minutes)
     let finalTime
     let newendDate
     if (hours < 24) {
       if (minutes === 0) {
         // tslint:disable-next-line:prefer-template
-        finalTime = hours + ':' + '00' + ':00+05:30'
+        finalTime = hoursStr + ':' + '00' + ':00+05:30'
       } else if (hours === 0) {
         // tslint:disable-next-line:prefer-template
-        finalTime = '00' + ':' + minutes + ':00+05:30'
+        finalTime = '00' + ':' + minutesstr + ':00+05:30'
       } else {
         // tslint:disable-next-line:prefer-template
-        finalTime = hours + ':' + minutes + ':00+05:30'
+        finalTime = hoursStr + ':' + minutesstr + ':00+05:30'
       }
     } else {
       if (hours === 0) {
         // tslint:disable-next-line:prefer-template
-        finalTime = '00' + ':' + minutes + ':00+05:30'
+        finalTime = '00' + ':' + minutesstr + ':00+05:30'
       } else {
         const fhr = Number(hours)
         // tslint:disable-next-line:prefer-template
@@ -346,7 +366,7 @@ export class CreateEventComponent implements OnInit {
           finalTime = nhr + ':' + '00' + ':00+05:30'
         } else {
           // tslint:disable-next-line:prefer-template
-          finalTime = nhr + ':' + minutes + ':00+05:30'
+          finalTime = nhr + ':' + minutesstr + ':00+05:30'
         }
         const selectedStartDate = this.createEventForm.controls['eventDate'].value
         // tslint:disable-next-line:prefer-template

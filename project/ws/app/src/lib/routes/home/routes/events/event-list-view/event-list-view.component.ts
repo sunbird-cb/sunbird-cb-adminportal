@@ -13,6 +13,7 @@ import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog'
 import { EventThumbnailComponent } from '../event-thumbnail/event-thumbnail.component'
 import { EventService } from '@sunbird-cb/utils'
 import { NsContent } from '@sunbird-cb/collection'
+import { TelemetryEvents } from '../model/telemetry.event.model'
 
 export interface IContentShareData {
   content: NsContent.IContent
@@ -174,8 +175,8 @@ export class EventListViewComponent implements OnInit, AfterViewInit, OnChanges,
     // this.telemetrySvc.impression()
     this.events.raiseInteractTelemetry(
       {
-        type: 'click',
-        subType: 'btn-content',
+        type: TelemetryEvents.EnumInteractTypes.CLICK,
+        subType: TelemetryEvents.EnumInteractSubTypes.BTN_CONTENT,
       },
       {}
     )
