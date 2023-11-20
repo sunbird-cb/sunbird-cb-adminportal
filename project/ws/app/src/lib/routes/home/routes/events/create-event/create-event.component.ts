@@ -176,15 +176,18 @@ export class CreateEventComponent implements OnInit {
       const nmin = ('0' + min).slice(-2)
 
       const currentTime = `${nhr}:${nmin}`
-      const newtimearray: any = []
+      const timearray: any = []
+      const alltimearray: any = []
       this.timeArr.forEach((time: any) => {
+        alltimearray.push(time)
         if (time.value > currentTime) {
-          newtimearray.push(time)
+          timearray.push(time)
         }
       })
-      this.newtimearray = newtimearray
-      this.timeArr = newtimearray
-      this.todayTime = this.timeArr[0].value
+      this.newtimearray = timearray
+      this.timeArr = alltimearray
+      debugger
+      this.todayTime = this.newtimearray[0].value
     }
   }
 

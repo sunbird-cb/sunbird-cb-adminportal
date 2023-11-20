@@ -63,6 +63,10 @@ textarea.mat-input-element {
   font-size: 14px;
 }
 
+.create-btn[disabled] {
+  opacity: 0.6;
+}
+
 #btnDelete {
   color:red;
   height: 13px;

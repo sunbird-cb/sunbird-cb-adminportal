@@ -81,6 +81,9 @@ textarea.mat-input-element {
   font-weight: 700;
   font-size: 14px;
 }
+.create-btn[disabled] {
+  opacity: 0.6;
+}
 
 #btnDelete {
   color:red;
@@ -240,6 +243,8 @@ input[type=number] {
   margin-top: $size-xs;
   // padding: 2rem;
   min-height: calc(100vh - 12rem);
+  width: 95%;
+  box-shadow: 0px 0px 7px #3E3E3E29;
 
   ::ng-deep .mat-tab-header {
     margin: 0 3rem;

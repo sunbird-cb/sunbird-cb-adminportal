@@ -72,7 +72,7 @@ export class EventsListComponent implements OnInit {
       ],
       needCheckBox: false,
       needHash: false,
-      sortColumn: 'eventCreatedOn',
+      sortColumn: 'eventStartDate',
       sortState: 'desc',
       needUserMenus: true,
     }
@@ -131,6 +131,7 @@ export class EventsListComponent implements OnInit {
           eventjoined: (creatorDetails !== undefined && creatorDetails.length > 0) ?
             ((creatorDetails.length === 1) ? '1 person' : `${creatorDetails.length} people`) : ' --- ',
           eventThumbnail: obj.appIcon,
+          lastUpdatedOn: obj.lastUpdatedOn
           // eventThumbnail: obj.appIcon && (obj.appIcon !== null || obj.appIcon !== undefined) ?
           //   this.eventSvc.getPublicUrl(obj.appIcon) : this.eventSvc.getPublicUrl('/assets/icons/Events_default.png'),
         }

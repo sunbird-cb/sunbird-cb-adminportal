@@ -780,3 +780,14 @@ mat-header-row {
   font-size: 20px;
   left: 10px;
 }
+
+::ng-deep .mat-column-eventName {
+  flex: 0 0 30%!important;
+}
+::ng-deep .mat-column-Menu {
+  flex: 0 0 5%!important;
+}
+
+.mat-header-cell {
+  font-size: 14px!important;
+}
