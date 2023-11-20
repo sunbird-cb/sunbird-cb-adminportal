@@ -7,4 +7,6 @@ export const environment = {
   cbpProviderRoles: (window as { [key: string]: any })['env']['cbpProvidersRoles'] || [],
   userBucket: (window as { [key: string]: any })['env']['userBucket'] || '',
   departments: (window as { [key: string]: any })['env']['departments'] || [],
+  contentHost: (window as { [key: string]: any })['env']['contentHost'] || '',
+  contentBucket: (window as { [key: string]: any })['env']['azureBucket'] || '',
 }
