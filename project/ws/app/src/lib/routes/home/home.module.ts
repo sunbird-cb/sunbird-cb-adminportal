@@ -40,7 +40,7 @@ import {
   UserAutocompleteModule,
   BreadcrumbsOrgModule,
   UIORGTableModule,
-  ScrollspyLeftMenuModule
+  ScrollspyLeftMenuModule,
 } from '@sunbird-cb/collection'
 import { AboutComponent } from './routes/about/about.component'
 import { RolesAccessComponent } from './routes/roles-access/roles-access.component'
