@@ -290,6 +290,7 @@ export class EditEventComponent implements OnInit {
   }
 
   onFileSelect(event: any) {
+    this.errorMessages = ''
     if (event.target.files.length > 0) {
 
       const mimeType = event.target.files[0].type
