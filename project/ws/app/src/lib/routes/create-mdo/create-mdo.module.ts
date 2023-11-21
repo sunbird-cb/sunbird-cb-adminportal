@@ -20,7 +20,8 @@ import { UIAdminTableModule } from '../../head/ui-admin-table/ui-admin-table.mod
 @NgModule({
   declarations: [HomeComponent, UsersComponent, RolesAccessComponent],
   imports: [CommonModule, CreateMDORoutingModule, BtnPageBackModuleAdmin, LeftMenuModule, WidgetResolverModule,
-    MatSidenavModule, MatIconModule, MatProgressSpinnerModule, GroupCheckboxModule, HomeModule, RouterModule, UIAdminTableModule, MatCardModule, ScrollspyLeftMenuModule],
+    MatSidenavModule, MatIconModule, MatProgressSpinnerModule, GroupCheckboxModule, HomeModule, RouterModule, UIAdminTableModule, MatCardModule,
+    ScrollspyLeftMenuModule],
   exports: [UsersComponent, RolesAccessComponent],
   providers: [UsersService],
 })

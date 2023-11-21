@@ -22,6 +22,9 @@ import { ApprovedRequestsResolve } from './resolvers/approvedrequests-resolver.s
 import { RejectedRequestsResolve } from './resolvers/rejectedrequests-reoslver.service'
 import { ApprovedlistResolve } from './resolvers/positionlist-resolver.service'
 import { EmailDomainsComponent } from './routes/email-domains/email-domains.component'
+import { EventsListComponent } from './routes/events/events-list/events-list.component'
+import { CreateEventComponent } from './routes/events/create-event/create-event.component'
+import { EditEventComponent } from './routes/events/edit-event/edit-event.component'
 
 const routes: Routes = [
   {
@@ -223,6 +226,45 @@ const routes: Routes = [
       //     pageKey: 'positions',
       //   },
       // },
+      {
+        path: 'events/:id/edit',
+        component: EditEventComponent,
+        data: {
+          pageId: 'home/events/edit-event',
+          module: 'Events',
+          pageType: 'feature',
+          pageKey: 'Events',
+        },
+        resolve: {
+          configService: ConfigResolveService,
+        },
+      },
+      {
+        path: 'events/create-event',
+        component: CreateEventComponent,
+        data: {
+          pageId: 'home/events/create-event',
+          module: 'Events',
+          pageType: 'feature',
+          pageKey: 'Events',
+        },
+        resolve: {
+          configService: ConfigResolveService,
+        },
+      },
+      {
+        path: 'events',
+        component: EventsListComponent,
+        data: {
+          pageId: 'home/events',
+          module: 'Events',
+          pageType: 'feature',
+          pageKey: 'Events',
+        },
+        resolve: {
+          configService: ConfigResolveService,
+        },
+      },
       {
         path: 'reports',
         component: ReportsComponent,

@@ -19,6 +19,13 @@ import {
   MatProgressBarModule,
   MatCheckboxModule,
   MatAutocompleteModule,
+  MatTableModule,
+  MatSortModule,
+  MatMenuModule,
+  MatPaginatorModule,
+  MAT_DIALOG_DATA,
+  MatDatepickerModule,
+  MatNativeDateModule,
 } from '@angular/material'
 import { MatCardModule } from '@angular/material/card'
 import { ReactiveFormsModule, FormsModule } from '@angular/forms'
@@ -27,7 +34,14 @@ import { RouterModule } from '@angular/router'
 import { HomeRoutingModule } from './home.rounting.module'
 import { HomeComponent } from './routes/home/home.component'
 import { UsersViewComponent } from './routes/users-view/users-view.component'
-import { AvatarPhotoModule, BtnPageBackModuleAdmin, UserAutocompleteModule, BreadcrumbsOrgModule, UIORGTableModule } from '@sunbird-cb/collection'
+import {
+  AvatarPhotoModule,
+  BtnPageBackModuleAdmin,
+  UserAutocompleteModule,
+  BreadcrumbsOrgModule,
+  UIORGTableModule,
+  ScrollspyLeftMenuModule,
+} from '@sunbird-cb/collection'
 import { AboutComponent } from './routes/about/about.component'
 import { RolesAccessComponent } from './routes/roles-access/roles-access.component'
 import { DirectoryViewComponent } from './routes/directory/directroy.component'
@@ -48,6 +62,15 @@ import { RequestsApprovalComponent } from './routes/requests-approval/requests-a
 import { AcsendingOrderPipe } from './pipes/acsending-order.pipe'
 import { RejectReasonDialogComponent } from './routes/reject-reason-dialog/reject-reason-dialog.component'
 import { EmailDomainsComponent } from './routes/email-domains/email-domains.component'
+import { EventsListComponent } from './routes/events/events-list/events-list.component'
+import { EventListViewComponent } from './routes/events/event-list-view/event-list-view.component'
+import { EventThumbnailComponent } from './routes/events/event-thumbnail/event-thumbnail.component'
+import { CreateEventComponent } from './routes/events/create-event/create-event.component'
+import { ParticipantsComponent } from './routes/events/participants/participants.component'
+import { SuccessComponent } from './routes/events/success/success.component'
+import { PipeEmailPipe } from './pipes/pipe-email.pipe'
+import { EditEventComponent } from './routes/events/edit-event/edit-event.component'
+import { PipePublicURLModule } from './pipes/pipe-public-URL/pipe-public-URL.module'
 @NgModule({
   declarations: [
     HomeComponent,
@@ -67,7 +90,15 @@ import { EmailDomainsComponent } from './routes/email-domains/email-domains.comp
     ModerationViewComponent,
     RolesUsersComponent,
     ReportsComponent,
+    EventsListComponent,
+    EventListViewComponent,
+    EventThumbnailComponent,
+    CreateEventComponent,
+    EditEventComponent,
+    ParticipantsComponent,
+    SuccessComponent,
     AcsendingOrderPipe,
+    PipeEmailPipe,
     RejectReasonDialogComponent,
   ],
   imports: [
@@ -98,6 +129,8 @@ import { EmailDomainsComponent } from './routes/email-domains/email-domains.comp
     MatProgressSpinnerModule,
     MatProgressBarModule,
     PipeFilterModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
     PipeHtmlTagRemovalModule,
     PipeRelativeTimeModule,
     AvatarPhotoModule,
@@ -109,13 +142,28 @@ import { EmailDomainsComponent } from './routes/email-domains/email-domains.comp
     ImageCropModule,
     UIAdminTableModule,
     UIORGTableModule,
+    MatTableModule,
+    MatSortModule,
+    MatMenuModule,
+    MatPaginatorModule,
+    PipePublicURLModule,
+    ScrollspyLeftMenuModule,
     NgMultiSelectDropDownModule.forRoot(),
   ],
-  entryComponents: [UserPopupComponent, OpenRolesDialogComponent, EditDepartmentDialogComponent, RejectReasonDialogComponent],
+  entryComponents: [
+    UserPopupComponent,
+    OpenRolesDialogComponent,
+    EditDepartmentDialogComponent,
+    RejectReasonDialogComponent,
+    EventThumbnailComponent,
+    ParticipantsComponent,
+    SuccessComponent],
   providers: [
     // CKEditorService,
     // LoaderService,
     InitResolver,
+    { provide: MAT_DIALOG_DATA, useValue: {} },
+    MatDatepickerModule, MatNativeDateModule,
   ],
 })
 export class HomeModule {

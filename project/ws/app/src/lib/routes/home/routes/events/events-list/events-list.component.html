@@ -1,0 +1,30 @@
+<div class="flex flex-4 flex-column">
+  <mat-card class="flex-custom">
+    <div class="flex-1" role="link" tabindex="0">
+      <div class="flex flex-1">
+        <mat-card-title class="flex-4 mobile-margin text-capitalize margin-remove-bottom">
+          <span class="mat-title">Events</span>
+        </mat-card-title>
+      </div>
+    </div>
+    <mat-card-content>
+      <div class="flex flex-1 flex-column margin-fix">
+        <div class="flex flex-1 filter max-height-60">
+          <a href="javascript:void(0)" class="filter-option" [ngClass]="{'ws-mat-accent-border-active' : currentFilter === 'upcoming',
+                  'ws-mat-accent-border font-medium':currentFilter !== 'upcoming'}" mat-button
+            (click)="filter('upcoming'); tabTelemetry('upcoming', 1)" role="button">Upcoming</a>
+          <a href="javascript:void(0)" class="filter-option" [ngClass]="{'ws-mat-accent-border-active' : currentFilter === 'past',
+                  'ws-mat-accent-border font-medium':currentFilter !== 'past'}" mat-button
+            (click)="filter('past'); tabTelemetry('past', 1)" role="button">Completed</a>
+          <a href="javascript:void(0)" class="filter-option" [ngClass]="{'ws-mat-accent-border-active' : currentFilter === 'archive',
+                            'ws-mat-accent-border font-medium':currentFilter !== 'archive'}" mat-button
+            (click)="filter('archive'); tabTelemetry('archive', 1)" role="button">Archive</a>
+        </div>
+      </div>
+      <ng-container>
+        <ws-event-list-view [tableData]='tabledata' [data]='data' isCreate=true [currentFilter]="currentFilter"
+          (actionsClick)="menuActions($event)"></ws-event-list-view>
+      </ng-container>
+    </mat-card-content>
+  </mat-card>
+</div>
