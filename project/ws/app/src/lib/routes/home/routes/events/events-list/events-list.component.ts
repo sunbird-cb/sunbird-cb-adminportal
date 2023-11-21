@@ -72,8 +72,6 @@ export class EventsListComponent implements OnInit {
       ],
       needCheckBox: false,
       needHash: false,
-      sortColumn: 'eventStartDate',
-      sortState: 'desc',
       needUserMenus: true,
     }
     this.fetchEvents()
@@ -93,7 +91,7 @@ export class EventsListComponent implements OnInit {
           contentType: 'Event',
         },
         sort_by: {
-          startDate: 'desc',
+          lastUpdatedOn: 'desc',
         },
       },
     }

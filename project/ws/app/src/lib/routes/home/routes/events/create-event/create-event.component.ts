@@ -40,6 +40,7 @@ export const MY_FORMATS = {
 
 export class CreateEventComponent implements OnInit {
 
+  errorMessages: string = ''
   artifactURL: any
   participantsArr: any = []
   // presentersArr: any = []
@@ -186,7 +187,6 @@ export class CreateEventComponent implements OnInit {
       })
       this.newtimearray = timearray
       this.timeArr = alltimearray
-      debugger
       this.todayTime = this.newtimearray[0].value
     }
   }
@@ -244,7 +244,19 @@ export class CreateEventComponent implements OnInit {
   }
 
   onFileSelect(event: any) {
+    this.errorMessages = ''
     if (event.target.files.length > 0) {
+      var mimeType = event.target.files[0].type
+      if (mimeType.match(/image\/*/) == null) {
+        this.errorMessages = `Please upload the file in either PNG, JPG, or JPEG format. Unfortunately,
+          we can only accept files with these extensions at the moment.`
+        return
+      }
+      if (event.target.files[0].size > 512000) {
+        this.errorMessages = `The file you are trying to upload exceeds the maximum allowed size of 500KB.
+        Please choose a smaller file and try again.`
+        return
+      }
       const reader = new FileReader()
       const file = event.target.files[0]
       reader.onload = () => this.imageSrcURL = reader.result

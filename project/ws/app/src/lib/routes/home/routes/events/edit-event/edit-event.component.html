@@ -26,7 +26,7 @@
         <div class="profile-container">
             <div class="profile-box">
                 <form class="create-event-form" [formGroup]="createEventForm">
-                    <div class="input-column px-2 ws-mat-accent-border mb-5 padding-top-m padding-bottom-m padding-right-xl padding-left-xl"
+                    <div class="input-column px-2 ws-mat-accent-border mb-6 padding-top-m padding-bottom-m padding-right-xl padding-left-xl"
                         id="eventInfo">
                         <div class="margin-bottom-s">
                             <label class="heading">Event details</label>
@@ -35,11 +35,11 @@
                                 i18n-aria-label aria-label="Event title label">
                                 Upload cover photo
                                 <br>
-                                Image will be cropped to 16:9 aspect ratio
+                                <span class="aspect-ratio">Image will be cropped to 16:9 aspect ratio</span>
                             </label>
                             <div class="input-wrapper margin-top-s">
                                 <div class="image-box display-block">
-                                    <mat-card class="mb-10 text-center margin-right-l"
+                                    <mat-card class="mb-5 text-center"
                                         [ngClass]="imageSrcURL ? 'button-row' : 'button-row-inline'">
                                         <div class="item text-center margin-top-xl">
                                             <ng-container *ngIf="!imageSrcURL">
@@ -81,12 +81,18 @@
                                                     class="caption dispaly-block ws-mat-black60-text text-center">
                                                     <div class="margin-top-xl supported-files">
                                                         Max file size: 500KB<br>
-                                                        Supported file types: jpg,png
+                                                        Supported file types: <b>jpg, jpeg, png</b>
                                                     </div>
                                                 </mat-card-content>
                                             </ng-container>
                                         </div>
                                     </mat-card>
+                                    <mat-error [hidden]="false"
+                                        i18n="Event image Error|Explains event image is required" i18n-aria-label
+                                        aria-label="Event image Error|Explains event image is required "
+                                        *ngIf="errorMessages.length > 0">{{errorMessages}}
+
+                                    </mat-error>
                                 </div>
                             </div>
                         </div>
@@ -209,7 +215,7 @@
                             </mat-checkbox> -->
                         </div>
                     </div>
-                    <div class="input-column px-2 ws-mat-accent-border mb-5 padding-top-m padding-bottom-m padding-right-xl padding-left-l"
+                    <div class="input-column px-2 ws-mat-accent-border mb-6 padding-top-m padding-bottom-m padding-right-xl padding-left-l"
                         id="videoinfo">
                         <label class="heading">Add link</label>
                         <div class="input-wrapper margin-top-s">
@@ -239,7 +245,7 @@
                             </mat-form-field>
                         </div>
                     </div>
-                    <div class="input-column px-2 ws-mat-accent-border mb-5 padding-top-m padding-bottom-m padding-right-xl padding-left-l"
+                    <div class="input-column px-2 ws-mat-accent-border mb-6 padding-top-m padding-bottom-m padding-right-xl padding-left-l"
                         id="datetime">
                         <label class="heading">Date time</label>
                         <div class="input-wrapper margin-top-s">
@@ -381,7 +387,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="input-column px-2 ws-mat-accent-border mb-5 padding-top-m padding-bottom-m padding-right-xl padding-left-l"
+                    <div class="input-column px-2 ws-mat-accent-border mb-3 padding-top-m padding-bottom-m padding-right-xl padding-left-l"
                         id="presenter">
                         <label class="heading">Presenters</label>
                         <div class="input-wrapper margin-top-s">
@@ -415,6 +421,24 @@
                         </div>
                     </div>
                 </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="page_title_flex">
+        <div class="flex flex-3 custom button-row-inline margin-top-xs">
+            <div>
+                <button mat-stroked-button color="accent" type="button" class="mat-accent-border flex-auto-display"
+                    (click)="goToList()">
+                    <span i18n>Cancel</span>
+                </button>
+                <button mat-button class="create-btn btn-success" type="button" (click)="onSubmit()"
+                    [disabled]="!createEventForm.valid || disableCreateButton">
+                    <span i18n>Update</span>
+                </button>
+            </div>
+            <div *ngIf="displayLoader" class="mt-5 pr-4 flex items-center justify-center">
+                <mat-spinner [diameter]="30"></mat-spinner>
             </div>
         </div>
     </div>

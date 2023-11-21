@@ -243,7 +243,7 @@ input[type=number] {
   margin-top: $size-xs;
   // padding: 2rem;
   min-height: calc(100vh - 12rem);
-
+  width: 95%;
   ::ng-deep .mat-tab-header {
     margin: 0 3rem;
   }
@@ -733,10 +733,6 @@ input.mat-input-element {
   box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12)
 }
 
-.create-event-form {
-  padding-left: 25px;
-}
-
 .heading{
   font-weight: 600;
   font-family: 'Montserrat';
@@ -758,7 +754,7 @@ input.mat-input-element {
   display:flex;
   justify-content: right;
   .mat-card {
-    width: 350px;
+    width: 550px;
     border: 1px dashed rgba(0, 0, 0, 0.16);
     height: 300px;
     box-shadow: none;
@@ -769,11 +765,23 @@ input.mat-input-element {
     margin: 0 auto;
   }
 
+   .images {
+    margin-top: 65px!important;
+  }
+
   #blah {
-    width:250px;
-    height: 200px;
+    max-width: 500px;
+    max-height: 300px;
+    min-width: 500px;
+    min-height: 300px;
+    margin: 10px;
   }
 }
+
+.aspect-ratio {
+  font-weight: normal!important;
+}
+
 ::ng-deep.border-margin {
   border: 0 !important;
 }
@@ -839,4 +847,25 @@ input.mat-input-element {
 }
 ::ng-deep.mat-form-field-hint-wrapper {
   flex-direction: row-reverse !important;
+}
+
+::ng-deep.ws-mat-default-text {
+  color: black!important;
+  font-size: 20px;
+  opacity: 0.6;
+  font-weight: bold;
+}
+
+.profile-container {
+  padding: 0px 35px;
+  width: 92%;
+}
+
+.ws-mat-accent-border {
+  box-shadow: 0px 0px 7px #3E3E3E29;
+  border: none !important;
+}
+
+.page_title_flex {
+  width: 89.8%;
 }

@@ -85,6 +85,7 @@ export class EditEventComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator
   @ViewChild(MatSort, { static: true }) sort?: MatSort
 
+  errorMessages: string = ''
   dataSource!: any
   widgetData: any
   length!: number
@@ -185,7 +186,7 @@ export class EditEventComponent implements OnInit {
           this.presentersArr = []
           for (const obj of JSON.parse(presents.replace(/\\/g, ''))) {
             const setSelectedPresentersObj = {
-              firstname: obj.name,
+              firstname: obj.name ? obj.name : obj.firstname,
               email: obj.email,
               type: 'Karmayogi User',
               mdoName: obj.mdoName,
@@ -290,6 +291,19 @@ export class EditEventComponent implements OnInit {
 
   onFileSelect(event: any) {
     if (event.target.files.length > 0) {
+
+      var mimeType = event.target.files[0].type
+      if (mimeType.match(/image\/*/) == null) {
+        this.errorMessages = `Please upload the file in either PNG, JPG, or JPEG format. Unfortunately,
+          we can only accept files with these extensions at the moment.`
+        return
+      }
+      if (event.target.files[0].size > 512000) {
+        this.errorMessages = `The file you are trying to upload exceeds the maximum allowed size of 500KB.
+        Please choose a smaller file and try again.`
+        return
+      }
+
       const reader = new FileReader()
       const file = event.target.files[0]
       reader.onload = () => this.imageSrcURL = reader.result
