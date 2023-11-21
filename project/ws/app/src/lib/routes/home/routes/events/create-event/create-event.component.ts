@@ -40,7 +40,7 @@ export const MY_FORMATS = {
 
 export class CreateEventComponent implements OnInit {
 
-  errorMessages: string = ''
+  errorMessages = ''
   artifactURL: any
   participantsArr: any = []
   // presentersArr: any = []
@@ -246,7 +246,7 @@ export class CreateEventComponent implements OnInit {
   onFileSelect(event: any) {
     this.errorMessages = ''
     if (event.target.files.length > 0) {
-      var mimeType = event.target.files[0].type
+      const mimeType = event.target.files[0].type
       if (mimeType.match(/image\/*/) == null) {
         this.errorMessages = `Please upload the file in either PNG, JPG, or JPEG format. Unfortunately,
           we can only accept files with these extensions at the moment.`

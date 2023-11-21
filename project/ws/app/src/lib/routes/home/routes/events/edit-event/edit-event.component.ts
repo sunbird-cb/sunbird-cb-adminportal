@@ -85,7 +85,7 @@ export class EditEventComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator
   @ViewChild(MatSort, { static: true }) sort?: MatSort
 
-  errorMessages: string = ''
+  errorMessages = ''
   dataSource!: any
   widgetData: any
   length!: number
@@ -292,7 +292,7 @@ export class EditEventComponent implements OnInit {
   onFileSelect(event: any) {
     if (event.target.files.length > 0) {
 
-      var mimeType = event.target.files[0].type
+      const mimeType = event.target.files[0].type
       if (mimeType.match(/image\/*/) == null) {
         this.errorMessages = `Please upload the file in either PNG, JPG, or JPEG format. Unfortunately,
           we can only accept files with these extensions at the moment.`
