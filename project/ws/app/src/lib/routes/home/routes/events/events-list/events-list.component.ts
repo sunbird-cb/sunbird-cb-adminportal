@@ -124,6 +124,7 @@ export class EventsListComponent implements OnInit {
           identifier: obj.identifier,
           eventName: obj.name.substring(0, 100),
           eventStartDate: this.customDateFormat(obj.startDate, obj.startTime),
+          canArchive: this.canArchive(obj),
           eventCreatedOn: this.allEventDateFormat(obj.createdOn),
           eventDuration: duration,
           eventjoined: (creatorDetails !== undefined && creatorDetails.length > 0) ?
@@ -275,5 +276,14 @@ export class EventsListComponent implements OnInit {
     this.snackBar.open(primaryMsg, 'X', {
       duration,
     })
+  }
+
+  canArchive(objData: any) {
+    const sDate = this.getCustomDateFormat(objData.startDate, objData.startTime)
+    const eDate = this.getCustomDateFormat(objData.endDate, objData.endTime)
+    const msDate = Math.floor(moment(sDate).valueOf() / 1000)
+    const meDate = Math.floor(moment(eDate).valueOf() / 1000)
+    const cDate = Math.floor(moment(new Date()).valueOf() / 1000)
+    return !(cDate >= msDate && cDate <= meDate)
   }
 }
