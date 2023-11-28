@@ -138,7 +138,7 @@ export class CreateEventComponent implements OnInit {
       }
     }
     this.createEventForm = new FormGroup({
-      eventPicture: new FormControl(''),
+      eventPicture: new FormControl('', [Validators.required]),
       eventTitle: new FormControl('', [Validators.required]),
       summary: new FormControl('', [Validators.required]),
       description: new FormControl('', [Validators.required]),
@@ -234,6 +234,7 @@ export class CreateEventComponent implements OnInit {
   selectCover() {
     this.pictureObj = document.getElementById('coverPicture')
     this.pictureObj.click()
+    this.createEventForm.controls['eventPicture'].markAsTouched()
     this.events.raiseInteractTelemetry(
       {
         type: TelemetryEvents.EnumInteractTypes.CLICK,
@@ -555,15 +556,13 @@ export class CreateEventComponent implements OnInit {
   }
 
   goToList() {
-    this.router.navigate([`/app/home/events`]),
-      // this.telemetrySvc.impression()
-      this.events.raiseInteractTelemetry(
-        {
-          type: TelemetryEvents.EnumInteractTypes.CLICK,
-          subType: TelemetryEvents.EnumInteractSubTypes.BTN_CONTENT,
-        },
-        {}
-      )
+    this.events.raiseInteractTelemetry(
+      {
+        type: TelemetryEvents.EnumInteractTypes.CLICK,
+        subType: TelemetryEvents.EnumInteractSubTypes.BTN_CONTENT,
+      },
+      {}
+    )
   }
   showSuccess(res: any) {
     this.dialogRef = this.matDialog.open(SuccessComponent, {
@@ -572,7 +571,10 @@ export class CreateEventComponent implements OnInit {
       panelClass: 'remove-overflow',
     })
     this.dialogRef.afterClosed().subscribe(() => {
-      this.router.navigate([`/app/home/events`])
+      setTimeout(() => {
+        this.router.navigate([`/app/home/events`])
+      },         700)
+      this.goToList()
     })
   }
 
