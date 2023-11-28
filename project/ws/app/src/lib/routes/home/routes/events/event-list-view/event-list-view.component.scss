@@ -636,10 +636,12 @@ $title-line-count: 2;
   // flex: 1;
   flex-direction: column;
 }
+.cursor {
+  cursor: pointer;
+}
 
 .textclass {
   margin: 10px 0;
-  cursor: pointer;
   flex: 1;
   display: flex;
   align-items: center;
