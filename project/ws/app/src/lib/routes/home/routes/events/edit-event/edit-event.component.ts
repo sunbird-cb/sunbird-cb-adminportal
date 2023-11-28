@@ -143,7 +143,7 @@ export class EditEventComponent implements OnInit {
     }
 
     this.createEventForm = new FormGroup({
-      eventPicture: new FormControl(''),
+      eventPicture: new FormControl('', [Validators.required]),
       eventTitle: new FormControl('', [Validators.required]),
       summary: new FormControl('', [Validators.required]),
       description: new FormControl('', [Validators.required]),
@@ -163,6 +163,7 @@ export class EditEventComponent implements OnInit {
       this.eventsSvc.getEventDetails(this.eventId).subscribe(res => {
         const eventObj = res.result.event
         this.eventObject = eventObj
+        this.createEventForm.controls['eventPicture'].setValue(eventObj.appIcon)
         this.createEventForm.controls['eventTitle'].setValue(eventObj.name)
         this.createEventForm.controls['summary'].setValue(eventObj.instructions)
         this.createEventForm.controls['description'].setValue(eventObj.description)
@@ -280,6 +281,7 @@ export class EditEventComponent implements OnInit {
   selectCover() {
     this.pictureObj = document.getElementById('coverPicture')
     this.pictureObj.click()
+    this.createEventForm.controls['eventPicture'].markAsTouched()
     this.events.raiseInteractTelemetry(
       {
         type: TelemetryEvents.EnumInteractTypes.CLICK,
@@ -349,6 +351,7 @@ export class EditEventComponent implements OnInit {
   removeSelectedFile() {
     this.imageSrcURL = ''
     this.createEventForm.controls['eventPicture'].setValue('')
+    this.createEventForm.controls['eventPicture'].markAsTouched()
     this.eventimageURL = ''
   }
 
@@ -549,7 +552,9 @@ export class EditEventComponent implements OnInit {
             this.displayLoader = false
             this.disableCreateButton = false
             this.openSnackbar('Event details are successfuly updated.')
-            this.router.navigate([`/app/home/events`])
+            setTimeout(() => {
+              this.router.navigate([`/app/home/events`])
+            },         700)
           }
         },
         (err: any) => {
