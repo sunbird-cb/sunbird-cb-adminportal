@@ -115,6 +115,7 @@ export class CreateUserComponent implements OnInit {
         // lname: new FormControl('', [Validators.required]),
         email: new FormControl({ value: this.profileUtilSvc.transformToEmail(email), disabled: email ? true : false }, [Validators.required,
         Validators.pattern(/^[a-z0-9_-]+(?:\.[a-z0-9_-]+)*@((?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?){2,}\.){1,3}(?:\w){2,}$/)]),
+        mobileNumber: new FormControl('', [Validators.required, Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$'), Validators.maxLength(12)]),
         role: new FormControl('', [Validators.required, Validators.required]),
         dept: new FormControl(this.orgName, [Validators.required]),
         deptId: new FormControl(this.createdDepartment.depName, [Validators.required]),
@@ -125,6 +126,7 @@ export class CreateUserComponent implements OnInit {
         // lname: new FormControl('', [Validators.required]),
         email: new FormControl('', [Validators.required,
         Validators.pattern(/^[a-z0-9_-]+(?:\.[a-z0-9_-]+)*@((?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?){2,}\.){1,3}(?:\w){2,}$/)]),
+        mobileNumber: new FormControl('', [Validators.required, Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$'), Validators.maxLength(12)]),
         role: new FormControl('', [Validators.required, Validators.required]),
         dept: new FormControl(_.get(this.route, 'snapshot.data.configService.unMappedUser.rootOrg.orgName') || '', [Validators.required]),
         deptId: new FormControl(_.get(this.route, 'snapshot.data.configService.unMappedUser.channel') || ''),
@@ -251,6 +253,7 @@ export class CreateUserComponent implements OnInit {
       personalDetails: {
         email: form.value.email,
         firstName: form.value.fname,
+        phone: form.value.mobileNumber,
         // lastName: form.value.lname,
         // channel: form.value.dept,
         channel: form.value.deptId,
@@ -393,5 +396,11 @@ export class CreateUserComponent implements OnInit {
           this.router.navigate([`/app/home/users`])
           this.openSnackbar(`Error in assigning roles`)
         })
+  }
+
+  numericOnly(event: any): boolean {
+    const pattren = /^([0-9])$/
+    const result = pattren.test(event.key)
+    return result
   }
 }
