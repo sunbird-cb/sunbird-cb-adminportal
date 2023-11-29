@@ -556,6 +556,7 @@ export class CreateEventComponent implements OnInit {
   }
 
   goToList() {
+    this.router.navigate([`/app/home/events`])
     this.events.raiseInteractTelemetry(
       {
         type: TelemetryEvents.EnumInteractTypes.CLICK,
@@ -574,7 +575,6 @@ export class CreateEventComponent implements OnInit {
       setTimeout(() => {
         this.router.navigate([`/app/home/events`])
       },         700)
-      this.goToList()
     })
   }
 
