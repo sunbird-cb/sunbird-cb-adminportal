@@ -314,7 +314,16 @@ export class CreateUserComponent implements OnInit {
         this.displayLoader = false
         this.disableCreateButton = false
         if (err.error.params.errmsg) {
-          this.openSnackbar(`${err.error.params.errmsg}`)
+          // this.openSnackbar(`${err.error.params.errmsg}`)
+          if (err.error.params.errmsg === 'phone already exists') {
+            this.openSnackbar('Phone number already exists')
+          } else if (err.error.params.errmsg === 'email already exists') {
+            this.openSnackbar('Email Id already exists')
+          } else if (err.error.params.errmsg === 'Invalid format for given phone.') {
+            this.openSnackbar('Please enter valid phone number')
+          } else {
+            this.openSnackbar('User creation error')
+          }
         } else {
           this.openSnackbar(`User creation error`)
         }
