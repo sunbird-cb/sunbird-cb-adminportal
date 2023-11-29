@@ -14,6 +14,7 @@ import { EventThumbnailComponent } from '../event-thumbnail/event-thumbnail.comp
 import { EventService } from '@sunbird-cb/utils'
 import { NsContent } from '@sunbird-cb/collection'
 import { TelemetryEvents } from '../model/telemetry.event.model'
+import * as moment from 'moment'
 
 export interface IContentShareData {
   content: NsContent.IContent
@@ -91,10 +92,52 @@ export class EventListViewComponent implements OnInit, AfterViewInit, OnChanges,
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator
-    // this.dataSource.sort = this.sort
     this.dataSource.filterPredicate = function (data: any, filter: string): boolean {
       return data.eventName.toLowerCase().includes(filter)
     }
+    this.dataSource.sortingDataAccessor = (item: any, property: any) => {
+      switch (property) {
+        case 'eventStartDate': {
+          return this.customDateFormat(item.startDate, item.startTime)
+        }
+        case 'eventCreatedOn': {
+          const newDate = this.allEventDateFormat(item.createdOn)
+          return newDate
+        }
+        case 'eventDuration': {
+          return item.duration
+        }
+        case 'eventjoined': {
+          return item.eventjoined
+        }
+        default: {
+          return item[property]
+        }
+      }
+    }
+  }
+
+  customDateFormat(date: string, time: string) {
+    const fTime = time.split('+')
+    const datetimetest = moment(`${date}T${fTime[0]}`).toISOString()
+    const format = 'DD MMM YYYY HH:mm'
+    const readableDateMonth = moment(datetimetest).format(format)
+    const finalDateTimeValue = `${readableDateMonth}`
+    return new Date(finalDateTimeValue)
+  }
+
+  allEventDateFormat(datetime: any) {
+    const date = new Date(datetime).getDate()
+    const year = new Date(datetime).getFullYear()
+    const month = new Date(datetime).getMonth()
+    const hours = new Date(datetime).getHours()
+    const minutes = new Date(datetime).getMinutes()
+    const seconds = new Date(datetime).getSeconds()
+    const formatedDate = new Date(year, month, date, hours, minutes, seconds, 0)
+    const format = 'DD MMM YYYY HH:mm'
+    const readableDateMonth = moment(formatedDate).format(format)
+    const finalDateTimeValue = `${readableDateMonth}`
+    return new Date(finalDateTimeValue)
   }
 
   ngAfterViewChecked() {
@@ -189,4 +232,5 @@ export class EventListViewComponent implements OnInit, AfterViewInit, OnChanges,
       data: img,
     })
   }
+
 }

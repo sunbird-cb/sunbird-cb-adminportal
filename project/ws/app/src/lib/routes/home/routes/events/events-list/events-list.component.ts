@@ -127,6 +127,11 @@ export class EventsListComponent implements OnInit {
           canArchive: this.canArchive(obj),
           eventCreatedOn: this.allEventDateFormat(obj.createdOn),
           eventDuration: duration,
+          startDate: obj.startDate,
+          startTime: obj.startTime,
+          createdOn: obj.createdOn,
+          duration: obj.duration,
+          creatorDetails: (creatorDetails !== undefined ? creatorDetails.length : 0),
           eventjoined: (creatorDetails !== undefined && creatorDetails.length > 0) ?
             ((creatorDetails.length === 1) ? '1 person' : `${creatorDetails.length} people`) : ' --- ',
           lastUpdatedOn: obj.lastUpdatedOn,
