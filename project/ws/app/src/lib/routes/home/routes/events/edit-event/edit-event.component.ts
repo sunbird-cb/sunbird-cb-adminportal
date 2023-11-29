@@ -168,7 +168,15 @@ export class EditEventComponent implements OnInit {
         this.createEventForm.controls['summary'].setValue(eventObj.instructions)
         this.createEventForm.controls['description'].setValue(eventObj.description)
         this.createEventForm.controls['agenda'].setValue(eventObj.learningObjective)
-        this.createEventForm.controls['conferenceLink'].setValue(eventObj.registrationLink)
+        const newendDate = `${eventObj.startDate} ${eventObj.startTime}`
+        const eTime = new Date(newendDate).valueOf()
+        const cDate = new Date().valueOf()
+        if (eTime < cDate) {
+          this.createEventForm.controls['conferenceLink'].setValue(eventObj.recordedLinks[0])
+        } else {
+          this.createEventForm.controls['conferenceLink'].setValue(eventObj.registrationLink)
+        }
+
         this.createEventForm.controls['eventTime'].setValue(eventObj.endDate)
         this.createEventForm.controls['eventType'].setValue(eventObj.resourceType)
         this.todayDate = new Date((new Date(eventObj.endDate).getTime()))
@@ -554,7 +562,7 @@ export class EditEventComponent implements OnInit {
             this.openSnackbar('Event details are successfuly updated.')
             setTimeout(() => {
               this.router.navigate([`/app/home/events`])
-            },         700)
+            }, 700)
           }
         },
         (err: any) => {
