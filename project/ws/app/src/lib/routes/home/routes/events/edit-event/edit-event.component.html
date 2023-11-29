@@ -89,8 +89,8 @@
                                     </mat-card>
                                     <mat-error [hidden]="false"
                                         i18n="Event image Error|Explains event image is required" i18n-aria-label
-                                        aria-label="Event image Error|Explains event image is required "
-                                        *ngIf="createEventForm?.controls['eventPicture']?.touched && createEventForm?.controls['eventPicture'].errors?.required">Event
+                                        aria-label="Event image Error|Explains event image is required " *ngIf="createEventForm?.controls['eventPicture']?.touched && createEventForm?.controls['eventPicture'].errors?.required &&
+                                            errorMessages?.length === 0">Event
                                         image is mandatory
                                     </mat-error>
                                     <mat-error [hidden]="false"
