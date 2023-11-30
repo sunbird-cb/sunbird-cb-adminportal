@@ -294,6 +294,7 @@ export class CreateEventComponent implements OnInit {
 
         this.eventsSvc.uploadFile(contentID, formData).subscribe((fdata: any) => {
           this.eventimageURL = fdata.result.artifactUrl
+          event.target.value = ""
         })
       })
     }
@@ -574,7 +575,7 @@ export class CreateEventComponent implements OnInit {
     this.dialogRef.afterClosed().subscribe(() => {
       setTimeout(() => {
         this.router.navigate([`/app/home/events`])
-      },         700)
+      }, 700)
     })
   }
 
