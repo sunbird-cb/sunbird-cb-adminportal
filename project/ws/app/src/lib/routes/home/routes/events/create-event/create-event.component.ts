@@ -338,8 +338,8 @@ export class CreateEventComponent implements OnInit {
       this.createEventForm.controls['eventDurationMinutes'].value
     )
     const timeArr = this.createEventForm.controls['eventTime'].value.split(':')
-    const todayDate = moment(new Date()).format('LL')
-    const eventDate = moment(this.createEventForm.controls['eventDate'].value).format('LL')
+    const todayDate = moment(new Date()).valueOf()
+    const eventDate = moment(this.createEventForm.controls['eventDate'].value).valueOf()
     const expiryDateTime = moment(this.createEventForm.controls['eventDate'].value)
       .set('hour', timeArr[0])
       .set('minute', timeArr[1]).format('YYYYMMDDTHHmmss+0000')
