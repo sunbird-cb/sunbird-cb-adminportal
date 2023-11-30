@@ -351,6 +351,7 @@ export class EditEventComponent implements OnInit {
 
         this.eventsSvc.uploadFile(contentID, formData).subscribe((fdata: any) => {
           this.eventimageURL = fdata.result.artifactUrl
+          event.target.value = ""
         })
       })
     }
