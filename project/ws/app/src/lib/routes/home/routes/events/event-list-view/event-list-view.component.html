@@ -46,7 +46,7 @@
                 </mat-header-cell>
                 <mat-cell *matCellDef="let row" class="action-cell">
                     <button type="button" mat-icon-button i18n-aria-label aria-label="action items"
-                        *ngIf="currentFilter !== 'archive'" [matMenuTriggerFor]="cardMenu"
+                        *ngIf="currentFilter !== 'archive' && row && row.canArchive" [matMenuTriggerFor]="cardMenu"
                         [matMenuTriggerData]="{'data':row}" class="action-btn">
                         <mat-icon>more_horiz</mat-icon>
                     </button>
