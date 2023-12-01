@@ -327,7 +327,7 @@ export class CreateUserComponent implements OnInit {
         } else {
           this.openSnackbar(`User creation error`)
         }
-        this.router.navigate([`/app/home/users`])
+        //this.router.navigate([`/app/home/users`])
       })
   }
 

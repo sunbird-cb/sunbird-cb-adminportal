@@ -44,10 +44,10 @@ export class UsersComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   constructor(private usersSvc: UsersService, private router: Router,
-              private route: ActivatedRoute,
-              private profile: ProfileV2Service,
-              private profileUtilSvc: ProfileV2UtillService,
-              private usersService: UsersService) {
+    private route: ActivatedRoute,
+    private profile: ProfileV2Service,
+    private profileUtilSvc: ProfileV2UtillService,
+    private usersService: UsersService) {
   }
   ngOnInit() {
     this.tabsData = [
@@ -241,6 +241,7 @@ export class UsersComponent implements OnInit, AfterViewInit, OnDestroy {
       queryParams: {
         id: this.id, currentDept: this.currentDept,
         createDept: JSON.stringify({ depName: this.deptName }),
+        orgName: this.deptName,
         redirectionPath: window.location.href,
       }, state: { userData: event.row, updateButton: true },
     })
