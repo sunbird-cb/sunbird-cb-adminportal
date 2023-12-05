@@ -563,7 +563,7 @@ export class EditEventComponent implements OnInit {
             this.openSnackbar('Event details are successfuly updated.')
             setTimeout(() => {
               this.router.navigate([`/app/home/events`])
-            }, 700)
+            }, 1500)
           }
         },
         (err: any) => {
