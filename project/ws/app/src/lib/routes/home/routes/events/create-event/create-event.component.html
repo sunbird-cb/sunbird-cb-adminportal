@@ -114,25 +114,6 @@
                             </mat-form-field>
                         </div>
                         <div class="margin-bottom-s">
-                            <label for="summary" class=" margin-remove-bottom form-label required"
-                                i18n="summary label|Label which explains the user to enter summary" i18n-aria-label
-                                aria-label="summary label">
-                                Summary
-                            </label>
-                            <label class="sub_title">This will appear in the preview card</label>
-                            <mat-form-field appearance="outline" class="margin-top-xs">
-                                <textarea id="summary" matInput #summary formControlName="summary" i18n-placeholder
-                                    placeholder="Type here" i18n-aria-label aria-label="Summary input"
-                                    class="form-input" rows="8" cols="40" maxlength="500"></textarea>
-                                <mat-error [hidden]="false" i18n="Summary Error|Explains summary is required"
-                                    i18n-aria-label aria-label="Summary Error|Explains summary is required "
-                                    *ngIf="createEventForm?.controls['summary']?.touched && createEventForm?.controls['summary'].errors?.required">
-                                    Summary is mandatory
-                                </mat-error>
-                                <mat-hint>{{summary.value.length}}/500 characters</mat-hint>
-                            </mat-form-field>
-                        </div>
-                        <div class="margin-bottom-s">
                             <label for="description" class=" margin-remove-bottom form-label required"
                                 i18n="description label|Label which explains the user to enter summary" i18n-aria-label
                                 aria-label="description label">
@@ -155,7 +136,7 @@
                             </mat-form-field>
                         </div>
                         <div class="margin-bottom-s">
-                            <label for="agenda" class=" margin-remove-bottom form-label required"
+                            <label for="agenda" class=" margin-remove-bottom form-label"
                                 i18n="agenda label|Label which explains the user to enter agenda" i18n-aria-label
                                 aria-label="agenda label">
                                 Event agenda
@@ -164,8 +145,7 @@
                                 <textarea id="agenda" matInput #agenda formControlName="agenda" i18n-placeholder
                                     placeholder="Type here" i18n-aria-label aria-label="agenda input" class="form-input"
                                     rows="8" cols="40" maxlength="500"></textarea>
-                                <mat-error [hidden]="false" i18n="agenda Error|Explains agenda is required"
-                                    i18n-aria-label aria-label="agenda Error|Explains agenda is required "
+                                <mat-error [hidden]="false"
                                     *ngIf="createEventForm?.controls['agenda']?.touched && createEventForm?.controls['agenda'].errors?.required">
                                     Agenda is mandatory
                                 </mat-error>

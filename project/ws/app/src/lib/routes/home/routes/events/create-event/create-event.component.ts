@@ -140,9 +140,9 @@ export class CreateEventComponent implements OnInit {
     this.createEventForm = new FormGroup({
       eventPicture: new FormControl('', [Validators.required]),
       eventTitle: new FormControl('', [Validators.required]),
-      summary: new FormControl('', [Validators.required]),
+      //summary: new FormControl('', [Validators.required]),
       description: new FormControl('', [Validators.required]),
-      agenda: new FormControl('', [Validators.required]),
+      agenda: new FormControl('', []),
       // isItKarmayogiTalk: new FormControl('', []),
       eventType: new FormControl('', [Validators.required]),
       eventDate: new FormControl('', [Validators.required]),
@@ -150,7 +150,7 @@ export class CreateEventComponent implements OnInit {
       eventDurationHours: new FormControl('', [Validators.required]),
       eventDurationMinutes: new FormControl('', []),
       conferenceLink: new FormControl('', [Validators.required, Validators.pattern(this.myreg)]),
-      presenters: new FormControl('', [Validators.required]),
+      presenters: new FormControl('', []),
     })
 
     // this.createEventForm.controls['eventDurationHours'].setValue(0)
@@ -419,7 +419,7 @@ export class CreateEventComponent implements OnInit {
             isExternal: true,
             name: this.createEventForm.controls['eventTitle'].value,
             description: this.createEventForm.controls['description'].value,
-            instructions: this.createEventForm.controls['summary'].value,
+            //instructions: this.createEventForm.controls['summary'].value,
             appIcon: this.eventimageURL,
             category: 'Event',
             createdBy: this.userId,
@@ -459,7 +459,7 @@ export class CreateEventComponent implements OnInit {
             isExternal: true,
             name: this.createEventForm.controls['eventTitle'].value,
             description: this.createEventForm.controls['description'].value,
-            instructions: this.createEventForm.controls['summary'].value,
+            // instructions: this.createEventForm.controls['summary'].value,
             appIcon: this.eventimageURL,
             category: 'Event',
             createdBy: this.userId,
