@@ -241,6 +241,7 @@ export class UsersComponent implements OnInit, AfterViewInit, OnDestroy {
       queryParams: {
         id: this.id, currentDept: this.currentDept,
         createDept: JSON.stringify({ depName: this.deptName }),
+        orgName: this.deptName,
         redirectionPath: window.location.href,
       }, state: { userData: event.row, updateButton: true },
     })
