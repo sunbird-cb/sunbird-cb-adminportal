@@ -563,9 +563,9 @@ export class EditEventComponent implements OnInit {
             // console.log('res', res)
             this.displayLoader = false
             this.disableCreateButton = false
-            this.openSnackbar('Event details are successfuly updated.')
             setTimeout(() => {
               this.router.navigate([`/app/home/events`])
+              this.openSnackbar('Event details are successfuly updated.')
             }, 5000)
           }
         },
