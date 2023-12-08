@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core'
-import { HttpClient } from '@angular/common/http'
+import { HttpClient, HttpHeaders } from '@angular/common/http'
 import { Observable } from 'rxjs'
 import { environment } from '..//../../../../../../../../../src/environments/environment'
 
@@ -55,7 +55,13 @@ export class EventsService {
   }
 
   getEventsList(req: any) {
-    return this.http.post<any>(`${API_END_POINTS.GET_EVENTS}`, req)
+    const headers = new HttpHeaders({
+      'Cache-Control': 'no-cache, no-store, must-revalidate, post-check=0, pre-check=0',
+      Pragma: 'no-cache',
+      Expires: '0',
+    })
+
+    return this.http.post<any>(`${API_END_POINTS.GET_EVENTS}`, req, { headers })
   }
 
   getParticipants(): Observable<any> {
