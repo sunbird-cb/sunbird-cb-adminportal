@@ -25,6 +25,7 @@ import { EmailDomainsComponent } from './routes/email-domains/email-domains.comp
 import { EventsListComponent } from './routes/events/events-list/events-list.component'
 import { CreateEventComponent } from './routes/events/create-event/create-event.component'
 import { EditEventComponent } from './routes/events/edit-event/edit-event.component'
+import { CommsComponent } from './routes/comms/comms.component'
 
 const routes: Routes = [
   {
@@ -66,6 +67,16 @@ const routes: Routes = [
           module: '',
           pageType: 'feature',
           pageKey: 'Directory',
+        },
+      },
+      {
+        path: 'comms-buckets',
+        component: CommsComponent,
+        data: {
+          pageId: 'home/comms-buckets',
+          module: 'Comms',
+          pageType: 'feature',
+          pageKey: 'CommsBuckets',
         },
       },
       {

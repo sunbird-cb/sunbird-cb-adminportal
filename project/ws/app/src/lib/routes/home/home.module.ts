@@ -1,3 +1,4 @@
+import { CommsComponent } from './routes/comms/comms.component'
 import { NgModule } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { PipeFilterModule, PipeHtmlTagRemovalModule, PipeOrderByModule, PipeRelativeTimeModule, ImageCropModule } from '@sunbird-cb/utils'
@@ -90,6 +91,7 @@ import { PipePublicURLModule } from './pipes/pipe-public-URL/pipe-public-URL.mod
     ModerationViewComponent,
     RolesUsersComponent,
     ReportsComponent,
+    CommsComponent,
     EventsListComponent,
     EventListViewComponent,
     EventThumbnailComponent,
