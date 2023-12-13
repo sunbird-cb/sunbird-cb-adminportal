@@ -1,0 +1,21 @@
+@import 'ws-common';
+@import 'ws-vars';
+@import 'ws-mixins';
+
+::ng-deep .p1-btn {
+  box-shadow: none !important;
+  padding: 0 !important;
+  text-align: left !important;
+  span {
+    text-decoration: underline !important;
+    color: #0075B7 !important;
+  }
+}
+
+::ng-deep .mat-column-criteria {
+  flex: 0 0 50%!important;
+}
+
+::ng-deep .mat-card-header-text {
+  margin: 0!important;
+}
