@@ -344,7 +344,7 @@
                                         <div class="duration-d">
                                             <mat-form-field appearance="outline" class="duration-width margin-right-s">
                                                 <input #eventDurationHours formControlName="eventDurationHours" matInput
-                                                    class="numberInput" type="number" placeholder="00" min="0" max="99"
+                                                    class="numberInput" type="number" placeholder="00" min="0" max="23"
                                                     step="1" tabindex="3" />
                                             </mat-form-field>
                                             <div class="margin-top-s padding-small">:</div>
@@ -358,7 +358,8 @@
                                             </mat-form-field>
                                         </div>
                                         <mat-error
-                                            *ngIf="(createEventForm?.controls['eventDurationHours']?.touched && createEventForm?.controls['eventDurationHours'].errors?.required) || (createEventForm?.controls['eventDurationMinutes']?.touched && createEventForm?.controls['eventDurationMinutes'].errors?.required)"
+                                            *ngIf="(createEventForm?.controls['eventDurationHours']?.touched && createEventForm?.controls['eventDurationHours'].errors?.required) ||
+                                            (createEventForm?.controls['eventDurationMinutes']?.touched && createEventForm?.controls['eventDurationMinutes'].errors?.required)"
                                             i18n="Duration Error | Explains Duration is mandatory field">Duration
                                             is mandatory</mat-error>
                                     </div>
