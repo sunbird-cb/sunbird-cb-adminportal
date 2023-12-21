@@ -145,7 +145,7 @@ export class EditEventComponent implements OnInit {
     this.createEventForm = new FormGroup({
       eventPicture: new FormControl('', [Validators.required]),
       eventTitle: new FormControl('', [Validators.required]),
-      //summary: new FormControl('', []),
+      // summary: new FormControl('', []),
       description: new FormControl('', [Validators.required]),
       agenda: new FormControl('', []),
       // isItKarmayogiTalk: new FormControl('', []),
@@ -165,7 +165,7 @@ export class EditEventComponent implements OnInit {
         this.eventObject = eventObj
         this.createEventForm.controls['eventPicture'].setValue(eventObj.appIcon)
         this.createEventForm.controls['eventTitle'].setValue(eventObj.name)
-        //this.createEventForm.controls['summary'].setValue(eventObj.instructions)
+        // this.createEventForm.controls['summary'].setValue(eventObj.instructions)
         this.createEventForm.controls['description'].setValue(eventObj.description)
         if (eventObj.learningObjective) {
           this.createEventForm.controls['agenda'].setValue(eventObj.learningObjective)
@@ -353,7 +353,7 @@ export class EditEventComponent implements OnInit {
 
         this.eventsSvc.uploadFile(contentID, formData).subscribe((fdata: any) => {
           this.eventimageURL = fdata.result.artifactUrl
-          event.target.value = ""
+          event.target.value = ''
         })
       })
     }
@@ -467,7 +467,6 @@ export class EditEventComponent implements OnInit {
     const createdforarray: any[] = []
     createdforarray.push(this.departmentID)
 
-
     if (eventDate < todayDate) {
       const linkArry = []
       linkArry.push(this.createEventForm.controls['conferenceLink'].value)
@@ -480,7 +479,7 @@ export class EditEventComponent implements OnInit {
             isExternal: true,
             name: this.createEventForm.controls['eventTitle'].value,
             description: this.createEventForm.controls['description'].value,
-            //instructions: this.createEventForm.controls['summary'].value,
+            // instructions: this.createEventForm.controls['summary'].value,
             appIcon: this.eventimageURL,
             category: 'Event',
             createdBy: this.userId,
@@ -520,7 +519,7 @@ export class EditEventComponent implements OnInit {
             isExternal: true,
             name: this.createEventForm.controls['eventTitle'].value,
             description: this.createEventForm.controls['description'].value,
-            //instructions: this.createEventForm.controls['summary'].value,
+            // instructions: this.createEventForm.controls['summary'].value,
             appIcon: this.eventimageURL,
             category: 'Event',
             createdBy: this.userId,
@@ -566,7 +565,7 @@ export class EditEventComponent implements OnInit {
               this.displayLoader = false
               this.openSnackbar('Event details are successfuly updated.')
               this.router.navigate([`/app/home/events`])
-            }, 5000)
+            },         5000)
           }
         },
         (err: any) => {

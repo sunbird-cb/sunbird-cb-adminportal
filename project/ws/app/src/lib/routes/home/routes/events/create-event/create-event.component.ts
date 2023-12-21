@@ -140,7 +140,7 @@ export class CreateEventComponent implements OnInit {
     this.createEventForm = new FormGroup({
       eventPicture: new FormControl('', [Validators.required]),
       eventTitle: new FormControl('', [Validators.required]),
-      //summary: new FormControl('', [Validators.required]),
+      // summary: new FormControl('', [Validators.required]),
       description: new FormControl('', [Validators.required]),
       agenda: new FormControl('', []),
       // isItKarmayogiTalk: new FormControl('', []),
@@ -148,7 +148,7 @@ export class CreateEventComponent implements OnInit {
       eventDate: new FormControl('', [Validators.required]),
       eventTime: new FormControl('', [Validators.required]),
       eventDurationHours: new FormControl('', [Validators.required]),
-      eventDurationMinutes: new FormControl('', [Validators.required,]),
+      eventDurationMinutes: new FormControl('', [Validators.required]),
       conferenceLink: new FormControl('', [Validators.required, Validators.pattern(this.myreg)]),
       presenters: new FormControl('', []),
     })
@@ -294,7 +294,7 @@ export class CreateEventComponent implements OnInit {
 
         this.eventsSvc.uploadFile(contentID, formData).subscribe((fdata: any) => {
           this.eventimageURL = fdata.result.artifactUrl
-          event.target.value = ""
+          event.target.value = ''
         })
       })
     }
@@ -419,7 +419,7 @@ export class CreateEventComponent implements OnInit {
             isExternal: true,
             name: this.createEventForm.controls['eventTitle'].value,
             description: this.createEventForm.controls['description'].value,
-            //instructions: this.createEventForm.controls['summary'].value,
+            // instructions: this.createEventForm.controls['summary'].value,
             appIcon: this.eventimageURL,
             category: 'Event',
             createdBy: this.userId,
@@ -575,7 +575,7 @@ export class CreateEventComponent implements OnInit {
     this.dialogRef.afterClosed().subscribe(() => {
       setTimeout(() => {
         this.router.navigate([`/app/home/events`])
-      }, 700)
+      },         700)
     })
   }
 
