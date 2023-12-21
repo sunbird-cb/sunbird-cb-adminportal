@@ -147,8 +147,8 @@ export class CreateEventComponent implements OnInit {
       eventType: new FormControl('', [Validators.required]),
       eventDate: new FormControl('', [Validators.required]),
       eventTime: new FormControl('', [Validators.required]),
-      eventDurationHours: new FormControl('00', [Validators.max(23), Validators.min(0), Validators.required, Validators.pattern(`^[0-9]{1,2}$`)]),
-      eventDurationMinutes: new FormControl('', [Validators.max(59), Validators.min(0), Validators.required, Validators.pattern(`^[0-9]{1,2}$`)]),
+      eventDurationHours: new FormControl('', [Validators.required]),
+      eventDurationMinutes: new FormControl('', [Validators.required,]),
       conferenceLink: new FormControl('', [Validators.required, Validators.pattern(this.myreg)]),
       presenters: new FormControl('', []),
     })
