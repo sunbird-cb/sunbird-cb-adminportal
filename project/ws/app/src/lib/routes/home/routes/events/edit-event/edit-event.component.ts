@@ -82,6 +82,9 @@ export class EditEventComponent implements OnInit {
     { value: '22:00' }, { value: '22:30' }, { value: '23:00' }, { value: '23:30' },
   ]
 
+  hoursList = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23]
+  minsList = [0, 15, 30, 45, 59]
+
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator
   @ViewChild(MatSort, { static: true }) sort?: MatSort
 
@@ -174,7 +177,11 @@ export class EditEventComponent implements OnInit {
         const eTime = new Date(newendDate).valueOf()
         const cDate = new Date().valueOf()
         if (eTime < cDate) {
-          this.createEventForm.controls['conferenceLink'].setValue(eventObj.recordedLinks[0])
+          if (eventObj.recordedLinks && eventObj.recordedLinks.length > 0) {
+            this.createEventForm.controls['conferenceLink'].setValue(eventObj.recordedLinks[0])
+          } else {
+            this.createEventForm.controls['conferenceLink'].setValue(eventObj.registrationLink)
+          }
         } else {
           this.createEventForm.controls['conferenceLink'].setValue(eventObj.registrationLink)
         }
@@ -565,7 +572,7 @@ export class EditEventComponent implements OnInit {
               this.displayLoader = false
               this.openSnackbar('Event details are successfuly updated.')
               this.router.navigate([`/app/home/events`])
-            },         5000)
+            }, 5000)
           }
         },
         (err: any) => {

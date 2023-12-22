@@ -293,8 +293,7 @@
                                     </label>
                                     <mat-form-field appearance="outline" class="margin-right-l">
                                         <mat-select formControlName="eventDurationHours" #eventDuration>
-                                            <mat-option *ngFor="let hourObj of [0,1,2,3,4,5,6,7,8,9,10]"
-                                                [value]="hourObj">
+                                            <mat-option *ngFor="let hourObj of hoursList" [value]="hourObj">
                                                 {{hourObj}}
                                             </mat-option>
                                         </mat-select>
@@ -315,7 +314,7 @@
                                     </label>
                                     <mat-form-field appearance="outline">
                                         <mat-select formControlName="eventDurationMinutes" #eventDuration>
-                                            <mat-option *ngFor="let minObj of [0,15,30,45,60]" [value]="minObj">
+                                            <mat-option *ngFor="let minObj of minsList" [value]="minObj">
                                                 {{minObj}}
                                             </mat-option>
                                         </mat-select>
