@@ -174,7 +174,11 @@ export class EditEventComponent implements OnInit {
         const eTime = new Date(newendDate).valueOf()
         const cDate = new Date().valueOf()
         if (eTime < cDate) {
-          this.createEventForm.controls['conferenceLink'].setValue(eventObj.recordedLinks[0])
+          if (eventObj.recordedLinks && eventObj.recordedLinks.length > 0) {
+            this.createEventForm.controls['conferenceLink'].setValue(eventObj.recordedLinks[0])
+          } else {
+            this.createEventForm.controls['conferenceLink'].setValue(eventObj.registrationLink)
+          }
         } else {
           this.createEventForm.controls['conferenceLink'].setValue(eventObj.registrationLink)
         }
@@ -565,7 +569,7 @@ export class EditEventComponent implements OnInit {
               this.displayLoader = false
               this.openSnackbar('Event details are successfuly updated.')
               this.router.navigate([`/app/home/events`])
-            },         5000)
+            }, 5000)
           }
         },
         (err: any) => {
