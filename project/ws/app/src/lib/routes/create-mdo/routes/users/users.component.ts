@@ -44,10 +44,10 @@ export class UsersComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   constructor(private usersSvc: UsersService, private router: Router,
-              private route: ActivatedRoute,
-              private profile: ProfileV2Service,
-              private profileUtilSvc: ProfileV2UtillService,
-              private usersService: UsersService) {
+    private route: ActivatedRoute,
+    private profile: ProfileV2Service,
+    private profileUtilSvc: ProfileV2UtillService,
+    private usersService: UsersService) {
   }
   ngOnInit() {
     this.tabsData = [
@@ -78,7 +78,6 @@ export class UsersComponent implements OnInit, AfterViewInit, OnDestroy {
         }
         this.createdDepartment = obj
       }
-
       if (this.id === 'SPV ADMIN') {
         this.getAllActiveUsers()
       } else {
@@ -215,11 +214,13 @@ export class UsersComponent implements OnInit, AfterViewInit, OnDestroy {
 
       })
       const email = _.get(user, 'profileDetails.personalDetails.primaryEmail')
+      const mobileNumber = _.get(user, 'profileDetails.personalDetails.mobile')
       if (!(user.isDeleted)) {
         usersData.push({
           fullName: user ? `${user.firstName}` : null,
           // fullName: user ? `${user.firstName} ${user.lastName}` : null,
           email: this.profileUtilSvc.emailTransform(email) || this.profileUtilSvc.emailTransform(user.email),
+          mobile: mobileNumber,
           position: roles,
           userId: user.userId,
         })

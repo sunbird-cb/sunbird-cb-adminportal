@@ -572,7 +572,7 @@ export class EditEventComponent implements OnInit {
               this.displayLoader = false
               this.openSnackbar('Event details are successfuly updated.')
               this.router.navigate([`/app/home/events`])
-            }, 5000)
+            },         5000)
           }
         },
         (err: any) => {
