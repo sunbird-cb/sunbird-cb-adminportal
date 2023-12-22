@@ -110,12 +110,13 @@ export class CreateUserComponent implements OnInit {
     if (this.createdDepartment) {
       const email = this.editUserInfo && this.editUserInfo.email || ''
       const name = this.editUserInfo && this.editUserInfo.fullName || ''
+      const mobile = this.editUserInfo && this.editUserInfo.mobile || ''
       this.createUserForm = new FormGroup({
         fname: new FormControl({ value: name, disabled: name ? true : false }, [Validators.required]),
         // lname: new FormControl('', [Validators.required]),
         email: new FormControl({ value: this.profileUtilSvc.transformToEmail(email), disabled: email ? true : false }, [Validators.required,
         Validators.pattern(/^[a-z0-9_-]+(?:\.[a-z0-9_-]+)*@((?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?){2,}\.){1,3}(?:\w){2,}$/)]),
-        mobileNumber: new FormControl('', [Validators.required, Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$'), Validators.maxLength(12)]),
+        mobileNumber: new FormControl({ value: mobile, disabled: name ? true : false }, [Validators.required, Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$'), Validators.maxLength(12)]),
         role: new FormControl('', [Validators.required, Validators.required]),
         dept: new FormControl(this.orgName, [Validators.required]),
         deptId: new FormControl(this.createdDepartment.depName, [Validators.required]),
