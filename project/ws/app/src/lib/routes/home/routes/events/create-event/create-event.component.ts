@@ -61,8 +61,9 @@ export class CreateEventComponent implements OnInit {
   departmentName = ''
   toastSuccess: any
   pictureObj: any
-  // myreg = /(^|\s)((https?:\/\/)?[\w-]+(\.[\w-]+)+\.?(:\d+)?(\/\S*)?)/gi
-  myreg = /^(http[s]?:\/\/){0,1}(www\.){0,1}[a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,5}[\.]{0,1}/
+  myreg = /^(https?|http):\/\/[^\s/$.?#].[^\s]*$/
+
+  //myreg = /^(http|https:\/\/){0,1}(www\.){0,1}[a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,5}[\.]{0,1}/
 
   // eventTypes = [
   //   { title: 'Webinar', desc: 'General discussion involving', border: 'rgb(0, 116, 182)', disabled: false },
@@ -151,8 +152,8 @@ export class CreateEventComponent implements OnInit {
       eventType: new FormControl('', [Validators.required]),
       eventDate: new FormControl('', [Validators.required]),
       eventTime: new FormControl('', [Validators.required]),
-      eventDurationHours: new FormControl('', [Validators.required]),
-      eventDurationMinutes: new FormControl('', [Validators.required]),
+      eventDurationHours: new FormControl(0, [Validators.required]),
+      eventDurationMinutes: new FormControl(30, [Validators.required]),
       conferenceLink: new FormControl('', [Validators.required, Validators.pattern(this.myreg)]),
       presenters: new FormControl('', []),
     })
