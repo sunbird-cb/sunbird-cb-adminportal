@@ -344,7 +344,6 @@ export class CreateEventComponent implements OnInit {
     )
     const timeArr = this.createEventForm.controls['eventTime'].value.split(':')
     const todayDate = moment(new Date()).valueOf()
-    const eventDate = moment(this.createEventForm.controls['eventDate'].value).add(eventDurationMinutes, 'minutes').valueOf()
     const expiryDateTime = moment(this.createEventForm.controls['eventDate'].value)
       .set('hour', timeArr[0])
       .set('minute', timeArr[1]).format('YYYYMMDDTHHmmss+0000')
@@ -366,6 +365,7 @@ export class CreateEventComponent implements OnInit {
     const minutesstr = (Math.floor(minutes) < 10) ? '0' + Math.floor(minutes) : Math.floor(minutes)
     let finalTime
     let newendDate
+    const eventDate = moment(this.createEventForm.controls['eventDate'].value).add((totalMinutes - 330), 'minutes').valueOf()
     if (hours < 24) {
       if (minutes === 0) {
         // tslint:disable-next-line:prefer-template
