@@ -46,6 +46,7 @@ export class CreateUserComponent implements OnInit {
   updateButton = false
   mdoLeadersCount = 0
   orgName!: string
+  isThisExistingLeader = false
   // hideRole: any = []
 
   constructor(
@@ -136,6 +137,10 @@ export class CreateUserComponent implements OnInit {
     if (this.editUserInfo) {
       if (this.editUserInfo.position) {
         this.editUserInfo.position.forEach((role: any) => {
+          if (role === 'MDO_LEADER') {
+            this.isThisExistingLeader = true
+          }
+
           this.modifyUserRoles(role)
         })
       }
@@ -372,7 +377,7 @@ export class CreateUserComponent implements OnInit {
   onUpdate(userData: any) {
     this.displayLoader = true
     const userInfo = userData.value
-    if (userInfo.role.includes('MDO_LEADER') && this.mdoLeadersCount < 1) {
+    if (userInfo.role.includes('MDO_LEADER') && this.isThisExistingLeader) {
       this.roleAssign(userInfo)
     } else if (!userInfo.role.includes('MDO_LEADER')) {
       this.roleAssign(userInfo)
