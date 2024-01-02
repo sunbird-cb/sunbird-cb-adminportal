@@ -142,7 +142,7 @@ export class CreateMdoComponent implements OnInit {
       this.departmentForm = new FormGroup({
         ministry: new FormControl('', [Validators.required]),
         department: new FormControl('', [forbiddenNamesValidator(this.masterDepartments)]),
-        organisation: new FormControl('', [forbiddenNamesValidator(this.masterOrgs)]),
+        organisation: new FormControl('', [Validators.required, Validators.maxLength(120), forbiddenNamesValidator(this.masterOrgs)]),
       })
       this.activatedRoute.params.subscribe(params => {
         let data = params['data']
