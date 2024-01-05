@@ -1,18 +1,36 @@
 import { Component, OnInit, ViewChild } from '@angular/core'
 import { MatDialog } from '@angular/material/dialog'
 import { ConfigurationsService } from '@sunbird-cb/utils'
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material'
 //import { environment } from '../../../../../../../../../src/environments/environment'
 /* tslint:disable */
 import _ from 'lodash'
 import { CommsService } from './comms.service'
 import { MatPaginator, MatTableDataSource } from '@angular/material'
 import { DatePipe } from '@angular/common'
+import { MomentDateAdapter } from '@angular/material-moment-adapter'
+import * as moment from 'moment'
 
+export const MY_FORMATS = {
+  parse: {
+    dateInput: 'LL',
+  },
+  display: {
+    dateInput: 'DD/MM/YYYY',
+    monthYearLabel: 'YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'YYYY',
+  },
+}
 @Component({
   selector: 'ws-app-comms',
   templateUrl: './comms.component.html',
   styleUrls: ['./comms.component.scss'],
-  providers: [DatePipe]
+  providers: [DatePipe,
+    { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
+    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
+  ]
+
 })
 export class CommsComponent implements OnInit {
 
@@ -21,6 +39,8 @@ export class CommsComponent implements OnInit {
   tabledata: any = []
   dataSource: MatTableDataSource<any>
   reportSectionData: any
+  todayDate: any
+  maxDate: any
 
   constructor(
     public dialog: MatDialog,
@@ -35,6 +55,9 @@ export class CommsComponent implements OnInit {
   }
 
   ngOnInit() {
+
+    this.todayDate = new Date(new Date())
+    this.maxDate = new Date(new Date())
 
     this.tabledata = {
       columns: [
@@ -73,6 +96,10 @@ export class CommsComponent implements OnInit {
     if (event && event.row && event.row.downloadUrl) {
       console.log("file ", event.row.downloadUrl)
     }
+  }
+
+  updateDate(event: any) {
+    console.log("event ", moment(new Date(event.value)).format("YYYY-MM-DD"))
   }
 
 }
