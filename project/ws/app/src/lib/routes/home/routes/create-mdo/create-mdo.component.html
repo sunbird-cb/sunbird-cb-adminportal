@@ -250,9 +250,9 @@
                         aria-label="Organisation is mandatory">
                         Organisation is mandatory
                       </mat-error>
-                      <mat-error *ngIf="departmentForm?.controls['organisation'].errors?.maxlength">
+                      <!-- <mat-error *ngIf="departmentForm?.controls['organisation'].errors?.maxlength">
                         maximum characters limit is 120.
-                      </mat-error>
+                      </mat-error> -->
                       <mat-error *ngIf="departmentForm?.controls['organisation'].errors?.forbiddenNames" i18n-aria-label
                         aria-label="You must enter value from suggested list only.">
                         You must enter value from suggested list only.
