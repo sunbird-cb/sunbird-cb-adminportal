@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core'
 import { MatDialog } from '@angular/material/dialog'
 import { ConfigurationsService } from '@sunbird-cb/utils'
-import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material'
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE, MatSnackBar } from '@angular/material'
 //import { environment } from '../../../../../../../../../src/environments/environment'
 /* tslint:disable */
 import _ from 'lodash'
@@ -9,7 +9,7 @@ import { CommsService } from './comms.service'
 import { MatPaginator, MatTableDataSource } from '@angular/material'
 import { DatePipe } from '@angular/common'
 import { MomentDateAdapter } from '@angular/material-moment-adapter'
-import * as moment from 'moment'
+import moment from 'moment'
 
 export const MY_FORMATS = {
   parse: {
@@ -43,12 +43,14 @@ export class CommsComponent implements OnInit {
   maxDate: any
   reportData = []
   buckets: any
+  displayLoader = false
 
   constructor(
     public dialog: MatDialog,
     private configSvc: ConfigurationsService,
     private commsService: CommsService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private snackBar: MatSnackBar,
   ) {
     this.currentUser = this.configSvc.userProfile && this.configSvc.userProfile.userId
     this.dataSource = new MatTableDataSource(this.reportSectionData)
@@ -77,24 +79,32 @@ export class CommsComponent implements OnInit {
     this.commsService.getCommsContent().subscribe((result: any) => {
       if (result && result.comms && result.comms.buckets) {
         this.buckets = result.comms.buckets
-        this.getTableData()
+        this.getTableData(this.datePipe.transform(new Date(), 'yyyy-MM-dd'))
       }
     })
     setTimeout(() => this.dataSource.paginator = this.paginator)
   }
 
-  getTableData() {
+  getTableData(rDate: any) {
+    this.displayLoader = true
     this.reportSectionData = []
-    this.commsService.getCommsReportContnet().subscribe((result: any) => {
-      console.log("result ", result)
+    this.commsService.getCommsReportContnet(rDate).subscribe((result: any) => {
       this.buckets.forEach((bucket: any) => {
         if (bucket.enable) {
+          let lastUpdateOn: any = '-'
+          let downloadUrl: any = ''
+          const resp = result[bucket.key]
+          if (resp.lastModified) {
+            lastUpdateOn = this.datePipe.transform(resp.lastModified, 'dd/MM/yyyy, h:mm a')
+            downloadUrl = this.datePipe.transform(resp.lastModified, 'yyyy-MM-dd')
+          }
           this.reportSectionData.push({
             criteria: bucket.name,
-            lastUpdateOn: this.datePipe.transform(new Date(), 'dd/MM/yyyy, h:mm a') || '',
-            downloadUrl: result.info
+            lastUpdateOn: lastUpdateOn,
+            downloadUrl: downloadUrl
           })
         }
+        this.displayLoader = false
         this.dataSource = new MatTableDataSource(this.reportSectionData)
       })
     })
@@ -102,13 +112,14 @@ export class CommsComponent implements OnInit {
 
   downloadFile(event: any) {
     console.log("file ", event)
-    if (event && event.row && event.row.downloadUrl) {
+    if (event.row.downloadUrl && event.row.downloadUrl !== '') {
 
+    } else {
+      this.snackBar.open('Report is not available.', 'X', { duration: 2000 })
     }
   }
 
   updateDate(event: any) {
-    console.log("event ", moment(new Date(event.value)).format("YYYY-MM-DD"))
+    this.getTableData(moment(new Date(event.value)).format("YYYY-MM-DD"))
   }
-
 }

@@ -16,8 +16,8 @@ export class CommsService {
     return this.http.get<any>(`${this.configSvc.baseUrl}/feature/comms.json`)
   }
 
-  getCommsReportContnet() {
-    return this.http.get<any>(this.COMMS_REPORTS)
+  getCommsReportContnet(rdate: any) {
+    return this.http.get<any>(`${this.COMMS_REPORTS}/${rdate}`)
   }
 
 }
