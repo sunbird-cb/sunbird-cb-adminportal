@@ -38,9 +38,11 @@ export class CommsComponent implements OnInit {
   currentUser!: string | null
   tabledata: any = []
   dataSource: MatTableDataSource<any>
-  reportSectionData: any
+  reportSectionData: any = []
   todayDate: any
   maxDate: any
+  reportData = []
+  buckets: any
 
   constructor(
     public dialog: MatDialog,
@@ -74,27 +76,34 @@ export class CommsComponent implements OnInit {
 
     this.commsService.getCommsContent().subscribe((result: any) => {
       if (result && result.comms && result.comms.buckets) {
-        this.getTableData(result.comms.buckets)
+        this.buckets = result.comms.buckets
+        this.getTableData()
       }
     })
     setTimeout(() => this.dataSource.paginator = this.paginator)
   }
 
-  getTableData(apiResp: any) {
+  getTableData() {
     this.reportSectionData = []
-    apiResp.forEach((bucket: any, index: number) => {
-      this.reportSectionData.push({
-        criteria: bucket.name,
-        lastUpdateOn: this.datePipe.transform(new Date(), 'dd/MM/yyyy, h:mm a') || '',
-        downloadUrl: `https://downloadlink.com${index + 1}`
+    this.commsService.getCommsReportContnet().subscribe((result: any) => {
+      console.log("result ", result)
+      this.buckets.forEach((bucket: any) => {
+        if (bucket.enable) {
+          this.reportSectionData.push({
+            criteria: bucket.name,
+            lastUpdateOn: this.datePipe.transform(new Date(), 'dd/MM/yyyy, h:mm a') || '',
+            downloadUrl: result.info
+          })
+        }
+        this.dataSource = new MatTableDataSource(this.reportSectionData)
       })
     })
-    this.dataSource = new MatTableDataSource(this.reportSectionData)
   }
 
   downloadFile(event: any) {
+    console.log("file ", event)
     if (event && event.row && event.row.downloadUrl) {
-      console.log("file ", event.row.downloadUrl)
+
     }
   }
 

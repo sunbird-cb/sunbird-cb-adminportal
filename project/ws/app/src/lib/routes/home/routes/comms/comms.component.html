@@ -19,9 +19,12 @@
       </div>
     </div>
     <mat-card-content>
-      <ng-container *ngIf="reportSectionData && reportSectionData.length > 0">
+      <ng-container *ngIf="reportSectionData && reportSectionData.length">
         <ws-widget-org-user-table [tableData]="tabledata" [data]='reportSectionData'
           (actionsClick)="downloadFile($event)"></ws-widget-org-user-table>
+      </ng-container>
+      <ng-container *ngIf="reportSectionData.length === 0">
+        <div class="no-reports">No reports are avaible for the selected date.</div>
       </ng-container>
     </mat-card-content>
   </mat-card>
