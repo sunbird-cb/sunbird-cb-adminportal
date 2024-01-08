@@ -46,6 +46,7 @@ export class CreateUserComponent implements OnInit {
   updateButton = false
   mdoLeadersCount = 0
   orgName!: string
+  isThisExistingLeader = false
   // hideRole: any = []
 
   constructor(
@@ -110,12 +111,13 @@ export class CreateUserComponent implements OnInit {
     if (this.createdDepartment) {
       const email = this.editUserInfo && this.editUserInfo.email || ''
       const name = this.editUserInfo && this.editUserInfo.fullName || ''
+      const mobile = this.editUserInfo && this.editUserInfo.mobile || ''
       this.createUserForm = new FormGroup({
         fname: new FormControl({ value: name, disabled: name ? true : false }, [Validators.required]),
         // lname: new FormControl('', [Validators.required]),
         email: new FormControl({ value: this.profileUtilSvc.transformToEmail(email), disabled: email ? true : false }, [Validators.required,
         Validators.pattern(/^[a-z0-9_-]+(?:\.[a-z0-9_-]+)*@((?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?){2,}\.){1,3}(?:\w){2,}$/)]),
-        mobileNumber: new FormControl('', [Validators.required, Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$'), Validators.maxLength(12)]),
+        mobileNumber: new FormControl({ value: mobile, disabled: name ? true : false }, [Validators.required, Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$'), Validators.maxLength(12)]),
         role: new FormControl('', [Validators.required, Validators.required]),
         dept: new FormControl(this.orgName, [Validators.required]),
         deptId: new FormControl(this.createdDepartment.depName, [Validators.required]),
@@ -135,6 +137,10 @@ export class CreateUserComponent implements OnInit {
     if (this.editUserInfo) {
       if (this.editUserInfo.position) {
         this.editUserInfo.position.forEach((role: any) => {
+          if (role === 'MDO_LEADER') {
+            this.isThisExistingLeader = true
+          }
+
           this.modifyUserRoles(role)
         })
       }
@@ -371,7 +377,7 @@ export class CreateUserComponent implements OnInit {
   onUpdate(userData: any) {
     this.displayLoader = true
     const userInfo = userData.value
-    if (userInfo.role.includes('MDO_LEADER') && this.mdoLeadersCount < 1) {
+    if (userInfo.role.includes('MDO_LEADER') && this.isThisExistingLeader) {
       this.roleAssign(userInfo)
     } else if (!userInfo.role.includes('MDO_LEADER')) {
       this.roleAssign(userInfo)

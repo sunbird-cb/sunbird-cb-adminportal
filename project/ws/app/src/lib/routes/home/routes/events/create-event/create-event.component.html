@@ -285,19 +285,15 @@
                             </div>
 
                             <div class="flex-parent-element">
-                                <!-- <div class="flex-child-element">
-                                    <label for="eventDurationHours"
-                                        class=" margin-remove-bottom form-label required"
+                                <div class="flex-child-element">
+                                    <label for="eventDurationHours" class=" margin-remove-bottom form-label required"
                                         i18n="Event Duration label|Label which explains the user to enter event duration"
                                         i18n-aria-label aria-label="Event Duration label">
                                         Duration Hours
                                     </label>
                                     <mat-form-field appearance="outline" class="margin-right-l">
-                                        <mat-select formControlName="eventDurationHours"
-                                            #eventDuration>
-                                            <mat-option
-                                                *ngFor="let hourObj of [0,1,2,3,4,5,6,7,8,9,10]"
-                                                [value]="hourObj">
+                                        <mat-select formControlName="eventDurationHours" #eventDuration>
+                                            <mat-option *ngFor="let hourObj of hoursList" [value]="hourObj">
                                                 {{hourObj}}
                                             </mat-option>
                                         </mat-select>
@@ -311,17 +307,14 @@
                                     </mat-form-field>
                                 </div>
                                 <div class="flex-child-element">
-                                    <label for="eventDurationMinutes"
-                                        class="margin-remove-bottom form-label required"
+                                    <label for="eventDurationMinutes" class="margin-remove-bottom form-label required"
                                         i18n="Event Duration label|Label which explains the user to enter event duration"
                                         i18n-aria-label aria-label="Event Duration label">
                                         Duration Minutes
                                     </label>
                                     <mat-form-field appearance="outline">
-                                        <mat-select formControlName="eventDurationMinutes"
-                                            #eventDuration>
-                                            <mat-option *ngFor="let minObj of [0,15,30,45,60]"
-                                                [value]="minObj">
+                                        <mat-select formControlName="eventDurationMinutes" #eventDuration>
+                                            <mat-option *ngFor="let minObj of minsList" [value]="minObj">
                                                 {{minObj}}
                                             </mat-option>
                                         </mat-select>
@@ -333,9 +326,9 @@
                                             Duration Minutes field is mandatory
                                         </mat-error>
                                     </mat-form-field>
-                                </div> -->
+                                </div>
 
-                                <div>
+                                <!-- <div>
                                     <label class="mat-subheading-2 margin-0 requried"
                                         i18n="Duration label | Label which explains the user to enter duration required">Total
                                         duration <small i18n>(hh:mm)</small>
@@ -344,7 +337,7 @@
                                         <div class="duration-d">
                                             <mat-form-field appearance="outline" class="duration-width margin-right-s">
                                                 <input #eventDurationHours formControlName="eventDurationHours" matInput
-                                                    class="numberInput" type="number" placeholder="00" min="0" max="99"
+                                                    class="numberInput" type="text" placeholder="00" min="0" max="23"
                                                     step="1" tabindex="3" />
                                             </mat-form-field>
                                             <div class="margin-top-s padding-small">:</div>
@@ -353,16 +346,54 @@
                                             <mat-form-field appearance="outline"
                                                 class="duration-width margin-right-s margin-left-s">
                                                 <input #eventDurationMinutes formControlName="eventDurationMinutes"
-                                                    matInput class="numberInput" type="number" placeholder="00" min="0"
+                                                    matInput class="numberInput" type="text" placeholder="00" min="0"
                                                     max="59" step="1" tabindex="4" />
                                             </mat-form-field>
                                         </div>
-                                        <mat-error
-                                            *ngIf="(createEventForm?.controls['eventDurationHours']?.touched && createEventForm?.controls['eventDurationHours'].errors?.required) || (createEventForm?.controls['eventDurationMinutes']?.touched && createEventForm?.controls['eventDurationMinutes'].errors?.required)"
-                                            i18n="Duration Error | Explains Duration is mandatory field">Duration
-                                            is mandatory</mat-error>
+
+                                        <div class="flex flex-col">
+                                            <div>
+                                                <mat-error
+                                                    *ngIf="(createEventForm?.controls['eventDurationHours']?.touched && createEventForm?.controls['eventDurationHours'].errors?.required) ||
+                                                                                            (createEventForm?.controls['eventDurationMinutes']?.touched && createEventForm?.controls['eventDurationMinutes'].errors?.required)"
+                                                    i18n="Duration Error | Explains Duration is mandatory field">Duration
+                                                    is mandatory</mat-error>
+                                            </div>
+
+                                            <div>
+
+                                                <mat-error
+                                                    *ngIf="(createEventForm?.controls['eventDurationHours']?.touched && createEventForm?.controls['eventDurationHours'].errors?.min) ||
+                                                    (createEventForm?.controls['eventDurationHours']?.touched && createEventForm?.controls['eventDurationHours'].errors?.max)"
+                                                    i18n="Duration Error | Explains Duration is mandatory field">Hours
+                                                    must
+                                                    be
+                                                    in 0-23 range</mat-error>
+                                            </div>
+                                            <div>
+
+                                                <mat-error
+                                                    *ngIf="(createEventForm?.controls['eventDurationMinutes']?.touched && createEventForm?.controls['eventDurationMinutes'].errors?.min) ||
+                                                                                                        (createEventForm?.controls['eventDurationMinutes']?.touched && createEventForm?.controls['eventDurationMinutes'].errors?.max)"
+                                                    i18n="Duration Error | Explains Duration is mandatory field">Minutes
+                                                    must be in 0-59 range</mat-error>
+                                            </div>
+
+                                            <div>
+
+                                                <mat-error
+                                                    *ngIf="(createEventForm?.controls['eventDurationHours']?.touched && createEventForm?.controls['eventDurationHours'].errors?.pattern) ||
+                                                                                                        (createEventForm?.controls['eventDurationMinutes']?.touched && createEventForm?.controls['eventDurationMinutes'].errors?.pattern)"
+                                                    i18n="Duration Error | Explains Duration is mandatory field">Hours
+                                                    and minutes can only be maximum of 2 digits and without decimal
+                                                    point</mat-error>
+                                            </div>
+
+
+                                        </div>
+
                                     </div>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                     </div>

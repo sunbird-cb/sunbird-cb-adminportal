@@ -244,21 +244,27 @@
                       <input id="Organisation" matInput tab-directive type="text" placeholder="Select your organisation"
                         (keyup)="specialCharachters($event, 'organization')" i18n-placeholder="Organisation"
                         formControlName="organisation" [matAutocomplete]="organisationAutocomplete" i18n-aria-label
-                        aria-label="Organisation" #organisation i18n-aria-label aria-label="Organisation Field input"
-                        maxlength="250" />
+                        aria-label="Organisation" #organisation i18n-aria-label aria-label="Organisation Field input" />
                       <mat-error [hidden]="false" i18n="Organisation Error|Explains Organisation is required"
                         *ngIf="departmentForm?.controls['organisation'].errors?.required" i18n-aria-label
                         aria-label="Organisation is mandatory">
                         Organisation is mandatory
                       </mat-error>
+                      <!-- <mat-error *ngIf="departmentForm?.controls['organisation'].errors?.maxlength">
+                        maximum characters limit is 120.
+                      </mat-error> -->
                       <mat-error *ngIf="departmentForm?.controls['organisation'].errors?.forbiddenNames" i18n-aria-label
                         aria-label="You must enter value from suggested list only.">
                         You must enter value from suggested list only.
                       </mat-error>
-                      <mat-error *ngIf="departmentForm?.controls['organisation'].errors"
+                      <mat-error *ngIf="departmentForm?.controls['organisation'].errors &&
+                        !departmentForm?.controls['organisation'].errors?.maxlength &&
+                        !departmentForm?.controls['organisation'].errors?.required
+                        && !departmentForm?.controls['organisation'].errors?.forbiddenNames"
                         i18n="name Error|Explains name is required">
                         Only {{specialCharList}} characters are supported
                       </mat-error>
+
                     </mat-form-field>
                     <mat-autocomplete #organisationAutocomplete="matAutocomplete" autoActiveFirstOption="true"
                       i18n-aria-label aria-label="Organisation list masterStates" [displayWith]="displayFnState">
@@ -366,10 +372,9 @@
                     </label>
                     <mat-form-field appearance="outline" class="margin-top-s w-full">
                       <input id="Organisation" matInput tab-directive type="text" placeholder="Select your organisation"
-                        (keyup)="specialCharachters($event)" i18n-placeholder="Organisation"
-                        formControlName="organisation" [matAutocomplete]="organisationAutocomplete" i18n-aria-label
-                        aria-label="Organisation" #organisation i18n-aria-label aria-label="Organisation Field input"
-                        maxlength="250" />
+                        (keyup)="specialCharachters($event)" i18n-placeholder="Organisation" formControlName="organisation"
+                        [matAutocomplete]="organisationAutocomplete" i18n-aria-label aria-label="Organisation"
+                        #organisation i18n-aria-label aria-label="Organisation Field input" />
                       <mat-error [hidden]="false" i18n="Organisation Error|Explains Organisation is required"
                         *ngIf="departmentForm?.controls['organisation'].errors?.required" i18n-aria-label
                         aria-label="Organisation is mandatory">
@@ -379,6 +384,11 @@
                         aria-label="You must enter value from suggested list only.">
                         You must enter value from suggested list only.
                       </mat-error>
+                      <mat-error *ngIf="departmentForm?.controls['organisation'].errors?.maxlength">
+                        maximum characters limit is 120.
+                      </mat-error>
+
+
                     </mat-form-field>
                     <mat-autocomplete #organisationAutocomplete="matAutocomplete" autoActiveFirstOption="true"
                       i18n-aria-label aria-label="Organisation list masterStates" [displayWith]="displayFnState">

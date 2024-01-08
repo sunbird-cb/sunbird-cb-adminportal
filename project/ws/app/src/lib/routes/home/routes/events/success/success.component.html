@@ -1,9 +1,12 @@
 <div class="example-card" fxLayoutAlign="center">
+    <div class="float-right cursor-pointer">
+        <mat-icon (click)="dialogRef.close()" class="closeicon">close</mat-icon>
+    </div>
     <div>
-        <div class="text-center">
+        <!-- <div class="text-center">
             <img src="/assets/icons/Publish_Success.svg" alt="Event Creation"
                 class="margin-top-s margin-bottom-s text-center">
-        </div>
+        </div> -->
         <div class="margin-top-l">
             <mat-card-title>Event Created Successfully</mat-card-title>
         </div>
@@ -15,7 +18,7 @@
         </p>
     </div>
 </div>
-<div class="margin-top-xl">
+<!-- <div class="margin-top-xl">
     <mat-divider></mat-divider>
     <div class="flex flex-1 custom button-row margin-top-m" align="end">
         <button mat-stroked-button color="accent" type="button" class="mat-accent-border flex-auto-display"
@@ -23,4 +26,4 @@
             <span i18n>Dismiss</span>
         </button>
     </div>
-</div>
+</div> -->

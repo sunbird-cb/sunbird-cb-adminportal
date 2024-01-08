@@ -59,7 +59,9 @@ export class EditEventComponent implements OnInit {
   departmentName = ''
   toastSuccess: any
   pictureObj: any
-  myreg = /(^|\s)((https?:\/\/)?[\w-]+(\.[\w-]+)+\.?(:\d+)?(\/\S*)?)/gi
+  myreg = /^(https?|http):\/\/[^\s/$.?#].[^\s]*$/
+  // myreg = /(^|\s)((https?:\/\/)?[\w-]+(\.[\w-]+)+\.?(:\d+)?(\/\S*)?)/gi
+  // myreg = /^(http[s]?:\/\/){0,1}(www\.){0,1}[a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,5}[\.]{0,1}/
 
   // eventTypes = [
   //   { title: 'Webinar', desc: 'General discussion involving', border: 'rgb(0, 116, 182)', disabled: false },
@@ -81,6 +83,9 @@ export class EditEventComponent implements OnInit {
     { value: '20:00' }, { value: '20:30' }, { value: '21:00' }, { value: '21:30' },
     { value: '22:00' }, { value: '22:30' }, { value: '23:00' }, { value: '23:30' },
   ]
+
+  hoursList = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23]
+  minsList = [0, 15, 30, 45, 59]
 
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator
   @ViewChild(MatSort, { static: true }) sort?: MatSort
@@ -145,7 +150,7 @@ export class EditEventComponent implements OnInit {
     this.createEventForm = new FormGroup({
       eventPicture: new FormControl('', [Validators.required]),
       eventTitle: new FormControl('', [Validators.required]),
-      //summary: new FormControl('', []),
+      // summary: new FormControl('', []),
       description: new FormControl('', [Validators.required]),
       agenda: new FormControl('', []),
       // isItKarmayogiTalk: new FormControl('', []),
@@ -165,7 +170,7 @@ export class EditEventComponent implements OnInit {
         this.eventObject = eventObj
         this.createEventForm.controls['eventPicture'].setValue(eventObj.appIcon)
         this.createEventForm.controls['eventTitle'].setValue(eventObj.name)
-        //this.createEventForm.controls['summary'].setValue(eventObj.instructions)
+        // this.createEventForm.controls['summary'].setValue(eventObj.instructions)
         this.createEventForm.controls['description'].setValue(eventObj.description)
         if (eventObj.learningObjective) {
           this.createEventForm.controls['agenda'].setValue(eventObj.learningObjective)
@@ -174,7 +179,11 @@ export class EditEventComponent implements OnInit {
         const eTime = new Date(newendDate).valueOf()
         const cDate = new Date().valueOf()
         if (eTime < cDate) {
-          this.createEventForm.controls['conferenceLink'].setValue(eventObj.recordedLinks[0])
+          if (eventObj.recordedLinks && eventObj.recordedLinks.length > 0) {
+            this.createEventForm.controls['conferenceLink'].setValue(eventObj.recordedLinks[0])
+          } else {
+            this.createEventForm.controls['conferenceLink'].setValue(eventObj.registrationLink)
+          }
         } else {
           this.createEventForm.controls['conferenceLink'].setValue(eventObj.registrationLink)
         }
@@ -353,7 +362,7 @@ export class EditEventComponent implements OnInit {
 
         this.eventsSvc.uploadFile(contentID, formData).subscribe((fdata: any) => {
           this.eventimageURL = fdata.result.artifactUrl
-          event.target.value = ""
+          event.target.value = ''
         })
       })
     }
@@ -399,7 +408,6 @@ export class EditEventComponent implements OnInit {
     )
     const timeArr = this.createEventForm.controls['eventTime'].value.split(':')
     const todayDate = moment(new Date()).valueOf()
-    const eventDate = moment(this.createEventForm.controls['eventDate'].value).add(eventDurationMinutes, 'minutes').valueOf()
     const expiryDateTime = moment(this.createEventForm.controls['eventDate'].value)
       .set('hour', timeArr[0])
       .set('minute', timeArr[1]).format('YYYYMMDDTHHmmss+0000')
@@ -421,6 +429,7 @@ export class EditEventComponent implements OnInit {
     const minutesstr = (Math.floor(minutes) < 10) ? '0' + Math.floor(minutes) : Math.floor(minutes)
     let finalTime
     let newendDate
+    const eventDate = moment(this.createEventForm.controls['eventDate'].value).add((totalMinutes - 330), 'minutes').valueOf()
     if (hours < 24) {
       if (minutes === 0) {
         // tslint:disable-next-line:prefer-template
@@ -467,7 +476,6 @@ export class EditEventComponent implements OnInit {
     const createdforarray: any[] = []
     createdforarray.push(this.departmentID)
 
-
     if (eventDate < todayDate) {
       const linkArry = []
       linkArry.push(this.createEventForm.controls['conferenceLink'].value)
@@ -480,7 +488,7 @@ export class EditEventComponent implements OnInit {
             isExternal: true,
             name: this.createEventForm.controls['eventTitle'].value,
             description: this.createEventForm.controls['description'].value,
-            //instructions: this.createEventForm.controls['summary'].value,
+            // instructions: this.createEventForm.controls['summary'].value,
             appIcon: this.eventimageURL,
             category: 'Event',
             createdBy: this.userId,
@@ -520,7 +528,7 @@ export class EditEventComponent implements OnInit {
             isExternal: true,
             name: this.createEventForm.controls['eventTitle'].value,
             description: this.createEventForm.controls['description'].value,
-            //instructions: this.createEventForm.controls['summary'].value,
+            // instructions: this.createEventForm.controls['summary'].value,
             appIcon: this.eventimageURL,
             category: 'Event',
             createdBy: this.userId,
@@ -566,7 +574,7 @@ export class EditEventComponent implements OnInit {
               this.displayLoader = false
               this.openSnackbar('Event details are successfuly updated.')
               this.router.navigate([`/app/home/events`])
-            }, 5000)
+            },         5000)
           }
         },
         (err: any) => {
