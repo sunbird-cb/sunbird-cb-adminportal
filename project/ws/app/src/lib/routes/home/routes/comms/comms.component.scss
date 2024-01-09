@@ -19,3 +19,27 @@
 ::ng-deep .mat-card-header-text {
   margin: 0!important;
 }
+
+.choose-date {
+  height: 0;
+  justify-content: flex-end;
+}
+
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-infix {
+  padding: 2px 0!important;
+}
+
+.datepicker-section {
+  position: absolute;
+  top: 55px
+}
+.no-reports {
+  margin-top: 55px!important;
+}
+
+::ng-deep .mat-column-criteria, ::ng-deep .mat-column-lastUpdateOn {
+  cursor: auto!important;
+}
+::ng-deep .mat-column-criteria > span, ::ng-deep .mat-column-lastUpdateOn > span {
+  cursor: auto!important;
+}
