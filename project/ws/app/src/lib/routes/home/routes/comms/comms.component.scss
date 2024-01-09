@@ -36,3 +36,10 @@
 .no-reports {
   margin-top: 55px!important;
 }
+
+::ng-deep .mat-column-criteria, ::ng-deep .mat-column-lastUpdateOn {
+  cursor: auto!important;
+}
+::ng-deep .mat-column-criteria > span, ::ng-deep .mat-column-lastUpdateOn > span {
+  cursor: auto!important;
+}

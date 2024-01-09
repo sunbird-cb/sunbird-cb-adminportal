@@ -13,6 +13,7 @@ export const environment: IEnvironment = {
   departments: (window as { [key: string]: any })['env']['departments'] || [],
   contentHost: (window as { [key: string]: any })['env']['contentHost'] || '',
   contentBucket: (window as { [key: string]: any })['env']['azureBucket'] || '',
+  spvPath: (window as { [key: string]: any })['env']['spvPath'] || '',
 }
 interface IEnvironment {
   contentBucket: any
@@ -25,6 +26,7 @@ interface IEnvironment {
   cbpProviderRoles: string[]
   userBucket?: string
   departments?: string[]
+  spvPath?: string
 }
 
 /*

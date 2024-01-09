@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core'
 import { MatDialog } from '@angular/material/dialog'
 import { ConfigurationsService } from '@sunbird-cb/utils'
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE, MatSnackBar } from '@angular/material'
-//import { environment } from '../../../../../../../../../src/environments/environment'
+import { environment } from '../../../../../../../../../src/environments/environment'
 /* tslint:disable */
 import _ from 'lodash'
 import { CommsService } from './comms.service'
@@ -101,7 +101,8 @@ export class CommsComponent implements OnInit {
           this.reportSectionData.push({
             criteria: bucket.name,
             lastUpdateOn: lastUpdateOn,
-            downloadUrl: downloadUrl
+            downloadUrl: downloadUrl,
+            bucketKey: bucket.key
           })
         }
         this.displayLoader = false
@@ -111,9 +112,8 @@ export class CommsComponent implements OnInit {
   }
 
   downloadFile(event: any) {
-    console.log("file ", event)
     if (event.row.downloadUrl && event.row.downloadUrl !== '') {
-
+      this.downloadReport(event.row)
     } else {
       this.snackBar.open('Report is not available.', 'X', { duration: 2000 })
     }
@@ -121,5 +121,20 @@ export class CommsComponent implements OnInit {
 
   updateDate(event: any) {
     this.getTableData(moment(new Date(event.value)).format("YYYY-MM-DD"))
+  }
+
+  async downloadReport(row: any) {
+    const downloadUrl = `${environment.spvPath}/apis/proxies/v8/storage/v1/spvReport/${row.bucketKey.split(".csv")[0]}/${row.downloadUrl}/${row.bucketKey}`
+    const xhr = new XMLHttpRequest()
+    xhr.onreadystatechange = () => {
+      if (xhr.readyState !== 4) {
+        return
+      }
+      if (xhr.status === 200) {
+        window.location.href = downloadUrl
+      }
+    }
+    xhr.open('GET', downloadUrl)
+    xhr.send()
   }
 }

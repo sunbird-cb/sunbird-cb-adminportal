@@ -9,4 +9,5 @@ export const environment = {
   departments: (window as { [key: string]: any })['env']['departments'] || [],
   contentHost: (window as { [key: string]: any })['env']['contentHost'] || '',
   contentBucket: (window as { [key: string]: any })['env']['azureBucket'] || '',
+  spvPath: (window as { [key: string]: any })['env']['spvPath'] || '',
 }
