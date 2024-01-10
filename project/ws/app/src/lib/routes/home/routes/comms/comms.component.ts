@@ -108,6 +108,10 @@ export class CommsComponent implements OnInit {
         this.displayLoader = false
         this.dataSource = new MatTableDataSource(this.reportSectionData)
       })
+    }, error => {
+      this.displayLoader = false
+      // tslint:disable-next-line: no-console
+      console.log(error)
     })
   }
 
