@@ -26,6 +26,7 @@ import { EventsListComponent } from './routes/events/events-list/events-list.com
 import { CreateEventComponent } from './routes/events/create-event/create-event.component'
 import { EditEventComponent } from './routes/events/edit-event/edit-event.component'
 import { CommsComponent } from './routes/comms/comms.component'
+import { AcbpReportsComponent } from './routes/acbp-reports/acbp-reports.component'
 
 const routes: Routes = [
   {
@@ -67,6 +68,16 @@ const routes: Routes = [
           module: '',
           pageType: 'feature',
           pageKey: 'Directory',
+        },
+      },
+      {
+        path: 'capacity-building-reports',
+        component: AcbpReportsComponent,
+        data: {
+          pageId: 'home/capacity-building-reports',
+          module: 'Acbpreports',
+          pageType: 'feature',
+          pageKey: 'CapacityBuildingReports',
         },
       },
       {
