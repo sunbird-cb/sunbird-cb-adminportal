@@ -31,7 +31,8 @@
 
 .datepicker-section {
   position: absolute;
-  top: 55px
+  top: 55px;
+  z-index: 100;
 }
 .no-reports {
   margin-top: 55px!important;
@@ -42,4 +43,8 @@
 }
 ::ng-deep .mat-column-criteria > span, ::ng-deep .mat-column-lastUpdateOn > span {
   cursor: auto!important;
+}
+
+::ng-deep .datepicker-section .mat-form-field-appearance-outline .mat-form-field-suffix {
+  top: 0.1em;
 }
