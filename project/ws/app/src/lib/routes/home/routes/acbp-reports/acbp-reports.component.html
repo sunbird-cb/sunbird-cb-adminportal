@@ -3,19 +3,8 @@
     <div class="flex">
       <div class="flex flex-1">
         <mat-card-title class="flex-4 mobile-margin margin-remove-bottom">
-          <span class="mat-title">Comms buckets</span>
+          <span class="mat-title">Capacity building reports</span>
         </mat-card-title>
-      </div>
-      <div class="flex flex-1 choose-date">
-        <div class="datepicker-section">
-          <mat-form-field color="accent" appearance="outline">
-            <input matInput [matDatepicker]="eventDate" [max]="maxDate" [(ngModel)]="todayDate"
-              (dateChange)="updateDate($event)" class="select-date">
-            <mat-datepicker-toggle matSuffix [for]="eventDate">
-            </mat-datepicker-toggle>
-            <mat-datepicker #eventDate></mat-datepicker>
-          </mat-form-field>
-        </div>
       </div>
     </div>
     <mat-card-content>
