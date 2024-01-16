@@ -12,8 +12,20 @@
   }
 }
 
-::ng-deep .mat-column-criteria {
-  flex: 0 0 50%!important;
+::ng-deep .cbp-reports .cdk-column-Actions {
+  flex: 0 0 10%!important;
+}
+
+::ng-deep .cbp-reports .cdk-column-reportName .textclass {
+  cursor: default!important;
+}
+
+::ng-deep .cbp-reports .cdk-column-reportType .textclass {
+  cursor: default!important;
+}
+
+::ng-deep .cbp-reports .cdk-column-lastUpdateOn .textclass {
+  cursor: default!important;
 }
 
 ::ng-deep .mat-card-header-text {

@@ -65,12 +65,13 @@ export class AcbpReportsComponent implements OnInit {
 
     this.tabledata = {
       columns: [
-        { displayName: 'Criteria', key: 'criteria' },
+        { displayName: 'Report name', key: 'reportName' },
+        { displayName: 'Report type', key: 'reportType' },
         { displayName: 'Last updated on', key: 'lastUpdateOn' },
       ],
       needCheckBox: false,
       needHash: false,
-      sortColumn: 'Criteria',
+      sortColumn: 'reportName',
       sortState: 'asc',
       needUserMenus: false,
       actions: [{ icon: '', label: 'Download', name: 'DownloadFile', type: 'Standard', disabled: false }],
@@ -99,7 +100,8 @@ export class AcbpReportsComponent implements OnInit {
             downloadUrl = this.datePipe.transform(resp.lastModified, 'yyyy-MM-dd')
           }
           this.reportSectionData.push({
-            criteria: bucket.name,
+            reportName: bucket.name,
+            reportType: "Detailed data report",
             lastUpdateOn: lastUpdateOn,
             downloadUrl: downloadUrl,
             bucketKey: bucket.key
