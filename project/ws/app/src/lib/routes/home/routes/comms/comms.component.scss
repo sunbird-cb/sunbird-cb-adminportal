@@ -38,13 +38,13 @@
   margin-top: 55px!important;
 }
 
-::ng-deep .mat-column-criteria, ::ng-deep .mat-column-lastUpdateOn {
-  cursor: auto!important;
+::ng-deep .comms-buckets .mat-column-criteria, ::ng-deep .mat-column-lastUpdateOn {
+  cursor: default!important;
 }
-::ng-deep .mat-column-criteria > span, ::ng-deep .mat-column-lastUpdateOn > span {
-  cursor: auto!important;
+::ng-deep .comms-buckets .mat-column-criteria > span, ::ng-deep .mat-column-lastUpdateOn > span {
+  cursor: default!important;
 }
 
-::ng-deep .datepicker-section .mat-form-field-appearance-outline .mat-form-field-suffix {
+::ng-deep .comms-buckets .datepicker-section .mat-form-field-appearance-outline .mat-form-field-suffix {
   top: 0.1em;
 }
