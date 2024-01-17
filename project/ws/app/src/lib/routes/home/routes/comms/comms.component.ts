@@ -73,6 +73,7 @@ export class CommsComponent implements OnInit {
       sortColumn: 'Criteria',
       sortState: 'asc',
       needUserMenus: false,
+      actionColumnName: 'Action',
       actions: [{ icon: '', label: 'Download', name: 'DownloadFile', type: 'Standard', disabled: false }],
     }
 

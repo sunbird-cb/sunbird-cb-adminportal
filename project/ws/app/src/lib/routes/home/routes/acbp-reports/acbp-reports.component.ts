@@ -74,6 +74,7 @@ export class AcbpReportsComponent implements OnInit {
       sortColumn: 'reportName',
       sortState: 'asc',
       needUserMenus: false,
+      actionColumnName: 'Action',
       actions: [{ icon: '', label: 'Download', name: 'DownloadFile', type: 'Standard', disabled: false }],
     }
 
