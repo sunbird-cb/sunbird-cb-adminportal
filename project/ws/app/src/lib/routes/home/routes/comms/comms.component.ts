@@ -95,7 +95,7 @@ export class CommsComponent implements OnInit {
           let lastUpdateOn: any = '-'
           let downloadUrl: any = ''
           const resp = result[bucket.key]
-          if (resp.lastModified) {
+          if (resp && resp.lastModified) {
             lastUpdateOn = this.datePipe.transform(resp.lastModified, 'dd/MM/yyyy, h:mm a')
             downloadUrl = this.datePipe.transform(resp.lastModified, 'yyyy-MM-dd')
           }
