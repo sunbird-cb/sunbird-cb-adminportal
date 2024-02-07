@@ -13,7 +13,6 @@ export class PipePublicURL implements PipeTransform {
   // }
 
   transform(value: string): any {
-    console.log(value, 'trans val=============')
     if (value.includes('Events_default')) {
       const mainUrl = value && value.split('/content').pop() || ''
       const finalURL = `${environment.contentHost}${mainUrl}`
