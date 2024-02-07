@@ -135,8 +135,9 @@ export class EventsListComponent implements OnInit {
           eventjoined: (creatorDetails !== undefined && creatorDetails.length > 0) ?
             ((creatorDetails.length === 1) ? '1 person' : `${creatorDetails.length} people`) : ' --- ',
           lastUpdatedOn: obj.lastUpdatedOn,
-          eventThumbnail: obj.appIcon && (obj.appIcon !== null || obj.appIcon !== undefined) ?
-            this.eventSvc.getPublicUrl(obj.appIcon) : this.eventSvc.getPublicUrl('/assets/icons/Events_default.png'),
+          // eventThumbnail: obj.appIcon && (obj.appIcon !== null || obj.appIcon !== undefined) ?
+          //   this.eventSvc.getPublicUrl(obj.appIcon) : this.eventSvc.getPublicUrl('/assets/icons/Events_default.png'),
+          eventThumbnail: obj.appIcon
         }
         if (obj.status === 'Retired') {
           this.eventData['archiveEvents'].push(eventDataObj)
