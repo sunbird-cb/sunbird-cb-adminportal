@@ -228,7 +228,6 @@ export class EventListViewComponent implements OnInit, AfterViewInit, OnChanges,
   }
 
   showImageDialog(img: any) {
-    console.log(img, "img url")
     if (img.includes('Events_default')) {
       const mainUrl = img && img.split('/content').pop() || ''
       const finalURL = `${environment.contentHost}${mainUrl}`
