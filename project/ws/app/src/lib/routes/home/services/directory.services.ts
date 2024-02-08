@@ -39,6 +39,7 @@ export class DirectoryService {
       request: {
         filters: {
           isTenant: true,
+          isState: true,
           status: 1,
         },
         sortBy: {

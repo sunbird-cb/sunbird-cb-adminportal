@@ -19,7 +19,7 @@ export class PipePublicURL implements PipeTransform {
       return value ? finalURL : ''
 
     }
-    else {
+     {
       const mainUrl = value && value.split('/content').pop() || ''
       const finalURL = `${environment.contentHost}/${environment.contentBucket}/content${mainUrl}`
       return value ? finalURL : ''
