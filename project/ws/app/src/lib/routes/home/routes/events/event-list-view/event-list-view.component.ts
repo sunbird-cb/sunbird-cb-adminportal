@@ -15,6 +15,7 @@ import { EventService } from '@sunbird-cb/utils'
 import { NsContent } from '@sunbird-cb/collection'
 import { TelemetryEvents } from '../model/telemetry.event.model'
 import * as moment from 'moment'
+import { environment } from '../../../../../../../../../../src/environments/environment'
 
 export interface IContentShareData {
   content: NsContent.IContent
@@ -49,6 +50,7 @@ export class EventListViewComponent implements OnInit, AfterViewInit, OnChanges,
   length!: number
   pageSize = 20
   pageSizeOptions = [20, 30, 40]
+  finalImg: any
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator
   @ViewChild(MatSort, { static: false }) set matSort(sort: MatSort) {
     if (!this.dataSource.sort) {
@@ -226,10 +228,22 @@ export class EventListViewComponent implements OnInit, AfterViewInit, OnChanges,
   }
 
   showImageDialog(img: any) {
+    console.log(img, "img url")
+    if (img.includes('Events_default')) {
+      const mainUrl = img && img.split('/content').pop() || ''
+      const finalURL = `${environment.contentHost}${mainUrl}`
+      this.finalImg = img ? finalURL : ''
+
+    }
+    else {
+      const mainUrl = img && img.split('/content').pop() || ''
+      const finalURL = `${environment.contentHost}/${environment.contentBucket}/content${mainUrl}`
+      this.finalImg = img ? finalURL : ''
+    }
+
     this.dialogRef = this.matDialog.open(EventThumbnailComponent, {
-      width: img.width,
-      height: img.height,
-      data: img,
+      width: "800px",
+      data: this.finalImg,
     })
   }
 
