@@ -233,15 +233,14 @@ export class EventListViewComponent implements OnInit, AfterViewInit, OnChanges,
       const finalURL = `${environment.contentHost}${mainUrl}`
       this.finalImg = img ? finalURL : ''
 
-    }
-    else {
+    } else {
       const mainUrl = img && img.split('/content').pop() || ''
       const finalURL = `${environment.contentHost}/${environment.contentBucket}/content${mainUrl}`
       this.finalImg = img ? finalURL : ''
     }
 
     this.dialogRef = this.matDialog.open(EventThumbnailComponent, {
-      width: "800px",
+      width: '800px',
       data: this.finalImg,
     })
   }
