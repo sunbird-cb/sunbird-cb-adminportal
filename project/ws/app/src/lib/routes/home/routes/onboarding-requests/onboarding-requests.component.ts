@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
 import { RequestsService } from '../../services/onboarding-requests.service'
+import { PageEvent } from '@angular/material'
 import * as _ from 'lodash'
 
 @Component({
@@ -15,8 +16,12 @@ export class OnboardingRequestsComponent implements OnInit {
   data: any = []
   requestType: any
   displayType: any
-  currentFilter = 'pending'
+  currentFilter: any = 'pending'
   isSpvAdmin = false
+
+  limit = 20
+  pageIndex = 0
+  currentOffset = 0
 
   constructor(private route: Router, private activatedRoute: ActivatedRoute, private requestService: RequestsService) {
     // this.requestType = this.activatedRoute.snapshot.params.type
@@ -166,6 +171,10 @@ export class OnboardingRequestsComponent implements OnInit {
   }
 
   filter(key: 'pending' | 'approved' | 'rejected' | 'designations') {
+    this.currentFilter = key
+    this.pageIndex = 0
+    this.currentOffset = 0
+    this.limit = 20
     switch (key) {
       case 'pending':
         this.data = []
@@ -219,8 +228,8 @@ export class OnboardingRequestsComponent implements OnInit {
     const reqbody = {
       serviceName: this.requestType,
       applicationStatus: 'IN_PROGRESS',
-      limit: 1000,
-      offset: 0,
+      limit: this.limit,
+      offset: this.currentOffset,
       deptName: 'iGOT',
     }
     if (this.requestType === 'position') {
@@ -240,8 +249,8 @@ export class OnboardingRequestsComponent implements OnInit {
     const reqbody = {
       serviceName: this.requestType,
       applicationStatus: 'APPROVED',
-      limit: 1000,
-      offset: 0,
+      limit: this.limit,
+      offset: this.currentOffset,
       deptName: 'iGOT',
     }
     if (this.requestType === 'position') {
@@ -261,8 +270,8 @@ export class OnboardingRequestsComponent implements OnInit {
     const reqbody = {
       serviceName: this.requestType,
       applicationStatus: 'REJECTED',
-      limit: 1000,
-      offset: 0,
+      limit: this.limit,
+      offset: this.currentOffset,
       deptName: 'iGOT',
     }
     if (this.requestType === 'position') {
@@ -288,5 +297,13 @@ export class OnboardingRequestsComponent implements OnInit {
         this.isSpvAdmin = true
       }
     })
+  }
+
+  onPaginateChange(event: PageEvent) {
+    this.pageIndex = event.pageIndex
+    this.limit = event.pageSize
+    this.currentOffset = event.pageIndex
+    console.log(this.currentFilter, "this.currentFilter===")
+    this.filter(this.currentFilter)
   }
 }
