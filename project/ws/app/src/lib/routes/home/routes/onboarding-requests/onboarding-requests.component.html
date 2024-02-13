@@ -30,24 +30,35 @@
 
         </div>
         <div>
-
         </div>
       </div>
-      <ng-container *ngIf="currentFilter === 'pending'">
-        <ws-widget-org-user-table-v2 [tableData]="tabledata" [data]="data" (actionsClick)="actionsClick($event)"
-          [totalRecords]="pendingListLength" (pageChangeClick)="onPaginateChange($event)"
-          [tabChangeIndex]="pageIndex"></ws-widget-org-user-table-v2>
-      </ng-container>
-      <ng-container *ngIf="currentFilter === 'approved'">
-        <ws-widget-org-user-table-v2 [tableData]="tabledataApproved" [data]='data' [totalRecords]="approvedListLength"
-          (pageChangeClick)="onPaginateChange($event)" [tabChangeIndex]="pageIndex"></ws-widget-org-user-table-v2>
-      </ng-container>
-      <ng-container *ngIf="currentFilter === 'rejected'">
-        <ws-widget-org-user-table-v2 [tableData]="tabledataApproved" [data]='data' [totalRecords]="rejectedListLength"
-          (pageChangeClick)="onPaginateChange($event)" [tabChangeIndex]="pageIndex">
 
-        </ws-widget-org-user-table-v2>
+      <ng-container *ngIf="requestType === 'position'">
+        <ng-container *ngIf="currentFilter === 'pending'">
+          <ws-widget-org-user-table-v2 [tableData]="tabledata" [data]="data" (actionsClick)="actionsClick($event)"
+            [totalRecords]="pendingListRecord" (pageChangeClick)="onPaginateChange($event)"
+            [tabChangeIndex]="pageIndex"></ws-widget-org-user-table-v2>
+        </ng-container>
+        <ng-container *ngIf="currentFilter === 'approved' || currentFilter === 'rejected'">
+          <ws-widget-org-user-table-v2 [tableData]="tabledataApproved" [data]='data' [totalRecords]="totalRecords"
+            (pageChangeClick)="onPaginateChange($event)" [tabChangeIndex]="pageIndex"></ws-widget-org-user-table-v2>
+        </ng-container>
       </ng-container>
+
+      <ng-container *ngIf="requestType === 'organisation'">
+        <ng-container *ngIf="currentFilter === 'pending'">
+          <ws-widget-org-user-table [tableData]="tabledata" [data]="data"
+            (actionsClick)="actionsClick($event)"></ws-widget-org-user-table>
+        </ng-container>
+        <ng-container *ngIf="currentFilter === 'approved' || currentFilter === 'rejected'">
+          <ws-widget-org-user-table [tableData]="tabledataApproved" [data]='data'></ws-widget-org-user-table>
+        </ng-container>
+        <!-- <ng-container *ngIf="currentFilter === 'rejected'">
+          <ws-widget-org-user-table [tableData]="tabledataApproved" [data]='data'></ws-widget-org-user-table>
+        </ng-container> -->
+      </ng-container>
+
+
       <ng-container *ngIf="currentFilter === 'designations'">
         <div class="margin-top-m">
           <ws-widget-ui-user-table [tableData]='tabledataPositions' [data]='data' isCreate=true
