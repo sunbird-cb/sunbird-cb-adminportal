@@ -22,6 +22,9 @@ export class OnboardingRequestsComponent implements OnInit {
   limit = 20
   pageIndex = 0
   currentOffset = 0
+  pendingListLength: any
+  approvedListLength: any
+  rejectedListLength: any
 
   constructor(private route: Router, private activatedRoute: ActivatedRoute, private requestService: RequestsService) {
     // this.requestType = this.activatedRoute.snapshot.params.type
@@ -179,32 +182,39 @@ export class OnboardingRequestsComponent implements OnInit {
       case 'pending':
         this.data = []
         this.currentFilter = 'pending'
-        if (this.activatedRoute.snapshot.data && this.activatedRoute.snapshot.data.requestsList.data) {
-          const resData = this.activatedRoute.snapshot.data.requestsList.data
-          this.formatData(resData, 'pending')
-        } else {
-          this.getPendingList()
-        }
+
+        // if (this.activatedRoute.snapshot.data && this.activatedRoute.snapshot.data.requestsList.data) {
+        //   const resData = this.activatedRoute.snapshot.data.requestsList.data
+        //   console.log(this.activatedRoute.snapshot.data, "this.activatedRoute.snapshot.data---")
+        //   this.formatData(resData, 'pending')
+        // } else {
+
+        //   this.getPendingList()
+        // }
+        this.getPendingList()
         break
       case 'approved':
         this.data = []
         this.currentFilter = 'approved'
-        if (this.activatedRoute.snapshot.data && this.activatedRoute.snapshot.data.aprovedrequestsList.data) {
-          const resData = this.activatedRoute.snapshot.data.aprovedrequestsList.data
-          this.formatData(resData, 'approved')
-        } else {
-          this.getApprovedList()
-        }
+        // if (this.activatedRoute.snapshot.data && this.activatedRoute.snapshot.data.aprovedrequestsList.data) {
+        //   const resData = this.activatedRoute.snapshot.data.aprovedrequestsList.data
+        //   console.log(this.activatedRoute.snapshot.data, "this.activatedRoute.snapshot.data---")
+        //   this.formatData(resData, 'approved')
+        // } else {
+        //   this.getApprovedList()
+        // }
+        this.getApprovedList()
         break
       case 'rejected':
         this.data = []
         this.currentFilter = 'rejected'
-        if (this.activatedRoute.snapshot.data && this.activatedRoute.snapshot.data.rejectedList.data) {
-          const resData = this.activatedRoute.snapshot.data.rejectedList.data
-          this.formatData(resData, 'rejected')
-        } else {
-          this.getRejectedList()
-        }
+        // if (this.activatedRoute.snapshot.data && this.activatedRoute.snapshot.data.rejectedList.data) {
+        //   const resData = this.activatedRoute.snapshot.data.rejectedList.data
+        //   this.formatData(resData, 'rejected')
+        // } else {
+        //   this.getRejectedList()
+        // }
+        this.getRejectedList()
         break
       case 'designations':
         this.data = []
@@ -234,7 +244,10 @@ export class OnboardingRequestsComponent implements OnInit {
     }
     if (this.requestType === 'position') {
       this.requestService.getPositionsList(reqbody).subscribe((res: any) => {
+        console.log(res, "response-----")
         const resData = res.result.data
+        this.pendingListLength = res.result.count
+        console.log(this.pendingListLength, "this.pendingListLength length==============")
         this.formatData(resData, 'pending')
       })
     } else if (this.requestType === 'organisation') {
@@ -256,6 +269,8 @@ export class OnboardingRequestsComponent implements OnInit {
     if (this.requestType === 'position') {
       this.requestService.getPositionsList(reqbody).subscribe((res: any) => {
         const resData = res.result.data
+        this.approvedListLength = res.result.count
+        console.log(this.approvedListLength, "this.approvedListLength length==============")
         this.formatData(resData, 'approved')
       })
     } else if (this.requestType === 'organisation') {
@@ -277,6 +292,8 @@ export class OnboardingRequestsComponent implements OnInit {
     if (this.requestType === 'position') {
       this.requestService.getPositionsList(reqbody).subscribe((res: any) => {
         const resData = res.result.data
+        this.rejectedListLength = res.result.count
+        console.log(this.rejectedListLength, "this.rejectedListLength length==============")
         this.formatData(resData, 'rejected')
       })
     } else if (this.requestType === 'organisation') {

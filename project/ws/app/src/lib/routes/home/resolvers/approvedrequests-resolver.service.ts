@@ -38,7 +38,7 @@ export class ApprovedRequestsResolve
     }
     return this.http.post(this.url, reqbody).pipe(
       map((datanew: any) => ({
-        data: this.requestType === 'domain' ? datanew.result : datanew.result.data, error: null,
+        data: this.requestType === 'domain' ? datanew.result : datanew.result, error: null,
       })),
       catchError(error => of({ error, data: null })),
     )
