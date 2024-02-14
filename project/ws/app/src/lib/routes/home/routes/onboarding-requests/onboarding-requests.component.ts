@@ -25,7 +25,6 @@ export class OnboardingRequestsComponent implements OnInit {
   pendingListRecord?: number | 0
   totalRecords?: number | 0
 
-
   constructor(private route: Router, private activatedRoute: ActivatedRoute, private requestService: RequestsService) {
     // this.requestType = this.activatedRoute.snapshot.params.type
   }
