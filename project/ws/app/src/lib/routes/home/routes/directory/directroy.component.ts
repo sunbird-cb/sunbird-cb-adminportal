@@ -33,6 +33,7 @@ export class DirectoryViewComponent implements OnInit {
   departmentHeaderArray: any = []
   isStateAdmin = false
   key = 'mdo'
+  currentTab: any
 
   constructor(
     public dialog: MatDialog,
@@ -55,6 +56,7 @@ export class DirectoryViewComponent implements OnInit {
   ngOnInit() {
     this.route.params.subscribe(params => {
       this.currentFilter = params['tab']
+      this.currentTab = params['tab']
       if (this.currentFilter === null || this.currentFilter === undefined) {
         this.currentFilter = 'mdo'
       }
@@ -99,7 +101,7 @@ export class DirectoryViewComponent implements OnInit {
   }
   getAllDepartments(queryText: any) {
     const query = queryText ? queryText : ''
-    this.directoryService.getAllDepartmentsKong(query).subscribe(res => {
+    this.directoryService.getAllDepartmentsKong(query, this.currentTab).subscribe(res => {
       this.wholeData2 = res.result.response.content
       if (this.departmentHearders && this.departmentHearders.length) {
         this.getDepartDataByKey(this.currentFilter)
@@ -138,6 +140,8 @@ export class DirectoryViewComponent implements OnInit {
       index,
       label: key,
     }
+
+    this.currentTab = value
     this.searchInputvalue.applyFilter('')
     this.getAllDepartments('')
     this.raiseTabTelemetry(key, data)
