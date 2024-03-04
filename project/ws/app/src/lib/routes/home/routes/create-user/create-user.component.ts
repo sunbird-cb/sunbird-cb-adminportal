@@ -418,4 +418,12 @@ export class CreateUserComponent implements OnInit {
     const result = pattren.test(event.key)
     return result
   }
+
+  onPasteMobile(e: ClipboardEvent) {
+    let event = e.clipboardData!.getData('text')
+    //allow paste only number values
+    if (!Number(event)) {
+      e.preventDefault()
+    }
+  }
 }
