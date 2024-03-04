@@ -420,8 +420,9 @@ export class CreateUserComponent implements OnInit {
   }
 
   onPasteMobile(e: ClipboardEvent) {
-    let event = e.clipboardData!.getData('text')
-    //allow paste only number values
+    // tslint:disable-next-line: no-non-null-assertion
+    const event = e.clipboardData!.getData('text')
+    // allow paste only number values
     if (!Number(event)) {
       e.preventDefault()
     }
