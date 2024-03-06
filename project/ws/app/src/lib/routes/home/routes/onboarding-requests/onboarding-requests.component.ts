@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
 import { RequestsService } from '../../services/onboarding-requests.service'
+import { PageEvent } from '@angular/material'
 import * as _ from 'lodash'
 
 @Component({
@@ -15,8 +16,14 @@ export class OnboardingRequestsComponent implements OnInit {
   data: any = []
   requestType: any
   displayType: any
-  currentFilter = 'pending'
+  currentFilter: any = 'pending'
   isSpvAdmin = false
+
+  limit = 20
+  pageIndex = 0
+  currentOffset = 0
+  pendingListRecord?: number | 0
+  totalRecords?: number | 0
 
   constructor(private route: Router, private activatedRoute: ActivatedRoute, private requestService: RequestsService) {
     // this.requestType = this.activatedRoute.snapshot.params.type
@@ -45,7 +52,7 @@ export class OnboardingRequestsComponent implements OnInit {
         } else {
           this.data = []
         }
-      } else {
+      } else if (this.requestType === 'organisation') {
         if (this.activatedRoute.snapshot.data && this.activatedRoute.snapshot.data.requestsList.data) {
           const resData = this.activatedRoute.snapshot.data.requestsList.data
           this.formatData(resData, this.currentFilter)
@@ -87,6 +94,7 @@ export class OnboardingRequestsComponent implements OnInit {
         needUserMenus: false,
         actionColumnName: 'Edit',
       }
+
       this.tabledataPositions = {
         columns: [
           { key: 'name', displayName: 'Name' },
@@ -166,11 +174,16 @@ export class OnboardingRequestsComponent implements OnInit {
   }
 
   filter(key: 'pending' | 'approved' | 'rejected' | 'designations') {
+    this.currentFilter = key
+    this.pageIndex = 0
+    this.currentOffset = 0
+    this.limit = 20
+    this.totalRecords = 0
     switch (key) {
       case 'pending':
         this.data = []
         this.currentFilter = 'pending'
-        if (this.activatedRoute.snapshot.data && this.activatedRoute.snapshot.data.requestsList.data) {
+        if (this.activatedRoute.snapshot.data && this.activatedRoute.snapshot.data.requestsList.data && this.requestType === 'organisation') {
           const resData = this.activatedRoute.snapshot.data.requestsList.data
           this.formatData(resData, 'pending')
         } else {
@@ -180,7 +193,7 @@ export class OnboardingRequestsComponent implements OnInit {
       case 'approved':
         this.data = []
         this.currentFilter = 'approved'
-        if (this.activatedRoute.snapshot.data && this.activatedRoute.snapshot.data.aprovedrequestsList.data) {
+        if (this.activatedRoute.snapshot.data && this.activatedRoute.snapshot.data.aprovedrequestsList.data && this.requestType === 'organisation') {
           const resData = this.activatedRoute.snapshot.data.aprovedrequestsList.data
           this.formatData(resData, 'approved')
         } else {
@@ -190,7 +203,7 @@ export class OnboardingRequestsComponent implements OnInit {
       case 'rejected':
         this.data = []
         this.currentFilter = 'rejected'
-        if (this.activatedRoute.snapshot.data && this.activatedRoute.snapshot.data.rejectedList.data) {
+        if (this.activatedRoute.snapshot.data && this.activatedRoute.snapshot.data.rejectedList.data && this.requestType === 'organisation') {
           const resData = this.activatedRoute.snapshot.data.rejectedList.data
           this.formatData(resData, 'rejected')
         } else {
@@ -219,13 +232,15 @@ export class OnboardingRequestsComponent implements OnInit {
     const reqbody = {
       serviceName: this.requestType,
       applicationStatus: 'IN_PROGRESS',
-      limit: 1000,
-      offset: 0,
+      limit: this.limit,
+      offset: this.currentOffset,
       deptName: 'iGOT',
     }
     if (this.requestType === 'position') {
       this.requestService.getPositionsList(reqbody).subscribe((res: any) => {
+        this.data = []
         const resData = res.result.data
+        this.pendingListRecord = res.result.count
         this.formatData(resData, 'pending')
       })
     } else if (this.requestType === 'organisation') {
@@ -240,13 +255,15 @@ export class OnboardingRequestsComponent implements OnInit {
     const reqbody = {
       serviceName: this.requestType,
       applicationStatus: 'APPROVED',
-      limit: 1000,
-      offset: 0,
+      limit: this.limit,
+      offset: this.currentOffset,
       deptName: 'iGOT',
     }
     if (this.requestType === 'position') {
       this.requestService.getPositionsList(reqbody).subscribe((res: any) => {
+        this.data = []
         const resData = res.result.data
+        this.totalRecords = res.result.count
         this.formatData(resData, 'approved')
       })
     } else if (this.requestType === 'organisation') {
@@ -261,13 +278,15 @@ export class OnboardingRequestsComponent implements OnInit {
     const reqbody = {
       serviceName: this.requestType,
       applicationStatus: 'REJECTED',
-      limit: 1000,
-      offset: 0,
+      limit: this.limit,
+      offset: this.currentOffset,
       deptName: 'iGOT',
     }
     if (this.requestType === 'position') {
       this.requestService.getPositionsList(reqbody).subscribe((res: any) => {
+        this.data = []
         const resData = res.result.data
+        this.totalRecords = res.result.count
         this.formatData(resData, 'rejected')
       })
     } else if (this.requestType === 'organisation') {
@@ -288,5 +307,18 @@ export class OnboardingRequestsComponent implements OnInit {
         this.isSpvAdmin = true
       }
     })
+  }
+
+  onPaginateChange(event: PageEvent) {
+    this.pageIndex = event.pageIndex
+    this.limit = event.pageSize
+    this.currentOffset = event.pageIndex
+    if (this.currentFilter === 'pending') {
+      this.getPendingList()
+    } else if (this.currentFilter === 'approved') {
+      this.getApprovedList()
+    } else if (this.currentFilter === 'rejected') {
+      this.getRejectedList()
+    }
   }
 }

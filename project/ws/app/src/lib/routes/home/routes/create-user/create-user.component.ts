@@ -82,9 +82,7 @@ export class CreateUserComponent implements OnInit {
       }
       // tslint:disable-next-line:radix
       this.queryParam = parseInt(this.queryParam)
-      if (this.editUserInfo) {
-        this.getMdoLeader()
-      }
+      this.getMdoLeader()
     })
 
     if (!this.currentDept) {
@@ -266,75 +264,81 @@ export class CreateUserComponent implements OnInit {
         roles: this.createUserForm.value.role,
       },
     }
-    this.usersSvc.createUser(userreq).subscribe(
-      userdata => {
+    if (userreq.personalDetails.roles.includes('MDO_LEADER') && (this.mdoLeadersCount > 0)) {
+      this.openSnackbar(`MDO Leader role has already been allocated to another user from the Ministry; kindly revise the role for that user before assigning a different user as an MDO Leader`)
+      this.disableCreateButton = false
+      this.displayLoader = false
+    } else {
+      this.usersSvc.createUser(userreq).subscribe(
+        userdata => {
 
-        this.displayLoader = false
-        this.disableCreateButton = false
-        if (userdata.userId) {
-          if (this.createdDepartment && this.createdDepartment.id) {
-            this.deptId = this.createdDepartment.id
-          }
-          if (!this.deptId) {
-            this.deptId = this.route.snapshot.queryParams && this.route.snapshot.queryParams.id
-          }
-          if (!this.deptId) {
-            this.deptId = _.get(this.route, 'snapshot.parent.data.configService.unMappedUser.rootOrg.rootOrgId')
-          }
-          // this.createMDOService.assignAdminToDepartment(userdata.userId, this.deptId, this.createUserForm.value.role)
-          //   .subscribe(
-          //     data => {
-          //       // this.displayLoader = false
-          //       // this.disableCreateButton = false
-          //       this.openSnackbar(`${data.result.response}`)
-          //       if (this.redirectionPath.indexOf('/app/home/') < 0) {
-          //         // this.exact = this.redirectionPath.split("/app")
-          //         // this.exactPath = "/app" + this.exact[1]
-          //         // this.exactPath = this.exactPath.replace("%3B", ";")
-          //         // this.exactPath = this.exactPath.replace("%3D", "=")
-          //         location.replace(this.redirectionPath)
-          //       } else {
-          //         this.router.navigate(['/app/home/directory'])
-          //       }
+          this.displayLoader = false
+          this.disableCreateButton = false
+          if (userdata.userId) {
+            if (this.createdDepartment && this.createdDepartment.id) {
+              this.deptId = this.createdDepartment.id
+            }
+            if (!this.deptId) {
+              this.deptId = this.route.snapshot.queryParams && this.route.snapshot.queryParams.id
+            }
+            if (!this.deptId) {
+              this.deptId = _.get(this.route, 'snapshot.parent.data.configService.unMappedUser.rootOrg.rootOrgId')
+            }
+            // this.createMDOService.assignAdminToDepartment(userdata.userId, this.deptId, this.createUserForm.value.role)
+            //   .subscribe(
+            //     data => {
+            //       // this.displayLoader = false
+            //       // this.disableCreateButton = false
+            //       this.openSnackbar(`${data.result.response}`)
+            //       if (this.redirectionPath.indexOf('/app/home/') < 0) {
+            //         // this.exact = this.redirectionPath.split("/app")
+            //         // this.exactPath = "/app" + this.exact[1]
+            //         // this.exactPath = this.exactPath.replace("%3B", ";")
+            //         // this.exactPath = this.exactPath.replace("%3D", "=")
+            //         location.replace(this.redirectionPath)
+            //       } else {
+            //         this.router.navigate(['/app/home/directory'])
+            //       }
 
-          //     },
-          //     (_err: any) => {
-          //       // this.displayLoader = false
-          //       // this.disableCreateButton = false
-          //       this.router.navigate([`/app/home/users`])
-          //       this.openSnackbar(`Error in assigning roles`)
-          //     })
-          this.openSnackbar(`User created successfully!`)
-          if (this.redirectionPath.indexOf('/app/home/') < 0) {
-            // this.exact = this.redirectionPath.split("/app")
-            // this.exactPath = "/app" + this.exact[1]
-            // this.exactPath = this.exactPath.replace("%3B", ";")
-            // this.exactPath = this.exactPath.replace("%3D", "=")
-            location.replace(this.redirectionPath)
-          } else {
-            this.router.navigate(['/app/home/directory'])
+            //     },
+            //     (_err: any) => {
+            //       // this.displayLoader = false
+            //       // this.disableCreateButton = false
+            //       this.router.navigate([`/app/home/users`])
+            //       this.openSnackbar(`Error in assigning roles`)
+            //     })
+            this.openSnackbar(`User created successfully!`)
+            if (this.redirectionPath.indexOf('/app/home/') < 0) {
+              // this.exact = this.redirectionPath.split("/app")
+              // this.exactPath = "/app" + this.exact[1]
+              // this.exactPath = this.exactPath.replace("%3B", ";")
+              // this.exactPath = this.exactPath.replace("%3D", "=")
+              location.replace(this.redirectionPath)
+            } else {
+              this.router.navigate(['/app/home/directory'])
+            }
           }
-        }
-      },
-      err => {
-        this.displayLoader = false
-        this.disableCreateButton = false
-        if (err.error.params.errmsg) {
-          // this.openSnackbar(`${err.error.params.errmsg}`)
-          if (err.error.params.errmsg === 'phone already exists') {
-            this.openSnackbar('Phone number already exists')
-          } else if (err.error.params.errmsg === 'email already exists') {
-            this.openSnackbar('Email Id already exists')
-          } else if (err.error.params.errmsg === 'Invalid format for given phone.') {
-            this.openSnackbar('Please enter valid phone number')
+        },
+        err => {
+          this.displayLoader = false
+          this.disableCreateButton = false
+          if (err.error.params.errmsg) {
+            // this.openSnackbar(`${err.error.params.errmsg}`)
+            if (err.error.params.errmsg === 'phone already exists') {
+              this.openSnackbar('Phone number already exists')
+            } else if (err.error.params.errmsg === 'email already exists') {
+              this.openSnackbar('Email Id already exists')
+            } else if (err.error.params.errmsg === 'Invalid format for given phone.') {
+              this.openSnackbar('Please enter valid phone number')
+            } else {
+              this.openSnackbar('User creation error')
+            }
           } else {
-            this.openSnackbar('User creation error')
+            this.openSnackbar(`User creation error`)
           }
-        } else {
-          this.openSnackbar(`User creation error`)
-        }
-        // this.router.navigate([`/app/home/users`])
-      })
+          // this.router.navigate([`/app/home/users`])
+        })
+    }
   }
 
   private openSnackbar(primaryMsg: string, duration: number = 5000) {
@@ -378,17 +382,19 @@ export class CreateUserComponent implements OnInit {
     this.displayLoader = true
     const userInfo = userData.value
     if (userInfo.role.includes('MDO_LEADER') && this.isThisExistingLeader) {
-      this.roleAssign(userInfo)
+      this.roleAssign()
+    } else if (userInfo.role.includes('MDO_LEADER') && (this.mdoLeadersCount === 0)) {
+      this.roleAssign()
     } else if (!userInfo.role.includes('MDO_LEADER')) {
-      this.roleAssign(userInfo)
+      this.roleAssign()
     } else {
       this.displayLoader = false
       this.openSnackbar(`MDO Leader role has already been allocated to another user from the Ministry; kindly revise the role for that user before assigning a different user as an MDO Leader`)
     }
-
   }
-  roleAssign(userInfo: any) {
-    this.createMDOService.assignAdminToDepartment(this.editUserInfo.userId, this.deptId, userInfo.role)
+  roleAssign() {
+    const roles = Array.from(this.userRoles)
+    this.createMDOService.assignAdminToDepartment(this.editUserInfo.userId, this.deptId, roles)
       .subscribe(
         data => {
           this.displayLoader = false

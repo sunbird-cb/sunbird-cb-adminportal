@@ -56,7 +56,7 @@ export class CreateMDOService {
     }
     return this.http.patch<any>(`${API_END_POINTS.UPDATE_DEPARTMENT}`, departmentData)
   }
-  assignAdminToDepartment(userId: string, deptId: string, deptRole: string): Observable<any> {
+  assignAdminToDepartment(userId: string, deptId: string, deptRole: any): Observable<any> {
     const departmentData = {
       request: {
         userId,
