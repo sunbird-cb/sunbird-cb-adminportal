@@ -84,15 +84,15 @@
             </label>
             <mat-form-field appearance="outline" class="margin-top-xs">
               <input id="mobileNumber" #mobile matInput type="text" maxlength="10" autocomplete="off"
-                (keypress)="numericOnly($event)" (paste)="onPasteMobile($event)" placeholder="Mobile Number"
+                (keypress)="numericOnly($event)" (paste)="onPasteMobile($event)" placeholder="10-Digit Mobile Number"
                 formControlName="mobileNumber" i18n-aria-label aria-label="Mobile Number input">
               <mat-error [hidden]="false" i18n="Mobile Number Error|Explains Mobile no is required"
                 *ngIf="createUserForm?.controls['mobileNumber']?.touched && createUserForm?.controls['mobileNumber'].errors?.required"
-                i18n-aria-label aria-label="Please enter your mobile number">Please enter your mobile number
+                i18n-aria-label aria-label="Please enter your mobile number">Please enter your 10-digit Mobile Number
               </mat-error>
               <mat-error [hidden]="false" *ngIf="createUserForm?.controls['mobileNumber'].errors?.pattern"
-                i18n-aria-label aria-label="Please enter a valid 10 digit mobile number">
-                Please enter a valid 10 digit mobile number
+                i18n-aria-label aria-label="Please enter a valid 10-digit Mobile Number">
+                Please enter a valid 10-digit Mobile Number
               </mat-error>
             </mat-form-field>
 
