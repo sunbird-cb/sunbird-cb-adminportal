@@ -426,21 +426,28 @@ export class CreateUserComponent implements OnInit {
   }
 
   onPasteMobile(e: ClipboardEvent) {
+    this.createUserForm.patchValue({ mobileNumber: '' })
+    let trimmedData: any
     // tslint:disable-next-line: no-non-null-assertion
-    const event = e.clipboardData!.getData('text')
-    if (!Number(event)) {
+    const pastedMob = e.clipboardData!.getData('text')
+    if (pastedMob) {
+      trimmedData = pastedMob.replace(/\s+/g, ' ').trim()
+      this.trimPhoneNumber(trimmedData)
+    }
+    if (!Number(trimmedData)) {
       e.preventDefault()
     }
-    this.trimPhoneNumber(event)
   }
 
-  trimPhoneNumber(phone?: any) {
-    let mobile: any
+  trimPhoneNumber(phone: any) {
+    let mobile = phone
     if (phone.startsWith('+91 ')) {
       mobile = phone.slice(4)
       this.createUserForm.patchValue({ mobileNumber: mobile })
     } else if (phone.startsWith('+91')) {
       mobile = phone.slice(3)
+      this.createUserForm.patchValue({ mobileNumber: mobile })
+    } else {
       this.createUserForm.patchValue({ mobileNumber: mobile })
     }
   }
