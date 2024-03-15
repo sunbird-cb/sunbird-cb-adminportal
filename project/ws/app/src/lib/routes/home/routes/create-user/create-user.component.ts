@@ -115,7 +115,7 @@ export class CreateUserComponent implements OnInit {
         // lname: new FormControl('', [Validators.required]),
         email: new FormControl({ value: this.profileUtilSvc.transformToEmail(email), disabled: email ? true : false }, [Validators.required,
         Validators.pattern(/^[a-z0-9_-]+(?:\.[a-z0-9_-]+)*@((?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?){2,}\.){1,3}(?:\w){2,}$/)]),
-        mobileNumber: new FormControl({ value: mobile, disabled: name ? true : false }, [Validators.required, Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$'), Validators.maxLength(12)]),
+        mobileNumber: new FormControl({ value: mobile, disabled: name ? true : false }, [Validators.required, Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$'), Validators.maxLength(10)]),
         role: new FormControl('', [Validators.required, Validators.required]),
         dept: new FormControl(this.orgName, [Validators.required]),
         deptId: new FormControl(this.createdDepartment.depName, [Validators.required]),
@@ -126,7 +126,7 @@ export class CreateUserComponent implements OnInit {
         // lname: new FormControl('', [Validators.required]),
         email: new FormControl('', [Validators.required,
         Validators.pattern(/^[a-z0-9_-]+(?:\.[a-z0-9_-]+)*@((?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?){2,}\.){1,3}(?:\w){2,}$/)]),
-        mobileNumber: new FormControl('', [Validators.required, Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$'), Validators.maxLength(12)]),
+        mobileNumber: new FormControl('', [Validators.required, Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$'), Validators.maxLength(10)]),
         role: new FormControl('', [Validators.required, Validators.required]),
         dept: new FormControl(_.get(this.route, 'snapshot.data.configService.unMappedUser.rootOrg.orgName') || '', [Validators.required]),
         deptId: new FormControl(_.get(this.route, 'snapshot.data.configService.unMappedUser.channel') || ''),
@@ -426,11 +426,29 @@ export class CreateUserComponent implements OnInit {
   }
 
   onPasteMobile(e: ClipboardEvent) {
+    this.createUserForm.patchValue({ mobileNumber: '' })
+    let trimmedData: any
     // tslint:disable-next-line: no-non-null-assertion
-    const event = e.clipboardData!.getData('text')
-    // allow paste only number values
-    if (!Number(event)) {
+    const pastedMob = e.clipboardData!.getData('text')
+    if (pastedMob) {
+      trimmedData = pastedMob.replace(/\s+/g, ' ').trim()
+      this.trimPhoneNumber(trimmedData)
+    }
+    if (!Number(trimmedData)) {
       e.preventDefault()
+    }
+  }
+
+  trimPhoneNumber(phone: any) {
+    let mobile = phone
+    if (phone.startsWith('+91 ')) {
+      mobile = phone.slice(4)
+      this.createUserForm.patchValue({ mobileNumber: mobile })
+    } else if (phone.startsWith('+91')) {
+      mobile = phone.slice(3)
+      this.createUserForm.patchValue({ mobileNumber: mobile })
+    } else {
+      this.createUserForm.patchValue({ mobileNumber: mobile })
     }
   }
 }
