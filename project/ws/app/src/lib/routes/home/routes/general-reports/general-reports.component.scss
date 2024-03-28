@@ -1,0 +1,33 @@
+@import 'ws-common';
+@import 'ws-vars';
+@import 'ws-mixins';
+
+::ng-deep .p1-btn {
+  box-shadow: none !important;
+  padding: 0 !important;
+  text-align: left !important;
+  span {
+    text-decoration: underline !important;
+    color: #0075B7 !important;
+  }
+}
+
+::ng-deep .cbp-reports .cdk-column-Actions {
+  flex: 0 0 10%!important;
+}
+
+::ng-deep .cbp-reports .cdk-column-reportName .textclass {
+  cursor: default!important;
+}
+
+::ng-deep .cbp-reports .cdk-column-reportType .textclass {
+  cursor: default!important;
+}
+
+::ng-deep .cbp-reports .cdk-column-lastUpdateOn .textclass {
+  cursor: default!important;
+}
+
+::ng-deep .mat-card-header-text {
+  margin: 0!important;
+}

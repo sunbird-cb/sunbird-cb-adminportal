@@ -1,0 +1,13 @@
+<div class="flex flex-4 flex-column cbp-reports">
+  <ng-container *ngIf="reportSectionData && reportSectionData.length">
+    <ws-widget-org-user-table [tableData]="tabledata" [data]='reportSectionData'
+      (actionsClick)="downloadFile($event)"></ws-widget-org-user-table>
+  </ng-container>
+  <ng-container *ngIf="reportSectionData.length === 0">
+    <div class="no-reports">No reports are avaible for the selected date.</div>
+  </ng-container>
+</div>
+
+<div *ngIf="displayLoader" class="mt-5 pr-4 flex items-center justify-center">
+  <mat-spinner [diameter]="30"></mat-spinner>
+</div>
