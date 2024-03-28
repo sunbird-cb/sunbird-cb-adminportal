@@ -73,6 +73,7 @@ import { PipeEmailPipe } from './pipes/pipe-email.pipe'
 import { EditEventComponent } from './routes/events/edit-event/edit-event.component'
 import { PipePublicURLModule } from './pipes/pipe-public-URL/pipe-public-URL.module'
 import { AcbpReportsComponent } from './routes/acbp-reports/acbp-reports.component'
+import { GeneralReportsComponent } from './routes/general-reports/general-reports.component'
 @NgModule({
   declarations: [
     HomeComponent,
@@ -94,6 +95,7 @@ import { AcbpReportsComponent } from './routes/acbp-reports/acbp-reports.compone
     ReportsComponent,
     CommsComponent,
     AcbpReportsComponent,
+    GeneralReportsComponent,
     EventsListComponent,
     EventListViewComponent,
     EventThumbnailComponent,

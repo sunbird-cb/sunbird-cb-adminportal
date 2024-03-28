@@ -75,6 +75,7 @@ export class ReportsComponent implements OnInit {
         this.getDepartDataByKey(this.currentFilter)
         this.createTableHeader()
       }
+      this.departmentHearders.push('survey')
     })
   }
   createTableHeader() {
@@ -107,7 +108,9 @@ export class ReportsComponent implements OnInit {
   }
 
   filter(value: string) {
-    this.searchInputvalue.searchInput.nativeElement.value = ''
+    if (value !== 'survey') {
+      this.searchInputvalue && this.searchInputvalue.searchInput ? this.searchInputvalue.searchInput.nativeElement.value = '' : ''
+    }
     let key = ''
     let index = 1
     if (value === 'cbc') {
@@ -122,6 +125,8 @@ export class ReportsComponent implements OnInit {
       key = 'state'
     } else if (value === 'ministry') {
       key = 'ministry'
+    } else if (value === 'survey') {
+      key = 'survey'
     }
     if (key === 'cbc') {
       index = 1
@@ -134,11 +139,18 @@ export class ReportsComponent implements OnInit {
       index,
       label: key,
     }
-    this.searchInputvalue.applyFilter('')
-    this.getAllDepartments('')
-    this.raiseTabTelemetry(key, data)
-    this.getDepartDataByKey(key)
+    if (value !== 'survey') {
+      this.searchInputvalue ? this.searchInputvalue.applyFilter('') : ''
+      this.getAllDepartments('')
+      this.getDepartDataByKey(key)
+      this.raiseTabTelemetry(key, data)
+    }
   }
+
+  renderSurvey() {
+    this.currentFilter = 'survey'
+  }
+
   getDepartDataByKey(key: string) {
     if (key) {
       this.currentFilter = key
@@ -234,6 +246,7 @@ export class ReportsComponent implements OnInit {
               filteredData2.push(obj)
             }
           })
+          break
       }
       this.data = filteredData2.map((dept: any) => {
         return {

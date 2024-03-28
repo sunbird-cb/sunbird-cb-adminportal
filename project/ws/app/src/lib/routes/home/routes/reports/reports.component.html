@@ -13,24 +13,35 @@
       <div class="flex flex-1 flex-column margin-fix">
         <div class="flex flex-1 filter max-height-60">
           <div *ngFor="let department of departmentHearders">
+            <a *ngIf="department==='STATE'" class="filter-option"
+              [ngClass]="{'ws-mat-accent-border-active' : currentFilter === 'state',
+                                                                              'ws-mat-accent-border font-medium':currentFilter !== 'state'}" mat-button
+              [routerLink]="'/app/home/reports/state'" (click)="filter(department.toLowerCase())" role="button">
+              STATE</a>
             <a *ngIf="department ==='MINISTRY'" class="filter-option"
               [ngClass]="{'ws-mat-accent-border-active' : currentFilter === 'ministry',
                                                           'ws-mat-accent-border font-medium':currentFilter !== 'ministry'}" mat-button
               [routerLink]="'/app/home/reports/ministry'" (click)="filter(department.toLowerCase())" role="button">
               MINISTRY</a>
-            <a *ngIf="department==='STATE'" class="filter-option"
-              [ngClass]="{'ws-mat-accent-border-active' : currentFilter === 'state',
-                                                                    'ws-mat-accent-border font-medium':currentFilter !== 'state'}" mat-button
-              [routerLink]="'/app/home/reports/state'" (click)="filter(department.toLowerCase())" role="button">
-              STATE</a>
+
+            <a *ngIf="department ==='survey'" class="filter-option"
+              [ngClass]="{'ws-mat-accent-border-active' : currentFilter === 'survey',
+                                                                        'ws-mat-accent-border font-medium':currentFilter !== 'survey'}" mat-button
+              [routerLink]="'/app/home/reports/survey'" (click)="renderSurvey()" role="button">
+              SURVEY</a>
+
           </div>
+
         </div>
       </div>
-      <ng-container>
+      <ng-container *ngIf="currentFilter !== 'survey'">
         <ws-widget-directory-table [selectedDepartment]='currentDepartment' [tableData]='tabledata' [data]='data'
           [needCreate]="false" (eOnRowClick)="onRoleClick($event)" (actionsClick)="actionClick($event)"
           (searchByEnterKey)="onEnterkySearch($event)">
         </ws-widget-directory-table>
+      </ng-container>
+      <ng-container *ngIf="currentFilter === 'survey'">
+        <ws-general-reports></ws-general-reports>
       </ng-container>
     </mat-card-content>
   </mat-card>
