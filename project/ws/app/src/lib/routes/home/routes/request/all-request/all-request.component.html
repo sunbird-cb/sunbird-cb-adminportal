@@ -55,9 +55,11 @@
                   <ng-container matColumnDef="interests">
                     <th mat-header-cell *matHeaderCellDef>Interests</th>
                     <td mat-cell class="title-class" *matCellDef="let element">
-                        <a class="action-btn-view"  (click)="showInterestPopup()"
-                        href="javascript:void(0)">{{element?.interestCount}}</a>
-                    </td>
+                      <a class="action-btn-view"  *ngIf="element?.interestCount!== 0" 
+                      href="javascript:void(0)">{{element?.interestCount}}</a>
+                      <a class="" *ngIf="element?.interestCount === 0" 
+                      href="javascript:void(0)">{{element?.requestType == 'Single' ? 'N/A' : element?.interestCount}}</a>
+                  </td>
                   </ng-container>
       
                   <ng-container matColumnDef="details">
@@ -90,7 +92,7 @@
                           <button mat-menu-item *ngIf="element.status!== statusKey.Assigned && element.interestCount >0 && element.status!== statusKey.Inprogress &&  element.status!== statusKey.invalid" (click)="onClickMenu(element,'assignContent')">
                             <span>Assign</span>
                           </button>
-                          <button *ngIf="element.status === statusKey.Assigned && element.status!== statusKey.Inprogress &&  element.status!== statusKey.invalid" mat-menu-item (click)="onClickMenu(element,'reAssignContent')">
+                          <button *ngIf="element?.status === statusKey.Assigned && element?.status!== statusKey.Inprogress &&  element?.status!== statusKey.invalid " mat-menu-item (click)="onClickMenu(element,'reAssignContent')">
                             <span> Re-Assign</span>
                           </button>
                           <button mat-menu-item (click)="onClickMenu(element,'copyContent')">

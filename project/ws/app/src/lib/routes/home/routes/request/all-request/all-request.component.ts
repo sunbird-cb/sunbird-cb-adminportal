@@ -146,7 +146,17 @@ export class AllRequestComponent implements OnInit {
       break
     case 'reAssignContent':
       // this.showConformationModal(_event.row, _event.action)
-      this.openAssignlistPopup(item)
+      // this.openAssignlistPopup(item)
+      if(item.requestType === 'Broadcast'){
+        this.openAssignlistPopup(item)
+      }
+      else {
+        this.queryParams = {
+          id: item.demand_id,
+          name: 'reassign',
+        }
+          this.router.navigate(['/app/home/request-details'], { queryParams: this.queryParams })
+      }
       break
     case 'copyContent':
         this.queryParams = {
