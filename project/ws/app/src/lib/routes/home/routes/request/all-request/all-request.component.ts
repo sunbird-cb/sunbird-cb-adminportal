@@ -8,7 +8,7 @@ import { ConfirmationPopupComponent } from '../confirmation-popup/confirmation-p
 export enum statusValue {
   Assigned= 'Assigned',
   Unassigned = 'Unassigned',
-  Inprogress = 'Inprogress',
+  Inprogress = 'InProgress',
   invalid = 'invalid',
 }
 @Component({
