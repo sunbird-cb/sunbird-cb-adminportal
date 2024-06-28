@@ -112,6 +112,10 @@ table tr .cdk-column-details {
   width: 40%;
   padding: 0 10% 0 0px !important
 }
+.row-bg {
+  background-color: rgba(0, 0, 0, 0.16) !important;
+  pointer-events: none !important;
+}
   
   .action-btn-view {
     color: #1B4CA1;

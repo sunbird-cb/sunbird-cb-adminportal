@@ -221,7 +221,13 @@
                     </div>
                 </div>
                 <div class="title-name" *ngIf="isBroadCast">
-                    <div class="fonm-element-label label-text">Preffered Providers <span class="required"></span></div>
+                    <div class="fonm-element-label label-text">Preffered Providers <span class="required"></span>
+                      <span class="tooltip-span">
+                        <mat-icon class="info-icon cursor-pointer" [matTooltip]="'You can select upto 5 preferred provider'" 
+                        matTooltipClass="tooltip-sec">info</mat-icon>
+
+                      </span>
+                    </div>
                     <div class="">
                         <mat-form-field appearance="outline" class="w-full  placeholder-text field-height" fxFlex="40">
                             <mat-select placeholder="Choose the provider" (openedChange)="openedChange($event,'providerText')" formControlName="providers"  multiple>
@@ -253,7 +259,7 @@
                 </div>
 
                 <div class="flex flex-start margin-top-l" *ngIf="!isHideData">
-                    <button mat-button class="submit-btn margin-right-xs" type="button" (click)="showConformationPopUp()" [disabled]="!requestForm.valid">Submit</button>
+                    <button mat-button class="submit-btn margin-right-xs" type="button" (click)="submit()" [disabled]="!requestForm.valid">Submit</button>
                     <button mat-button class="close-btn " (click)="navigateBack()" type="button" >Cancel</button>
                    
                   </div>

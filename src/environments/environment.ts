@@ -35,7 +35,6 @@ interface IEnvironment {
   additionalProperties?: string[]
   connectionType?: string,
   KCMframeworkName?: string
-  APIKEY?: string
 }
 
 /*

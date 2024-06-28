@@ -47,9 +47,20 @@ export class AssignListPopupComponent implements OnInit {
       const assignOrgData = this.providerList.find(option =>
         this.data.assignedProvider === option.orgName
       )
-      if (assignOrgData) {
-        this.requestForm.controls['assignee'].setValue(assignOrgData)
+      let position = this.providerList.indexOf(assignOrgData)
+
+      //check if the element exists in the array
+      if(position > -1){
+        // Remove the element from its position
+        let selectedData= this.providerList.splice(position, 1)[0]
+
+        // Add the removed element to the beginning of the array
+        this.providerList.unshift(selectedData)
       }
+      // if (assignOrgData) {
+      //   this.requestForm.controls['assignee'].setValue(assignOrgData)
+      // }
+
     }
    }
 

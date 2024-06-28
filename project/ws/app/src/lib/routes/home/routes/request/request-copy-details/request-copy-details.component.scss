@@ -21,6 +21,15 @@
                 font-weight: 700;
                 font-size: 14px;
                 line-height: 21px;
+                .tooltip-span {
+                  position: relative;
+                  padding-left: 7px;
+                  .info-icon {
+                    position: absolute;
+                    font-size: 19px;
+                    top: -1px;
+                  }
+                }
             }
                         .learning-section {
                             padding: 16px;
@@ -163,4 +172,10 @@
         padding: 0 4px;
       }
     }
+  }
+  ::ng-deep .tooltip-sec {
+    background-color: 000000 !important;
+    font-size: 12px !important;
+    font-family: 500 !important;
+    color: white !important;
   }

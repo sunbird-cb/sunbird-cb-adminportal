@@ -1,6 +1,6 @@
 {
   "/apis/*": {
-    "target": "https://igot-dev.in",
+    "target": "https://spv.karmayogi.nic.in/",
     "secure": false,
     "logLevel": "debug",
     "changeOrigin": true,
@@ -8,7 +8,19 @@
       "/apis": "/apis"
     },
     "headers": {
-      "Cookie": "connect.sid=s%3AGszYQF9-gmVxFumX3rlKzIj3VfmGGjzA.X0w1LPaBQqprKv3kqPK2aWnfM8dRCkDNnwlPGEtoD8Q"
+      "Cookie": "connect.sid=s%3AJ2iZb9ljpIi6kjdQatd4somc0wrmY0pi.DWVSZw86hJUUYv3ZF0LG5NIQyQIHhlsUtGT66chRBoM"
+    }
+  },
+  "/api/*": {
+    "target": "https://spv.karmayogi.nic.in/",
+    "secure": false,
+    "logLevel": "debug",
+    "changeOrigin": true,
+    "pathRewrite": {
+      "/api": "/api"
+    },
+    "headers": {
+      "Cookie": "connect.sid=s%3AJ2iZb9ljpIi6kjdQatd4somc0wrmY0pi.DWVSZw86hJUUYv3ZF0LG5NIQyQIHhlsUtGT66chRBoM"
     }
   },
   "/content-api/*": {

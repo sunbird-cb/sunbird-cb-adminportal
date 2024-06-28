@@ -19,8 +19,7 @@ export class KCMMappingComponent implements OnInit {
   ngOnInit() {
     this.environmentVal = environment
     this.environmentVal.frameworkName = environment.KCMframeworkName
-    this.environmentVal.url = `https://${environment.sitePath}`
-    // this.environmentVal.channelId = '0132245461338112000'
+    // this.environmentVal.url = `https://localhost:3000`
     this.activateRoute.data.subscribe(data => {
       this.kcmConfig = data.pageData.data
       this.taxonomyConfig = this.kcmConfig.frameworkConfig
