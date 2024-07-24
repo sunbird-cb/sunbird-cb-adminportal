@@ -61,7 +61,7 @@
               *ngIf="verifiedUsersDataCount === 1">User</span> <span *ngIf="verifiedUsersDataCount > 1">Users</span>
             ({{verifiedUsersDataCount}})</a>
           <a class="filter-option cursor-pointer"
-            [ngClass]="{'ws-mat-accent-border-active' : currentFilter === 'mentor','ws-mat-accent-border font-medium':currentFilter !== 'verified'}"
+            [ngClass]="{'ws-mat-accent-border-active' : currentFilter === 'mentor','ws-mat-accent-border font-medium':currentFilter !== 'mentor'}"
             mat-button (click)="filter('mentor'); tabTelemetry('mentor', 0)" role="button">Assigned <span
               *ngIf="mentorUsersDataCount === 1">Mentor</span> <span *ngIf="mentorUsersDataCount > 1">Mentors</span>
             ({{mentorUsersDataCount}})</a>

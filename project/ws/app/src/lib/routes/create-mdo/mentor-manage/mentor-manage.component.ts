@@ -45,10 +45,8 @@ export class MentorManageComponent implements OnInit, OnDestroy {
   nonverifiedUsersData!: any[]
   notmyuserUsersData!: any[]
 
-  mentorUsersDataCount?: number | 0
-  verifiedUsersDataCount?: number | 0
-  nonverifiedUsersDataCount?: number | 0
-  notmyuserUsersDataCount?: number | 0
+  mentorUsersDataCount?: any | 0
+  verifiedUsersDataCount?: any | 0
   content: NsContent.IContent = {} as NsContent.IContent
   isMdoAdmin = false
 
