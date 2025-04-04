@@ -1,0 +1,363 @@
+.onboard-provider {
+  padding: 20px;
+
+  .card-titel {
+    /* stylelint-enable */
+    font: 600 20px Montserrat;
+    /* stylelint-disable */
+    margin-bottom: 24px;
+  }
+
+  .lable {
+    /* stylelint-enable */
+    font: 700 14px Lato;
+    /* stylelint-disable */
+    color: #212529;
+  }
+
+  .img-note {
+    /* stylelint-enable */
+    font: 400 14px Lato;
+    /* stylelint-disable */
+    color: #000000DE;
+  }
+
+  .img-card {
+    width: 180px;
+    height: 175px;
+    background-color: #1B4CA11A;
+    border: 1px dotted #1B4CA1;
+    border-radius: 8px;
+    position: relative;
+  }
+
+  .thumbnailImg {
+    width: 180px;
+    height: 175px;
+    top: 0px;
+    left: 0px;
+    position: absolute;
+  }
+
+  .img-icon {
+    width: 28px;
+    height: 27.8px;
+    position: absolute;
+    top: -10px;
+    right: -14px;
+    border-radius: 50%;
+    font-size: 12px;
+    color: #FFFFFF;
+    background-color: #1B4CA1;
+    margin-top: 5px;
+    cursor: pointer;
+    z-index: 1;
+  }
+
+  .logoErrorMsg {
+    font-size: 13px;
+  }
+
+  .info-icon {
+    width: 13.33px;
+    height: 13.33px;
+    font-size: 13.33px;
+    color: #00000099;
+  }
+
+  .provider-input-form {
+    height: 50px;
+
+    .partnerCode {
+      text-transform: uppercase
+    }
+
+    .partnerCode::placeholder {
+      text-transform: none;
+    }
+  }
+
+  .input-note{
+    color: #00000099;
+    /* stylelint-enable */
+    font: 400 14px Lato;
+    /* stylelint-disable */
+  }
+
+  .fileUploadCard {
+    border: 1px dotted #00000029;
+    min-height: 240px;
+    border-radius: 5px;
+    width: 177px;
+
+    .pdfImg {
+      height: 40px;
+      width: 40px;
+    }
+
+    .browseFileText {
+      /* stylelint-enable */
+      font: 700 14px Lato;
+      /* stylelint-disable */
+      color: #1B4CA1;
+      cursor: pointer;
+    }
+
+    .fileUploadDescription {
+      /* stylelint-enable */
+      font: 400 14px Lato;
+      /* stylelint-disable */
+      color: #00000099;
+    }
+
+    .fileSizeText {
+      /* stylelint-enable */
+      font: 400 12px Lato;
+      /* stylelint-disable */
+      color: #000000DE;
+    }
+
+    .fileTypeText {
+      /* stylelint-enable */
+      font: 400 12px Lato;
+      /* stylelint-disable */
+      color: #00000099;
+    }
+
+    .fileType {
+      font-weight: 700;
+    }
+  }
+
+  .fileUploadedCard {
+    border: 1px dotted #00000029;
+    min-height: 240px;
+    border-radius: 5px;
+    width: 380px;
+    position: relative;
+
+    .removePdf {
+      position: absolute;
+      right: -5px;
+      top: -5px;
+      font-size: 16px;
+      font-weight: 500;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      color: #0000008c;
+      text-align: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #ffffff;
+      box-shadow: 0 2px 9px 0 rgba(0, 0, 0, 0.2), 0 0px 6px 0 rgba(0, 0, 0, 0.19);
+      cursor: pointer;
+    }
+  }
+
+  .VisibleToLearner {
+    /* stylelint-enable */
+    font: 400 12px Lato;
+    /* stylelint-disable */
+    color: #212529;
+    margin: 0px 2px;
+  }
+
+  .addTipsIcon {
+    color: #1B4CA1;
+    font-size: 20px;
+    height: 20px;
+    width: 20px;
+  }
+
+  .addTipsText {
+    /* stylelint-enable */
+    font: 500 14px Lato;
+    /* stylelint-disable */
+    color: #1B4CA1;
+  }
+
+  .tipsCard {
+    width: 900px;
+    height: 46px;
+
+    .tipText {
+      /* stylelint-enable */
+      font: 400 14px Lato;
+      /* stylelint-disable */
+      color: #000000;
+    }
+  }
+
+  .removeTipBox {
+    min-width: 56px;
+    height: 48px;
+    border-radius: 0px 4px 4px 0px;
+    background-color: #D13924;
+    margin-left: -3px;
+
+    .removeIcon {
+      font-size: 24px;
+      width: 24px;
+      height: 24px;
+      color: #FFFFFF;
+    }
+  }
+}
+
+.cancelBtn {
+  height: 40px;
+  width: 75px;
+  border: 1px solid #00000014;
+  border-radius: 8px;
+
+  color: #000000DE;
+  /* stylelint-enable */
+  font: 700 14px Lato
+  /* stylelint-disable */
+}
+
+.saveBtn {
+  background-color: #1B4CA1 !important;
+  width: 75px;
+  height: 40px;
+  border-radius: 8px;
+
+  /* stylelint-enable */
+  font: 700 14px Lato;
+  /* stylelint-disable */
+  color: #FFFFFF !important;
+}
+
+.addTips {
+  color: #1B4CA1 !important;
+  cursor: pointer;
+}
+
+
+:host ::ng-deep .provider-input-form{
+   .mat-form-field-flex {
+    height: 50px;
+    align-items: center;
+  }
+
+  .mat-form-field-hint-spacer {
+    flex: none;
+  }
+
+  .mat-form-field-subscript-wrapper {
+    padding: 0px !important;
+  }
+}
+
+:host ::ng-deep .description {
+  .mat-form-field-wrapper {
+    padding-bottom: 0px;
+    margin-bottom: 0px;
+  }
+
+  .mat-form-field-hint-spacer {
+    flex: none;
+  }
+
+  .mat-form-field-subscript-wrapper {
+    padding: 0px !important;
+    margin-top: 30px !important;
+  }
+}
+
+:host ::ng-deep .tipsCard {
+  .mat-form-field-appearance-outline .mat-form-field-wrapper {
+    margin: 0px !important;
+  }
+
+  .mat-form-field-wrapper {
+    padding-bottom: 0px;
+  }
+
+  .mat-form-field-flex {
+    height: 48px;
+    align-items: center;
+    margin-top: 2px;
+  }
+
+  .mat-form-field-appearance-outline .mat-form-field-outline {
+    top: 0px !important;
+  }
+
+  .mat-form-field-appearance-outline .mat-form-field-infix {
+    border-top: 0px;
+  }
+}
+
+.inputfile {
+  display: none;
+}
+
+.samplePdf {
+  width: 186px;
+  height: 247px;
+}
+
+.pdfDetails {
+  height: 93px;
+  width: 50%;
+
+  .pdfName {
+    /* stylelint-enable */
+    font: 400 16px Lato;
+    /* stylelint-disable */
+    color: #000000DE;
+    width: 95%;
+    display: -webkit-box;
+    overflow-wrap: break-word;
+    white-space: pre-wrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+
+  .fileUplaodedDate {
+    /* stylelint-enable */
+    font: 400 12px Lato;
+    /* stylelint-disable */
+    color: #000000DE;
+  }
+
+  .documentAttached {
+    color: #00000099;
+    /* stylelint-enable */
+    font: 700 12px Lato;
+    /* stylelint-disable */
+
+    .greenTick {
+      width: 20px;
+      height: 20px;
+      font-size: 20px;
+      margin-right: 5px;
+      color: #1D8923;
+    }
+  }
+}
+
+.providerLoader {
+  height: 100vh;
+    position: fixed;
+    top: 0px;
+    width: 100vw;
+    left: 0px;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 99999999999999999999999999999999999999;
+
+  .providerSpinner {
+    position: unset !important;
+    margin: 0px !important;
+  }
+}
+
+.disableControl {
+  opacity: 0.6;
+  pointer-events: none;
+}

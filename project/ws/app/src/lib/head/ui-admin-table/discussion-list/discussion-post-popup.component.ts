@@ -6,10 +6,10 @@ import {
 
 import * as _ from 'lodash'
 
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog'
+import { MatLegacyDialogRef as MatDialogRef, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/legacy-dialog'
 import { COMMA, ENTER } from '@angular/cdk/keycodes'
-import { MatChipInputEvent } from '@angular/material/chips'
-import { FormBuilder, FormGroup } from '@angular/forms'
+import { MatLegacyChipInputEvent as MatChipInputEvent } from '@angular/material/legacy-chips'
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms'
 
 export interface IDialogData {
   profaneCategories: string[]
@@ -25,11 +25,11 @@ export interface IDialogData {
 })
 
 export class DialogTextProfanityComponent implements OnInit {
-  profaneGroup: FormGroup
+  profaneGroup: UntypedFormGroup
 
-  constructor(fb: FormBuilder,
-              public dialogRef: MatDialogRef<DialogTextProfanityComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: IDialogData,
+  constructor(fb: UntypedFormBuilder,
+    public dialogRef: MatDialogRef<DialogTextProfanityComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: IDialogData,
   ) {
 
     const temp: any = {}
@@ -57,7 +57,7 @@ export class DialogTextProfanityComponent implements OnInit {
 
   ngOnInit() {
 
-    if (this.data.profaneString !== null && this.data.profaneString !== '' && this.data.profaneString !== []) {
+    if (this.data.profaneString !== null && this.data.profaneString !== '') {
       this.TAGS.push(...this.data.profaneString)
     }
 

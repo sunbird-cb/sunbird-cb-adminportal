@@ -1,5 +1,5 @@
 <div class="flex flex-between flex-middle">
-  <h2 class="mat-h2 margin-remove padding-left-m" i18n>Filters</h2>
+  <h2 class="mat-h2 margin-remove padding-left-m">Filters</h2>
   <span class="spacer"></span>
   <button [hidden]="!filtersResetAble" (click)="removeFilters()" type="button" mat-icon-button>
     <mat-icon>restore</mat-icon>
@@ -9,8 +9,10 @@
   </button>
 </div>
 <mat-accordion multi="true" *ngIf="filtersResponse">
-  <mat-expansion-panel [expanded]="filter.checked" *ngFor="let filter of filtersResponse; trackBy: filterUnitResponseTrackBy">
-    <mat-expansion-panel-header>{{ translatedFilters[filter.displayName.toLowerCase()]?.translatedField || filter.displayName }}
+  <mat-expansion-panel [expanded]="filter.checked"
+    *ngFor="let filter of filtersResponse; trackBy: filterUnitResponseTrackBy">
+    <mat-expansion-panel-header>{{ translatedFilters[filter.displayName.toLowerCase()]?.translatedField ||
+      filter.displayName }}
     </mat-expansion-panel-header>
     <ng-container *ngTemplateOutlet="
         filtersHolder;
@@ -21,7 +23,7 @@
   </mat-expansion-panel>
 </mat-accordion>
 <ng-container *ngIf="advancedFilters?.length">
-  <h2 class="mat-h2 margin-remove padding-left-m" i18n="search advanced filters">Advanced Filters</h2>
+  <h2 class="mat-h2 margin-remove padding-left-m">Advanced Filters</h2>
   <div *ngFor="let filter of advancedFilters">
     <button mat-raised-button (click)="advancedFilterClick(filter)">
       {{ filter.title }}
@@ -33,11 +35,13 @@
   <ul class="">
     <li *ngFor="let unitFilter of unitFiltersCollection.filters; trackBy: filterUnitTrackBy">
       <div class="flex flex-middle">
-        <button (click)="unitFilter.isExpanded = !unitFilter.isExpanded" mat-icon-button type="button" *ngIf="unitFilter?.children?.length">
+        <button (click)="unitFilter.isExpanded = !unitFilter.isExpanded" mat-icon-button type="button"
+          *ngIf="unitFilter?.children?.length">
           <mat-icon *ngIf="!unitFilter.isExpanded">chevron_right</mat-icon>
           <mat-icon *ngIf="unitFilter.isExpanded">expand_less</mat-icon>
         </button>
-        <button mat-icon-button type="button" *ngIf="!unitFilter?.children?.length && unitFiltersCollection.filterType==='catalogPaths'">
+        <button mat-icon-button type="button"
+          *ngIf="!unitFilter?.children?.length && unitFiltersCollection.filterType==='catalogPaths'">
           <mat-icon>remove</mat-icon>
 
         </button>
@@ -70,14 +74,18 @@
 </ng-template>
 
 <ng-template #unitFilterHolder let-unitFilterObject>
-  <mat-checkbox (change)="applyFilters(unitFilterObject)" [checked]="unitFilterObject.unitFilter.checked && unitFilterObject.filterType.length"
+  <mat-checkbox (change)="applyFilters(unitFilterObject)"
+    [checked]="unitFilterObject.unitFilter.checked && unitFilterObject.filterType.length"
     class="width-expand fit-checkbox-to-width">
     <span class="flex">
-      <span class="width-expand text-truncate">{{ translatedFilters[unitFilterObject.parentFilter?.toLowerCase()]?.value[unitFilterObject.unitFilter.displayName.toLowerCase()] || unitFilterObject.unitFilter.displayName
+      <span class="width-expand text-truncate">{{
+        translatedFilters[unitFilterObject.parentFilter?.toLowerCase()]?.value[unitFilterObject.unitFilter.displayName.toLowerCase()]
+        || unitFilterObject.unitFilter.displayName
         }}
       </span>
     </span>
   </mat-checkbox>
-  <span class="width-auto padding-left-s" *ngIf="unitFilterObject.unitFilter.count">{{ unitFilterObject.unitFilter.count }}
+  <span class="width-auto padding-left-s" *ngIf="unitFilterObject.unitFilter.count">{{ unitFilterObject.unitFilter.count
+    }}
   </span>
 </ng-template>

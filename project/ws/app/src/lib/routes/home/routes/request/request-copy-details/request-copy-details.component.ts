@@ -1,13 +1,18 @@
 import { Component, OnInit } from '@angular/core'
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms'
 import { RequestServiceService } from '../request-service.service'
 import { ActivatedRoute, Router } from '@angular/router'
-import { MatDialog, MatSnackBar } from '@angular/material'
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog'
+import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar'
 import { CompetencyViewComponent } from '../competency-view/competency-view.component'
 import { ConfirmationPopupComponent } from '../confirmation-popup/confirmation-popup.component'
 /* tslint:disable */
 import _ from 'lodash'
 import { debounceTime, distinctUntilChanged, startWith } from 'rxjs/operators'
+import { preventHtmlAndJs } from '../../../validators/prevent-html-and-js.validator'
+import { ICompentencyKeys } from '../interface/interface'
+import { environment } from '../../../../../../../../../../src/environments/environment'
+import { InitService } from '../../../../../../../../../../src/app/services/init.service'
 /* tslint:enable */
 
 @Component({
@@ -17,10 +22,10 @@ import { debounceTime, distinctUntilChanged, startWith } from 'rxjs/operators'
 })
 export class RequestCopyDetailsComponent implements OnInit {
 
-  requestForm!: FormGroup
+  requestForm!: UntypedFormGroup
   specialCharList = `( a-z/A-Z , 0-9 . _ - $ / \ : [ ]' ' !)`
   // tslint:disable-next-line:max-line-length
-  noSpecialChar = new RegExp(/^[\u0900-\u097F\u0980-\u09FF\u0C00-\u0C7F\u0B80-\u0BFF\u0C80-\u0CFF\u0D00-\u0D7F\u0A80-\u0AFF\u0B00-\u0B7F\u0A00-\u0A7Fa-zA-Z0-9()$[\]\\.:,_/ -]*$/)
+  noSpecialChar = new RegExp(/^[\u0900-\u097F\u0980-\u09FF\u0C00-\u0C7F\u0B80-\u0BFF\u0C80-\u0CFF\u0D00-\u0D7F\u0A80-\u0AFF\u0B00-\u0B7F\u0A00-\u0A7Fa-zA-Z0-9()$[\]\\.:,_/ -]*$/) // NOSONAR
   // learningList = ['Self-paced', 'Instructor-led']
   learningList = [
     {
@@ -64,50 +69,43 @@ export class RequestCopyDetailsComponent implements OnInit {
   filteredAssigneeType: any[] = []
   isCompetencyHide = false
 
-  competencyCtrl!: FormControl
-  competencyArea!: FormControl
-  competencyTheme!: FormControl
-  competencySubtheme!: FormControl
+  competencyCtrl!: UntypedFormControl
+  competencyArea!: UntypedFormControl
+  competencyTheme!: UntypedFormControl
+  competencySubtheme!: UntypedFormControl
+  data: any
+  compentencyKey!: ICompentencyKeys
 
-  constructor(private formBuilder: FormBuilder,
+  constructor(private formBuilder: UntypedFormBuilder,
     private requestService: RequestServiceService,
     private activatedRouter: ActivatedRoute,
     private snackBar: MatSnackBar,
     private router: Router,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private initService: InitService,
+
   ) {
 
     this.currentUser = sessionStorage.getItem('idDetails') ? sessionStorage.getItem('idDetails') : ''
-
-    this.requestForm = this.formBuilder.group({
-      titleName: new FormControl('', [Validators.required, Validators.pattern(this.noSpecialChar), Validators.minLength(10)]),
-      Objective: new FormControl('', [Validators.required, Validators.pattern(this.noSpecialChar)]),
-      userType: new FormControl('', [Validators.pattern(this.noSpecialChar)]),
-      learningMode: new FormControl(''),
-      compArea: new FormControl(''),
-      referenceLink: new FormControl(''),
-      requestType: new FormControl('', Validators.required),
-      assignee: new FormControl(''),
-      providers: new FormControl([[]]),
-      providerText: new FormControl(''),
-      queryThemeControl: new FormControl(''),
-      querySubThemeControl: new FormControl(''),
-      competencies_v5: [],
-      assigneeText: new FormControl(''),
-    })
-
   }
 
   ngOnInit() {
+    this.compentencyKey = this.initService.configSvc.competency[environment.compentencyVersionKey]
+
     this.getRequestTypeList()
+    this.initFormFroup()
     // this.fullProfile = _.get(this.activatedRouter.snapshot, 'data.configSvc')
     // this.userId = this.fullProfile.userProfile.userId
 
-    this.competencyArea = new FormControl('')
-    this.competencyTheme = new FormControl('')
-    this.competencySubtheme = new FormControl('')
+    this.competencyArea = new UntypedFormControl('')
+    this.competencyTheme = new UntypedFormControl('')
+    this.competencySubtheme = new UntypedFormControl('')
 
-    this.getFilterEntity()
+    if (this.compentencyKey.vKey === 'competencies_v5') {
+      this.getFilterEntity()
+    } else {
+      this.getFilterEntityV2()
+    }
 
     this.activatedRouter.queryParams.subscribe((params: any) => {
       if (params['id']) {
@@ -116,6 +114,25 @@ export class RequestCopyDetailsComponent implements OnInit {
       }
     })
     this.valuechangeFuctions()
+  }
+
+  initFormFroup() {
+    this.requestForm = this.formBuilder.group({
+      titleName: new UntypedFormControl('', [Validators.required, preventHtmlAndJs(), Validators.pattern(this.noSpecialChar), Validators.minLength(10)]),
+      Objective: new UntypedFormControl('', [Validators.required, preventHtmlAndJs(), Validators.pattern(this.noSpecialChar)]),
+      userType: new UntypedFormControl('', [preventHtmlAndJs(), Validators.pattern(this.noSpecialChar)]),
+      learningMode: new UntypedFormControl(''),
+      compArea: new UntypedFormControl(''),
+      referenceLink: new UntypedFormControl('', preventHtmlAndJs()),
+      requestType: new UntypedFormControl('', Validators.required),
+      assignee: new UntypedFormControl(''),
+      providers: new UntypedFormControl([[]]),
+      providerText: new UntypedFormControl(''),
+      queryThemeControl: new UntypedFormControl(''),
+      querySubThemeControl: new UntypedFormControl(''),
+      [this.compentencyKey.vKey]: [],
+      assigneeText: new UntypedFormControl(''),
+    })
   }
 
   getRequestDataById() {
@@ -134,7 +151,7 @@ export class RequestCopyDetailsComponent implements OnInit {
       Objective: this.requestObjData.objective,
       userType: this.requestObjData.typeOfUser ? this.requestObjData.typeOfUser : '',
       learningMode: this.requestObjData.learningMode ? this.requestObjData.learningMode : '',
-      competencies_v5: [],
+      [this.compentencyKey.vKey]: [],
       referenceLink: this.requestObjData.referenceLink ? this.requestObjData.referenceLink : '',
       providers: [],
       assignee: {},
@@ -145,17 +162,17 @@ export class RequestCopyDetailsComponent implements OnInit {
       querySubThemeControl: '',
       assigneeText: '',
     })
-    const value = this.requestForm.controls.competencies_v5.value || []
+    const value = this.requestForm.controls[this.compentencyKey.vKey].value || []
     this.requestObjData.competencies.map((comp: any) => {
       const obj = {
-        competencyArea: comp.area,
-        competencyTheme: comp.sub_theme,
-        competencySubTheme: comp.theme,
+        competencyArea: comp.area || comp.select_area,
+        competencyTheme: comp.theme || comp.select_theme,
+        competencySubTheme: comp.sub_theme || comp.select_sub_theme,
       }
       value.push(obj)
     })
 
-    this.requestForm.controls.competencies_v5.setValue(value)
+    this.requestForm.controls[this.compentencyKey.vKey].setValue(value)
 
     this.selectRequestType(this.requestObjData.requestType)
     if (this.filteredRequestType) {
@@ -268,6 +285,35 @@ export class RequestCopyDetailsComponent implements OnInit {
       if (res) {
         this.competencyList = res
         this.allCompetencies = res
+        this.filteredallCompetencies = this.allCompetencies
+      }
+
+    })
+  }
+
+  getFilterEntityV2() {
+    this.requestService.getFilterEntityV2().subscribe((res: any) => {
+      if (res && res[0] && res[1]) {
+        // this.competencyList = res
+        const competencyArea = res[0]
+        const competencyThemes = res[1].terms.filter((term: any) => term.hasOwnProperty('associations'))
+
+        const structuredResult = competencyArea.terms.map((areaTerm: any) => {
+          const areaAssociations = areaTerm.associations || []
+
+          const themes = areaAssociations.map((association: any) => {
+            const theme = competencyThemes.find((themeTerm: any) => themeTerm.identifier === association.identifier)
+
+            return theme ? { ...theme } : null
+          }).filter((theme: any) => theme)
+          return {
+            ...areaTerm,
+            themes,
+          }
+        })
+
+        // this.allCompetencies = res
+        this.allCompetencies = structuredResult
         this.filteredallCompetencies = this.allCompetencies
       }
 
@@ -389,7 +435,7 @@ export class RequestCopyDetailsComponent implements OnInit {
     this.allCompetencies.forEach((val: any) => {
       if (option.name === val.name) {
         this.seletedCompetencyArea = val
-        this.allCompetencyTheme = val.children
+        this.allCompetencyTheme = val.themes || val.children
         this.filteredallCompetencyTheme = this.allCompetencyTheme
 
       }
@@ -399,9 +445,9 @@ export class RequestCopyDetailsComponent implements OnInit {
   compThemeSelected(option: any) {
     this.enableCompetencyAdd = false
     this.allCompetencyTheme.forEach((val: any) => {
-      if (option.name === val.name) {
+      if ((option.identifier && option.identifier === val.identifier) || (option.name && option.name === val.name)) {
         this.seletedCompetencyTheme = val
-        this.allCompetencySubtheme = val.children
+        this.allCompetencySubtheme = val.associations || val.children
         this.filteredallCompetencySubtheme = this.allCompetencySubtheme
       }
     })
@@ -410,7 +456,7 @@ export class RequestCopyDetailsComponent implements OnInit {
   compSubThemeSelected(option: any) {
     this.enableCompetencyAdd = true
     this.allCompetencySubtheme.forEach((val: any) => {
-      if (option.name === val.name) {
+      if ((option.identifier && option.identifier === val.identifier) || (option.name && option.name === val.name)) {
         this.seletedCompetencySubTheme = val
       }
     })
@@ -440,41 +486,47 @@ export class RequestCopyDetailsComponent implements OnInit {
   }
 
   refreshData() {
-    const searchObj = {
-      search: {
-        type: 'Competency Area',
-      },
-      filter: {
-        isDetail: true,
-      },
-    }
-    this.requestService.getFilterEntity(searchObj).subscribe((response: any) => {
-      if (response) {
-        this.allCompetencies = response
-        this.filteredallCompetencies = this.allCompetencies
-      }
-    })
+
+    this.getFilterEntityV2()
   }
 
   addCompetency() {
     if (this.seletedCompetencyArea && this.seletedCompetencyTheme && this.seletedCompetencySubTheme) {
-      const obj = {
-        competencyArea: this.seletedCompetencyArea.name,
-        competencyAreaId: this.seletedCompetencyArea.id,
-        competencyAreaDescription: this.seletedCompetencyArea.description,
-        competencyTheme: this.seletedCompetencyTheme.name,
-        competencyThemeId: this.seletedCompetencyTheme.id,
-        competecnyThemeDescription: this.seletedCompetencyTheme.description,
-        competencyThemeType: this.seletedCompetencyTheme.additionalProperties.themeType,
-        competencySubTheme: this.seletedCompetencySubTheme.name,
-        competencySubThemeId: this.seletedCompetencySubTheme.id,
-        competecnySubThemeDescription: this.seletedCompetencySubTheme.description,
+      let obj: any
+      if (this.compentencyKey.vKey === 'competencies_v5') {
+        obj = {
+          competencyArea: this.seletedCompetencyArea.name,
+          competencyAreaId: this.seletedCompetencyArea.id,
+          competencyAreaDescription: this.seletedCompetencyArea.description,
+          competencyTheme: this.seletedCompetencyTheme.name,
+          competencyThemeId: this.seletedCompetencyTheme.id,
+          competecnyThemeDescription: this.seletedCompetencyTheme.description,
+          competencyThemeType: this.seletedCompetencyTheme.additionalProperties.themeType,
+          competencySubTheme: this.seletedCompetencySubTheme.name,
+          competencySubThemeId: this.seletedCompetencySubTheme.id,
+          competecnySubThemeDescription: this.seletedCompetencySubTheme.description,
+        }
+
+      } else {
+
+        obj = {
+          competencyArea: this.seletedCompetencyArea.name,
+          competencyAreaId: this.seletedCompetencyArea.identifier,
+          competencyAreaDescription: this.seletedCompetencyArea.description,
+          competencyTheme: this.seletedCompetencyTheme.additionalProperties.displayName,
+          competencyThemeId: this.seletedCompetencyTheme.identifier,
+          competecnyThemeDescription: this.seletedCompetencyTheme.description,
+          competencyThemeType: this.seletedCompetencyTheme.refType,
+          competencySubTheme: this.seletedCompetencySubTheme.additionalProperties.displayName,
+          competencySubThemeId: this.seletedCompetencySubTheme.identifier,
+          competecnySubThemeDescription: this.seletedCompetencySubTheme.description,
+        }
       }
 
-      const value = this.requestForm.controls.competencies_v5.value || []
+      const value = this.requestForm.controls[this.compentencyKey.vKey].value || []
       if (this.canPush(value, obj)) {
         value.push(obj)
-        this.requestForm.controls.competencies_v5.setValue(value)
+        this.requestForm.controls[this.compentencyKey.vKey].setValue(value)
         this.resetCompfields()
         this.refreshData()
       } else {
@@ -487,16 +539,16 @@ export class RequestCopyDetailsComponent implements OnInit {
 
   removeCompetency(id: any): void {
     if (id && !id.competencyArea) {
-      const index = _.findIndex(this.requestForm.controls.competencies_v5.value, { id })
-      this.requestForm.controls.competencies_v5.value.splice(index, 1)
-      this.requestForm.controls.competencies_v5.setValue(this.requestForm.controls.competencies_v5.value)
+      const index = _.findIndex(this.requestForm.controls[this.compentencyKey.vKey].value, { id })
+      this.requestForm.controls[this.compentencyKey.vKey].value.splice(index, 1)
+      this.requestForm.controls[this.compentencyKey.vKey].setValue(this.requestForm.controls[this.compentencyKey.vKey].value)
       this.refreshData()
     } else {
-      this.requestForm.controls.competencies_v5.value.forEach((item: any, index: any) => {
+      this.requestForm.controls[this.compentencyKey.vKey].value.forEach((item: any, index: any) => {
         if (item.competencyAreaId === id.competencyAreaId && item.competencyThemeId === id.competencyThemeId
           && item.competencySubThemeId === id.competencySubThemeId) {
-          this.requestForm.controls.competencies_v5.value.splice(index, 1)
-          this.requestForm.controls.competencies_v5.setValue(this.requestForm.controls.competencies_v5.value)
+          this.requestForm.controls[this.compentencyKey.vKey].value.splice(index, 1)
+          this.requestForm.controls[this.compentencyKey.vKey].setValue(this.requestForm.controls[this.compentencyKey.vKey].value)
           this.refreshData()
         }
       })
@@ -526,7 +578,7 @@ export class RequestCopyDetailsComponent implements OnInit {
   }
 
   onProviderRemoved(provider: any) {
-    const compThemeControl = this.requestForm.get('providers') as FormControl | null
+    const compThemeControl = this.requestForm.get('providers') as UntypedFormControl | null
     if (compThemeControl) {
       const themes = compThemeControl.value
       if (themes) {
@@ -577,24 +629,9 @@ export class RequestCopyDetailsComponent implements OnInit {
     if (this.demandId && this.actionBtnName === 'reassign') {
       this.requestForm.enable()
     }
-    // let providerList: any[] = []
-    // if (this.requestForm.value.providers) {
-    //   providerList = this.requestForm.value.providers.map((item: any) => ({
-    //     providerName: item.orgName,
-    //     providerId: item.id,
-    //   }))
-    // }
-    // let assigneeProvider: any
-    // if (this.requestForm.value.assignee) {
-    //   assigneeProvider = {
-    //     providerName: this.requestForm.value.assignee.orgName,
-    //     providerId: this.requestForm.value.assignee.id,
-    //   }
-    // }
-
     let competencyDataList: any[] = []
-    if (this.requestForm.value.competencies_v5) {
-      competencyDataList = this.requestForm.value.competencies_v5.map((item: any) => ({
+    if (this.requestForm.value[this.compentencyKey.vKey]) {
+      competencyDataList = this.requestForm.value[this.compentencyKey.vKey].map((item: any) => ({
         area: item.competencyArea,
         theme: item.competencyTheme,
         sub_theme: item.competencySubTheme,

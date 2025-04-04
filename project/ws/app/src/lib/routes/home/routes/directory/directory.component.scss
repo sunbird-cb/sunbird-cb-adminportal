@@ -55,7 +55,7 @@
   margin: 0 auto;
   // border: 1px solid;
   // font-weight: 500;
-  box-shadow: 0px 10px 30p;
+  box-shadow: 0px 10px 30px;
   /*#99999933*/
   border-radius: 8px;
 }
@@ -86,9 +86,7 @@
   //   // outline: 1px solid #000;
   //   margin: 0 0 2em 0;
   //   text-overflow: ellipsis !important;
-  //   /**
-  //  * Required properties to achieve text-overflow
-  //  */
+  //   __<<ngThemingMigrationEscapedComment1>>__
   //   white-space: nowrap;
   //   overflow: hidden;
   // }
@@ -282,7 +280,7 @@ a:not([href]):not([tabindex]) {
   box-shadow: none !important;
 }
 
-::ng-deep#directorycs {
+::ng-deep #directorycs {
   .mat-card-header-text {
     display: none !important;
     margin: 0 !important;
@@ -295,3 +293,4 @@ a:not([href]):not([tabindex]) {
   line-height: 1;
   align-self: center;
 }
+

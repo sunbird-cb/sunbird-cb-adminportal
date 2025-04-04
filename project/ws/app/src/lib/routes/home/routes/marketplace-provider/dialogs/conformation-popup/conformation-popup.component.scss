@@ -1,0 +1,86 @@
+.dialog-container-center {
+    height: 100%;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.dialog-container {
+
+    .warning-icon {
+        color: #F3962F;
+        font-size: 45px;
+        height: 45px;
+        width: 45px;
+    }
+
+    .csvProgressBar {
+        width: 210px;
+        height: 8px;
+    }
+
+    .csvFile {
+        width: 80px;
+        height: 80px;
+    }
+
+    .description {
+        font-size: 14px;
+    }
+
+
+}
+.footer {
+
+    .btn-full-success {
+        min-width: 80px;
+        border: none;
+        background-color: #045dad;
+        color: white;
+        border-radius: 5px;
+        font-size: 15px;
+        cursor: pointer;
+    }
+
+    .btn-full-red {
+        min-width: 80px;
+        border: none;
+        background-color: red;
+        color: white;
+        border-radius: 5px;
+        font-size: 15px;
+        cursor: pointer;
+    }
+
+    .btn-outline {
+        min-width: 80px;
+        background-color: white;
+        color: #045dad;
+        border: 2px solid #045dad;
+        border-radius: 5px;
+        font-size: 15px;
+        cursor: pointer;
+    }
+}
+
+.textBold {
+    font-weight: 700;
+}
+
+.text-blue {
+    font-size: 16px !important;
+    color: #1B4CA1 !important;
+}
+
+:host ::ng-deep .csvProgressBar {
+    .mat-progress-bar-buffer {
+            background-color: #0000000A;
+            border-radius: 4px;
+        }
+
+        .mat-progress-bar-fill::after {
+            background-color: #1D8923;
+            border-radius: 4px;
+        }
+}

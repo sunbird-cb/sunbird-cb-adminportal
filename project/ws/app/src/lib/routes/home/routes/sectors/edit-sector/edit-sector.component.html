@@ -18,14 +18,13 @@
               <div class="flex-parent-element">
                 <div class="flex-child-element">
                   <label for="eventDate" class=" margin-remove-bottom form-label required"
-                    i18n="Event Date label|Label which explains the user to enter event date" i18n-aria-label
                     aria-label="Event Date label">
                     Sector Name
                   </label>
                   <mat-form-field appearance="outline" class="margin-top-xs margin-bottom-m sector-title">
-                    <input id="sectorTitle" matInput #sectorTitle formControlName="sectorTitle" i18n-placeholder
-                      placeholder="Add sector name here" i18n-aria-label aria-label="Sector Title input"
-                      class="form-input" maxlength="70" [disabled]="isDisabled" />
+                    <input id="sectorTitle" matInput #sectorTitle formControlName="sectorTitle"
+                      placeholder="Add sector name here" aria-label="Sector Title input" class="form-input"
+                      maxlength="70" [disabled]="isDisabled" />
                     <mat-hint>
                       <div class="flex title-hint">
                         <span>Only ( a-z/A-Z , 0-9 . - _ $ / : [ ]' ' !) characters are supported</span>
@@ -35,9 +34,7 @@
                   </mat-form-field>
                 </div>
                 <div class="flex-child-element">
-                  <label for="icon" class=" margin-remove-bottom form-label required"
-                    i18n="Sector icon label|Label which explains the user to select icon" i18n-aria-label
-                    aria-label="Sector icon label">
+                  <label for="icon" class=" margin-remove-bottom form-label required" aria-label="Sector icon label">
                     Select Icon
                   </label>
                   <div>Icons will be cropped to 24x24 pixels</div>
@@ -47,7 +44,7 @@
                       <mat-icon class="cam-icon">photo_camera</mat-icon>
                     </div>
                     <div class="uploaded-img">
-                      <img height="24" width="24" [src]="addSectorForm.controls.imgUrl.value" />
+                      <img alt="photo" height="24" width="24" [src]="addSectorForm.controls.imgUrl.value" />
                     </div>
                   </div>
                 </div>
@@ -72,7 +69,8 @@
                   <div class="flex-parent-element margin-bottom-l">
                     <div class="flex-child-element flex">
                       <mat-form-field appearance="outline" class="sector-title">
-                        <input matInput [formControl]="control" placeholder="Enter text" class="sub-sector-name">
+                        <input matInput [formControl]="control" placeholder="Enter text" class="sub-sector-name"
+                          (input)="validateInput($event.target.value)">
                       </mat-form-field>
                       <button mat-button [disabled]="control.disabled" class="remove-btn" type="button"
                         (click)="removeTextbox(i)">
@@ -95,13 +93,13 @@
             <div class="margin-right-l">
               <button mat-stroked-button color="accent" type="button" class="mat-accent-border flex-auto-display"
                 (click)="goToList()">
-                <span i18n>Cancel</span>
+                <span>Cancel</span>
               </button>
             </div>
             <div class="">
               <button mat-button class="create-btn btn-success" type="button" [disabled]="!myForm.valid"
                 (click)="onSubSectorSubmit()">
-                <span i18n>Save</span>
+                <span>Save</span>
               </button>
             </div>
           </div>

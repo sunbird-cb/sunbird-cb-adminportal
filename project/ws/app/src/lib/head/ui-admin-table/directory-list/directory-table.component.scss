@@ -14,7 +14,7 @@ $card-standard-width: 268px;
     @content;
   }
 }
-.mar-lft{
+.mar-lft {
   margin-left: 10px;
 }
 .card-minimal-container {
@@ -252,7 +252,7 @@ $card-standard-width: 268px;
     width: calc(100% + #{2 * $card-padding - 2});
     margin-left: -#{$card-padding - 1};
     // margin-top: -$card-padding;
-    display: flex;
+    // display: flex;
     // width: calc(100% + 30px);
     // margin-left: -15px;
     margin-top: 62px;
@@ -277,7 +277,7 @@ $card-standard-width: 268px;
       margin-right: auto;
       margin-left: auto;
       display: block;
-      margin: auto;
+      // margin: auto;
       max-width: 58px;
       max-height: -webkit-fill-available;
     }
@@ -370,7 +370,7 @@ $card-standard-width: 268px;
     display: block;
     width: calc(100% + #{2 * $card-padding - 2});
     margin-left: -#{$card-padding - 1};
-    display: flex;
+    // display: flex;
     margin-top: 62px;
     background: bisque;
   }
@@ -393,7 +393,7 @@ $card-standard-width: 268px;
       margin-right: auto;
       margin-left: auto;
       display: block;
-      margin: auto;
+      // margin: auto;
       max-width: 58px;
       max-height: -webkit-fill-available;
     }
@@ -642,20 +642,24 @@ $title-line-count: 2;
   display: flex;
   flex: 1 1 auto;
 }
-.no-information-found{
+.no-information-found {
   text-align: center;
   padding: 10px;
 }
 
+.noContent {
+  font: 700 14px 'Lato';
+  color: #000000de;
+}
+
 .sinput {
-  width: 24%;
-  border-radius: 4px;
+  width: 50%;
+  border-radius: 9999px;
   border: 1px solid #d5d0d0;
-  padding: 4px 8px 8px;
+  padding: 12px 16px;
   margin-bottom: 10px;
   margin-top: 10px;
   min-height: 20px;
-  max-height: 26px;
 
   .material-icons {
     vertical-align: bottom;
@@ -676,20 +680,53 @@ $title-line-count: 2;
   margin: 23px 0 0 auto;
 }
 
-.action-btn{
+.action-btn {
   border: none;
   background: transparent;
 }
 
-.mat-header-row{
+.mat-header-row {
   min-height: 40px;
 }
 
-.mat-header-cell{
-  background-color: #F5F5F5;
+.mat-header-cell {
+  background-color: #f5f5f5;
   font-size: 14px;
 }
 
 ::ng-deep.custom-btn {
   line-height: 1.2 !important;
+}
+
+.left-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: calc(100% - 590px);
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 35%);
+  z-index: 9999;
+}
+
+.spinner-min-h {
+  height: 300px;
+}
+
+:host ::ng-deep .mat-progress-spinner {
+  position: relative !important;
+  margin-top: unset !important;
+  margin-left: unset !important;
+}
+
+::ng-deep .mat-column-Actions, .mat-column-type {
+  width: 90px;
+  flex: none;
+}
+
+::ng-deep .mat-column-organisation {
+  width: 300px;
+  flex: none;
+  @media (max-width: 1280px) {
+    width: 230px;
+  }
 }

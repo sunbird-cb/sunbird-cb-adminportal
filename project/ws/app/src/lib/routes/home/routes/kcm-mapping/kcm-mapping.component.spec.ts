@@ -1,25 +1,27 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing'
 
+import { ActivatedRoute } from '@angular/router'
+import { MatDialog } from '@angular/material/dialog'
 import { KCMMappingComponent } from './kcm-mapping.component'
 
 describe('KCMMappingComponent', () => {
-  let component: KCMMappingComponent
-  let fixture: ComponentFixture<KCMMappingComponent>
+    let component: KCMMappingComponent
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [KCMMappingComponent],
+    const activateRoute: Partial<ActivatedRoute> = {}
+    const dialog: Partial<MatDialog> = {}
+
+    beforeAll(() => {
+        component = new KCMMappingComponent(
+            activateRoute as ActivatedRoute,
+            dialog as MatDialog
+        )
     })
-    .compileComponents()
-  }))
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(KCMMappingComponent)
-    component = fixture.componentInstance
-    fixture.detectChanges()
-  })
+    beforeEach(() => {
+        jest.clearAllMocks()
+        jest.resetAllMocks()
+    })
 
-  it('should create', () => {
-    expect(component).toBeTruthy()
-  })
+    it('should create a instance of component', () => {
+        expect(component).toBeTruthy()
+    })
 })

@@ -1,8 +1,8 @@
 import { CreateMDOService } from './../../services/create-mdo.services'
 import { Component, OnInit } from '@angular/core'
-import { FormControl, FormGroup, Validators } from '@angular/forms'
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms'
 import { UsersService } from '../../services/users.service'
-import { MatSnackBar } from '@angular/material'
+import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar'
 import { ActivatedRoute, Router } from '@angular/router'
 import { DirectoryService } from '../../services/directory.services'
 import * as _ from 'lodash'
@@ -10,13 +10,17 @@ import { environment } from '../../../../../../../../../src/environments/environ
 import { EventService } from '@sunbird-cb/utils'
 import { ProfileV2UtillService } from '../../services/home-utill.service'
 
+// const EMAIL_PATTERN_OLD = /^[a-z0-9_-]+(?:\.[a-z0-9_-]+)*@((?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?){2,}\.){1,3}(?:\w){2,}$/
+const EMAIL_PATTERN = /^[a-zA-Z0-9]+[a-zA-Z0-9._-]*[a-zA-Z0-9]+@[a-zA-Z0-9]+([-a-zA-Z0-9]*[a-zA-Z0-9]+)?(\.[a-zA-Z0-9-]+)*\.[a-zA-Z]{2,4}$/
+const MOBILE_PATTERN = '^((\\+91-?)|0)?[0-9]{10}$'
+
 @Component({
   selector: 'ws-app-create-user',
   templateUrl: './create-user.component.html',
   styleUrls: ['./create-user.component.scss'],
 })
 export class CreateUserComponent implements OnInit {
-  createUserForm: FormGroup
+  createUserForm: UntypedFormGroup
   namePatern = `^[a-zA-Z\\s\\']{1,32}$`
   rolesList: any = []
   departmentName = ''
@@ -33,7 +37,7 @@ export class CreateUserComponent implements OnInit {
   currentDept: any
   createdDepartment!: any
   selected!: string
-  roles = []
+  roles: any = []
   selectedRoles: string[] = []
   exact!: string[]
   exactPath!: String
@@ -47,6 +51,7 @@ export class CreateUserComponent implements OnInit {
   mdoLeadersCount = 0
   orgName!: string
   isThisExistingLeader = false
+  disableRequired = false
   // hideRole: any = []
 
   constructor(
@@ -71,7 +76,8 @@ export class CreateUserComponent implements OnInit {
       this.queryParam = params['id']
       this.deptId = params['id']
       this.orgName = params['orgName']
-      this.currentDept = params['currentDept']
+      // this.currentDept = params['currentDept']
+      this.currentDept = params['subOrgType']
       this.redirectionPath = params['redirectionPath']
       if (this.currentDept === 'CBP Providers' || this.currentDept === 'cbp-providers') {
         this.currentDept = 'CBP'
@@ -110,26 +116,27 @@ export class CreateUserComponent implements OnInit {
       const email = this.editUserInfo && this.editUserInfo.email || ''
       const name = this.editUserInfo && this.editUserInfo.fullName || ''
       const mobile = this.editUserInfo && this.editUserInfo.mobile || ''
-      this.createUserForm = new FormGroup({
-        fname: new FormControl({ value: name, disabled: name ? true : false }, [Validators.required]),
+      this.disableRequired = name ? true : false
+      this.createUserForm = new UntypedFormGroup({
+        fname: new UntypedFormControl({ value: name, disabled: name ? true : false }, [Validators.required]),
         // lname: new FormControl('', [Validators.required]),
-        email: new FormControl({ value: this.profileUtilSvc.transformToEmail(email), disabled: email ? true : false }, [Validators.required,
-        Validators.pattern(/^[a-z0-9_-]+(?:\.[a-z0-9_-]+)*@((?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?){2,}\.){1,3}(?:\w){2,}$/)]),
-        mobileNumber: new FormControl({ value: mobile, disabled: name ? true : false }, [Validators.required, Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$'), Validators.maxLength(10)]),
-        role: new FormControl('', [Validators.required, Validators.required]),
-        dept: new FormControl(this.orgName, [Validators.required]),
-        deptId: new FormControl(this.createdDepartment.depName, [Validators.required]),
+        email: new UntypedFormControl({ value: this.profileUtilSvc.transformToEmail(email), disabled: email ? true : false }, [Validators.required,
+        Validators.pattern(EMAIL_PATTERN)]),
+        mobileNumber: new UntypedFormControl({ value: mobile, disabled: name ? true : false }, [Validators.required, Validators.pattern(MOBILE_PATTERN), Validators.maxLength(10)]),
+        role: new UntypedFormControl('', [Validators.required, Validators.required]),
+        dept: new UntypedFormControl(this.orgName, [Validators.required]),
+        deptId: new UntypedFormControl(this.createdDepartment.depName, [Validators.required]),
       })
     } else {
-      this.createUserForm = new FormGroup({
-        fname: new FormControl('', [Validators.required]),
+      this.createUserForm = new UntypedFormGroup({
+        fname: new UntypedFormControl('', [Validators.required]),
         // lname: new FormControl('', [Validators.required]),
-        email: new FormControl('', [Validators.required,
-        Validators.pattern(/^[a-z0-9_-]+(?:\.[a-z0-9_-]+)*@((?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?){2,}\.){1,3}(?:\w){2,}$/)]),
-        mobileNumber: new FormControl('', [Validators.required, Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$'), Validators.maxLength(10)]),
-        role: new FormControl('', [Validators.required, Validators.required]),
-        dept: new FormControl(_.get(this.route, 'snapshot.data.configService.unMappedUser.rootOrg.orgName') || '', [Validators.required]),
-        deptId: new FormControl(_.get(this.route, 'snapshot.data.configService.unMappedUser.channel') || ''),
+        email: new UntypedFormControl('', [Validators.required,
+        Validators.pattern(EMAIL_PATTERN)]),
+        mobileNumber: new UntypedFormControl('', [Validators.required, Validators.pattern(MOBILE_PATTERN), Validators.maxLength(10)]),
+        role: new UntypedFormControl('', [Validators.required, Validators.required]),
+        dept: new UntypedFormControl(_.get(this.route, 'snapshot.data.configService.unMappedUser.rootOrg.orgName') || '', [Validators.required]),
+        deptId: new UntypedFormControl(_.get(this.route, 'snapshot.data.configService.unMappedUser.channel') || ''),
       })
     }
     if (this.editUserInfo) {
@@ -324,11 +331,11 @@ export class CreateUserComponent implements OnInit {
           this.disableCreateButton = false
           if (err.error.params.errmsg) {
             // this.openSnackbar(`${err.error.params.errmsg}`)
-            if (err.error.params.errmsg === 'phone already exists') {
-              this.openSnackbar('Phone number already exists')
-            } else if (err.error.params.errmsg === 'email already exists') {
+            if (err.error.params.errmsg.toLowerCase() === 'this phone is already registered with an existing user') {
+              this.openSnackbar('This Phone is already registered with an existing User')
+            } else if (err.error.params.errmsg.toLowerCase() === 'email already exists') {
               this.openSnackbar('Email Id already exists')
-            } else if (err.error.params.errmsg === 'Invalid format for given phone.') {
+            } else if (err.error.params.errmsg.toLowerCase() === 'Invalid format for given phone.') {
               this.openSnackbar('Please enter valid phone number')
             } else {
               this.openSnackbar('User creation error')
@@ -359,7 +366,15 @@ export class CreateUserComponent implements OnInit {
 
   navigateTo() {
     if (this.createdDepartment) {
-      this.router.navigate([`/app/roles/${this.deptId}/users`], { queryParams: { currentDept: this.currentDept, roleId: this.deptId, depatName: this.createdDepartment.depName } })
+      this.router.navigate([`/app/roles/${this.deptId}/users`],
+        {
+          queryParams:
+          {
+            currentDept: this.currentDept === 'mdo' || 'state' ? 'organisation' : this.currentDept,
+            roleId: this.deptId,
+            depatName: this.createdDepartment.depName
+          }
+        })
 
     } else {
       this.router.navigate([`/app/home/users`])

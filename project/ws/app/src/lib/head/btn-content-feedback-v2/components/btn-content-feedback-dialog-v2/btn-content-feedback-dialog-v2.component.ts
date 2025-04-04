@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core'
-import { MAT_DIALOG_DATA, MatSnackBar, MatDialogRef } from '@angular/material'
-import { FormGroup, FormControl, Validators } from '@angular/forms'
+import { MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog'
+import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar'
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms'
 import { TSendStatus, TFetchStatus } from '@sunbird-cb/utils'
 import { NsContent } from '../../../_services/widget-content.model'
 import { FeedbackService } from '../../services/feedback.service'
@@ -17,8 +18,8 @@ export class BtnContentFeedbackDialogV2Component implements OnInit {
   negativeFeedbackSendStatus: TSendStatus
   singleFeedbackSendStatus: TSendStatus
   configFetchStatus: TFetchStatus
-  feedbackForm: FormGroup
-  singleFeedbackForm: FormGroup
+  feedbackForm: UntypedFormGroup
+  singleFeedbackForm: UntypedFormGroup
   feedbackConfig!: IFeedbackConfig
 
   constructor(
@@ -32,13 +33,13 @@ export class BtnContentFeedbackDialogV2Component implements OnInit {
     this.singleFeedbackSendStatus = 'none'
     this.configFetchStatus = 'none'
 
-    this.feedbackForm = new FormGroup({
-      positive: new FormControl(null, [Validators.minLength(1), Validators.maxLength(2000)]),
-      negative: new FormControl(null, [Validators.minLength(1), Validators.maxLength(2000)]),
+    this.feedbackForm = new UntypedFormGroup({
+      positive: new UntypedFormControl(null, [Validators.minLength(1), Validators.maxLength(2000)]),
+      negative: new UntypedFormControl(null, [Validators.minLength(1), Validators.maxLength(2000)]),
     })
 
-    this.singleFeedbackForm = new FormGroup({
-      feedback: new FormControl(null, [Validators.minLength(1), Validators.maxLength(2000)]),
+    this.singleFeedbackForm = new UntypedFormGroup({
+      feedback: new UntypedFormControl(null, [Validators.minLength(1), Validators.maxLength(2000)]),
     })
   }
 

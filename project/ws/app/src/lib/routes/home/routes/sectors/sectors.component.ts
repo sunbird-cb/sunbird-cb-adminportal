@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core'
-import { MatDialog } from '@angular/material/dialog'
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog'
 import { ConfigurationsService } from '@sunbird-cb/utils'
 import * as _ from 'lodash'
 import { SectorsService } from './sectors.service'

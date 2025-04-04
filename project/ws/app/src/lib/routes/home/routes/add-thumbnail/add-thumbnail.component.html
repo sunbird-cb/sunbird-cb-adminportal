@@ -27,10 +27,11 @@
             <ng-container *ngIf="imageList && imageList.length">
                 <div class="imageCard">
                     <mat-button-toggle-group class="category-card" #group="matButtonToggleGroup"
-                        (change)="onValChange(group.value)" *ngFor="let image of imageList" [value]="toggle">
-                        <mat-button-toggle [(value)]="image">
-                            <img mat-card-image [src]="image.artifactUrl" alt="code.image" class="custom-img"
-                                (error)="changeToDefaultImg">
+                        (change)="onValChange(group.value)" *ngFor="let image of imageList;let i =index"
+                        [value]="toggle">
+                        <mat-button-toggle [(value)]="imageList[i]">
+                            <img mat-card-image [src]="image.artifactUrl | publicGcpUrl" alt="code.image"
+                                class="custom-img" (error)="changeToDefaultImg">
                             <mat-icon mat-card-avatar *ngIf="isChecked && thumbanilSelectval == image.identifier"
                                 class="checkbox">check_circle</mat-icon>
                         </mat-button-toggle>
@@ -67,7 +68,7 @@
                 </button>
                 <button mat-raised-button type="button" (click)="uploadThumbnail()"
                     class="text-white ws-mat-primary-background upload-btn flex-auto-display" [disabled]="!isChecked">
-                    <span class="text-white" i18n>Upload</span>
+                    <span class="text-white">Upload</span>
                 </button>
             </span>
         </div>
@@ -90,7 +91,7 @@
             <span class="itemleft">
                 <button mat-raised-button type="button" (click)="showHideButton()"
                     class="text-white ws-mat-primary-background flex-auto-display">
-                    <span class="text-white" i18n>Back</span>
+                    <span class="text-white">Back</span>
                 </button>
             </span>
             <span class="itemright">
@@ -99,7 +100,7 @@
                 </button>
                 <button mat-raised-button type="button" (click)="uploadSelectedThumbnail()"
                     class="text-white ws-mat-primary-background upload-btn flex-auto-display" [disabled]="!isChecked">
-                    <span class="text-white" i18n>Upload</span>
+                    <span class="text-white">Upload</span>
                 </button>
             </span>
         </div>

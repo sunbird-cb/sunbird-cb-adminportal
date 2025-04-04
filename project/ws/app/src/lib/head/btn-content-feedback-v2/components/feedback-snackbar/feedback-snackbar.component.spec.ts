@@ -1,24 +1,24 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing'
 
+import { IFeedbackSnackbarData } from '../../models/feedback.model'
 import { FeedbackSnackbarComponent } from './feedback-snackbar.component'
 
 describe('FeedbackSnackbarComponent', () => {
-  let component: FeedbackSnackbarComponent
-  let fixture: ComponentFixture<FeedbackSnackbarComponent>
+    let component: FeedbackSnackbarComponent
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [FeedbackSnackbarComponent],
-    }).compileComponents()
-  }))
+    const snackbarData: Partial<IFeedbackSnackbarData> = {}
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(FeedbackSnackbarComponent)
-    component = fixture.componentInstance
-    fixture.detectChanges()
-  })
+    beforeAll(() => {
+        component = new FeedbackSnackbarComponent(
+            snackbarData as IFeedbackSnackbarData
+        )
+    })
 
-  it('should create', () => {
-    expect(component).toBeTruthy()
-  })
+    beforeEach(() => {
+        jest.clearAllMocks()
+        jest.resetAllMocks()
+    })
+
+    it('should create a instance of component', () => {
+        expect(component).toBeTruthy()
+    })
 })

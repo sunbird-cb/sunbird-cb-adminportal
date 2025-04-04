@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core'
-import { FormControl, FormGroup, Validators } from '@angular/forms'
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog'
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms'
+import { MatLegacyDialog as MatDialog, MatLegacyDialogConfig as MatDialogConfig } from '@angular/material/legacy-dialog'
 import { ActivatedRoute, Router } from '@angular/router'
 import * as _ from 'lodash'
 import { AddThumbnailComponent } from '../../add-thumbnail/add-thumbnail.component'
 // import { ImageCropComponent } from '../../image-crop/image-crop.component'
 import { environment } from '../../../../../../../../../../src/environments/environment'
-import { MatSnackBar } from '@angular/material/snack-bar'
+import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar'
 import { SectorsService } from '../sectors.service'
 import { DomSanitizer } from '@angular/platform-browser'
 import { sectorConstants } from '../sectors-constats.model'
@@ -19,7 +19,7 @@ import { sectorConstants } from '../sectors-constats.model'
 export class AddSectorComponent implements OnInit {
 
   currentUser!: string | null
-  addSectorForm: FormGroup
+  addSectorForm: UntypedFormGroup
   disableCreateButton = false
   myreg = sectorConstants.nameRegex
   aspectRatio = 1 / 2
@@ -34,9 +34,9 @@ export class AddSectorComponent implements OnInit {
     private sanitizer: DomSanitizer,
   ) {
     this.currentUser = _.get(this.activatedRoute, 'snapshot.parent.data.configService.userProfile.userId')
-    this.addSectorForm = new FormGroup({
-      sectorTitle: new FormControl('', [Validators.required, Validators.pattern(this.myreg)]),
-      imgUrl: new FormControl('', [Validators.required]),
+    this.addSectorForm = new UntypedFormGroup({
+      sectorTitle: new UntypedFormControl('', [Validators.required, Validators.pattern(this.myreg)]),
+      imgUrl: new UntypedFormControl('', [Validators.required]),
     })
   }
 

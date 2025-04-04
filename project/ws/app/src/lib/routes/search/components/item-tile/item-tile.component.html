@@ -21,7 +21,7 @@
       *ngIf="data.source == 'PROMT' && data.projectScope !== null"
       [matTooltip]="data.projectScope"
     >
-      <span i18n="tile: Khub tile Scope Label">Project Scope:</span>
+      <span>Project Scope:</span>
       {{ data.projectScope | trimAndReduce: 110 }}
     </p>
     <p
@@ -33,7 +33,7 @@
       "
       [matTooltip]="data.businessContext"
     >
-      <span i18n="tile: Khub tile Business Context Label"
+      <span
         >Business Context:</span
       >
       {{ data.businessContext | trimAndReduce: 110 }}

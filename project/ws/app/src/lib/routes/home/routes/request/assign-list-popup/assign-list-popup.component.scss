@@ -4,9 +4,9 @@
   }
   @import "ws-common";
   @import "ws-mixins";
-  
-  
-  
+
+
+
   table {
     width: 100%;
   }
@@ -19,22 +19,22 @@
     margin: 14px 0 22px;
     .title {
       .title-text {
-        font-family: Montserrat;
+        font-family: "Montserrat",sans-serif;
         font-size: 20px;
         font-weight: 600;
         line-height: 30px;
         text-align: left;
-    
+
         }
     }
-    
+
     .actions {
      display: flex;
      gap: 12px;
      .search-btn {
       background: #1b4ca1 !important;
       color: white !important;
-      font-family: 'Lato';
+      font-family: 'Lato',sans-serif;
       font-weight: 700;
       font-size: 14px;
       border-radius: 4px;
@@ -54,34 +54,34 @@
     }
   }
 
-  
-  
+
+
   .userTable {
     box-shadow: none;
   }
-  
+
   table tr {
     height: 70px !important;
   }
-  
+
   // ::ng-deep {
   //   table tr td .cdk-column-title .title-class {
   //     width: 13% !important;
   //   }
   // }
-  
+
   // table tr td .cdk-column-title .cdk-column-assignee {
   //   width: 13% !important;
   // }
-  
+
   // table tr .cdk-column-title {
   //   width: 18% !important;
   // }
-  
+
   // table tr .cdk-column-RequestId {
   //   width: 9% !important;
   // }
-  
+
   // table tr .cdk-column-assignee {
   //   width: 17% !important;
   // }
@@ -90,7 +90,7 @@
     height: 56px !important;
   }
   table tr .row-heading {
-    font-family: 'Lato';
+    font-family: 'Lato',sans-serif;
     font-weight: 400;
     font-size: 14px !important;
     line-height: 21px;
@@ -116,34 +116,34 @@ table tr .cdk-column-details {
   background-color: rgba(0, 0, 0, 0.16) !important;
   pointer-events: none !important;
 }
-  
+
   .action-btn-view {
     color: #1B4CA1;
-    font-family: Lato;
+    font-family: 'Lato', sans-serif;
     font-size: 14px;
     font-weight: 400;
     line-height: 16.8px;
     text-decoration: underline !important;
   }
-  
+
   .title-class {
-    font-family: Lato;
-    font-size: 14px;
+    font-family: 'Lato', sans-serif;
+    // font-size: 14px;
     font-size: 14px !important;
     font-weight: 400;
     line-height: 16.8px;
     line-height: 21px;
     color: rgba(0, 0, 0, 0.6) !important;
   }
-  
+
   .search-border {
     border-color: #cecece;
   }
-  
+
   .color-60 {
     color: rgba(0, 0, 0, .6) !important;
   }
-  
+
   .nav-container {
     position: relative;
     top: 0;
@@ -152,38 +152,38 @@ table tr .cdk-column-details {
     right: 0;
     // min-height: 180vh;
   }
-  
+
   .mt-1 {
     margin-top: 2rem !important;
   }
-  
+
   .m-auto {
     margin: auto;
   }
-  
+
   .searchinput {
     padding: $size-xs;
   }
-  
+
   .text-white {
     color: white !important;
   }
-  
+
   .small-list-logo {
     width: 64px;
     height: 36px;
   }
-  
+
   .new-mat-table {
     display: flex;
     flex-direction: column;
     flex: 1;
   }
-  
+
   .new-row {
     padding: 0.65em 0 0.65em 0;
   }
-  
+
   .filter {
     .filter-option {
       margin: $size-xs $size-m;
@@ -195,70 +195,70 @@ table tr .cdk-column-details {
       border-right-width: 0;
     }
   }
-  
+
   .hand {
     cursor: pointer;
   }
-  
+
   .vertical-align {
     vertical-align: text-bottom;
   }
-  
+
   .width-300 {
     width: 300px;
   }
-  
+
   .font-size-m {
     font-size: 16px;
   }
-  
+
   .border-bottom {
     border-bottom: 1px solid lightgray;
   }
-  
+
   .mat-drawer-content {
     overflow: hidden !important;
   }
-  
+
   .pointer {
     cursor: pointer;
   }
-  
+
   .margin-right-xxl {
     margin-right: 50px;
   }
-  
+
   .margin-horizontal-s {
     margin-left: 3%;
     margin-right: 2%;
   }
-  
+
   .flex-dynamic {
     justify-content: flex-start;
-  
+
     @include breakpoint-gt-s {
       justify-content: center;
     }
-  
+
     @include breakpoint-gt-xs {
       justify-content: center;
     }
-  
+
     @include breakpoint-xs {
       justify-content: center;
     }
-  
+
     @include breakpoint-gt-m {
       justify-content: flex-start;
     }
   }
-  
+
   .large-icon {
     font-size: 32px;
     width: 32px;
     height: 32px;
   }
-  
+
   .sidenav {
     width: 20%;
     min-width: 250px;
@@ -267,17 +267,17 @@ table tr .cdk-column-details {
     box-shadow: none;
     // margin-bottom: 32px;
   }
-  
+
   .sidenav-content {
     margin: 0;
     padding: 0 $size-m $size-l;
     box-sizing: border-box;
     // min-height: calc(100vh);
   }
-  
+
   .reportsDemo {
-  
-  
+
+
     .reportsDemoVideo {
       width: 290px;
       height: 163px;
@@ -286,7 +286,7 @@ table tr .cdk-column-details {
       font-weight: 600;
       pointer-events: all;
       cursor: pointer;
-  
+
       .video_icon {
         font-size: 32px;
       }
@@ -299,56 +299,58 @@ table tr .cdk-column-details {
     .search-btn {
         background: #1b4ca1 !important;
         color: white !important;
+        /* stylelint-disable */
         font-family: 'Lato';
+        /* stylelint-enable */
         font-weight: 700;
         font-size: 14px;
         border-radius: 4px;
         min-width: 138px;
     }
   }
-  
+
   .grid {
     display: grid;
     grid-template-columns: 1fr 0.3fr;
     grid-auto-columns: minmax(auto, 300px);
     width: 90%;
   }
-  
+
   .close-button {
     margin-right: 50px;
   }
-  
+
   .hidden {
     display: none;
   }
-  
+
   .border-right {
     border-right: 1px solid #cecece;
   }
-  
+
   :host ::ng-deep .search {
     .mat-form-field-wrapper {
       padding-bottom: 0px !important;
     }
-  
+
     .mat-form-field-infix {
       border-top-width: 2px !important;
       margin: auto;
     }
   }
-  
+
   .border-0 {
     border: 0;
   }
-  
+
   .min-width-4 {
     min-width: 400px;
   }
-  
+
   ws-auth-content-card-v2 {
     display: contents;
   }
-  
+
   // @import 'ws-vars';
   // @import 'ws-mixins';
   $size-xs: 8px;
@@ -358,39 +360,38 @@ table tr .cdk-column-details {
   $size-xl: 32px;
   $size-xxl: 40px;
   $card-standard-width: 268px;
-  
+
   @mixin breakpoint-xs {
     @media only screen and (max-width: 599px) {
       @content;
     }
   }
-  
+
   $title-line-count: 2;
-  
+
   mat-header-row {
     min-height: 40px;
   }
-  
+
   .mat-header-cell {
     background-color: #F5F5F5;
   }
-  
+
   .flex-update {
     flex-direction: row;
-  
+
     @include breakpoint-xs {
       flex-direction: row;
     }
-  
-  
+
+
   }
-  
+
   .flex-custom-m {
     @include breakpoint-xs {
       flex-direction: column;
     }
   }
 
-  
-  
-  
+
+

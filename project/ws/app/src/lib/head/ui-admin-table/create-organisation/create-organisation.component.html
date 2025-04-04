@@ -1,0 +1,252 @@
+<mat-sidenav-container class="nav-container" autosize name="auth-tool-exp">
+  <mat-sidenav-content>
+    <div class="filter-overlay-12">
+      <div class="filter-12">
+        <div class="flex justify-between right-sidenav-header px-5 pt-5 pb-4">
+          <div>{{ openMode === 'createNew' ? 'Create Organisation' : 'MDO Details'}}</div>
+          <mat-icon class="closeIcon" (click)="closeNaveBar()">close</mat-icon>
+        </div>
+
+        <div class="px-5 pt-6">
+          <ng-container *ngIf="openMode !== 'createNew'">
+            <div class="flex items-end gap-6 mb-10">
+              <div class="flex justify-center items-center log-frame relative rounded">
+                <input type="file" name="edit-orgLogo" id="edit-orgLogo" class="hidden" (change)="uploadLogo($event)"
+                  accept=".png, .jpeg, .jpg">
+                <ng-container *ngIf="rowData?.logo">
+                  <img class="log" [src]="selectedLogo" alt="log">
+                  <ng-container *ngIf="!rowData?.logo">
+                    <div class="">Logo</div>
+                  </ng-container>
+                </ng-container>
+                <div class="edit-logo" onclick="document.getElementById('edit-orgLogo').click()">
+                  <mat-icon>edit</mat-icon>
+                </div>
+              </div>
+
+              <div>
+                <div class="organisationLable">
+                  Organisation
+                </div>
+                <div class="organisationNameHeader mt-2">
+                  {{rowData?.organisation}}
+                </div>
+              </div>
+            </div>
+          </ng-container>
+          <ng-container *ngIf="openMode !== 'viewMode'; else viewMode">
+            <form [formGroup]="organisationForm" class="mb-20">
+              <ng-container *ngIf="this.openMode !== 'editMode'">
+                <div class="flex flex-column gap-1 organisation-form mat-field-rounded">
+                  <div class="flex items-center gap-1 required">
+                    <span class="lable">Organisation Name</span>
+                  </div>
+                  <mat-form-field class="w-full">
+                    <input formControlName="organisationName" matInput placeholder="Add organisation name here"
+                      maxlength="100">
+                    <mat-error
+                      *ngIf="controls['organisationName'].touched && controls['organisationName'].errors?.['required']">Organization
+                      name is
+                      required.</mat-error>
+                    <mat-error
+                      *ngIf="controls['organisationName'].touched && controls['organisationName'].errors?.['duplicateOrgName']">This
+                      organization name
+                      is already in use.</mat-error>
+                    <mat-error
+                      *ngIf="controls['organisationName'].touched && controls['organisationName'].errors?.['pattern']">
+                      Only ( a-z/A-Z , 0-9 . - @ $ / : [ ]' ' !) characters are supported</mat-error>
+                    <mat-error
+                      *ngIf="controls['organisationName'].touched && controls['organisationName'].errors?.['maxlength']">Maximum
+                      character length
+                      exceeded.</mat-error>
+                    <!-- <mat-hint>Only ( a-z/A-Z , 0-9 . - _ $ / : [ ]' ' !) characters are supported</mat-hint> -->
+                  </mat-form-field>
+                </div>
+
+              </ng-container>
+
+              <ng-container *ngIf="this.openMode !== 'editMode'">
+                <mat-radio-group aria-labelledby="example-radio-group-label" class="flex gap-12 organisation-form mt-3"
+                  formControlName="category">
+
+                  <div [ngClass]="{'active-radio-button': getCategory === 'state'}">
+                    <mat-radio-button color="primary" value="state">
+                      State
+                    </mat-radio-button>
+                  </div>
+                  <div [ngClass]="{'active-radio-button': getCategory === 'ministry'}">
+                    <mat-radio-button color="primary" value="ministry">
+                      Center
+                    </mat-radio-button>
+                  </div>
+                </mat-radio-group>
+              </ng-container>
+
+              <ng-container *ngIf="getCategory === 'state'">
+                <div class="grayBox p-4 mt-5 flex flex-column gap-1 organisation-form mat-field-rounded">
+                  <div class="flex items-center gap-1 required">
+                    <span class="lable">State</span>
+                  </div>
+
+                  <mat-form-field class="w-full">
+                    <input type="text" placeholder="Type to search" aria-label="Type to search" matInput
+                      (input)="filterStates($event.target.value)" formControlName="state" [matAutocomplete]="auto">
+                    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn"
+                      (optionSelected)="onSelectStateMinistry($event.option.value)">
+                      <ng-container *ngFor="let option of filteredStates">
+                        <mat-option [value]="option">{{ option.orgName }}</mat-option>
+                      </ng-container>
+                    </mat-autocomplete>
+                    <mat-error *ngIf="controls['state'].errors?.['required']">State is required.</mat-error>
+                  </mat-form-field>
+                </div>
+              </ng-container>
+              <ng-container *ngIf="getCategory === 'ministry'">
+                <div class="grayBox p-4 mt-5 flex flex-column gap-1 organisation-form mat-field-rounded">
+                  <div class="flex items-center gap-1 required">
+                    <span class="lable">Ministry</span>
+                  </div>
+
+                  <mat-form-field class="w-full">
+                    <input type="text" placeholder="Type to search" aria-label="Type to search" matInput
+                      (input)="filterMinistry($event.target.value)" formControlName="ministry" [matAutocomplete]="auto">
+                    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn"
+                      (optionSelected)="onSelectStateMinistry($event.option.value)">
+                      <ng-container *ngFor="let option of filteredMinistry">
+                        <mat-option [value]="option">{{ option.orgName }}</mat-option>
+                      </ng-container>
+                    </mat-autocomplete>
+                    <mat-error *ngIf="controls['ministry'].errors?.['required']">Center is required.</mat-error>
+                  </mat-form-field>
+                </div>
+              </ng-container>
+              <ng-container *ngIf="getCategory && openMode === 'createNew'">
+                <div class="flex flex-column gap-1 w-full mt-4">
+                  <div class="flex items-center gap-1 required">
+                    <span class="lable">Logo</span>
+                  </div>
+
+                  <div class="uploadLogoCard flex items-center gap-4">
+                    <ng-container *ngIf="!selectedLogo">
+                      <input type="file" name="upload-logo" id="upload-logo" class="hidden"
+                        (change)="uploadLogo($event)" accept=".png, .jpeg, .jpg">
+
+                      <div class="h-full flex items-center justify-center">
+                        <img src="/assets/icons/upload-colored.svg" alt="upload" width="32" height="32">
+                      </div>
+                      <div class="flex flex-column justify-center gap-2">
+                        <div class="file-upload-header hover:underline cursor-pointer"
+                          onclick="document.getElementById('upload-logo').click()">
+                          Click here to upload file
+                        </div>
+                        <div class="upload-description">
+                          Max file size: 5 MB, Supports file types: JPG, PNG, JPEG
+                        </div>
+                      </div>
+                    </ng-container>
+
+                    <ng-container *ngIf="selectedLogo">
+                      <div class="flex justify-between items-center w-full">
+                        <div class="flex gap-4 items-center">
+                          <img [src]="selectedLogo" alt="logo" width="50px" height="50px">
+                          <p class="upload-description font-bold">{{selectedLogoName}}</p>
+                        </div>
+                        <div (click)="selectedLogo = null"><mat-icon>close</mat-icon></div>
+                      </div>
+                    </ng-container>
+                  </div>
+                </div>
+              </ng-container>
+              <ng-container *ngIf="openMode === 'editMode'">
+                <div class="grid grid-cols-2 gap-8 mt-4">
+                  <div class="flex flex-col gap-2">
+                    <div class="viewModeLable">Type</div>
+                    <div class="viewModeValue">{{rowData?.type}}</div>
+                  </div>
+                  <div class="flex flex-col gap-2">
+                    <div class="viewModeLable">State/Center</div>
+                    <div class="viewModeValue">{{rowData?.stateOrMinistry}}</div>
+                  </div>
+                  <div class="flex flex-col gap-2">
+                    <div class="viewModeLable">Created Date and Time</div>
+                    <div class="viewModeValue">{{rowData?.createdOn}}</div>
+                  </div>
+                </div>
+
+              </ng-container>
+              <ng-container *ngIf="getCategory">
+                <div class="flex flex-column gap-1 w-full mt-8">
+                  <div class="flex items-center gap-1 required">
+                    <span class="lable">Description</span>
+                  </div>
+                  <mat-form-field class="w-full">
+                    <textarea matInput formControlName="description" rows="5" placeholder="Start typing"></textarea>
+                    <mat-error *ngIf="controls['description'].errors?.['maxlength']">Description must not exceed 1000
+                      characters.</mat-error>
+                    <mat-error *ngIf="controls['description'].errors?.['required']">Description is required.</mat-error>
+                  </mat-form-field>
+                  <div class="flex justify-end">
+                    <span class="descriptionLength">{{organisationForm.value.description.length}}/1000</span>
+                  </div>
+                </div>
+              </ng-container>
+            </form>
+          </ng-container>
+          <ng-template #viewMode>
+            <div class="flex flex-column gap-12">
+              <div class="flex gap-8">
+                <div class="w-full flex flex-col gap-2">
+                  <div class="viewModeLable">Category</div>
+                  <div class="viewModeValue">{{rowData?.type}}</div>
+                </div>
+                <ng-container *ngIf="rowData?.type === 'State'">
+                  <div class="w-full flex flex-col gap-2">
+                    <div class="viewModeLable">State</div>
+                    <div class="viewModeValue">{{rowData?.type}}</div>
+                  </div>
+                </ng-container>
+                <ng-container *ngIf="rowData?.type !== 'State'">
+                  <div class="w-full flex flex-col gap-2">
+                    <div class="viewModeLable">Ministry</div>
+                    <div class="viewModeValue">{{rowData?.type}}</div>
+                  </div>
+                </ng-container>
+              </div>
+
+              <div class="flex gap-8">
+                <div class="w-full flex flex-col gap-2">
+                  <div class="viewModeLable">Created By</div>
+                  <div class="viewModeValue">{{rowData?.createdBy}}</div>
+                </div>
+                <div class="w-full flex flex-col gap-2">
+                  <div class="viewModeLable">Created Date and Time</div>
+                  <div class="viewModeValue">{{rowData?.createdOn}}</div>
+                </div>
+              </div>
+
+              <div class="flex gap-8">
+                <div class="w-full flex flex-col gap-2">
+                  <div class="viewModeLable">Description</div>
+                  <div class="viewModeValue">{{rowData?.description}}</div>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+        </div>
+
+        <div class="right-sidenav-footer flex items-center justify-end gap-4 items-center px-5 pt-3 pb-5 bg-white">
+          <ng-container *ngIf="openMode !== 'viewMode'">
+            <button mat-button class="cancelButton" (click)="closeNaveBar()">Cancel</button>
+            <button mat-flat-button class="mat-btn-flat"
+              [disabled]="isLoading || this.organisationForm.invalid || !selectedLogo"
+              (click)="onSubmitCreateOrganization()">{{openMode
+              === 'editMode' ? 'Update' : 'Add'}}</button>
+          </ng-container>
+          <ng-container *ngIf="openMode === 'viewMode'">
+            <button mat-button class="editButton" (click)="openMode = 'editMode'">Edit</button>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

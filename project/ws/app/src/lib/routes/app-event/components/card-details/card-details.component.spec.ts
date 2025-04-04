@@ -1,25 +1,29 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing'
 
+import { ChangeDetectorRef } from '@angular/core'
+import { Router, ActivatedRoute } from '@angular/router'
 import { CardDetailsComponent } from './card-details.component'
 
 describe('CardDetailsComponent', () => {
-  let component: CardDetailsComponent
-  let fixture: ComponentFixture<CardDetailsComponent>
+    let component: CardDetailsComponent
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [CardDetailsComponent],
+    const changeDetector: Partial<ChangeDetectorRef> = {}
+    const route: Partial<ActivatedRoute> = {}
+    const router: Partial<Router> = {}
+
+    beforeAll(() => {
+        component = new CardDetailsComponent(
+            changeDetector as ChangeDetectorRef,
+            route as ActivatedRoute,
+            router as Router
+        )
     })
-    .compileComponents()
-  }))
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(CardDetailsComponent)
-    component = fixture.componentInstance
-    fixture.detectChanges()
-  })
+    beforeEach(() => {
+        jest.clearAllMocks()
+        jest.resetAllMocks()
+    })
 
-  it('should create', () => {
-    expect(component).toBeTruthy()
-  })
+    it('should create a instance of component', () => {
+        expect(component).toBeTruthy()
+    })
 })

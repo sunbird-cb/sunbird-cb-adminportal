@@ -1,24 +1,20 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing'
-
 import { QandaCardComponent } from './qanda-card.component'
 
 describe('QandaCardComponent', () => {
-  let component: QandaCardComponent
-  let fixture: ComponentFixture<QandaCardComponent>
+    let component: QandaCardComponent
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [QandaCardComponent],
-    }).compileComponents()
-  }))
+    beforeAll(() => {
+        component = new QandaCardComponent(
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(QandaCardComponent)
-    component = fixture.componentInstance
-    fixture.detectChanges()
-  })
+        )
+    })
 
-  it('should create', () => {
-    expect(component).toBeTruthy()
-  })
+    beforeEach(() => {
+        jest.clearAllMocks()
+        jest.resetAllMocks()
+    })
+
+    it('should create a instance of component', () => {
+        expect(component).toBeTruthy()
+    })
 })

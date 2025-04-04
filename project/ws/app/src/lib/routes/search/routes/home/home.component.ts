@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core'
-import { FormControl } from '@angular/forms'
+import { UntypedFormControl } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router'
 import { ConfigurationsService, NsPage } from '@sunbird-cb/utils'
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators'
@@ -14,7 +14,7 @@ import { SearchServService } from '../../services/search-serv.service'
 })
 export class HomeComponent implements OnInit {
 
-  query: FormControl = new FormControl('')
+  query: UntypedFormControl = new UntypedFormControl('')
   pageNavbar: Partial<NsPage.INavBackground> = this.configSvc.pageNavBar
   autoCompleteResults: ISearchAutoComplete[] = []
   searchQuery: ISearchQuery = {

@@ -1,0 +1,235 @@
+.rsearch {
+  display: flex;
+  position: relative;
+  flex: 1 1 auto;
+}
+
+.sinput {
+  width: 315px;
+  border-radius: 4px;
+  border: 1px solid #d5d0d0;
+  padding: 9px 9px 9px 35px;
+  margin-bottom: 0px;
+  margin-top: 0;
+  /* stylelint-enable */
+  font: normal 14px Lato;
+  /* stylelint-disable */
+  font-weight: 400;
+}
+
+.search-icon {
+  position: absolute;
+  top: 9px;
+  font-size: 20px;
+  left: 10px;
+}
+
+.delete-all {
+  background-color: #1B4CA1 !important;
+  border-radius: 4px;
+  color: #FFFFFF !important;
+  /* stylelint-enable */
+  font: 700 14px Lato;
+  /* stylelint-disable */
+
+  .delete-all-icon {
+    font-size: 18px;
+    width: 14px;
+    height: 18px;
+    color: #ffffff;
+  }
+}
+
+.imageCell {
+  width: 63px;
+  margin-right: 15px;
+}
+
+.delete-btn {
+  background-color: #1B4CA1 !important;
+  min-width: 40px;
+  height: 40px;
+  border-radius: 4px;
+}
+
+.delete-icon{
+  font-size: 18px;
+  height: 18px;
+  width: 18px;
+  color: #FFFFFF;
+}
+
+.disable-delete {
+  opacity: 0.2;
+  pointer-events: none;
+}
+
+.cell-gray-text {
+  color: #0000008A !important;
+}
+
+.cources-table-cell {
+  color: #000000DE;
+  /* stylelint-enable */
+  font: 400 14px Lato;
+  /* stylelint-disable */
+  width: 150px;
+}
+
+.text-overflow-elipse {
+  white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.header-info-icon {
+  color: #6C757D;
+  font-size: 14px;
+  height: 14px;
+  width: 14px;
+  margin-left: 5px;
+}
+
+.authenticated {
+  background-color: #1D8923;
+  height: 26px;
+  width: 124px;
+  border-radius: 4px;
+  padding: 4px 8px;
+  color: #FFFFFF;
+  /* stylelint-enable */
+  font: 400 14px Lato;
+  /* stylelint-disable */
+
+  .checkCircle{
+    color: #E8EAED;
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+  }
+}
+
+.not-authenticated {
+  background-color: #D13924;
+  height: 26px;
+  width: 124px;
+  border-radius: 4px;
+  padding: 4px 8px;
+  color: #FFFFFF;
+  /* stylelint-enable */
+  font: 400 14px Lato;
+  /* stylelint-disable */
+
+  .pending-img{
+    width: 24px;
+    height: 24px;
+  }
+}
+
+.statusLive {
+  height: 33px;
+  width: 58px;
+  background-color: #1D892333;
+  /* stylelint-enable */
+  font: 700 14px Lato;
+  /* stylelint-disable */
+  color: #1D8923;
+  border-radius: 4px;
+}
+
+.statusFailed {
+  height: 33px;
+  border-radius: 4px;
+  background-color: #D1392466;
+  padding: 0px 16px;
+  /* stylelint-enable */
+  font: 700 14px Lato;
+  /* stylelint-disable */
+  color: #D13924;
+}
+
+.statusPending {
+  height: 33px;
+  border-radius: 4px;
+  background-color: #fad8b4;
+  padding: 0px 16px;
+  /* stylelint-enable */
+  font: 700 14px Lato;
+  /* stylelint-disable */
+  color: #fb8400;
+}
+
+.refreshIcon {
+  color: #1B4CA1;
+  margin-left: 5px;
+  cursor: pointer;
+}
+
+.horizontalMenu {
+  color: #00000099;
+  cursor: pointer;
+}
+
+.item-btn {
+  color: #00000099 !important;
+  /* stylelint-enable */
+  font: 400 14px Lato;
+  /* stylelint-disable */
+  width: 160px;
+
+  .menu-item-icon {
+    color: #00000099;
+    margin-right: 5px;
+  }
+}
+
+.table-checkbox-column {
+  flex: 0 0 120px;
+  justify-content: center;
+  padding-left: 0px;
+}
+
+.table-menu-column {
+  flex: 0 0 200px;
+  .disableMenu {
+    opacity: 0.5;
+  }
+}
+
+.table-header-text {
+  color: #0000008A !important;
+  font-size: 14px !important;
+}
+
+.coursesTableLoader {
+  height: calc(100vh - 300px);
+
+  .coursesTableSpinner {
+    position: unset !important;
+    margin: 0px !important;
+  }
+}
+
+
+:host ::ng-deep .courses-table {
+  .mat-header-row {
+    background-color: #F5F5F5 !important;
+  }
+}
+
+:host ::ng-deep .disableCheckBosx {
+  .mat-checkbox-inner-container-no-side-margin {
+    background-color: #D9D9D9;
+  }
+
+  .theme-igot.day-mode .mat-header-cell {
+    color: #0000008A;
+    /* stylelint-enable */
+    font: 400 14px Lato
+    /* stylelint-disable */
+  }
+}
+
+:host ::ng-deep .mat-paginator-container {
+  justify-content: center !important;
+}

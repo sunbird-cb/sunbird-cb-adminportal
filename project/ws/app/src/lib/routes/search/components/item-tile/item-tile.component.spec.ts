@@ -1,24 +1,25 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing'
-
+import { ActivatedRoute, Router } from '@angular/router'
 import { ItemTileComponent } from './item-tile.component'
 
 describe('ItemTileComponent', () => {
-  let component: ItemTileComponent
-  let fixture: ComponentFixture<ItemTileComponent>
+    let component: ItemTileComponent
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ItemTileComponent],
-    }).compileComponents()
-  }))
+    const activated: Partial<ActivatedRoute> = {}
+    const route: Partial<Router> = {}
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(ItemTileComponent)
-    component = fixture.componentInstance
-    fixture.detectChanges()
-  })
+    beforeAll(() => {
+        component = new ItemTileComponent(
+            activated as ActivatedRoute,
+            route as Router
+        )
+    })
 
-  it('should create', () => {
-    expect(component).toBeTruthy()
-  })
+    beforeEach(() => {
+        jest.clearAllMocks()
+        jest.resetAllMocks()
+    })
+
+    it('should create a instance of component', () => {
+        expect(component).toBeTruthy()
+    })
 })

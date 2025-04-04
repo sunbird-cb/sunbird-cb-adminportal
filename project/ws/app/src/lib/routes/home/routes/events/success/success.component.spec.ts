@@ -1,25 +1,24 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing'
 
+import { MatDialogRef } from '@angular/material/dialog'
 import { SuccessComponent } from './success.component'
 
 describe('SuccessComponent', () => {
-  let component: SuccessComponent
-  let fixture: ComponentFixture<SuccessComponent>
+    let component: SuccessComponent
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [SuccessComponent],
+    const dialogRef: Partial<MatDialogRef<SuccessComponent>> = {}
+
+    beforeAll(() => {
+        component = new SuccessComponent(
+            dialogRef as MatDialogRef<SuccessComponent>
+        )
     })
-    .compileComponents()
-  }))
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(SuccessComponent)
-    component = fixture.componentInstance
-    fixture.detectChanges()
-  })
+    beforeEach(() => {
+        jest.clearAllMocks()
+        jest.resetAllMocks()
+    })
 
-  it('should create', () => {
-    expect(component).toBeTruthy()
-  })
+    it('should create a instance of component', () => {
+        expect(component).toBeTruthy()
+    })
 })

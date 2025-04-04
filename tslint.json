@@ -3,7 +3,15 @@
   "extends": ["tslint-config-airbnb", "tslint-angular"],
   "rules": {
     "component-selector": [true, "element", "ws", "viewer", "kebab-case"],
-    "directive-selector": [true, "attribute", "ws", "camelCase"],
+    "directive-selector": [
+      true,
+      "attribute",
+      "ws",
+      "camelCase"
+    ],
+    "deprecation": {
+      "severity": "warning"
+    },
     "semicolon": [true, "never"],
     "ter-indent": [false],
     "arrow-parens": [true, "ban-single-arg-parens"],

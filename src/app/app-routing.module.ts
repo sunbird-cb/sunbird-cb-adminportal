@@ -37,8 +37,7 @@ const routes: Routes = [
   {
     path: 'practice/behavioral',
     pathMatch: 'full',
-    redirectTo: 'page/embed-behavioural-skills',
-    canActivate: [GeneralGuard],
+    redirectTo: 'page/embed-behavioural-skills'
   },
   {
     path: 'app/home',
@@ -327,7 +326,7 @@ const routes: Routes = [
       scrollPositionRestoration: 'top',
       urlUpdateStrategy: 'eager',
       onSameUrlNavigation: 'reload',
-      scrollOffset: [0, 80],
+      scrollOffset: [0, 80]
     }),
   ],
   exports: [RouterModule],

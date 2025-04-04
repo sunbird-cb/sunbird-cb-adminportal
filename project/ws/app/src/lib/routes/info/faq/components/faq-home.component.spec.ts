@@ -1,25 +1,31 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing'
-
+import { ActivatedRoute } from '@angular/router'
+import { ValueService, ConfigurationsService } from '@sunbird-cb/utils'
 import { FaqHomeComponent } from './faq-home.component'
+import { of } from 'rxjs'
 
 describe('FaqHomeComponent', () => {
-  let component: FaqHomeComponent
-  let fixture: ComponentFixture<FaqHomeComponent>
+    let component: FaqHomeComponent
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [FaqHomeComponent],
+    const route: Partial<ActivatedRoute> = {}
+    const valueSvc: Partial<ValueService> = {
+        isLtMedium$: of(true),
+    }
+    const configSvc: Partial<ConfigurationsService> = {}
+
+    beforeAll(() => {
+        component = new FaqHomeComponent(
+            route as ActivatedRoute,
+            valueSvc as ValueService,
+            configSvc as ConfigurationsService
+        )
     })
-    .compileComponents()
-  }))
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(FaqHomeComponent)
-    component = fixture.componentInstance
-    fixture.detectChanges()
-  })
+    beforeEach(() => {
+        jest.clearAllMocks()
+        jest.resetAllMocks()
+    })
 
-  it('should create', () => {
-    expect(component).toBeTruthy()
-  })
+    it('should create a instance of component', () => {
+        expect(component).toBeTruthy()
+    })
 })

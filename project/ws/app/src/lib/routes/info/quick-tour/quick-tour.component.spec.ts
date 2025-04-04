@@ -1,25 +1,23 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing'
-
+import { ConfigurationsService } from '@sunbird-cb/utils'
 import { QuickTourComponent } from './quick-tour.component'
 
 describe('QuickTourComponent', () => {
-  let component: QuickTourComponent
-  let fixture: ComponentFixture<QuickTourComponent>
+    let component: QuickTourComponent
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [QuickTourComponent],
+    const configSvc: Partial<ConfigurationsService> = {}
+
+    beforeAll(() => {
+        component = new QuickTourComponent(
+            configSvc as ConfigurationsService
+        )
     })
-    .compileComponents()
-  }))
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(QuickTourComponent)
-    component = fixture.componentInstance
-    fixture.detectChanges()
-  })
+    beforeEach(() => {
+        jest.clearAllMocks()
+        jest.resetAllMocks()
+    })
 
-  it('should create', () => {
-    expect(component).toBeTruthy()
-  })
+    it('should create a instance of component', () => {
+        expect(component).toBeTruthy()
+    })
 })

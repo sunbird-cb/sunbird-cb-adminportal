@@ -11,21 +11,19 @@
           <h2 class="cb-title">Basic information</h2>
           <div class="flex-container">
             <div class="flex-container-div">
-              <form [formGroup]="contentForm" (ngSubmit)="onSubmit() && contentForm.valid" class="min-width">
+              <form [formGroup]="contentForm" (ngSubmit)="onSubmit()" class="min-width">
                 <div class="mobile-break mat-app-background">
                   <div class="margin-top-s">
                     <div class="margin-top-xs">
-                      <p class="margin-remove-bottom" i18n="Title label|Label which explains the user to enter title"
-                        [ngClass]="{ required: checkCondition('name', 'required') }">
+                      <p class="margin-remove-bottom" [ngClass]="{ required: checkCondition('name', 'required') }">
                         {{departmentName}} name
                       </p>
                       <mat-form-field appearance="outline" class="margin-top-xs"
                         [ngClass]="{ 'mat-form-field-invalid': showError('name') }">
-                        <input matInput #name formControlName="name" maxlength="250" i18n-placeholder
-                          placeholder="Type here" type="text" (keyup)="specialCharachters($event, 'cbpProvider')"
+                        <input matInput #name formControlName="name" maxlength="250" placeholder="Type here" type="text"
+                          (keyup)="specialCharachters($event, 'cbpProvider')"
                           [required]="checkCondition('name', 'required') ? true : null" />
-                        <mat-error *ngIf="contentForm?.controls['name'].errors"
-                          i18n="name Error|Explains name is required">
+                        <mat-error *ngIf="contentForm?.controls['name'].errors">
                           Only {{specialCharList}} characters are supported
                         </mat-error>
                       </mat-form-field>
@@ -38,10 +36,10 @@
                     </p>
                     <mat-form-field appearance="outline" class="margin-top-xs"
                       [ngClass]="{ 'mat-form-field-invalid': showError('subTitle') }">
-                      <input matInput formControlName="head" #subTitle maxlength="1000" i18n-placeholder
+                      <input matInput formControlName="head" #subTitle maxlength="1000"
                         placeholder="Type here" [required]="checkCondition('subTitle', 'required') ? true : null"
                         pattern="[a-zA-Z ]*" />
-                      <mat-error *ngIf="showError('subTitle')" i18n="Subtitle Error|Explains Subtitle is required">
+                      <mat-error *ngIf="showError('subTitle')">
                         Head quaters not valid
                       </mat-error>
                     </mat-form-field>
@@ -49,7 +47,7 @@
                   <div class="margin-top-s">
                     <label>
                       <div class="margin-top-s flex flex-middle">
-                        <span [ngClass]="{ required: checkCondition('deptSubTypeId', 'required') }" i18n>Department
+                        <span [ngClass]="{ required: checkCondition('deptSubTypeId', 'required') }">Department
                           type</span>
                       </div>
                     </label>
@@ -60,10 +58,10 @@
                         <mat-select [(value)]="selected" formControlName="deptSubTypeId"
                           [required]="checkCondition('subTitle', 'required') ? true : null"
                           (selectionChange)="selectedType($event.value)" placeholder="Department type">
-                          <mat-option *ngFor="let subDepartment of subDepartments" value='{{subDepartment}}' i18n>
+                          <mat-option *ngFor="let subDepartment of subDepartments" value='{{subDepartment}}'>
                             {{subDepartment}}</mat-option>
                         </mat-select>
-                        <mat-error *ngIf="showError('deptSubTypeId')" i18n>Department type is mandatory
+                        <mat-error *ngIf="showError('deptSubTypeId')">Department type is mandatory
                         </mat-error>
                       </mat-form-field>
                     </div>
@@ -72,16 +70,16 @@
                 <div class="mt-5">
                   <button *ngIf="!isUpdate" [disabled]="!contentForm.valid || disableCreateButton" mat-raised-button
                     type="submit" class="text-white ws-mat-primary-background text-white margin-right-m btn-success">
-                    <b class="text-white" i18n>Create</b>
+                    <b class="text-white">Create</b>
                   </button>
                   <button *ngIf="isUpdate" mat-raised-button type="submit"
                     [disabled]="!contentForm.valid || disableCreateButton"
                     class="text-white ws-mat-primary-background text-white margin-right-m btn-success">
-                    <b class="text-white" i18n>Update</b>
+                    <b class="text-white">Update</b>
                   </button>
                   <button mat-raised-button type="button" class="ws-mat-accent-border flex-auto-display"
                     (click)="onCancel()">
-                    <span class="ws-mat-default-text" i18n>Cancel</span>
+                    <span class="ws-mat-default-text">Cancel</span>
                   </button>
                 </div>
                 <div *ngIf="displayLoader" class="mt-5 pr-4 flex items-center justify-center">
@@ -96,35 +94,32 @@
           <h2 class="cb-title">Basic information</h2>
           <div class="flex-container">
             <div class="flex-container-div flex-div">
-              <form [formGroup]="stateForm" (ngSubmit)="onSubmitState() && stateForm.valid" class="min-width">
+              <form [formGroup]="stateForm" (ngSubmit)="onSubmitState()" class="min-width">
                 <div class="input-wrapper margin-top-s mb-5">
-                  <label for="State" class=" margin-remove-bottom form-label required"
-                    i18n="State|Label which explains the user to enter State" i18n-aria-label
-                    aria-label="State Field label">
+                  <label for="State" class=" margin-remove-bottom form-label required" aria-label="State Field label">
                     State
                   </label>
                   <mat-form-field appearance="outline" class="margin-top-s w-full">
                     <input id="state" matInput tab-directive type="text" placeholder="Select your state"
-                      (keyup)="specialCharachters($event, 'state')" i18n-placeholder="State" formControlName="state"
-                      [matAutocomplete]="stateAutocomplete" i18n-aria-label aria-label="State" #state i18n-aria-label
-                      aria-label="State Field input" maxlength="250" />
-                    <mat-error [hidden]="false" i18n="State Error|Explains State is required"
-                      *ngIf="stateForm?.controls['state'].errors?.required" i18n-aria-label
+                      (keyup)="specialCharachters($event, 'state')" formControlName="state"
+                      [matAutocomplete]="stateAutocomplete" aria-label="State" #state aria-label="State Field input"
+                      maxlength="250" />
+                    <mat-error [hidden]="false" *ngIf="stateForm?.controls['state'].errors?.required"
                       aria-label="State is mandatory">
                       State is mandatory
                     </mat-error>
-                    <mat-error *ngIf="stateForm?.controls['state'].errors" i18n="name Error|Explains name is required">
+                    <mat-error *ngIf="stateForm?.controls['state'].errors">
                       Only {{specialCharList}} characters are supported
                     </mat-error>
-                    <!-- <mat-error *ngIf="stateForm?.controls['state'].errors?.forbiddenNames" i18n-aria-label
+                    <!-- <mat-error *ngIf="stateForm?.controls['state'].errors?.forbiddenNames"
                                           aria-label="You must enter value from suggested list only.">
                                           You must enter value from suggested list only.
                                         </mat-error> -->
                   </mat-form-field>
-                  <mat-autocomplete #stateAutocomplete="matAutocomplete" autoActiveFirstOption="true" i18n-aria-label
+                  <mat-autocomplete #stateAutocomplete="matAutocomplete" autoActiveFirstOption="true"
                     aria-label="State list masterStates" [displayWith]="displayFnState">
                     <mat-option *ngFor="let option of masterStates | async | acsendingOrder:'asc':'orgName'"
-                      [value]="option" i18n-aria-label aria-label="State list autocomplete option">
+                      [value]="option" aria-label="State list autocomplete option">
                       {{ option.orgName }}
                     </mat-option>
                   </mat-autocomplete>
@@ -132,16 +127,16 @@
                 <div>
                   <button *ngIf="!isUpdate" [disabled]="!stateForm.valid || disableStateCreateButton" mat-raised-button
                     type="submit" class="text-white ws-mat-primary-background text-white margin-right-m btn-success">
-                    <b class="text-white" i18n>Create</b>
+                    <b class="text-white">Create</b>
                   </button>
                   <button *ngIf="isUpdate" mat-raised-button type="submit"
                     [disabled]="!stateForm.valid || disableStateCreateButton"
                     class="text-white ws-mat-primary-background text-white margin-right-m btn-success">
-                    <b class="text-white" i18n>Update</b>
+                    <b class="text-white">Update</b>
                   </button>
                   <button mat-raised-button type="button" class="ws-mat-accent-border flex-auto-display"
                     (click)="onCancelState()">
-                    <span class="ws-mat-default-text" i18n>Cancel</span>
+                    <span class="ws-mat-default-text">Cancel</span>
                   </button>
                 </div>
                 <div *ngIf="displayLoader" class="mt-5 pr-4 flex items-center justify-center">
@@ -156,40 +151,35 @@
           <div class="flex-container">
             <div class="flex-container-div">
               <ng-container *ngIf="!isStateAdmin">
-                <form [formGroup]="departmentForm" (ngSubmit)="onSubmitDepartment() && departmentForm.valid"
-                  class="min-width">
+                <form [formGroup]="departmentForm" (ngSubmit)="onSubmitDepartment()" class="min-width">
                   <div class="input-wrapper margin-top-s">
                     <label for="Ministry" class=" margin-remove-bottom form-label required"
-                      i18n="Ministry|Label which explains the user to enter Ministry" i18n-aria-label
                       aria-label="Ministry Field label ">
                       Ministry
                     </label>
                     <mat-form-field appearance="outline" class="margin-top-s w-full">
                       <input id="ministry" matInput tab-directive type="text" placeholder="Select your ministry"
-                        i18n-placeholder="Ministry" formControlName="ministry"
-                        (keyup)="specialCharachters($event, 'ministry')" [matAutocomplete]="ministryAutocomplete"
-                        i18n-aria-label aria-label="Ministry" #ministry i18n-aria-label
+                        formControlName="ministry" (keyup)="specialCharachters($event, 'ministry')"
+                        [matAutocomplete]="ministryAutocomplete" aria-label="Ministry" #ministry
                         aria-label="Ministry Field input" maxlength="250" />
-                      <mat-error [hidden]="false" i18n="Ministry Error|Explains Ministry is required"
-                        *ngIf="departmentForm?.controls['ministry'].errors?.required" i18n-aria-label
+                      <mat-error [hidden]="false" *ngIf="departmentForm?.controls['ministry'].errors?.required"
                         aria-label="Ministry is mandatory">
                         Ministry is mandatory
                       </mat-error>
-                      <mat-error *ngIf="departmentForm?.controls['ministry'].errors"
-                        i18n="name Error|Explains name is required">
+                      <mat-error *ngIf="departmentForm?.controls['ministry'].errors">
                         Only {{specialCharList}} characters are supported
                       </mat-error>
 
-                      <!-- <mat-error *ngIf="departmentForm?.controls['ministry'].errors?.forbiddenNames" i18n-aria-label
+                      <!-- <mat-error *ngIf="departmentForm?.controls['ministry'].errors?.forbiddenNames"
                         aria-label="You must enter value from suggested list only.">
                         You must enter value from suggested list only.
                       </mat-error> -->
                     </mat-form-field>
                     <mat-autocomplete #ministryAutocomplete="matAutocomplete" autoActiveFirstOption="true"
-                      i18n-aria-label aria-label="Ministry list masterMinistry" [displayWith]="displayFnState"
+                      aria-label="Ministry list masterMinistry" [displayWith]="displayFnState"
                       (optionSelected)="ministrySelected($event.option.value)">
                       <mat-option *ngFor="let option of masterMinisteries | async | acsendingOrder:'asc':'orgName'"
-                        [value]="option" i18n-aria-label aria-label="Ministry list autocomplete option">
+                        [value]="option" aria-label="Ministry list autocomplete option">
                         {{ option.orgName }}
                       </mat-option>
                     </mat-autocomplete>
@@ -197,36 +187,32 @@
                   <!-- <div>{{ departmentForm['ministry']?.value?.orgname }} </div> -->
                   <div *ngIf="departmentForm?.controls['ministry']?.value?.orgName" class="input-wrapper margin-top-s">
                     <label for="Department" class=" margin-remove-bottom form-label"
-                      i18n="Department|Label which explains the user to enter Department" i18n-aria-label
                       aria-label="Department Field label">
                       Department
                     </label>
                     <mat-form-field appearance="outline" class="margin-top-s w-full">
                       <input id="department" matInput tab-directive type="text" placeholder="Select your department"
-                        (keyup)="specialCharachters($event, 'department')" i18n-placeholder="department"
-                        formControlName="department" [matAutocomplete]="departmentAutocomplete" i18n-aria-label
-                        aria-label="Department" #department i18n-aria-label aria-label="Department Field input"
-                        maxlength="250" />
-                      <mat-error [hidden]="false" i18n="Department Error|Explains Department is required"
-                        *ngIf="departmentForm?.controls['department'].errors?.required" i18n-aria-label
+                        (keyup)="specialCharachters($event, 'department')" formControlName="department"
+                        [matAutocomplete]="departmentAutocomplete" aria-label="Department" #department
+                        aria-label="Department Field input" maxlength="250" />
+                      <mat-error [hidden]="false" *ngIf="departmentForm?.controls['department'].errors?.required"
                         aria-label="Department is mandatory">
                         Department is mandatory
                       </mat-error>
-                      <mat-error *ngIf="departmentForm?.controls['department'].errors"
-                        i18n="name Error|Explains name is required">
+                      <mat-error *ngIf="departmentForm?.controls['department'].errors">
                         Only {{specialCharList}} characters are supported
                       </mat-error>
-                      <mat-error *ngIf="departmentForm?.controls['department'].errors?.forbiddenNames" i18n-aria-label
+                      <mat-error *ngIf="departmentForm?.controls['department'].errors?.forbiddenNames"
                         aria-label="You must enter value from suggested list only.">
                         You must enter value from suggested list only.
                       </mat-error>
                     </mat-form-field>
                     <mat-autocomplete #departmentAutocomplete="matAutocomplete" autoActiveFirstOption="true"
-                      i18n-aria-label aria-label="Department list masterDepartments" [displayWith]="displayFnState"
+                      aria-label="Department list masterDepartments" [displayWith]="displayFnState"
                       (optionSelected)="departmentSelected($event.option.value)">
                       <mat-option *ngFor="let option of masterDepartments | async | acsendingOrder:'asc':'orgName'"
                         [value]="
-                        option" i18n-aria-label aria-label="Department list autocomplete option">
+                        option" aria-label="Department list autocomplete option">
                         {{ option.orgName }}
                       </mat-option>
                     </mat-autocomplete>
@@ -236,40 +222,37 @@
                     *ngIf="departmentForm?.controls['department']?.value?.orgName && departmentForm?.controls['ministry']?.value?.orgName"
                     class="input-wrapper margin-top-s">
                     <label for="Organisation" class=" margin-remove-bottom form-label"
-                      i18n="Organisation|Label which explains the user to enter Organisation" i18n-aria-label
                       aria-label="Organisation Field label">
                       Organisation
                     </label>
                     <mat-form-field appearance="outline" class="margin-top-s w-full">
                       <input id="Organisation" matInput tab-directive type="text" placeholder="Select your organisation"
-                        (keyup)="specialCharachters($event, 'organization')" i18n-placeholder="Organisation"
-                        formControlName="organisation" [matAutocomplete]="organisationAutocomplete" i18n-aria-label
-                        aria-label="Organisation" #organisation i18n-aria-label aria-label="Organisation Field input" />
-                      <mat-error [hidden]="false" i18n="Organisation Error|Explains Organisation is required"
-                        *ngIf="departmentForm?.controls['organisation'].errors?.required" i18n-aria-label
+                        (keyup)="specialCharachters($event, 'organization')" formControlName="organisation"
+                        [matAutocomplete]="organisationAutocomplete" aria-label="Organisation" #organisation
+                        aria-label="Organisation Field input" />
+                      <mat-error [hidden]="false" *ngIf="departmentForm?.controls['organisation'].errors?.required"
                         aria-label="Organisation is mandatory">
                         Organisation is mandatory
                       </mat-error>
                       <!-- <mat-error *ngIf="departmentForm?.controls['organisation'].errors?.maxlength">
                         maximum characters limit is 120.
                       </mat-error> -->
-                      <mat-error *ngIf="departmentForm?.controls['organisation'].errors?.forbiddenNames" i18n-aria-label
+                      <mat-error *ngIf="departmentForm?.controls['organisation'].errors?.forbiddenNames"
                         aria-label="You must enter value from suggested list only.">
                         You must enter value from suggested list only.
                       </mat-error>
                       <mat-error *ngIf="departmentForm?.controls['organisation'].errors &&
                         !departmentForm?.controls['organisation'].errors?.maxlength &&
                         !departmentForm?.controls['organisation'].errors?.required
-                        && !departmentForm?.controls['organisation'].errors?.forbiddenNames"
-                        i18n="name Error|Explains name is required">
+                        && !departmentForm?.controls['organisation'].errors?.forbiddenNames">
                         Only {{specialCharList}} characters are supported
                       </mat-error>
 
                     </mat-form-field>
                     <mat-autocomplete #organisationAutocomplete="matAutocomplete" autoActiveFirstOption="true"
-                      i18n-aria-label aria-label="Organisation list masterStates" [displayWith]="displayFnState">
+                      aria-label="Organisation list masterStates" [displayWith]="displayFnState">
                       <mat-option *ngFor="let option of masterOrgs | async | acsendingOrder:'asc':'orgName'" [value]="
-                        option" i18n-aria-label aria-label="Organisation list autocomplete option">
+                        option" aria-label="Organisation list autocomplete option">
                         {{ option.orgName }}
                       </mat-option>
                     </mat-autocomplete>
@@ -278,16 +261,16 @@
                     <button *ngIf="!isUpdate" [disabled]="!departmentForm.valid || disableCreateButton"
                       mat-raised-button type="submit"
                       class="text-white ws-mat-primary-background text-white margin-right-m btn-success">
-                      <b class="text-white" i18n>Create</b>
+                      <b class="text-white">Create</b>
                     </button>
                     <button *ngIf="isUpdate" mat-raised-button type="submit"
                       [disabled]="!departmentForm.valid || disableCreateButton"
                       class="text-white ws-mat-primary-background text-white margin-right-m btn-success">
-                      <b class="text-white" i18n>Update</b>
+                      <b class="text-white">Update</b>
                     </button>
                     <button mat-raised-button type="button" class="ws-mat-accent-border flex-auto-display"
                       (click)="onCancel()">
-                      <span class="ws-mat-default-text" i18n>Cancel</span>
+                      <span class="ws-mat-default-text">Cancel</span>
                     </button>
                   </div>
                   <div *ngIf="displayLoader" class="mt-5 pr-4 flex items-center justify-center">
@@ -296,35 +279,32 @@
                 </form>
               </ng-container>
               <ng-container *ngIf="isStateAdmin">
-                <form [formGroup]="departmentForm" (ngSubmit)="onSubmitDepartment() && departmentForm.valid"
-                  class="min-width">
+                <form [formGroup]="departmentForm" (ngSubmit)="onSubmitDepartment()" class="min-width">
                   <div class="input-wrapper margin-top-s">
                     <label for="State" class=" margin-remove-bottom form-label required"
-                      i18n="Ministry|Label which explains the user to enter Ministry" i18n-aria-label
                       aria-label="Ministry Field label">
                       State name
                     </label>
                     <mat-form-field appearance="outline" class="margin-top-s w-full">
                       <input id="ministry" matInput tab-directive type="text" placeholder="Select your state"
-                        (keyup)="specialCharachters($event, 'ministry')" i18n-placeholder="Ministry"
-                        formControlName="ministry" [matAutocomplete]="ministryAutocomplete" i18n-aria-label
-                        aria-label="Ministry" #ministry i18n-aria-label aria-label="Ministry Field input" readonly
-                        maxlength="250" />
-                      <mat-error [hidden]="false" i18n="Ministry Error|Explains Ministry is required"
-                        *ngIf="departmentForm?.controls['ministry'].errors?.required" i18n-aria-label
+                        (keyup)="specialCharachters($event, 'ministry')" formControlName="ministry"
+                        [matAutocomplete]="ministryAutocomplete" aria-label="Ministry" #ministry
+                        aria-label="Ministry Field input" readonly maxlength="250" />
+                      <mat-error [hidden]="false" *ngIf="departmentForm?.controls['ministry'].errors?.required"
                         aria-label="Ministry is mandatory">
                         Ministry is mandatory
                       </mat-error>
-                      <mat-error *ngIf="departmentForm?.controls['ministry'].errors?.forbiddenNames" i18n-aria-label
+                      <mat-error *ngIf="departmentForm?.controls['ministry'].errors?.forbiddenNames"
                         aria-label="You must enter value from suggested list only.">
                         You must enter value from suggested list only.
                       </mat-error>
                     </mat-form-field>
+                    <!-- (change)="onChange($event)" -->
                     <mat-autocomplete #ministryAutocomplete="matAutocomplete" autoActiveFirstOption="true"
-                      i18n-aria-label aria-label="Ministry list masterMinistry" [displayWith]="displayFnState"
-                      (optionSelected)="ministrySelected($event.option.value)" (change)="onChange($event)">
+                      aria-label="Ministry list masterMinistry" [displayWith]="displayFnState"
+                      (optionSelected)="ministrySelected($event.option.value)">
                       <mat-option *ngFor="let option of masterMinisteries| async | acsendingOrder:'asc':'orgName'"
-                        [value]="option" i18n-aria-label aria-label="Ministry list autocomplete option">
+                        [value]="option" aria-label="Ministry list autocomplete option">
                         {{ option.orgName }}
                       </mat-option>
                     </mat-autocomplete>
@@ -332,31 +312,28 @@
 
                   <div *ngIf="departmentForm?.controls['ministry']?.value?.orgName" class="input-wrapper margin-top-s">
                     <label for="Department" class=" margin-remove-bottom form-label"
-                      i18n="Department|Label which explains the user to enter Department" i18n-aria-label
                       aria-label="Department Field label">
                       Department
                     </label>
                     <mat-form-field appearance="outline" class="margin-top-s w-full">
                       <input id="department" matInput tab-directive type="text" placeholder="Select your department"
-                        (keyup)="specialCharachters($event, 'department')" i18n-placeholder="department"
-                        formControlName="department" [matAutocomplete]="departmentAutocomplete" i18n-aria-label
-                        aria-label="Department" #department i18n-aria-label aria-label="Department Field input"
-                        maxlength="250" />
-                      <mat-error [hidden]="false" i18n="Department Error|Explains Department is required"
-                        *ngIf="departmentForm?.controls['department'].errors?.required" i18n-aria-label
+                        (keyup)="specialCharachters($event, 'department')" formControlName="department"
+                        [matAutocomplete]="departmentAutocomplete" aria-label="Department" #department
+                        aria-label="Department Field input" maxlength="250" />
+                      <mat-error [hidden]="false" *ngIf="departmentForm?.controls['department'].errors?.required"
                         aria-label="Department is mandatory">
                         Department is mandatory
                       </mat-error>
-                      <mat-error *ngIf="departmentForm?.controls['department'].errors?.forbiddenNames" i18n-aria-label
+                      <mat-error *ngIf="departmentForm?.controls['department'].errors?.forbiddenNames"
                         aria-label="You must enter value from suggested list only.">
                         You must enter value from suggested list only.
                       </mat-error>
                     </mat-form-field>
                     <mat-autocomplete #departmentAutocomplete="matAutocomplete" autoActiveFirstOption="true"
-                      i18n-aria-label aria-label="Department list masterDepartments" [displayWith]="displayFnState"
+                      aria-label="Department list masterDepartments" [displayWith]="displayFnState"
                       (optionSelected)="departmentSelected($event.option.value)">
                       <mat-option *ngFor="let option of masterDepartments | async | acsendingOrder:'asc':'orgName'"
-                        [value]="option" i18n-aria-label aria-label="Department list autocomplete option">
+                        [value]="option" aria-label="Department list autocomplete option">
                         {{ option.orgName }}
                       </mat-option>
                     </mat-autocomplete>
@@ -366,21 +343,19 @@
                     *ngIf="departmentForm?.controls['department']?.value?.orgName && departmentForm?.controls['ministry']?.value?.orgName"
                     class="input-wrapper margin-top-s">
                     <label for="Organisation" class=" margin-remove-bottom form-label"
-                      i18n="Organisation|Label which explains the user to enter Organisation" i18n-aria-label
                       aria-label="Organisation Field label">
                       Organisation
                     </label>
                     <mat-form-field appearance="outline" class="margin-top-s w-full">
                       <input id="Organisation" matInput tab-directive type="text" placeholder="Select your organisation"
-                        (keyup)="specialCharachters($event)" i18n-placeholder="Organisation" formControlName="organisation"
-                        [matAutocomplete]="organisationAutocomplete" i18n-aria-label aria-label="Organisation"
-                        #organisation i18n-aria-label aria-label="Organisation Field input" />
-                      <mat-error [hidden]="false" i18n="Organisation Error|Explains Organisation is required"
-                        *ngIf="departmentForm?.controls['organisation'].errors?.required" i18n-aria-label
+                        (keyup)="specialCharachters($event,'organization')" formControlName="organisation"
+                        [matAutocomplete]="organisationAutocomplete" aria-label="Organisation" #organisation
+                        aria-label="Organisation Field input" />
+                      <mat-error [hidden]="false" *ngIf="departmentForm?.controls['organisation'].errors?.required"
                         aria-label="Organisation is mandatory">
                         Organisation is mandatory
                       </mat-error>
-                      <mat-error *ngIf="departmentForm?.controls['organisation'].errors?.forbiddenNames" i18n-aria-label
+                      <mat-error *ngIf="departmentForm?.controls['organisation'].errors?.forbiddenNames"
                         aria-label="You must enter value from suggested list only.">
                         You must enter value from suggested list only.
                       </mat-error>
@@ -391,9 +366,9 @@
 
                     </mat-form-field>
                     <mat-autocomplete #organisationAutocomplete="matAutocomplete" autoActiveFirstOption="true"
-                      i18n-aria-label aria-label="Organisation list masterStates" [displayWith]="displayFnState">
+                      aria-label="Organisation list masterStates" [displayWith]="displayFnState">
                       <mat-option *ngFor="let option of masterOrgs | async| acsendingOrder:'asc':'orgName'"
-                        [value]="option" i18n-aria-label aria-label="Organisation list autocomplete option">
+                        [value]="option" aria-label="Organisation list autocomplete option">
                         {{ option.orgName }}
                       </mat-option>
                     </mat-autocomplete>
@@ -402,16 +377,16 @@
                     <button *ngIf="!isUpdate" [disabled]="!departmentForm.valid || disableCreateButton"
                       mat-raised-button type="submit"
                       class="text-white btn-success ws-mat-primary-background text-white margin-right-m">
-                      <b class="text-white" i18n>Create</b>
+                      <b class="text-white">Create</b>
                     </button>
                     <button *ngIf="isUpdate" mat-raised-button type="submit"
                       [disabled]="!departmentForm.valid || disableCreateButton"
                       class="text-white btn-success ws-mat-primary-background text-white margin-right-m">
-                      <b class="text-white" i18n>Update</b>
+                      <b class="text-white">Update</b>
                     </button>
                     <button mat-raised-button type="button" class="ws-mat-accent-border flex-auto-display"
                       (click)="onCancel()">
-                      <span class="ws-mat-default-text" i18n>Cancel</span>
+                      <span class="ws-mat-default-text">Cancel</span>
                     </button>
                   </div>
 

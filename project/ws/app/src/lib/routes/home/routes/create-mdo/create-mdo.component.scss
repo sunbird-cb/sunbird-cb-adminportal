@@ -152,7 +152,7 @@ input {
 .margin-l-l {
   margin-left: 32px;
 
-  @media only screen and(max-width: 585px) {
+  @media only screen and (max-width: 585px) {
     margin-left: 0px;
   }
 }
@@ -160,7 +160,7 @@ input {
 .margin-r-l {
   margin-right: 32px;
 
-  @media only screen and(max-width: 585px) {
+  @media only screen and (max-width: 585px) {
     margin-left: 0px;
   }
 }
@@ -474,7 +474,7 @@ ul li {
       border-right-style: none;
       /* border: 1px solid currentColor; */
       min-width: 8px;
-      border-right-style: none;
+      // border-right-style: none;
     }
 
     .mat-form-field-outline-gap {

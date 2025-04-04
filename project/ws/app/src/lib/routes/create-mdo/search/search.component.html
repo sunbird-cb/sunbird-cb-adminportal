@@ -1,0 +1,10 @@
+<div class="flex flex-1 flex-row margin-top-m margin-bottom-m">
+    <div class="search flex margin-right-m" [ngClass]="{'disable': isContentLive}">
+        <div class="rsearch flex w-full">
+            <mat-icon
+                class="color-60 search-icon mat-icon notranslate material-icons mat-icon-no-color">search</mat-icon>
+            <input class="sinput color-60 w-full" [(ngModel)]="searchText" (keyup.enter)="searchData($event)" label=""
+                placeholder="Search" type="Standard" [ngClass]="{'disable': isContentLive}">
+        </div>
+    </div>
+</div>

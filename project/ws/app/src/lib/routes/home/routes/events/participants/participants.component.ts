@@ -1,8 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core'
-import { FormControl } from '@angular/forms'
+import { UntypedFormControl } from '@angular/forms'
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog'
 import { SelectionModel } from '@angular/cdk/collections'
-import { MatTableDataSource } from '@angular/material'
+import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table'
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators'
 import { EventsService } from '../services/events.service'
 import { HttpClient } from '@angular/common/http'
@@ -27,7 +27,7 @@ export class ParticipantsComponent implements OnInit {
     displayedColumns: string[] = ['select', 'fullname', 'email', 'mdoName']
     dataSource: any
     selection = new SelectionModel<IParticipantElement>(true, [])
-    searchUserCtrl = new FormControl()
+    searchUserCtrl = new UntypedFormControl()
     filteredUsers: any
     isLoading = false
     errorMsg: any

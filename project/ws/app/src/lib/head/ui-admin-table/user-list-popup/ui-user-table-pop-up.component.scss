@@ -252,7 +252,7 @@ $card-standard-width: 268px;
     width: calc(100% + #{2 * $card-padding - 2});
     margin-left: -#{$card-padding - 1};
     // margin-top: -$card-padding;
-    display: flex;
+    // display: flex;
     // width: calc(100% + 30px);
     // margin-left: -15px;
     margin-top: 62px;
@@ -277,7 +277,7 @@ $card-standard-width: 268px;
       margin-right: auto;
       margin-left: auto;
       display: block;
-      margin: auto;
+      // margin: auto;
       max-width: 58px;
       max-height: -webkit-fill-available;
     }
@@ -370,7 +370,7 @@ $card-standard-width: 268px;
     display: block;
     width: calc(100% + #{2 * $card-padding - 2});
     margin-left: -#{$card-padding - 1};
-    display: flex;
+    // display: flex;
     margin-top: 62px;
     background: bisque;
   }
@@ -393,7 +393,7 @@ $card-standard-width: 268px;
       margin-right: auto;
       margin-left: auto;
       display: block;
-      margin: auto;
+      // margin: auto;
       max-width: 58px;
       max-height: -webkit-fill-available;
     }

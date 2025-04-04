@@ -1,24 +1,20 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing'
-
 import { BlogsCardComponent } from './blogs-card.component'
 
 describe('BlogsCardComponent', () => {
-  let component: BlogsCardComponent
-  let fixture: ComponentFixture<BlogsCardComponent>
+    let component: BlogsCardComponent
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [BlogsCardComponent],
-    }).compileComponents()
-  }))
+    beforeAll(() => {
+        component = new BlogsCardComponent(
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(BlogsCardComponent)
-    component = fixture.componentInstance
-    fixture.detectChanges()
-  })
+        )
+    })
 
-  it('should create', () => {
-    expect(component).toBeTruthy()
-  })
+    beforeEach(() => {
+        jest.clearAllMocks()
+        jest.resetAllMocks()
+    })
+
+    it('should create a instance of component', () => {
+        expect(component).toBeTruthy()
+    })
 })

@@ -42,8 +42,8 @@
                     <mat-icon>view_comfy</mat-icon>
                 </mat-header-cell>
                 <mat-cell *matCellDef="let row" class="action-cell">
-                    <button type="button" mat-icon-button i18n-aria-label aria-label="action items"
-                        [matMenuTriggerFor]="cardMenu" class="action-btn">
+                    <button type="button" mat-icon-button aria-label="action items" [matMenuTriggerFor]="cardMenu"
+                        class="action-btn">
                         <mat-icon>more_horiz</mat-icon>
                     </button>
                 </mat-cell>
@@ -66,26 +66,22 @@
 <mat-menu #cardMenu="matMenu">
     <ng-template matMenuContent>
         <div mat-menu-item>
-            <button name="channel-analytics-button" class="ws-mat-primary-text" mat-icon-button i18n-aria-label
-                aria-label="Analytics">
+            <button name="channel-analytics-button" class="ws-mat-primary-text" mat-icon-button aria-label="Analytics">
                 <mat-icon>input</mat-icon> <span>Show on karmayogi</span>
             </button>
         </div>
         <div mat-menu-item>
-            <button name="channel-analytics-button" class="ws-mat-primary-text" mat-icon-button i18n-aria-label
-                aria-label="Analytics">
+            <button name="channel-analytics-button" class="ws-mat-primary-text" mat-icon-button aria-label="Analytics">
                 <mat-icon>block</mat-icon><span>Block user</span>
             </button>
         </div>
         <div mat-menu-item>
-            <button name="channel-analytics-button" class="ws-mat-primary-text" mat-icon-button i18n-aria-label
-                aria-label="Analytics">
+            <button name="channel-analytics-button" class="ws-mat-primary-text" mat-icon-button aria-label="Analytics">
                 <mat-icon>edit_attributes</mat-icon><span>Deactivate user</span>
             </button>
         </div>
         <div mat-menu-item>
-            <button name="channel-analytics-button" class="ws-mat-primary-text" mat-icon-button i18n-aria-label
-                aria-label="Analytics">
+            <button name="channel-analytics-button" class="ws-mat-primary-text" mat-icon-button aria-label="Analytics">
                 <mat-icon>delete</mat-icon><span>Delete user</span>
             </button>
         </div>

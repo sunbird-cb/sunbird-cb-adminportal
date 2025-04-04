@@ -58,7 +58,7 @@ textarea.mat-input-element {
   // width: 130px;
   background: #0075B7 !important;
   color: white !important;
-  font-family: 'Lato';
+  font-family: 'Lato',sans-serif;
   font-weight: 700;
   font-size: 14px;
 }
@@ -428,7 +428,7 @@ input[type=number] {
       border-right-style: none;
       /* border: 1px solid currentColor; */
       min-width: 8px;
-      border-right-style: none;
+      // border-right-style: none;
     }
 
     .mat-form-field-outline-gap {
@@ -496,13 +496,13 @@ input[type=number] {
   font-size: 14px;
   margin-bottom: .5rem;
   font-weight: 700;
-  font-family: 'Lato';
+  font-family: 'Lato',sans-serif;
 }
 
 .form-input {
   font-size: 14px;
   font-weight: 400;
-  font-family: 'Lato';
+  font-family: 'Lato',sans-serif;
 }
 
 input.mat-input-element {
@@ -541,7 +541,7 @@ input.mat-input-element {
   }
 }
 
-::ng-deeptextarea.mat-input-element {
+::ng-deep textarea.mat-input-element {
   padding: 8px 0;
 }
 
@@ -735,7 +735,7 @@ input.mat-input-element {
 
 .heading{
   font-weight: 600;
-  font-family: 'Montserrat';
+  font-family: 'Montserrat',sans-serif;
   font-size: 20px;
   display: block;
   padding: 15px 0;

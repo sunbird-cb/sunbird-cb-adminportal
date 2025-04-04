@@ -1,6 +1,8 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core'
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
-import { MAT_DIALOG_DATA, MatDialogRef, MatPaginator, MatTableDataSource } from '@angular/material'
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms'
+import { MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog'
+import { MatLegacyPaginator as MatPaginator } from '@angular/material/legacy-paginator'
+import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table'
 import { ConfigResolveService } from '../../../resolvers/config-resolver.service'
 import { RequestServiceService } from '../request-service.service'
 
@@ -11,7 +13,7 @@ import { RequestServiceService } from '../request-service.service'
 })
 export class SingleAssignPopupComponent implements OnInit {
 
-  requestForm!: FormGroup
+  requestForm!: UntypedFormGroup
   displayedColumns: string[] = ['select', 'name']
   providerList: any[] = []
   providerCount: any
@@ -26,8 +28,8 @@ export class SingleAssignPopupComponent implements OnInit {
   isDisable  = false
   // @ViewChild(MatPaginator, { static: false }) paginator!: MatPaginator;
   dataSource = new MatTableDataSource<any>([])
-  @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator | null = null
-  @ViewChild(MatPaginator, { static: false }) set matPaginator(paginator: MatPaginator) {
+  @ViewChild(MatPaginator) paginator: MatPaginator | null = null
+  @ViewChild(MatPaginator) set matPaginator(paginator: MatPaginator) {
     this.paginator = paginator
     this.setDataSourceAttributes()
   }
@@ -35,15 +37,15 @@ export class SingleAssignPopupComponent implements OnInit {
     this.dataSource.paginator = this.paginator
   }
 
-  constructor(private fb: FormBuilder,
+  constructor(private fb: UntypedFormBuilder,
               private requestService: RequestServiceService,
               @Inject(MAT_DIALOG_DATA) public data: any,
               private configService: ConfigResolveService,
               public dialogRef: MatDialogRef<SingleAssignPopupComponent>,
   ) {
     this.requestForm = this.fb.group({
-      assignee: new FormControl('', Validators.required),
-      orgSearch: new FormControl(''),
+      assignee: new UntypedFormControl('', Validators.required),
+      orgSearch: new UntypedFormControl(''),
 
     })
   }

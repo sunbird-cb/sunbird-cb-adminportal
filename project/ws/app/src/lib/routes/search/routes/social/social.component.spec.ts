@@ -1,24 +1,35 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing'
-
+import '@angular/compiler'
+import { SearchApiService } from '../../apis/search-api.service'
+import { Router, ActivatedRoute } from '@angular/router'
+import { SearchServService } from '../../services/search-serv.service'
+import { ValueService } from '@sunbird-cb/utils'
 import { SocialComponent } from './social.component'
 
 describe('SocialComponent', () => {
-  let component: SocialComponent
-  let fixture: ComponentFixture<SocialComponent>
+    let component: SocialComponent
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [SocialComponent],
-    }).compileComponents()
-  }))
+    const activated: Partial<ActivatedRoute> = {}
+    const router: Partial<Router> = {}
+    const authSvc: Partial<SearchApiService> = {}
+    const valueSvc: Partial<ValueService> = {}
+    const searchSrv: Partial<SearchServService> = {}
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(SocialComponent)
-    component = fixture.componentInstance
-    fixture.detectChanges()
-  })
+    beforeAll(() => {
+        component = new SocialComponent(
+            activated as ActivatedRoute,
+            router as Router,
+            authSvc as SearchApiService,
+            valueSvc as ValueService,
+            searchSrv as SearchServService
+        )
+    })
 
-  it('should create', () => {
-    expect(component).toBeTruthy()
-  })
+    beforeEach(() => {
+        jest.clearAllMocks()
+        jest.resetAllMocks()
+    })
+
+    it('should create a instance of component', () => {
+        expect(component).toBeTruthy()
+    })
 })

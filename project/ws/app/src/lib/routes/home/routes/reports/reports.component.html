@@ -4,7 +4,8 @@
       <div class="flex-1" role="link" tabindex="0">
         <div class="flex flex-1">
           <mat-card-title class="flex-4 mobile-margin text-capitalize margin-remove-bottom">
-            <span class="mat-title">Reports</span>
+            <span class="mat-title">{{currentRoute === '/app/home/reports/survey' ? 'Survey Reports' :
+              'Reports'}}</span>
           </mat-card-title>
         </div>
       </div>
@@ -13,22 +14,24 @@
       <div class="flex flex-1 flex-column margin-fix">
         <div class="flex flex-1 filter max-height-60">
           <div *ngFor="let department of departmentHearders">
-            <a *ngIf="department==='STATE'" class="filter-option"
+            <a *ngIf="department==='STATE' && currentRoute !== '/app/home/reports/survey'" class="filter-option"
               [ngClass]="{'ws-mat-accent-border-active' : currentFilter === 'state',
-                                                                              'ws-mat-accent-border font-medium':currentFilter !== 'state'}" mat-button
-              [routerLink]="'/app/home/reports/state'" (click)="filter(department.toLowerCase())" role="button">
+                                                                              'ws-mat-accent-border font-medium':currentFilter !== 'state'}"
+              mat-button [routerLink]="'/app/home/reports/state'" (click)="filter(department.toLowerCase())"
+              role="button">
               STATE</a>
-            <a *ngIf="department ==='MINISTRY'" class="filter-option"
+            <a *ngIf="department ==='MINISTRY' && currentRoute !== '/app/home/reports/survey'" class="filter-option"
               [ngClass]="{'ws-mat-accent-border-active' : currentFilter === 'ministry',
-                                                          'ws-mat-accent-border font-medium':currentFilter !== 'ministry'}" mat-button
-              [routerLink]="'/app/home/reports/ministry'" (click)="filter(department.toLowerCase())" role="button">
+                                                          'ws-mat-accent-border font-medium':currentFilter !== 'ministry'}"
+              mat-button [routerLink]="'/app/home/reports/ministry'" (click)="filter(department.toLowerCase())"
+              role="button">
               MINISTRY</a>
 
-            <a *ngIf="department ==='survey'" class="filter-option"
+            <!-- <a *ngIf="department ==='survey'" class="filter-option"
               [ngClass]="{'ws-mat-accent-border-active' : currentFilter === 'survey',
                                                                         'ws-mat-accent-border font-medium':currentFilter !== 'survey'}" mat-button
               [routerLink]="'/app/home/reports/survey'" (click)="renderSurvey()" role="button">
-              SURVEY</a>
+              SURVEY</a> -->
 
           </div>
 

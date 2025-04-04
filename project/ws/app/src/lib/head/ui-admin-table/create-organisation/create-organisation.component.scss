@@ -1,0 +1,203 @@
+.nav-container {
+  position: relative;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  // min-height: calc(100vh - 164px);
+}
+
+.filter-12 {
+  height: calc(100% - 60px);
+  border: 1px solid #ccc;
+  right: 0;
+  top: 57px;
+  background: #fff;
+  z-index: 10000 !important;
+  position: fixed;
+  overflow-y: auto;
+  width: 590px;
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
+}
+
+.right-sidenav-header {
+  /* stylelint-enable */
+  font: 600 20px 'Montserrat';
+  /* stylelint-disable */
+  color: #000000de;
+  border-bottom: 2px solid #00000014;
+
+  .closeIcon {
+    color: #666666;
+    font-size: 24px;
+    cursor: pointer;
+  }
+}
+
+.right-sidenav-footer {
+  border-top: 2px solid#00000014;
+  width: 550px;
+  position: fixed;
+  top: calc(100% - 72px);
+
+  .cancelButton {
+    width: 90px;
+    height: 40px;
+    border-radius: 20px;
+    border: 1px solid #1b4ca1 !important;
+    color: #1b4ca1;
+    /* stylelint-enable */
+    font: 700 14px 'Lato';
+    /* stylelint-disable */
+  }
+
+  .addButton {
+    width: fit-content;
+    height: 40px;
+    border-radius: 20px;
+    background: #1b4ca1 !important;
+    /* stylelint-enable */
+    font: 700 14px 'Lato';
+    /* stylelint-disable */
+    color: #ffffff;
+    padding: 0px 24px;
+  }
+
+  .editButton {
+    width: 74px;
+    height: 40px;
+    border-radius: 20px;
+    background: #1b4ca1 !important;
+    /* stylelint-enable */
+    font: 700 14px 'Lato';
+    /* stylelint-disable */
+    color: #ffffff;
+  }
+
+  .disableBtn {
+    opacity: 0.6;
+    pointer-events: none;
+  }
+}
+
+.lable {
+  color: #212529;
+  /* stylelint-enable */
+  font: 700 14px 'Lato';
+  /* stylelint-disable */
+}
+
+.grayBox {
+  border: 1px solid #00000014;
+  background-color: #0000000a;
+  height: 115px;
+  border-radius: 8px;
+}
+
+.uploadLogoCard {
+  border: 2px dashed #6483ba;
+  height: 40px;
+  background-color: #edf1f8;
+  border-radius: 4px;
+  padding: 15px 20px;
+
+  .upload-icon {
+    width: 32px;
+    height: 32px;
+    font-size: 32px;
+    color: #1b4ca1;
+  }
+
+  .file-upload-header {
+    color: #1b4ca1;
+    /* stylelint-enable */
+    font: 700 14px 'Lato';
+    /* stylelint-disable */
+  }
+
+  .upload-description {
+    color: #00000099;
+    /* stylelint-enable */
+    font: 400 12px 'Lato';
+    /* stylelint-disable */
+  }
+}
+
+.descriptionLength {
+  /* stylelint-disable */
+  font: 400 14px 'Lato';
+  /* stylelint-disable */
+  color: #00000099;
+  margin-top: -23px;
+}
+
+.log-frame {
+  width: 89px;
+  height: 85px;
+  border: 1px solid #00000029;
+
+  .log {
+    height: 58px;
+    width: 58px;
+  }
+}
+
+.organisationLable {
+  /* stylelint-disable */
+  font: 400 14px 'Lato';
+  /* stylelint-disable */
+  color: #00000099;
+}
+
+.organisationNameHeader {
+  /* stylelint-disable */
+  font: 600 20px 'Montserrat';
+  /* stylelint-disable */
+  color: #212529;
+}
+
+.viewModeLable {
+  /* stylelint-disable */
+  font: 400 14px 'Lato';
+  /* stylelint-disable */
+  color: #00000099;
+}
+
+.viewModeValue {
+  /* stylelint-disable */
+  font: 600 16px 'Montserrat';
+  /* stylelint-disable */
+  color: #212529;
+}
+
+:host ::ng-deep .organisation-form {
+  .mat-radio-button .mat-radio-container .mat-radio-inner-circle {
+    background-color: #1b4ca1 !important;
+    width: 19.5px !important;
+    transform: scale(0.7) !important;
+  }
+
+  .active-radio-button .mat-radio-button .mat-radio-container .mat-radio-outer-circle {
+    border-color: #1b4ca1 !important;
+  }
+
+  .mat-error {
+    margin-top: 2px !important;
+  }
+}
+
+.edit-logo {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  cursor: pointer;
+
+  mat-icon {
+    font-size: 14px;
+    height: 14px;
+    width: 14px;
+    color: #1b4ca1;
+
+  }
+}

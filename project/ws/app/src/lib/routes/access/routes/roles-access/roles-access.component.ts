@@ -25,17 +25,20 @@ export class RolesAccessComponent implements OnInit, AfterViewInit {
   @Output() clickedDepartment = new EventEmitter<string>()
   constructor(
     private activatedRoute: ActivatedRoute,
-    private usersService: UsersService, private roleservice: RolesService
+    private usersService: UsersService, private roleservice: RolesService,
   ) {
 
     this.activatedRoute.queryParams.subscribe(params => {
       this.deparmentId = params['roleId']
       this.deparmentName = params['depatName']
-      this.currentDept = params['currentDept']
+      // this.currentDept = params['currentDept']
+      this.currentDept = params['subOrgType']
     })
     if (this.currentDept === 'CBP Providers' || this.currentDept === 'cbp-providers') {
       this.currentDept = 'CBP'
     }
+    else if (this.currentDept && this.currentDept.toLowerCase() === 'ministry') this.currentDept = 'mdo'
+    else if (this.currentDept && this.currentDept.toLowerCase() === 'state') this.currentDept = 'state'
 
   }
 
@@ -53,13 +56,24 @@ export class RolesAccessComponent implements OnInit, AfterViewInit {
     this.roleservice.getAllRoles().subscribe(data => {
       this.parseRoledata = JSON.parse(data.result.response.value)
       for (let i = 0; i < this.parseRoledata.orgTypeList.length; i += 1) {
-        if (environment.cbpProviderRoles.includes(this.currentDept.toLowerCase())) {
-          this.currentDept = 'CBP'
-        }
-        if (this.parseRoledata.orgTypeList[i].name === this.currentDept.toUpperCase()) {
-          if (this.rolesObject.length > 0) {
-            const temp = this.rolesObject.filter((v: any) => v.name === this.parseRoledata.orgTypeList[i].name).length
-            if (temp === 0) {
+        if (this.currentDept) {
+          if (environment.cbpProviderRoles && environment.cbpProviderRoles.includes(this.currentDept.toLowerCase())) {
+            this.currentDept = 'CBP'
+          }
+          if (this.parseRoledata && this.parseRoledata.orgTypeList &&
+            this.parseRoledata.orgTypeList[i] && this.parseRoledata.orgTypeList[i].name === this.currentDept.toUpperCase()) {
+            if (this.rolesObject && this.rolesObject.length && this.rolesObject.length > 0) {
+              const temp = this.rolesObject.filter((v: any) => v.name === this.parseRoledata.orgTypeList[i].name).length
+              if (temp === 0) {
+                this.rolesObject.push({
+                  name: this.parseRoledata.orgTypeList[i].name,
+                  roles: this.parseRoledata.orgTypeList[i].roles,
+                })
+                this.rolesContentObject.push(
+                  this.parseRoledata.orgTypeList[i].roles
+                )
+              }
+            } else {
               this.rolesObject.push({
                 name: this.parseRoledata.orgTypeList[i].name,
                 roles: this.parseRoledata.orgTypeList[i].roles,
@@ -68,14 +82,6 @@ export class RolesAccessComponent implements OnInit, AfterViewInit {
                 this.parseRoledata.orgTypeList[i].roles
               )
             }
-          } else {
-            this.rolesObject.push({
-              name: this.parseRoledata.orgTypeList[i].name,
-              roles: this.parseRoledata.orgTypeList[i].roles,
-            })
-            this.rolesContentObject.push(
-              this.parseRoledata.orgTypeList[i].roles
-            )
           }
         }
       }
@@ -139,8 +145,8 @@ export class RolesAccessComponent implements OnInit, AfterViewInit {
     this.usersService.getAllKongUsers(this.deparmentId).subscribe(data => {
       if (data.result.response.content.length > 0) {
         this.userWholeData = data.result.response.content || []
-        this.fetchRoles()
       }
+      this.fetchRoles()
     })
   }
 

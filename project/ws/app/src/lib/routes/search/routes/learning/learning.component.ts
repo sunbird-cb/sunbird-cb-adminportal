@@ -16,7 +16,7 @@ interface IThing {
   styleUrls: ['./learning.component.scss'],
 })
 export class LearningComponent implements OnInit, OnDestroy {
-  @ViewChild(FilterDisplayComponent, { static: false })
+  @ViewChild(FilterDisplayComponent)
   appFilterDisplay: FilterDisplayComponent | null = null
 
   removable = true

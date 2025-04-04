@@ -25,7 +25,9 @@
       border-right-style: none;
       /* border: 1px solid currentColor; */
       min-width: 8px;
+      /* stylelint-disable */
       border-right-style: none;
+      /* stylelint-enable */
     }
 
     .mat-form-field-outline-gap {

@@ -1,0 +1,8 @@
+<div class="video-content">
+  <div class="popup-close">
+    <mat-icon mat-dialog-close class="close-icon">cancel</mat-icon>
+  </div>
+  <video disablePictureInPicture="true" controls controlsList="nodownload" height="100%" width="100%" [autoplay]="true">
+    <source [src]="getVideoLink" type="video/mp4">
+  </video>
+</div>

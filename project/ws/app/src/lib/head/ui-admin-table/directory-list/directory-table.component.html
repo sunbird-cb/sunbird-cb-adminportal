@@ -1,23 +1,29 @@
 <div class="example-container">
+    <div class="left-overlay" *ngIf="openCreateNavBar || customSelfRegistration"></div>
+    <ng-container *ngIf="openCreateNavBar">
+        <ws-app-create-organisation [openMode]="openMode" [dropdownList]="dropdownList" [rowData]="rowData"
+            [orgList]="this.dataSource.data" (buttonClick)="buttonClickAction($event)"
+            (organizationCreated)="organizationCreatedEmit($event)">
+        </ws-app-create-organisation>
+    </ng-container>
+    <ng-container *ngIf="customSelfRegistration">
+        <ws-app-custom-self-registration [initialData]="selfRegistrationData" (buttonClick)="buttonClickAction($event)"
+            (linkGenerated)="linkGeneratedEmit($event)"></ws-app-custom-self-registration>
+    </ng-container>
     <div class="example-loading-shade">
     </div>
     <div class="example-table-container">
 
-        <div class="search">
-            <!-- <div class="lsearch">
-                <span class="searchText">Search:</span>
-            </div> -->
+        <div class="search items-center">
             <div class=rsearch>
-                <div class="sinput">
+                <div class="sinput mat-field-rounded">
                     <span class="material-icons"> search </span>
                     <input type="Standard" id="search" label="" #searchInput (input)="applyFilter($event.target.value)"
                         (keydown.enter)="onSearchEnter($event.target.value)" placeholder="Search">
                 </div>
             </div>
-            <button mat-raised-button type="button" *ngIf="needCreate"
-                class="text-white ws-mat-primary-background text-white margin-right-m custom-btn"
-                (click)="gotoCreateNew()">
-                <b class="text-white" i18n>Create new</b>
+            <button mat-flat-button *ngIf="needCreate" class="mat-btn-flat margin-right-m" (click)="gotoCreateNew()">
+                <b class="text-white">Create new</b>
             </button>
         </div>
         <!-- </mat-form-field> -->
@@ -42,19 +48,41 @@
                 <mat-header-cell *matHeaderCellDef class="clr-darkish-blue action-header"> Actions </mat-header-cell>
                 <mat-cell *matCellDef="let row" class="action-cell">
                     <div *ngFor="let ac of tableData!.actions">
-                        <div *ngIf="ac.optional">
-                            <ws-widget-app-button *ngIf="row[ac.optional_key] === ac.optional_Value" [type]="ac.type"
-                                [icon]="ac.icon" [disabled]="ac.disabled || false" [label]="ac.label"
-                                (click)="buttonClick(ac.name,row)"></ws-widget-app-button>
-                        </div>
-                        <div *ngIf="!ac.optional" class="mar-lft">
-                            <!-- <ws-widget-app-button [type]="ac.type" [icon]="ac.icon" [label]="ac.label"
-                                [disabled]="ac.disabled || false" (click)="buttonClick(ac.name,row)">
-                            </ws-widget-app-button> -->
-                            <ws-widget-app-button [type]="ac.type" [icon]="ac.icon" [label]="ac.label"
-                                [disabled]="true">
-                            </ws-widget-app-button>
-                        </div>
+                        <ng-container *ngIf="ac.type === 'button'">
+                            <div *ngIf="ac.optional">
+                                <ws-widget-app-button *ngIf="row[ac.optional_key] === ac.optional_Value"
+                                    [type]="ac.type" [icon]="ac.icon" [disabled]="ac.disabled || false"
+                                    [label]="ac.label" (click)="buttonClick(ac.name,row)"></ws-widget-app-button>
+                            </div>
+                            <div *ngIf="!ac.optional" class="mar-lft">
+                                <!-- <ws-widget-app-button [type]="ac.type" [icon]="ac.icon" [label]="ac.label"
+                                    [disabled]="ac.disabled || false" (click)="buttonClick(ac.name,row)">
+                                </ws-widget-app-button> -->
+                                <ws-widget-app-button [type]="ac.type" [icon]="ac.icon" [label]="ac.label"
+                                    [disabled]="true">
+                                </ws-widget-app-button>
+                            </div>
+                        </ng-container>
+                        <ng-container *ngIf="ac.type === 'menu'">
+                            <button mat-button [matMenuTriggerFor]="actionsMenu">
+                                <mat-icon>more_horiz</mat-icon>
+                            </button>
+                            <mat-menu #actionsMenu="matMenu">
+                                <ng-template matMenuContent>
+                                    <button mat-menu-item (click)="editOrganization(row)">Edit</button>
+                                    <button mat-menu-item (click)="goToRoute('users', row)">Users</button>
+                                    <button mat-menu-item (click)="goToRoute('rolesandaccess', row)">Roles &
+                                        Access</button>
+                                    <button mat-menu-item (click)="goToRoute('mentormanage', row)">Mentor
+                                        Management</button>
+                                    <button mat-menu-item (click)="goToRoute('designation_master', row)">Manage
+                                        Designations</button>
+                                    <!-- <button mat-menu-item
+                                        (click)="goToRoute('grade_setting', row)">Grades/Group</button> -->
+                                </ng-template>
+                            </mat-menu>
+                        </ng-container>
+
                     </div>
                 </mat-cell>
             </ng-container>
@@ -63,9 +91,21 @@
                     <mat-icon>view_comfy</mat-icon>
                 </mat-header-cell>
                 <mat-cell *matCellDef="let row" class="action-cell">
-                    <button type="button" mat-icon-button i18n-aria-label aria-label="action items"
-                        [matMenuTriggerFor]="cardMenu" class="action-btn">
+                    <button type="button" mat-icon-button aria-label="action items" [matMenuTriggerFor]="cardMenu"
+                        class="action-btn">
                         <mat-icon>more_horiz</mat-icon>
+                    </button>
+                </mat-cell>
+            </ng-container>
+
+            <ng-container [matColumnDef]="tableData!.link.column" *ngIf="tableData!.link">
+                <mat-header-cell *matHeaderCellDef class="clr-darkish-blue action-header"> {{tableData?.link.column}}
+                </mat-header-cell>
+                <mat-cell *matCellDef="let row" class="action-cell">
+                    <button mat-flat-button class="brand-color" (click)="generateCustRegistrationLink(row)">
+                        <span class="font-bold underline">
+                            {{row?.qrRegistrationLink ? tableData?.link?.viewLabel :
+                            tableData?.link?.generateLabel}}</span>
                     </button>
                 </mat-cell>
             </ng-container>
@@ -77,34 +117,52 @@
             </mat-row>
 
         </mat-table>
-        <div class="no-information-found" *ngIf="dataSource.filteredData.length===0">No directories found
-        </div>
-        <mat-paginator [length]="length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions">
+        <ng-container *ngIf="dataSource.filteredData.length===0">
+            <ng-container *ngIf="showNewNoContent; else noDirectories">
+                <ng-container *ngIf="tableData.loader">
+                    <div class="spinner-min-h flex items-center justify-center">
+                        <mat-spinner class="display-inline-block mb-5" [diameter]="50" [strokeWidth]="3"></mat-spinner>
+                    </div>
+                </ng-container>
+                <ng-container *ngIf="!tableData.loader">
+                    <div class="w-full flex flex-column items-center justify-center gap-2 py-10">
+                        <img src="/assets/icons/noFile.svg" alt="no content">
+                        <span class="noContent">No Content Found</span>
+                    </div>
+                </ng-container>
+            </ng-container>
+            <ng-template #noDirectories>
+                <div class="no-information-found">No directories found
+                </div>
+            </ng-template>
+        </ng-container>
+        <mat-paginator #paginator [length]="length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"
+            [pageIndex]="pageIndex" (page)="onOrgPageChange($event)">
         </mat-paginator>
     </div>
 
     <mat-menu #cardMenu="matMenu">
         <ng-template matMenuContent>
             <div mat-menu-item>
-                <button name="channel-analytics-button" class="ws-mat-primary-text" mat-icon-button i18n-aria-label
+                <button name="channel-analytics-button" class="ws-mat-primary-text" mat-icon-button
                     aria-label="Analytics">
                     <mat-icon>input</mat-icon> <span>Show on karmayogi</span>
                 </button>
             </div>
             <div mat-menu-item>
-                <button name="channel-analytics-button" class="ws-mat-primary-text" mat-icon-button i18n-aria-label
+                <button name="channel-analytics-button" class="ws-mat-primary-text" mat-icon-button
                     aria-label="Analytics">
                     <mat-icon>block</mat-icon><span>Block user</span>
                 </button>
             </div>
             <div mat-menu-item>
-                <button name="channel-analytics-button" class="ws-mat-primary-text" mat-icon-button i18n-aria-label
+                <button name="channel-analytics-button" class="ws-mat-primary-text" mat-icon-button
                     aria-label="Analytics">
                     <mat-icon>edit_attributes</mat-icon><span>Deactivate user</span>
                 </button>
             </div>
             <div mat-menu-item>
-                <button name="channel-analytics-button" class="ws-mat-primary-text" mat-icon-button i18n-aria-label
+                <button name="channel-analytics-button" class="ws-mat-primary-text" mat-icon-button
                     aria-label="Analytics">
                     <mat-icon>delete</mat-icon><span>Delete user</span>
                 </button>

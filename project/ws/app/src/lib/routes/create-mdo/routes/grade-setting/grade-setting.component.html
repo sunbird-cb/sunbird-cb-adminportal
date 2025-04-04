@@ -1,0 +1,50 @@
+<div class="grage-settings" [formGroup]="settingsForm">
+  <div class="flex justify-between mt-2 items-center">
+    <div class="text-xl font-semibold">Settings</div>
+    <div>
+      <button mat-flat-button class="mat-btn-flat" type="button"> Save Changes </button>
+    </div>
+  </div>
+  <div class="mt-3">
+    <div class="form-control">
+      <div class="flex gap-1 items-center">
+        <span class="font-bold text-sm">Select Grade or Group</span>
+        <img src="/assets/icons/field-i-icon.svg" alt=""> <strong class="text-red-500">*</strong>
+      </div>
+      <mat-radio-group aria-labelledby="example-radio-group-label" class="flex gap-12 my-4"
+        (change)="onGradeGroupChange($event)" formControlName="group_grade">
+        <div [ngClass]="{'active-radio-button': groupGradeValue === 'grade'}">
+          <mat-radio-button color="primary" value="grade"> Grade </mat-radio-button>
+        </div>
+        <div [ngClass]="{'active-radio-button': groupGradeValue === 'group'}">
+          <mat-radio-button color="primary" value="group"> Group </mat-radio-button>
+        </div>
+      </mat-radio-group>
+
+      <div class="grade-list-wrapper p-4 my-4 flex gap-4">
+        <ng-container *ngFor="let item of gradeList">
+          <section class="item">
+            <mat-checkbox class="example-margin" [value]="item.value">{{item.label}}</mat-checkbox>
+          </section>
+        </ng-container>
+      </div>
+    </div>
+    <div class="form-control">
+      <div class="flex gap-1 items-center">
+        <span class="font-bold text-sm">Select Grade or Group</span>
+        <img src="/assets/icons/field-i-icon.svg" alt=""> <strong class="text-red-500">*</strong>
+      </div>
+      <mat-radio-group aria-labelledby="example-radio-group-label" class="flex gap-12 my-4"
+        (change)="onOtherChange($event)" formControlName="group_grade_other">
+        <div [ngClass]="{'active-radio-button': groupGradeOtherValue === 'grade'}">
+          <mat-radio-button color="primary" value="other_contractual_stuff"> Other Contractual Staff </mat-radio-button>
+        </div>
+        <div [ngClass]="{'active-radio-button': groupGradeOtherValue === 'group'}">
+          <mat-radio-button color="primary" value="none"> None </mat-radio-button>
+        </div>
+      </mat-radio-group>
+
+    </div>
+
+  </div>
+</div>

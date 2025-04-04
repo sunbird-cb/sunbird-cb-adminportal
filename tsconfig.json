@@ -1,15 +1,22 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "esModuleInterop": false,
+    "skipLibCheck": true,
+    "types": [
+      "jest"
+    ],
     "alwaysStrict": true,
     "baseUrl": "./",
     "declaration": false,
-    "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
     "importHelpers": true,
-    "lib": ["es2018", "dom"],
-    "module": "ESNext",
+    "lib": [
+      "es2018",
+      "dom"
+    ],
+    "module": "es2020",
     "moduleResolution": "node",
     "noFallthroughCasesInSwitch": true,
     "noImplicitAny": true,
@@ -19,8 +26,12 @@
     "noUnusedParameters": true,
     "outDir": "./dist/out-tsc",
     "paths": {
-      "@ws/app": ["project/ws/app"],
-      "@ws/app/*": ["project/ws/app/*"]
+      "@ws/app": [
+        "project/ws/app"
+      ],
+      "@ws/app/*": [
+        "project/ws/app/*"
+      ]
     },
     "removeComments": true,
     "sourceMap": true,
@@ -29,8 +40,11 @@
     "strictFunctionTypes": true,
     "strictNullChecks": true,
     "strictPropertyInitialization": true,
-    "target": "es2015",
-    "typeRoots": ["node_modules/@types", "./custom_typings"],
+    "target": "ES2022",
+    "typeRoots": [
+      "node_modules/@types",
+      "./custom_typings"
+    ],
     "plugins": [
       {
         "name": "@angular/language-service"
@@ -42,6 +56,7 @@
         "configFile": "./tslint.json",
         "suppressWhileTypeErrorsPresent": false
       }
-    ]
+    ],
+    "useDefineForClassFields": false
   }
 }

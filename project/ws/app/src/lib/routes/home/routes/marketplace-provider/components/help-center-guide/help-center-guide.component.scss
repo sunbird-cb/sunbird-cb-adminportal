@@ -1,0 +1,22 @@
+.helpCenterCard {
+  background-color: #EBEBEB !important;
+  padding: 16px 24px !important;
+  border: 1px solid #00000014;
+  border-radius: 4px;
+}
+
+.helpCenterDemo {
+  .helpCenterDemoVideo {
+    width: 175px;
+    height: 102px;
+    border-radius: 5px;
+    background-color: #FDEAD5;
+    font-weight: 600;
+    pointer-events: all;
+    cursor: pointer;
+
+    .video_icon {
+      font-size: 32px;
+    }
+  }
+}

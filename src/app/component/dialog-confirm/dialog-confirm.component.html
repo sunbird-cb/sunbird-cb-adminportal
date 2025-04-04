@@ -6,9 +6,9 @@
   <div [innerHTML]="data.bodyHTML" class="mat-body"></div>
 </div>
 <div mat-dialog-actions class="flex-row-reverse margin-top-m">
-  <button mat-raised-button class="text-white ws-mat-primary-background btn-success" (click)="confirmed()" i18n>
+  <button mat-raised-button class="text-white ws-mat-primary-background btn-success" (click)="confirmed()">
     Yes
   </button>
   <button mat-raised-button type="button" class="flex-auto-display mat-button-base margin-right-m ws-mat-default-text"
-    [mat-dialog-close] cdkFocusInitial i18n>No</button>
+    [mat-dialog-close] cdkFocusInitial>No</button>
 </div>

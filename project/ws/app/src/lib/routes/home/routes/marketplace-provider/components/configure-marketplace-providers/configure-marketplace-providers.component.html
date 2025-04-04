@@ -1,0 +1,27 @@
+<div class="container-balanced">
+  <div class="page_title_flex">
+    <div class="flex sectors-link">
+      <ws-widget-breadcrumbs-org [widgetData]="widgetData">
+      </ws-widget-breadcrumbs-org>
+    </div>
+  </div>
+
+  <div class="w-full">
+    <mat-tab-group class="" [(selectedIndex)]="selectedIndex">
+      <mat-tab data-id="provider" label="Provider Details">
+        <div class="w-full mt-4">
+          <ws-app-provider-details [providerDetails]="providerDetails"
+            (loadProviderDetails)="getProviderDetails($event)"></ws-app-provider-details>
+        </div>
+      </mat-tab>
+      <mat-tab data-id="contentUpload" label=" Upload Course Catalog" [disabled]="disableCourseCatalog">
+        <ng-container *ngIf="!disableCourseCatalog">
+          <div class="w-full mt-4">
+            <ws-app-content-upload [providerDetails]="providerDetails" [selectedTabIndex]="selectedIndex"
+              (loadProviderDetails)="getProviderDetails($event)"></ws-app-content-upload>
+          </div>
+        </ng-container>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</div>

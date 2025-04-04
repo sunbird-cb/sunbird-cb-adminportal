@@ -1,0 +1,196 @@
+.header {
+    /* stylelint-enable */
+    font: 700 20px / 30px Lato;
+    /* stylelint-disable */
+    color: #212529;
+  }
+
+.file-upload-box {
+    border: 1px solid hsla(0, 0%, 0%, 0.161);
+    min-height: 227px;
+    height: 100%;
+    padding: 24px;
+    cursor: pointer;
+    border-style: dashed;
+
+    .file-icon {
+      width: 40px;
+      height: 40px;
+    }
+
+    .import-btn {
+      border: 1px solid #1B4CA1;
+      height: 40px;
+      width: 117px;
+      border-radius: 20px;
+      color: #1B4CA1;
+      /* stylelint-enable */
+      font: 700 14px Lato;
+      /* stylelint-disable */
+    }
+
+    .browse-file {
+      color: #1B4CA1;
+      /* stylelint-enable */
+      font: 700 14px Lato;
+      /* stylelint-disable */
+      pointer-events: all;
+      cursor: pointer;
+    }
+
+    .or-text {
+      color: #00000099;
+      /* stylelint-enable */
+      font: 400 14px Lato;
+      /* stylelint-disable */
+    }
+
+    .drag-file {
+      color: #00000099;
+      /* stylelint-enable */
+      font: 400 16px Inter;
+      /* stylelint-disable */
+    }
+
+    .file-size {
+      color: #000000DE;
+      /* stylelint-enable */
+      font: 400 12px Lato;
+      /* stylelint-disable */
+    }
+
+    .file-type{
+      color: #00000099;
+      /* stylelint-enable */
+      font: 400 12px Lato;
+      /* stylelint-disable */
+    }
+  }
+
+  .margin-r10 {
+    margin-right: 10px;
+  }
+
+  .file-uploaded-box {
+    cursor: unset;
+    position: relative;
+
+    .removeFile {
+      position: absolute;
+      right: -5px;
+      top: -5px;
+      font-size: 16px;
+      font-weight: 500;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      color: #0000008c;
+      text-align: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #ffffff;
+      box-shadow: 0 2px 9px 0 rgba(0, 0, 0, 0.2), 0 0px 6px 0 rgba(0, 0, 0, 0.19);
+      cursor: pointer;
+    }
+  }
+
+  .transformation-box {
+    border: 1px solid hsla(0, 0%, 0%, 0.161);
+    min-height: 227px;
+    height: fit-content;
+    padding: 24px;
+
+    .lable {
+      /* stylelint-enable */
+      font: 700 14px Lato;
+      /* stylelint-disable */
+      color: #212529;
+      width:  180px;
+    }
+
+    .colun {
+      /* stylelint-enable */
+      font: 700 14px Lato;
+      /* stylelint-disable */
+      color: #212529;
+      width: 5px;
+    }
+  }
+
+  .transformation-required {
+    border: 1.7px solid #ff0000 !important;
+    border-radius: 5px;
+  }
+
+
+.save-properties {
+  background-color: #1B4CA1 !important;
+  width: fit-content;
+  padding: '0px 15px';
+  height: 40px;
+  border-radius: 8px;
+
+  /* stylelint-enable */
+  font: 700 14px Lato;
+  /* stylelint-disable */
+  color: #FFFFFF !important;
+}
+
+.samplePdf {
+  width: 186px;
+  height: 227px;
+}
+
+.pdfDetails {
+  height: 93px;
+
+  .pdfName {
+    /* stylelint-enable */
+    font: 400 16px Lato;
+    /* stylelint-disable */
+    color: #000000DE;
+    width: 250px;
+    display: -webkit-box;
+    overflow-wrap: break-word;
+    white-space: pre-wrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+  }
+
+  .fileUplaodedDate {
+    /* stylelint-enable */
+    font: 400 12px Lato;
+    /* stylelint-disable */
+    color: #000000DE;
+  }
+
+  .documentAttached {
+    color: #00000099;
+    /* stylelint-enable */
+    font: 700 12px Lato;
+    /* stylelint-disable */
+
+    .greenTick {
+      width: 20px;
+      height: 20px;
+      font-size: 20px;
+      margin-right: 5px;
+      color: #1D8923;
+    }
+  }
+}
+
+:host ::ng-deep .transformation-box {
+   .mat-form-field-flex {
+    height: 50px;
+    align-items: center;
+  }
+
+  .mat-form-field-wrapper {
+    padding: 0px !important;
+  }
+
+}

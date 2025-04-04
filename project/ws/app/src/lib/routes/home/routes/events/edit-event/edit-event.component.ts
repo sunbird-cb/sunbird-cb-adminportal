@@ -1,7 +1,9 @@
 import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ChangeDetectorRef } from '@angular/core'
-import { FormControl, FormGroup, Validators } from '@angular/forms'
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms'
 import { EventsService } from '../services/events.service'
-import { MatSnackBar, MatPaginator, DateAdapter, MAT_DATE_LOCALE, MAT_DATE_FORMATS } from '@angular/material'
+import { DateAdapter, MAT_DATE_LOCALE, MAT_DATE_FORMATS } from '@angular/material/core'
+import { MatLegacyPaginator as MatPaginator } from '@angular/material/legacy-paginator'
+import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar'
 import { MatSort } from '@angular/material/sort'
 import { ITableData } from '../interfaces/interfaces'
 import { MatDialog } from '@angular/material/dialog'
@@ -11,10 +13,11 @@ import { Router, ActivatedRoute } from '@angular/router'
 import { ConfigurationsService, EventService } from '@sunbird-cb/utils'
 import * as moment from 'moment'
 /* tslint:disable */
-import _ from 'lodash'
+import * as _ from 'lodash'
 import { TelemetryEvents } from '../model/telemetry.event.model'
 import { ProfileV2UtillService } from '../services/home-utill.service'
 import { MomentDateAdapter } from '@angular/material-moment-adapter'
+import { preventHtmlAndJs } from '../../../validators/prevent-html-and-js.validator'
 /* tslint:enable */
 
 export const MY_FORMATS = {
@@ -53,7 +56,7 @@ export class EditEventComponent implements OnInit {
   @Output() eOnRowClick = new EventEmitter<any>()
   @Output() eOnCreateClick = new EventEmitter<any>()
 
-  createEventForm: FormGroup
+  createEventForm: UntypedFormGroup
   namePatern = `^[a-zA-Z\\s\\']{1,32}$`
   department: any = {}
   departmentName = ''
@@ -67,7 +70,7 @@ export class EditEventComponent implements OnInit {
   //   { title: 'Webinar', desc: 'General discussion involving', border: 'rgb(0, 116, 182)', disabled: false },
   // ]
 
-  evntTypesList = ['Webinar', 'Karmayogi Talks']
+  evntTypesList = ['Webinar', 'Karmayogi Talks', 'Karmayogi Saptah']
 
   timeArr = [
     { value: '00:00' }, { value: '00:30' }, { value: '01:00' }, { value: '01:30' },
@@ -147,20 +150,20 @@ export class EditEventComponent implements OnInit {
       }
     }
 
-    this.createEventForm = new FormGroup({
-      eventPicture: new FormControl('', [Validators.required]),
-      eventTitle: new FormControl('', [Validators.required]),
+    this.createEventForm = new UntypedFormGroup({
+      eventPicture: new UntypedFormControl('', [Validators.required]),
+      eventTitle: new UntypedFormControl('', [Validators.required]),
       // summary: new FormControl('', []),
-      description: new FormControl('', [Validators.required]),
-      agenda: new FormControl('', []),
+      description: new UntypedFormControl('', [Validators.required, preventHtmlAndJs()]),
+      agenda: new UntypedFormControl('', [preventHtmlAndJs()]),
       // isItKarmayogiTalk: new FormControl('', []),
-      eventType: new FormControl('', [Validators.required]),
-      eventDate: new FormControl('', [Validators.required]),
-      eventTime: new FormControl('', [Validators.required]),
-      eventDurationHours: new FormControl('', [Validators.required]),
-      eventDurationMinutes: new FormControl('', []),
-      conferenceLink: new FormControl('', [Validators.required, Validators.pattern(this.myreg)]),
-      presenters: new FormControl('', []),
+      eventType: new UntypedFormControl('', [Validators.required]),
+      eventDate: new UntypedFormControl('', [Validators.required]),
+      eventTime: new UntypedFormControl('', [Validators.required]),
+      eventDurationHours: new UntypedFormControl('', [Validators.required]),
+      eventDurationMinutes: new UntypedFormControl('', []),
+      conferenceLink: new UntypedFormControl('', [Validators.required, Validators.pattern(this.myreg)]),
+      presenters: new UntypedFormControl('', []),
     })
 
     this.activeRoute.params.subscribe(params => {
@@ -574,7 +577,7 @@ export class EditEventComponent implements OnInit {
               this.displayLoader = false
               this.openSnackbar('Event details are successfuly updated.')
               this.router.navigate([`/app/home/events`])
-            },         5000)
+            }, 5000)
           }
         },
         (err: any) => {
@@ -608,8 +611,9 @@ export class EditEventComponent implements OnInit {
   }
 
   goToList() {
-    this.router.navigate([`/app/home/events`]),
+    this.router.navigate([`/app/home/events`]), // NOSONAR
       // this.telemetrySvc.impression()
+
       this.events.raiseInteractTelemetry(
         {
           type: TelemetryEvents.EnumInteractTypes.CLICK,

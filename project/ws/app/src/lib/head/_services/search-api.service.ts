@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
 import { Observable } from 'rxjs'
 // import { ISocialSearchRequest, ISocialSearchResult, ISearchAutoComplete } from '../models/search.model'
-import { KeycloakService } from 'keycloak-angular'
+// import { KeycloakService } from 'keycloak-angular'
 // import { NSSearch } from '@ws-widget/collection'
 import { map } from 'rxjs/operators'
 const PROTECTED_SLAG_V8 = '/apis/protected/v8'
@@ -15,7 +15,7 @@ const API_END_POINTS = {
   providedIn: 'root',
 })
 export class SearchApiService {
-  constructor(private http: HttpClient, private keycloakSvc: KeycloakService) { }
+  constructor(private http: HttpClient) { }
   getSearchResults(request: any): Observable<any> {
     return this.http.post<any>(API_END_POINTS.SOCIAL_VIEW_SEARCH_RESULT, request)
   }
@@ -24,13 +24,13 @@ export class SearchApiService {
     return this.http.get<any[]>(API_END_POINTS.SEARCH_AUTO_COMPLETE, { params })
   }
 
-  get userId(): string | undefined {
-    const kc = this.keycloakSvc.getKeycloakInstance()
-    if (!kc) {
-      return
-    }
-    return (kc.tokenParsed && kc.tokenParsed.sub) || (kc.idTokenParsed && kc.idTokenParsed.sub)
-  }
+  // get userId(): string | undefined {
+  //   const kc = this.keycloakSvc.getKeycloakInstance()
+  //   if (!kc) {
+  //     return
+  //   }
+  //   return (kc.tokenParsed && kc.tokenParsed.sub) || (kc.idTokenParsed && kc.idTokenParsed.sub)
+  // }
 
   getSearchV6Results(body: any): Observable<any> {
     return this.http.post<any>(API_END_POINTS.SEARCH_V6, body).pipe(map((res: any) => {

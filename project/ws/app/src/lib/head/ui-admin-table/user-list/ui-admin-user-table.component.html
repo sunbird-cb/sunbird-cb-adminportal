@@ -24,25 +24,25 @@
                     <mat-icon>vertical_align_bottom</mat-icon> Consumption Report
                 </button>
             </div>
-            <div style="margin-right: 7px;" *ngIf="!isReports">
+            <div *ngIf="!isReports">
                 <button mat-raised-button type="button" *ngIf="needCreateUser"
                     class="text-white ws-mat-primary-background text-white margin-right-l custom-btn"
                     (click)="gotoCreateUser()">
-                    <b class="text-white" i18n>Create user</b>
+                    <b class="text-white">Create user</b>
                 </button>
             </div>
             <div style="margin-right: 7px;" *ngIf="!isReports">
                 <button mat-raised-button type="button" *ngIf="needCreatePosition"
                     class="text-white ws-mat-primary-background text-white margin-right-l"
                     (click)="gotoCreatePosition()">
-                    <b class="text-white" i18n>Add new designation</b>
+                    <b class="text-white">Add new designation</b>
                 </button>
             </div>
             <div *ngIf="!isReports">
                 <button mat-raised-button type="button" *ngIf="needAddAdmin"
                     class="text-white ws-mat-primary-background text-white margin-right-m custom-btn"
                     (click)="openPopup()">
-                    <b class="text-white" i18n>Add admin</b>
+                    <b class="text-white">Add admin</b>
                 </button>
             </div>
 
@@ -54,7 +54,6 @@
         <div class="search">
 
         </div>
-
         <mat-table #table matSort [ngStyle]="{'height': bodyHeight}" [matSortActive]="tableData!.sortColumn"
             [matSortDirection]="tableData!.sortState" [dataSource]="dataSource"
             class=" example-table table1 responsiveTable">
@@ -66,8 +65,16 @@
                         [matTooltip]="(element[col.key]).split('<br />').join(', ')">
                         <div innerHTML="{{element[col.key]}}"></div>
                     </span>
-                    <span *ngIf="!col.isList" class="textclass mat-body-2">
+                    <span *ngIf="!col.isList && !col.datePipe" class="textclass mat-body-2">
                         {{element[col.key]}} {{col.isList}}
+                    </span>
+                    <span *ngIf="col.datePipe" class="textclass mat-body-2">
+                        <ng-container
+                            *ngIf="element[col.key] !== 'None' && element[col.key] !== null && element[col.key] !== undefined;else notValidDate">{{element[col.key]
+                            | slice: 0 : 10 }}</ng-container>
+                        <ng-template #notValidDate>
+                            NA
+                        </ng-template>
                     </span>
                 </mat-cell>
             </ng-container>
@@ -96,8 +103,8 @@
                     Actions
                 </mat-header-cell>
                 <mat-cell *matCellDef="let row" class="action-cell">
-                    <button type="button" mat-icon-button i18n-aria-label aria-label="action items"
-                        [matMenuTriggerFor]="cardMenu" [matMenuTriggerData]="{'data':row}" class="action-btn">
+                    <button type="button" mat-icon-button aria-label="action items" [matMenuTriggerFor]="cardMenu"
+                        [matMenuTriggerData]="{'data':row}" class="action-btn">
                         <mat-icon>more_horiz</mat-icon>
                     </button>
                 </mat-cell>
@@ -110,8 +117,8 @@
         <div class="no-information-found" *ngIf="dataSource.filteredData.length===0">No data found
         </div>
     </div>
-
-    <mat-paginator [length]="length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions">
+    <mat-paginator [length]="length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"
+        [showFirstLastButtons]="showFirstLastButtonsFlag">
     </mat-paginator>
 </div>
 
@@ -119,31 +126,31 @@
     <ng-template matMenuContent let-rowData="data">
         <!-- <div > -->
         <button (click)="buttonClick('showOnKarma',rowData)" mat-menu-item name="channel-analytics-button"
-            class="ws-mat-primary-text" i18n-aria-label aria-label="Analytics">
+            class="ws-mat-primary-text" aria-label="Analytics">
             <mat-icon>input</mat-icon> <span>Show on karmayogi</span>
         </button>
         <button *ngIf="currentTabName === 'active' && currentUserId !== rowData.userId"
             (click)="buttonClick('block',rowData)" mat-menu-item name="channel-analytics-button"
-            class="ws-mat-primary-text" i18n-aria-label aria-label="Analytics">
+            class="ws-mat-primary-text" aria-label="Analytics">
             <mat-icon>toggle_off_sharp</mat-icon> <span>Deactivate user</span>
         </button>
         <button *ngIf="currentTabName === 'inactive'" (click)="buttonClick('unblock',rowData)" mat-menu-item
-            name="channel-analytics-button" class="ws-mat-primary-text" i18n-aria-label aria-label="Analytics">
+            name="channel-analytics-button" class="ws-mat-primary-text" aria-label="Analytics">
             <mat-icon>toggle_off_sharp</mat-icon> <span>Activate user</span>
         </button>
         <!-- <button (click)="buttonClick('unblock',rowData)" mat-menu-item name="channel-analytics-button"
-            class="ws-mat-primary-text" i18n-aria-label aria-label="Analytics">
+            class="ws-mat-primary-text"  aria-label="Analytics">
             <mat-icon>add_circle_outline</mat-icon> <span>Active</span>
         </button> -->
         <!-- </div> -->
         <!-- <div mat-menu-item> -->
         <!-- <button (click)="rowData && rowData.blocked ? buttonClick('unblock',rowData): buttonClick('block',rowData)"
-            mat-menu-item name="channel-analytics-button" class="ws-mat-primary-text" i18n-aria-label
+            mat-menu-item name="channel-analytics-button" class="ws-mat-primary-text"
             aria-label="Analytics">
             <mat-icon>block</mat-icon><span>{{rowData && rowData.blocked ? 'Unblock user':'Block user' }}</span>
         </button>
         <button (click)="rowData && rowData.active ? buttonClick('deactive',rowData): buttonClick('active',rowData)"
-            mat-menu-item name="channel-analytics-button" class="ws-mat-primary-text" i18n-aria-label
+            mat-menu-item name="channel-analytics-button" class="ws-mat-primary-text"
             aria-label="Analytics">
             <mat-icon>edit_attributes</mat-icon>
             <span>{{rowData && rowData.active? 'Deactivate user':'Activate user'}}</span>
@@ -151,7 +158,7 @@
         <!-- </div> -->
         <!-- <div mat-menu-item> -->
         <!-- <button (click)="buttonClick('delete',rowData)" mat-menu-item name="channel-analytics-button"
-            class="ws-mat-primary-text" i18n-aria-label aria-label="Analytics">
+            class="ws-mat-primary-text"  aria-label="Analytics">
             <mat-icon>delete</mat-icon><span>Delete User</span>
         </button> -->
         <!-- </div> -->

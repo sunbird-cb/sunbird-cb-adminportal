@@ -1,6 +1,6 @@
 <div class="dialog-container m-2">
     <div mat-dialog-content>
-        <p i18n class="mat-title margin-xs margin-remove-bottom">
+        <p class="mat-title margin-xs margin-remove-bottom">
             Search and add presenter (Karmayogi users)
         </p>
     </div>
@@ -18,7 +18,7 @@
         </mat-autocomplete>
     </mat-form-field>
     <div class="dialog-btn-items" *ngIf="participants.length > 0">
-        <table mat-table [dataSource]="dataSource">
+        <table mat-table [dataSource]="dataSource"> <!-- //NOSONAR -->
             <ng-container matColumnDef="select">
                 <th mat-header-cell *matHeaderCellDef>
                     <mat-checkbox (change)="$event ? masterToggle() : null"
@@ -56,14 +56,14 @@
         <div class="flex flex-1 custom button-row" align="end" *ngIf="participants.length > 0">
             <button mat-stroked-button color="accent" type="button" class="mat-accent-border flex-auto-display"
                 (click)="dialogRef.close()">
-                <span i18n>Cancel</span>
+                <span>Cancel</span>
             </button>
             <button mat-button type="button" class="create-btn ml-10 mat-accent-border flex-auto-display"
                 (click)="confirm()">
-                <span i18n>Add</span>
+                <span>Add</span>
             </button>
             <!-- <button mat-button class="create-btn"  type="button" (click)="onSubmit()">
-            <span i18n>Save and Publish</span>
+            <span >Save and Publish</span>
         </button> -->
         </div>
     </mat-card-actions>

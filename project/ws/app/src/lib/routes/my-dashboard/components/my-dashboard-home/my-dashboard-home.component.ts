@@ -25,6 +25,8 @@ export class MyDashboardHomeComponent implements OnInit {
 
   currentDashboard: any = []
 
+  token: any
+
   // API endpoints needs to be passed here
   getDashboardForKM = '/apis/proxies/v8/dashboard/analytics/getDashboardConfig/Karmayogi'
   getDashboardForProfile = '/apis/proxies/v8/dashboard/analytics/getDashboardsForProfile/Karmayogi?realm=spv'
@@ -50,6 +52,11 @@ export class MyDashboardHomeComponent implements OnInit {
 
   backToHome() {
     this.router.navigate(['page', 'home'])
+  }
+
+  getDateFilterPreset(event: any) {
+    /* tslint:disable */
+    console.log('event', event)
   }
 
 }

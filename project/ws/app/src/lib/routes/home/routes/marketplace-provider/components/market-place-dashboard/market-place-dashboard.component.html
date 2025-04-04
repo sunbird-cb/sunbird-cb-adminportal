@@ -1,0 +1,34 @@
+<ws-app-help-center-guide [helpCenterGuide]="helpCenterGuide"></ws-app-help-center-guide>
+
+<div class="flex flex-column gap-4">
+  <div class="w-full flex justify-between items-center">
+    <div class="header">Marketplace Provider</div>
+    <div>
+      <button (click)="navigateToConfiguration()" mat-raised-button class="onboard-btn">
+        Onboard Provider</button>
+    </div>
+  </div>
+
+  <!-- <ng-container *ngIf="!displayLoader; else showLoader"> -->
+  <ng-container *ngIf="providersList && providersList.length > 0 || searchKey; else noContent">
+    <div class="flex gap-4 flex-column">
+      <div>
+        <ws-app-courses-table [tableData]="tabledata" [data]="providersList" [menuItems]="menuItems"
+          [paginationDetails]="paginationDetails" [showLoader]="displayLoader" (searchKey)="onSearch($event)"
+          (actionsClick)="providerEvents($event)" (pageChange)="onPageChange($event)"></ws-app-courses-table>
+      </div>
+    </div>
+  </ng-container>
+  <ng-template #noContent>
+    <div class="w-full flex flex-column items-center justify-center gap-6">
+      <img class="emptyShelf-img" src="/assets/icons/empty_shelf.svg" alt="no content img">
+      <span class="no-content-text">No content partner has been onboarded</span>
+    </div>
+  </ng-template>
+  <!-- </ng-container> -->
+  <!-- <ng-template #showLoader>
+    <div class="w-full flex items-center justify-center MarketplaceLoader">
+      <mat-spinner [diameter]="50" class="MarketplaceSpinner"></mat-spinner>
+    </div>
+  </ng-template> -->
+</div>

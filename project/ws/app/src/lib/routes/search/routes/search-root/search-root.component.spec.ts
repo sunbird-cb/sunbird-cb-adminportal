@@ -1,25 +1,28 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing'
-
+import { Router, ActivatedRoute } from '@angular/router'
+import { ConfigurationsService } from '@sunbird-cb/utils'
 import { SearchRootComponent } from './search-root.component'
 
 describe('SearchRootComponent', () => {
-  let component: SearchRootComponent
-  let fixture: ComponentFixture<SearchRootComponent>
+    let component: SearchRootComponent
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [SearchRootComponent],
+    const router: Partial<Router> = {}
+    const activated: Partial<ActivatedRoute> = {}
+    const configSvc: Partial<ConfigurationsService> = {}
+
+    beforeAll(() => {
+        component = new SearchRootComponent(
+            router as Router,
+            activated as ActivatedRoute,
+            configSvc as ConfigurationsService
+        )
     })
-    .compileComponents()
-  }))
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(SearchRootComponent)
-    component = fixture.componentInstance
-    fixture.detectChanges()
-  })
+    beforeEach(() => {
+        jest.clearAllMocks()
+        jest.resetAllMocks()
+    })
 
-  it('should create', () => {
-    expect(component).toBeTruthy()
-  })
+    it('should create a instance of component', () => {
+        expect(component).toBeTruthy()
+    })
 })

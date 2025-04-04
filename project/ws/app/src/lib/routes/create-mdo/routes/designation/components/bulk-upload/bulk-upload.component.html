@@ -1,0 +1,111 @@
+<div class="flex flex-col gap-6 bulk-upload-wrapper">
+  <div class="flex flex-row gap-4 items-center">
+    <mat-icon class="cursor-pointer" [routerLink]="['/app/home/org-designations']">arrow_back</mat-icon>
+    <div class="flex font-bold">{{bulkUploadConfig?.mainHeading}}</div>
+  </div>
+
+  <div class="flex flex-col gap-4 bulk-container">
+    <div class="flex font-bold">{{bulkUploadConfig?.mainHeading}}</div>
+    <div class="flex flex-row gap-8">
+      <div class="flex-1">
+        <div class="flex flex-col gap-3 dashed-card">
+          <div>{{bulkUploadConfig?.sampleFileDownloadInstructuons?.title}}</div>
+          <div class="flex flex-col gap-4">
+            <ol class="custom-ol">
+              <ng-container *ngIf="bulkUploadConfig && bulkUploadConfig.sampleFileDownloadInstructuons.instructions">
+                <li *ngFor="let text of bulkUploadConfig.sampleFileDownloadInstructuons.instructions;">
+                  {{text}}
+                </li>
+              </ng-container>
+            </ol>
+          </div>
+          <div class="flex flex-row gap-6">
+            <button class="outline-button"
+              (click)="handleDownloadSampleFile()">{{bulkUploadConfig?.sampleFileDownloadText}}</button>
+          </div>
+        </div>
+      </div>
+      <div class="flex-1">
+        <div class="flex flex-col gap-2 dashed-card items-center">
+          <div class="flex cursor-pointer margin-top-m" (click)="fileInput.click()"
+            (dblclick)="$event.preventDefault()">
+            <img src="/assets/icons/csv-file.svg" alt="CSV file logo" />
+          </div>
+          <div *ngIf="showFileError" class="error-msg">{{bulkUploadConfig?.supportedFileTypeText2}}</div>
+          <div class="flex flex-col items-center">
+            <div class="text-primary cursor-pointer" (click)="fileInput.click()" (dblclick)="$event.preventDefault()">
+              Browse files</div>
+            <input hidden type="file" id="fileInput" #fileInput (click)="handleFileClick($event)"
+              (change)="handleOnFileChange(fileInput.files)" name="file" placeholder="Choose file"
+              (dblclick)="$event.preventDefault();" accept=".xlsx, .xls" />
+            <!-- <div class="flex">or</div>
+            <div class="flex">Drag file to upload</div> -->
+          </div>
+          <div class="flex flex-col items-center margin-bottom-m">
+            <div class="flex">{{bulkUploadConfig?.maxFileSizeText}}</div>
+            <div class="flex">{{bulkUploadConfig?.supportedFileTypeText}}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="text-base font-bold">File logs</div>
+  <div class="flex flex-col gap-6">
+    <div class="file-container"
+      *ngFor="let list of lastUploadList | slice : startIndex : lastIndex | orderBy:'datecreatedon':'desc'">
+      <div class="flex flex-col gap-4">
+        <div class="flex flex-row justify-between items-center">
+          <div class="flex flex-row gap-1">
+            <div class="font-bold">File Information</div>
+          </div>
+          <div class="flex flex-row gap-2 outline-button items-center" (click)="handleDownloadFile(list)">
+            <mat-icon>download_2</mat-icon>
+            {{ list?.status !== 'SUCCESSFUL' ? 'Download error log' : 'Download file' }}
+          </div>
+        </div>
+        <div class="grid grid-flow-row sm:grid-flow-col gap-10 grid-col grid-container-25">
+          <div class="flex flex-col">
+            <div class="label">Name</div>
+            <div class="value">{{ list?.fileName }}</div>
+          </div>
+          <div class="flex flex-col">
+            <div class="label">Status</div>
+            <div class="value">{{ list?.status }}</div>
+          </div>
+          <div class="flex flex-col">
+            <div class="label">Failed Records</div>
+            <div class="value">{{ list?.failedRecordsCount }}</div>
+          </div>
+          <div class="flex flex-col">
+            <div class="label">Success Records</div>
+            <div class="value">{{ list?.successfulRecordsCount }}</div>
+          </div>
+        </div>
+        <div class="grid grid-flow-row sm:grid-flow-col gap-10 grid-col grid-container-25">
+          <div class="flex flex-col">
+            <div class="label">Total Records</div>
+            <div class="value">{{ list?.totalRecords }}</div>
+          </div>
+          <div class="flex flex-col">
+            <div class="label">Initiated On</div>
+            <div class="value">{{ list?.dateCreatedOn | date: 'dd MMM yyyy h:mm a' }}</div>
+          </div>
+          <div class="flex flex-col">
+            <div class="label">Completed On</div>
+            <div class="value">{{ list?.dateUpdatedOn | date: 'dd MMM yyyy h:mm a' }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+  <div class="text-center mb-6 font-semibold" *ngIf="lastUploadList.length === 0">
+    {{bulkUploadConfig?.noFileUploaded}}
+  </div>
+  <div class="flex flex-row justify-end mt-4" *ngIf="lastUploadList.length > sizeOptions[0]">
+    <mat-paginator [pageSize]="pageSize" [length]="lastUploadList.length" [pageSizeOptions]="sizeOptions"
+      (page)="handleChangePage($event)"></mat-paginator>
+  </div>
+</div>

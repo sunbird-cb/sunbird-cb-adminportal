@@ -1,25 +1,20 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing'
-
 import { TncRendererComponent } from './tnc-renderer.component'
 
 describe('TncRendererComponent', () => {
-  let component: TncRendererComponent
-  let fixture: ComponentFixture<TncRendererComponent>
+    let component: TncRendererComponent
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [TncRendererComponent],
+    beforeAll(() => {
+        component = new TncRendererComponent(
+
+        )
     })
-    .compileComponents()
-  }))
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(TncRendererComponent)
-    component = fixture.componentInstance
-    fixture.detectChanges()
-  })
+    beforeEach(() => {
+        jest.clearAllMocks()
+        jest.resetAllMocks()
+    })
 
-  it('should create', () => {
-    expect(component).toBeTruthy()
-  })
+    it('should create a instance of component', () => {
+        expect(component).toBeTruthy()
+    })
 })

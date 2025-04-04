@@ -1,25 +1,27 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing'
 
+import { MatDialog } from '@angular/material/dialog'
+import { ConfigurationsService } from '@sunbird-cb/utils'
 import { AppSetupHomeComponent } from './app-setup-home.component'
 
 describe('AppSetupHomeComponent', () => {
-  let component: AppSetupHomeComponent
-  let fixture: ComponentFixture<AppSetupHomeComponent>
+    let component: AppSetupHomeComponent
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [AppSetupHomeComponent],
+    const configSvc: Partial<ConfigurationsService> = {}
+    const matDialog: Partial<MatDialog> = {}
+
+    beforeAll(() => {
+        component = new AppSetupHomeComponent(
+            configSvc as ConfigurationsService,
+            matDialog as MatDialog
+        )
     })
-    .compileComponents()
-  }))
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(AppSetupHomeComponent)
-    component = fixture.componentInstance
-    fixture.detectChanges()
-  })
+    beforeEach(() => {
+        jest.clearAllMocks()
+        jest.resetAllMocks()
+    })
 
-  it('should create', () => {
-    expect(component).toBeTruthy()
-  })
+    it('should create a instance of component', () => {
+        expect(component).toBeTruthy()
+    })
 })

@@ -27,7 +27,7 @@
         </ws-widget-ui-user-table> -->
 
         <ws-widget-org-user-table-v2 [tableData]="tabledata" [data]="dataForTable" [isUpload]=true [isCreate]=true
-          (eOnCreateClick)="onCreateClick()" (actionsClick)="menuActions($event)"
+          (eOnButtonClick)="onCreateClick()" (actionsClick)="menuActions($event)"
           (searchByEnterKey)="onEnterkySearch($event)" (pageChangeClick)="onPaginateChange($event)"
           [showEditOnCondition]=true [totalRecords]="userDataTotalCount" [tabChangeIndex]="pageIndex">
         </ws-widget-org-user-table-v2>

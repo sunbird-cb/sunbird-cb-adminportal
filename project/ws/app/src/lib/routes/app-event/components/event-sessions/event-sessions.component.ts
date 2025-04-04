@@ -49,7 +49,7 @@ export class EventSessionsComponent implements OnInit, OnDestroy {
           this.currentSubscription = timer(0, 60000)
             .subscribe(() => {
               this.liveSpeaker = []
-              this.sessionStartTime.map(
+              this.sessionStartTime.forEach(
                 (v: number, index: number) => {
                   this.sessionStartTime[index] = v - 60000
                   this.sessionEndTime[index] = this.sessionEndTime[index] - 60000

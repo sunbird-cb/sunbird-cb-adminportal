@@ -45,7 +45,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   ngOnInit() {
 
     this.route.queryParams.subscribe(params => {
-      this.dept = params['currentDept']
+      this.dept = params['currentDept'] ? params['currentDept'] : params['subOrgType']
       this.mydept = params['depatName']
       this.deptType = params['deptType']
 
@@ -60,8 +60,8 @@ export class HomeComponent implements OnInit, OnDestroy {
       ]
     } else {
       this.titles = [
-        { title: 'Directory', url: '/app/home/directory' },
-        { title: this.dept, url: `/app/home/directory/${this.urlValue}` },
+        { title: 'Directory', url: '/app/home/directory', path: '/app/home/directory' },
+        { title: this.dept, url: `/app/home/directory/${this.urlValue}`, path: `/app/home/directory/${this.urlValue}` },
         { title: this.mydept, url: 'none' },
       ]
     }

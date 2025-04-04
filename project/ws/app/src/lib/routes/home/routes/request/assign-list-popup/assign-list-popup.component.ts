@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core'
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
-import { MAT_DIALOG_DATA, MatDialogRef, MatTableDataSource } from '@angular/material'
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms'
+import { MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog'
+import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table'
 import { RequestServiceService } from '../request-service.service'
 
 @Component({
@@ -10,7 +11,7 @@ import { RequestServiceService } from '../request-service.service'
 })
 export class AssignListPopupComponent implements OnInit {
 
-  requestForm!: FormGroup
+  requestForm!: UntypedFormGroup
   displayedColumns: string[] = ['select', 'providerName', 'details', 'eta']
   providerList: any[] = []
   dataSource: any
@@ -23,18 +24,18 @@ export class AssignListPopupComponent implements OnInit {
   submitAssign = ''
   currentUser: any
 
-  constructor(private fb: FormBuilder,
+  constructor(private fb: UntypedFormBuilder,
               private requestService: RequestServiceService,
               @Inject(MAT_DIALOG_DATA) public data: any,
               public dialogRef: MatDialogRef<AssignListPopupComponent>,
   ) {
     this.requestForm = this.fb.group({
-      assignee: new FormControl('', Validators.required),
+      assignee: new UntypedFormControl('', Validators.required),
     })
   }
 
   ngOnInit() {
-    this.currentUser =  sessionStorage.getItem('idDetails') ? sessionStorage.getItem('idDetails') : ''
+    this.currentUser = sessionStorage.getItem('idDetails') ? sessionStorage.getItem('idDetails') : ''
     this.assignText = 'Assign'
     this.submitAssign = 'Assign'
     this.getInterestOrgList()
@@ -62,10 +63,10 @@ export class AssignListPopupComponent implements OnInit {
       // }
 
     }
-   }
+  }
 
   getInterestOrgList() {
-    const request = {
+    const request: any = {
       filterCriteriaMap: {
         demandId: this.data.demand_id,
 
@@ -76,14 +77,14 @@ export class AssignListPopupComponent implements OnInit {
       pageSize: this.pageSize,
     }
     this.requestService.getOrgInterestList(request).subscribe((res: any) => {
-     if (res.data) {
-      this.providerList = res.data
-      this.providerCount = res.totalCount
-      this.dataSource = new MatTableDataSource<any>(this.providerList)
-      this.setFormData()
-     }
+      if (res.data) {
+        this.providerList = res.data
+        this.providerCount = res.totalCount
+        this.dataSource = new MatTableDataSource<any>(this.providerList)
+        this.setFormData()
+      }
     }
-  )
+    )
   }
 
   getAssigneeList() {
@@ -94,21 +95,21 @@ export class AssignListPopupComponent implements OnInit {
     this.pageNumber = event.pageIndex
     this.pageSize = event.pageSize
     this.getInterestOrgList()
-    }
+  }
 
-    onSubmitAssign() {
+  onSubmitAssign() {
     const selectedProvider = this.requestForm.value.assignee
     if (selectedProvider) {
       const request = {
-        interestId: selectedProvider.interestId ,
+        interestId: selectedProvider.interestId,
         demandId: selectedProvider.demandId,
-        ownerId: selectedProvider.ownerId ,
+        ownerId: selectedProvider.ownerId,
         orgId: selectedProvider.orgId,
-        description: selectedProvider.description ,
-        turnAroundTime: selectedProvider.turnAroundTime ,
+        description: selectedProvider.description,
+        turnAroundTime: selectedProvider.turnAroundTime,
         orgName: selectedProvider.orgName,
         status: selectedProvider.status,
-        createdOn: selectedProvider.createdOn ,
+        createdOn: selectedProvider.createdOn,
         updatedOn: selectedProvider.updatedOn,
         // assignedBy: this.currentUser,
       }
@@ -118,10 +119,10 @@ export class AssignListPopupComponent implements OnInit {
         }
 
       },                                                 (error: any) => {
-       this.dialogRef.close({ error })
+        this.dialogRef.close({ error })
 
       }
-    )
+      )
       // Implement your assign logic here
     } else {
     }

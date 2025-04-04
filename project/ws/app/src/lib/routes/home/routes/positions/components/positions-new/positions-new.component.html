@@ -5,7 +5,7 @@
         <div class="mobile-break mat-app-background flex-center">
           <div class="margin-top-s">
             <div class="margin-top-xs">
-              <p class="margin-remove-bottom" i18n="new position">
+              <p class="margin-remove-bottom">
                 Full Name
               </p>
               <mat-form-field appearance="outline" class="margin-top-xs">
@@ -15,7 +15,7 @@
           </div>
           <div class="margin-top-s">
             <div class="margin-top-xs">
-              <p class="margin-remove-bottom" i18n="new position">
+              <p class="margin-remove-bottom">
                 Email
               </p>
               <mat-form-field appearance="outline" class="margin-top-xs">
@@ -25,23 +25,23 @@
           </div>
           <div class="margin-top-s">
             <div class="margin-top-xs">
-              <p class="margin-remove-bottom" i18n="new position">
+              <p class="margin-remove-bottom">
                 Mobile
               </p>
               <mat-form-field appearance="outline" class="margin-top-xs">
-                <input matInput #mobile formControlName="mobile" i18n-placeholder type="text" disabled="true" />
+                <input matInput #mobile formControlName="mobile" type="text" disabled="true" />
               </mat-form-field>
             </div>
           </div>
           <div class="margin-top-s">
             <div class="margin-top-xs">
-              <p class="margin-remove-bottom" i18n="new position">
+              <p class="margin-remove-bottom">
                 New Position Name
               </p>
               <mat-form-field appearance="outline" class="margin-top-xs">
-                <input matInput #position formControlName="position" maxlength="500" i18n-placeholder
-                  placeholder="Type here" type="text" />
-                <mat-error i18n="Position Error|Explains position is required">
+                <input matInput #position formControlName="position" maxlength="500" placeholder="Type here"
+                  type="text" />
+                <mat-error>
                   Position name is not valid
                 </mat-error>
               </mat-form-field>
@@ -49,13 +49,13 @@
           </div>
           <div class="margin-top-s">
             <div class="margin-top-xs">
-              <p class="margin-remove-bottom" i18n="new position">
+              <p class="margin-remove-bottom">
                 Description
               </p>
               <mat-form-field appearance="outline" class="margin-top-xs">
-                <textarea matInput #desc formControlName="description" maxlength="500" i18n-placeholder
-                  placeholder="Type here" type="text" rows="3"></textarea>
-                <mat-error i18n="Name Error|Explains name is required">
+                <textarea matInput #desc formControlName="description" maxlength="500" placeholder="Type here"
+                  type="text" rows="3"></textarea>
+                <mat-error>
                   Description is not valid
                 </mat-error>
               </mat-form-field>
@@ -65,14 +65,14 @@
       </mat-card-content>
       <mat-card-actions class="flex flex-1 flex-row-reverse">
         <button class="text-white ws-mat-primary-background margin-right-m" mat-raised-button color="primary"
-          type="submit" i18n [disabled]="!positionForm.valid">
+          type="submit" [disabled]="!positionForm.valid">
           <ng-container>
-            <span class="text-white" i18n>Approve</span>
+            <span class="text-white">Approve</span>
           </ng-container>
         </button>
-        <button class="margin-right-m" mat-raised-button color="primary" type="button" i18n>
+        <button class="margin-right-m" mat-raised-button color="primary" type="button">
           <ng-container>
-            <span i18n>Cancel</span>
+            <span>Cancel</span>
           </ng-container>
         </button>
       </mat-card-actions>

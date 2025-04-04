@@ -1,15 +1,13 @@
 import { NgModule } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { FeaturesComponent } from './features.component'
-import {
-  MatToolbarModule,
-  MatIconModule,
-  MatFormFieldModule,
-  MatTooltipModule,
-  MatButtonModule,
-  MatInputModule,
-  MatCardModule,
-} from '@angular/material'
+import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button'
+import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card'
+import { MatLegacyFormFieldModule as MatFormFieldModule } from '@angular/material/legacy-form-field'
+import { MatIconModule } from '@angular/material/icon'
+import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input'
+import { MatToolbarModule } from '@angular/material/toolbar'
+import { MatLegacyTooltipModule as MatTooltipModule } from '@angular/material/legacy-tooltip'
 import { ReactiveFormsModule, FormsModule } from '@angular/forms'
 import { RouterModule } from '@angular/router'
 import { BtnFeatureModule, BtnPageBackModule } from '@sunbird-cb/collection'

@@ -18,14 +18,12 @@
   @extend %page-center;
   height: auto;
 }
-.left-menu-bread{
+.left-menu-bread {
   margin-left: -400px;
 }
 .left-nav {
   min-width: 240px;
   max-width: 240px;
-
-
 
   @include breakpoint-xs {
     min-width: 100%;
@@ -41,8 +39,6 @@
   flex: 5;
 }
 
-
-
 .flex-update {
   flex-direction: row;
 
@@ -55,13 +51,13 @@
   }
 }
 
-::ng-deep.mat-progress-spinner {
-    display: block;
-    position: fixed!important;
-    top: 0;
-    margin-top: 20%;
-    left: 0;
-    margin-left: 45%;
+:host ::ng-deep.mat-progress-spinner {
+  display: block;
+  position: fixed !important;
+  top: 0;
+  margin-top: 20%;
+  left: 0;
+  margin-left: 45%;
 }
 
 ::ng-deep .mat-drawer {
@@ -70,4 +66,16 @@
 
 ::ng-deep .custom-class {
   overflow-y: unset !important;
+}
+
+.custom-odcs {
+  &.container-balanced {
+    padding-top: 0;
+  }
+  &.mat-sidenav-container {
+    z-index: unset;
+    .mat-sidenav-content {
+      z-index: 22;
+    }
+  }
 }

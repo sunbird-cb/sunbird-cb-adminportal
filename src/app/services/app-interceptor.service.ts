@@ -3,7 +3,7 @@ import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse
 import { Observable, throwError } from 'rxjs'
 import { AuthKeycloakService, ConfigurationsService } from '@sunbird-cb/utils'
 import { catchError } from 'rxjs/operators'
-import { MatSnackBar } from '@angular/material'
+import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar'
 
 @Injectable({
   providedIn: 'root',

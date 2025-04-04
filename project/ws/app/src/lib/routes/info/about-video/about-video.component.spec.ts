@@ -1,25 +1,23 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing'
-
+import { ConfigurationsService } from '@sunbird-cb/utils'
 import { AboutVideoComponent } from './about-video.component'
 
 describe('AboutVideoComponent', () => {
-  let component: AboutVideoComponent
-  let fixture: ComponentFixture<AboutVideoComponent>
+    let component: AboutVideoComponent
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [AboutVideoComponent],
+    const configSvc: Partial<ConfigurationsService> = {}
+
+    beforeAll(() => {
+        component = new AboutVideoComponent(
+            configSvc as ConfigurationsService
+        )
     })
-    .compileComponents()
-  }))
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(AboutVideoComponent)
-    component = fixture.componentInstance
-    fixture.detectChanges()
-  })
+    beforeEach(() => {
+        jest.clearAllMocks()
+        jest.resetAllMocks()
+    })
 
-  it('should create', () => {
-    expect(component).toBeTruthy()
-  })
+    it('should create a instance of component', () => {
+        expect(component).toBeTruthy()
+    })
 })

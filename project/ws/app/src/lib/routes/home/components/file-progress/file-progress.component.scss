@@ -1,0 +1,16 @@
+@import 'ws-common';
+
+::ng-deep .file-progress {
+  height: 8px;
+  border-radius: 8px;
+
+  .mat-progress-bar-primary {
+    &::after {
+      background-color: #306933 !important;
+    }
+  }
+
+  .mat-progress-bar-buffer {
+    background: #ccc !important;
+  }
+}

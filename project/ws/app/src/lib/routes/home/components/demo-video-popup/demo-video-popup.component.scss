@@ -1,0 +1,35 @@
+.video-content {
+  // position: relative;
+  height: 100%;
+}
+
+.popup-close {
+  position: absolute;
+  margin: 16px 0 0 auto;
+  transform: translate(-50%, -44%);
+  // right: -55px;
+  // top: -55px;
+  right: 0px;
+  top: 0px;
+  color: #2f2e2e;
+  height: 20px;
+  width: 20px;
+  background-color: white;
+  border-radius: 11px;
+
+  .close-icon {
+    font-size: 26px;
+    margin-top: -2px;
+    margin-left: -3px;
+    pointer-events: all;
+    cursor: pointer;
+  }
+}
+
+// ::ng-deep.overflow-visable .mat-dialog-container {
+//   overflow: visible !important;
+// }
+
+::ng-deep .mat-mdc-dialog-surface.mdc-dialog__surface {
+  overflow: hidden !important;
+}

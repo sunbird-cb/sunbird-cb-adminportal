@@ -1,25 +1,36 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing'
-
+import { Router, ActivatedRoute } from '@angular/router'
+import { ProfileV2Service } from '../../../home/services/home.servive'
+import { ProfileV2UtillService } from '../../services/home-utill.service'
+import { UsersService } from '../../services/users.service'
 import { RolesUsersComponent } from './roles-users.component'
 
 describe('RolesUsersComponent', () => {
-  let component: RolesUsersComponent
-  let fixture: ComponentFixture<RolesUsersComponent>
+    let component: RolesUsersComponent
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [RolesUsersComponent],
+    const usersSvc: Partial<UsersService> = {}
+    const router: Partial<Router> = {}
+    const profileUtilSvc: Partial<ProfileV2UtillService> = {}
+    const route: Partial<ActivatedRoute> = {}
+    const profile: Partial<ProfileV2Service> = {}
+    const usersService: Partial<UsersService> = {}
+
+    beforeAll(() => {
+        component = new RolesUsersComponent(
+            usersSvc as UsersService,
+            router as Router,
+            profileUtilSvc as ProfileV2UtillService,
+            route as ActivatedRoute,
+            profile as ProfileV2Service,
+            usersService as UsersService
+        )
     })
-    .compileComponents()
-  }))
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(RolesUsersComponent)
-    component = fixture.componentInstance
-    fixture.detectChanges()
-  })
+    beforeEach(() => {
+        jest.clearAllMocks()
+        jest.resetAllMocks()
+    })
 
-  it('should create', () => {
-    expect(component).toBeTruthy()
-  })
+    it('should create a instance of component', () => {
+        expect(component).toBeTruthy()
+    })
 })

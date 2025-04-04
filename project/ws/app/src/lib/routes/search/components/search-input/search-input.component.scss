@@ -49,7 +49,9 @@ ws-app-search-input .search-page-container {
   margin-top: $size-xl;
   padding-top: $size-xl;
   text-align: center;
+  /* stylelint-disable */
   margin: auto;
+  /* stylelint-enable */
   width: 80%;
   max-width: 600px;
 

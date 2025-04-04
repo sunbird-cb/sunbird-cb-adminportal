@@ -1,5 +1,6 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core'
-import { MatDialog, MatSnackBar } from '@angular/material'
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog'
+import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar'
 import { ActivatedRoute } from '@angular/router'
 import { NsAutoComplete } from '@sunbird-cb/collection'
 import { SystemRolesManagementService } from '../../services/system-roles-management.service'
@@ -33,7 +34,7 @@ export class UsersComponent implements OnInit {
     if (this.activatedRoute.parent && this.activatedRoute.parent.parent) {
       this.activatedRoute.parent.parent.data.subscribe(data => {
         const featureData = data.featureData.data
-        Object.keys(featureData.roleList).map(role => {
+        Object.keys(featureData.roleList).forEach(role => {
           this.rolesHash[role] = {
             about: featureData.roleList[role],
             hasRole: false,

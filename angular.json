@@ -30,56 +30,58 @@
             "styles": [
               {
                 "input": "src/styles/libraries.scss",
-                "bundleName": "libraries"
+                "bundleName": "libraries",
+                "inject": true
               },
               "node_modules/material-icons/iconfont/material-icons.scss",
               "src/styles/mat-typography.scss",
               "src/styles/styles.scss",
               "node_modules/shepherd.js/dist/css/shepherd.css",
+              "node_modules/jsoneditor/dist/jsoneditor.min.css",
               {
+                "inject": false,
                 "input": "src/themes/theme-deep-purple.scss",
-                "bundleName": "theme-deep-purple",
-                "lazy": true
+                "bundleName": "theme-deep-purple"
               },
               {
+                "inject": false,
                 "input": "src/themes/theme-grey.scss",
-                "bundleName": "theme-grey",
-                "lazy": true
+                "bundleName": "theme-grey"
               },
               {
+                "inject": false,
                 "input": "src/themes/theme-indigo.scss",
-                "bundleName": "theme-indigo",
-                "lazy": true
+                "bundleName": "theme-indigo"
               },
               {
+                "inject": false,
                 "input": "src/themes/theme-lite-blue.scss",
-                "bundleName": "theme-lite-blue",
-                "lazy": true
+                "bundleName": "theme-lite-blue"
               },
               {
+                "inject": false,
                 "input": "src/themes/theme-orange.scss",
-                "bundleName": "theme-orange",
-                "lazy": true
+                "bundleName": "theme-orange"
               },
               {
+                "inject": false,
                 "input": "src/themes/theme-teal.scss",
-                "bundleName": "theme-teal",
-                "lazy": true
+                "bundleName": "theme-teal"
               },
               {
+                "inject": false,
                 "input": "src/themes/theme-blue.scss",
-                "bundleName": "theme-blue",
-                "lazy": true
+                "bundleName": "theme-blue"
               },
               {
+                "inject": false,
                 "input": "src/themes/theme-deep-blue.scss",
-                "bundleName": "theme-deep-blue",
-                "lazy": true
+                "bundleName": "theme-deep-blue"
               },
               {
+                "inject": true,
                 "input": "src/themes/theme-igot.scss",
-                "bundleName": "theme-igot",
-                "lazy": true
+                "bundleName": "theme-igot"
               },
               "node_modules/pdfjs-dist/web/pdf_viewer.css",
               "src/spv-assets/fonts/lato/stylesheet.css",
@@ -90,7 +92,14 @@
               "node_modules/shepherd.js/dist/js/shepherd.min.js",
               "node_modules/@project-sunbird/telemetry-sdk/index.js",
               "node_modules/leader-line/leader-line.min.js"
-            ]
+            ],
+            "aot": false,
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "buildOptimizer": false,
+            "sourceMap": true,
+            "optimization": false,
+            "namedChunks": true
           },
           "configurations": {
             "production": {
@@ -103,17 +112,20 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
-              "aot": true,
+              "aot": false,
               "extractLicenses": true,
               "vendorChunk": false,
-              "buildOptimizer": true,
+              "buildOptimizer": false,
               "budgets": [
                 {
                   "type": "initial",
                   "maximumWarning": "4mb",
                   "maximumError": "15mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
                 }
               ],
               "serviceWorker": false,
@@ -129,17 +141,20 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
-              "aot": true,
+              "aot": false,
               "extractLicenses": true,
               "vendorChunk": false,
-              "buildOptimizer": true,
+              "buildOptimizer": false,
               "budgets": [
                 {
                   "type": "initial",
                   "maximumWarning": "4mb",
                   "maximumError": "15mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
                 }
               ],
               "serviceWorker": false,
@@ -155,23 +170,27 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
-              "aot": true,
+              "aot": false,
               "extractLicenses": true,
               "vendorChunk": false,
-              "buildOptimizer": true,
+              "buildOptimizer": false,
               "budgets": [
                 {
                   "type": "initial",
                   "maximumWarning": "4mb",
                   "maximumError": "15mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
                 }
               ],
               "serviceWorker": false,
               "ngswConfigPath": "ngsw-config.json"
             }
-          }
+          },
+          "defaultConfiguration": ""
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -210,19 +229,6 @@
             "scripts": []
           }
         },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "tsconfig.app.json",
-              "tsconfig.spec.json",
-              "e2e/tsconfig.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
-          }
-        },
         "e2e": {
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
@@ -244,12 +250,17 @@
       "prefix": "ws-app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-ng-packagr:build",
+          "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
             "tsConfig": "project/ws/app/tsconfig.lib.json",
             "project": "project/ws/app/ng-package.json"
           }
-        },
+        ,          "configurations": {
+            "production": {
+              "tsConfig": "project/ws/app/tsconfig.lib.prod.json"
+            }
+          }
+},
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
@@ -257,29 +268,19 @@
             "tsConfig": "project/ws/app/tsconfig.spec.json",
             "karmaConfig": "project/ws/app/karma.conf.js"
           }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "project/ws/app/tsconfig.lib.json",
-              "project/ws/app/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
-          }
         }
       }
     }
   },
-  "defaultProject": "spv",
   "schematics": {
     "@schematics/angular:component": {
-      "styleext": "scss"
+      "style": "scss"
     }
   },
   "cli": {
-    "analytics": "9b3b22e4-cf51-4b7e-8fc7-460ef11cf24f"
+    "analytics": "9b3b22e4-cf51-4b7e-8fc7-460ef11cf24f",
+    "cache": {
+      "enabled": false
+    }
   }
 }

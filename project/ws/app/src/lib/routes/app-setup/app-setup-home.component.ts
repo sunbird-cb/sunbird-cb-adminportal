@@ -1,4 +1,4 @@
-import { MatDialog } from '@angular/material'
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog'
 import { StepperSelectionEvent, STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper'
 import { AfterViewInit, Component, OnInit } from '@angular/core'
 import { IWidgetsPlayerMediaData } from '@sunbird-cb/collection'

@@ -1,7 +1,7 @@
 
 import { Component, OnInit } from '@angular/core'
 import { NSProfileDataV2 } from '../../models/profile-v2.model'
-import { MatDialog } from '@angular/material/dialog'
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog'
 import { ActivatedRoute, Router } from '@angular/router'
 import { ConfigurationsService } from '@sunbird-cb/utils'
 /* tslint:disable */
@@ -110,7 +110,7 @@ export class ModerationViewComponent implements OnInit {
           this.moderationService.getModeratedData().subscribe((data: any) => {
             this.moderatedData = data.payload.feedbackList
           })
-          if (this.moderationServiceData !== null && this.moderationServiceData !== []) {
+          if (this.moderationServiceData !== null) {
             this.moderatedData.forEach((element: any) => {
               if (element.classification !== 'SFW') {
                 filteredData2.push(element)
@@ -123,7 +123,7 @@ export class ModerationViewComponent implements OnInit {
           this.moderationService.getModeratedData().subscribe((data: any) => {
             this.moderatedData = data.payload.feedbackList
           })
-          if (this.moderationServiceData !== null && this.moderationServiceData !== []) {
+          if (this.moderationServiceData !== null) {
             this.moderatedData.forEach((element: any) => {
               if (element.classification === 'SFW') {
                 filteredData2.push(element)
@@ -135,7 +135,7 @@ export class ModerationViewComponent implements OnInit {
           this.moderationService.getData().subscribe((data: any) => {
             this.moderationServiceData = data.payload.feedbackList
           })
-          if (this.moderationServiceData !== null && this.moderationServiceData !== []) {
+          if (this.moderationServiceData !== null) {
             this.moderationServiceData.forEach((element: any) => {
               filteredData2.push(element)
             })

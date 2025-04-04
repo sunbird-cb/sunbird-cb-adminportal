@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core'
-import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router'
+import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router'
 import { Observable, of } from 'rxjs'
 import { map, catchError } from 'rxjs/operators'
 import { } from '@sunbird-cb/collection'
@@ -9,8 +9,7 @@ import { NSProfileDataV2 } from '../models/profile-v2.model'
 
 @Injectable()
 export class HomeResolve
-  implements
-  Resolve<Observable<IResolveResponse<NSProfileDataV2.IProfile>> | IResolveResponse<NSProfileDataV2.IProfile>> {
+   {
   constructor(private profileV2Svc: ProfileV2Service, private configSvc: ConfigurationsService) { }
 
   resolve(

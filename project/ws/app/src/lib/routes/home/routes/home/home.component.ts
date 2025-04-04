@@ -4,7 +4,7 @@ import { Router, Event, NavigationEnd, NavigationError, ActivatedRoute, Activate
 import { EventService, TelemetryService, UtilityService, ValueService } from '@sunbird-cb/utils'
 import { map } from 'rxjs/operators'
 /* tslint:disable */
-import _ from 'lodash'
+import * as _ from 'lodash'
 import { ILeftMenu, LeftMenuService } from '@sunbird-cb/collection'
 import { NsWidgetResolver } from '@sunbird-cb/resolver'
 import { Subscription } from 'rxjs'
@@ -37,6 +37,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('stickyMenu', { static: true }) menuElement!: ElementRef
   elementPosition: any
   sticky = false
+  containerCustomCls = false
   // department: any = {}
   // departmentName = ''
   private defaultSideNavBarOpenedSubscription: any
@@ -63,6 +64,15 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     this.router.events.subscribe((event: Event) => {
       if (event instanceof NavigationEnd) {
+        // for KCM mapping page
+        const urlData = _.get(this.activeRoute, 'snapshot._routerState.url')
+        this.containerCustomCls = urlData && urlData.includes('kcm-mapping') ? true : false
+
+        if (this.containerCustomCls) {
+          document.getElementsByTagName('body')[0].classList.add('custom-height-KCM')
+        } else {
+          document.getElementsByTagName('body')[0].classList.remove('custom-height-KCM')
+        }
         // Hide loading indicator
         // console.log(event.url)
         const snapshot = this.activeRoute.snapshot

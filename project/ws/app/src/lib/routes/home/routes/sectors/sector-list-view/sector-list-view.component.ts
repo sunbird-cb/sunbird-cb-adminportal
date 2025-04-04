@@ -4,7 +4,9 @@ import {
 } from '@angular/core'
 import * as _ from 'lodash'
 import { IAction, ITableData } from '../../events/interfaces/interfaces'
-import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material'
+import { MatLegacyPaginator as MatPaginator } from '@angular/material/legacy-paginator'
+import { MatSort } from '@angular/material/sort'
+import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table'
 import { sectorConstants } from '../sectors-constats.model'
 
 @Component({
@@ -14,7 +16,7 @@ import { sectorConstants } from '../sectors-constats.model'
 })
 export class SectorListViewComponent implements OnInit {
   @Input() tableData!: ITableData | undefined
-  @Input() data = []
+  @Input() data: any = []
   @Input() isCreate?: boolean
   @Output() filterData?: EventEmitter<any>
   @Input() actions?: IAction[]
@@ -23,8 +25,9 @@ export class SectorListViewComponent implements OnInit {
   length!: number
   pageSize = sectorConstants.pageSize
   pageSizeOptions = sectorConstants.pageOptions
-  @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator | null = null
-  @ViewChild(MatSort, { static: false }) set matSort(sort: MatSort) {
+  cardMenu: any
+  @ViewChild(MatPaginator) paginator: MatPaginator | null = null
+  @ViewChild(MatSort) set matSort(sort: MatSort) {
     if (!this.dataSource.sort) {
       this.dataSource.sort = sort
     }

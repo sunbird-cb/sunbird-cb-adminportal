@@ -1,5 +1,5 @@
 @import 'ws-vars';
-
+/* stylelint-disable */
 @mixin retina {
 
   @media only screen and (-webkit-min-device-pixel-ratio: 2),
@@ -11,7 +11,7 @@
     @content;
   }
 }
-
+/* stylelint-enable */
 @mixin print {
   @media only print {
     @content;

@@ -1,34 +1,35 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing'
 
+import { MatDialogRef } from '@angular/material/dialog'
+import { MatSnackBar } from '@angular/material/snack-bar'
+import { ConfigurationsService } from '../../services/configurations.service'
+import { ValueService } from './value.service'
 import { ImageCropComponent } from './image-crop.component'
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core'
-import { MatDialogModule, MatDialogRef, MatSnackBarModule, MatSnackBarRef, MAT_DIALOG_DATA } from '@angular/material'
 
 describe('ImageCropComponent', () => {
   let component: ImageCropComponent
-  let fixture: ComponentFixture<ImageCropComponent>
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [MatDialogModule, MatSnackBarModule],
-      declarations: [ImageCropComponent],
-      providers: [
-        { provide: MAT_DIALOG_DATA, useValue: {} },
-        { provide: MatDialogRef, useValue: {} },
-        { provide: MatSnackBarRef, useValue: {} },
-      ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    })
-      .compileComponents()
-  }))
+  const dialogRef: Partial<MatDialogRef<ImageCropComponent>> = {}
+  const configSvc: Partial<ConfigurationsService> = {}
+  const snackBar: Partial<MatSnackBar> = {}
+  const valueSvc: Partial<ValueService> = {}
+  const data: any = {}
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(ImageCropComponent)
-    component = fixture.componentInstance
-    // fixture.detectChanges()
+  beforeAll(() => {
+    component = new ImageCropComponent(
+      dialogRef as MatDialogRef<ImageCropComponent>,
+      configSvc as ConfigurationsService,
+      snackBar as MatSnackBar,
+      valueSvc as ValueService,
+      data as any
+    )
   })
 
-  it('should create', () => {
+  beforeEach(() => {
+    jest.clearAllMocks()
+    jest.resetAllMocks()
+  })
+
+  it('should create a instance of component', () => {
     expect(component).toBeTruthy()
   })
 })

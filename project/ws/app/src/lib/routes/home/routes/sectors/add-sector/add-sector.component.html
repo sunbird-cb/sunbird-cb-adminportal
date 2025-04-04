@@ -19,21 +19,18 @@
               <div class="flex-parent-element">
                 <div class="flex-child-element">
                   <label for="eventDate" class=" margin-remove-bottom form-label required"
-                    i18n="Event Date label|Label which explains the user to enter event date" i18n-aria-label
                     aria-label="Event Date label">
                     Sector Name
                   </label>
                   <mat-form-field appearance="outline" class="margin-top-xs margin-bottom-m sector-title">
-                    <input id="sectorTitle" matInput #sectorTitle formControlName="sectorTitle" i18n-placeholder
-                      placeholder="Add sector name here" i18n-aria-label aria-label="Sector Title input"
-                      class="form-input" maxlength="70" />
-                    <mat-error [hidden]="false" i18n="Sector title Error|Explains sector title is required"
-                      i18n-aria-label aria-label="Sector title Error|Explains sector title is required "
+                    <input id="sectorTitle" matInput #sectorTitle formControlName="sectorTitle"
+                      placeholder="Add sector name here" aria-label="Sector Title input" class="form-input"
+                      maxlength="70" />
+                    <mat-error [hidden]="false" aria-label="Sector title Error|Explains sector title is required "
                       *ngIf="addSectorForm?.controls['sectorTitle']?.touched && addSectorForm?.controls['sectorTitle'].errors?.required">
                       Sector name is mandatory
                     </mat-error>
                     <mat-error [hidden]="false" *ngIf="addSectorForm?.controls['sectorTitle'].errors?.pattern"
-                      i18n-aria-label
                       aria-label="sectorTitleLabel Error|sectorTitle fields cannot contain numbers and special characters except">
                       Please input correct sector title
                     </mat-error>
@@ -46,9 +43,7 @@
                   </mat-form-field>
                 </div>
                 <div class="flex-child-element">
-                  <label for="icon" class=" margin-remove-bottom form-label required"
-                    i18n="Sector icon label|Label which explains the user to select icon" i18n-aria-label
-                    aria-label="Sector icon label">
+                  <label for="icon" class=" margin-remove-bottom form-label required" aria-label="Sector icon label">
                     Select Icon
                   </label>
                   <div>Icons will be cropped to 24x24 pixels</div>
@@ -58,8 +53,8 @@
                       <mat-icon class="cam-icon">photo_camera</mat-icon>
                     </div>
                     <div class="uploaded-img">
-                      <img class="image max-width" *ngIf="addSectorForm.controls.imgUrl.value" height="24" width="24"
-                        [src]="getUrl(addSectorForm.controls.imgUrl.value)" />
+                      <img alt="photo" class="image max-width" *ngIf="addSectorForm.controls.imgUrl.value" height="24"
+                        width="24" [src]="getUrl(addSectorForm.controls.imgUrl.value)" />
                     </div>
                   </div>
                 </div>
@@ -69,13 +64,13 @@
               <div class="margin-right-l">
                 <button mat-stroked-button color="accent" type="button" class="mat-accent-border flex-auto-display"
                   (click)="goToList()">
-                  <span i18n>Cancel</span>
+                  <span>Cancel</span>
                 </button>
               </div>
               <div class="">
                 <button mat-button class="create-btn btn-success" type="button" (click)="onSubmit()"
                   [disabled]="!addSectorForm.valid || disableCreateButton">
-                  <span i18n>Save</span>
+                  <span>Save</span>
                 </button>
               </div>
             </div>

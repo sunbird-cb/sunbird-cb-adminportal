@@ -1,0 +1,309 @@
+<!-- <div class="viaApi">
+  <form [formGroup]="servicesFormGroup">
+    <div class="flex flex-column gap-14">
+      <div class="flex gap-6">
+        <div class="flex flex-column gap-1 w-full">
+          <div class="flex items-center gap-1 required">
+            <span class="lable">Service Name</span>
+          </div>
+          <mat-form-field class="w-full services-input-form">
+            <input formControlName="serviceName" matInput placeholder="Type here">
+            <mat-error [hidden]="false" aria-label="Event title Error|Explains event title is required "
+              *ngIf="getControlValidation('serviceName', 'required')">
+              Service Name is mandatory
+            </mat-error>
+            <mat-error [hidden]="false" aria-label="Event title Error|Explains event title is required "
+              *ngIf="getControlValidation('serviceName', 'pattern')">
+              Only ( a-z/A-Z/0-9 . - _ $ / : [ ]' !) characters are supported
+            </mat-error>
+            <mat-hint class="w-full flex justify-between items-center">
+              <span class="input-note">Only ( a-z/A-Z/0-9 . - _ $ / : [ ]' !) characters are supported</span>
+            </mat-hint>
+          </mat-form-field>
+        </div>
+        <div class="flex flex-column gap-1 w-full"
+          [ngClass]="{'disableControl': providerDetails?.serviceRegistryDetails?.contentApisId}">
+          <div class="flex items-center gap-1 required">
+            <span class="lable">Service Code</span>
+          </div>
+          <mat-form-field class="w-full services-input-form">
+            <input class="serviceCode" formControlName="serviceCode" matInput placeholder="Type here" maxlength="6">
+            <mat-error [hidden]="false" aria-label="Event title Error|Explains event title is required "
+              *ngIf="getControlValidation('serviceCode', 'required')">
+              Service Code is mandatory
+            </mat-error>
+            <mat-error [hidden]="false" aria-label="Event title Error|Explains event title is required "
+              *ngIf="getControlValidation('serviceCode', 'pattern')">
+              Only ( a-z/A-Z/0-9) characters are supported
+            </mat-error>
+            <mat-hint class="w-full flex justify-between items-center">
+              <span class="input-note">Only ( a-z/A-Z/0-9) characters are supported</span>
+            </mat-hint>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="flex flex-column gap-1 w-full">
+        <div class="flex items-center gap-1 required">
+          <span class="lable">Service Description</span>
+          <mat-icon class="info-icon"
+            matTooltip="We recomment you to give description in 300-500 characters">info_outline</mat-icon>
+        </div>
+        <mat-form-field class="w-full description">
+          <textarea matInput rows="6" formControlName="serviceDescription" maxlength="500"
+            placeholder="Type the decription in fewer than 500 characters" i18n-placeholder></textarea>
+          <mat-error [hidden]="false" aria-label="Event title Error|Explains event title is required "
+            *ngIf="getControlValidation('serviceDescription', 'required')">
+            Description is mandatory
+          </mat-error>
+          <mat-error [hidden]="false" aria-label="Event title Error|Explains event title is required "
+            *ngIf="getControlValidation('serviceDescription', 'pattern')">
+            Only ( a-z/A-Z/0-9 . - _ $ / : [ ] ' , !) characters are supported
+          </mat-error>
+          <mat-hint class="w-full flex justify-between items-center">
+            <span class="input-note">Only ( a-z/A-Z/0-9 . - _ $ / : [ ] ' , !) characters are supported</span>
+            <span class="input-note">{{getTextLength('serviceDescription')}}/500</span>
+          </mat-hint>
+        </mat-form-field>
+      </div>
+
+      <div class="flex gap-6">
+        <mat-slide-toggle class="w-full" formControlName="strictCache" (change)="onToggleChange()">
+          <span class="lable">Has authentication Expirey</span>
+        </mat-slide-toggle>
+        <ng-container *ngIf="servicesFormGroup?.controls?.strictCache.value">
+          <div class="flex flex-column gap-1 w-full mb-6">
+            <div class="flex items-center gap-1 required">
+              <span class="lable">Expirey time in minutes</span>
+            </div>
+            <mat-form-field class="w-full description">
+              <input matInput formControlName="strictCacheTimeInMinutes" type="number" placeholder="minutes"
+                i18n-placeholder>
+              <mat-error [hidden]="false" aria-label="Event title Error|Explains event title is required "
+                *ngIf="getControlValidation('serviceDescription', 'required')">
+                Time is mandatory
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </form>
+
+  <div class="linkLable required flex items-center mt-8">
+    Link
+    <mat-icon class="info-icon">info_outline</mat-icon>
+  </div>
+
+  <div class="flex gap-4 viaApiUrl">
+    <form [formGroup]="viaApiFormGroup" class="flex w-full gap-0">
+      <div class="apiTypeSelect">
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-select class="event-select" formControlName="apiType" placeholder="Select">
+            <ng-container *ngFor="let type of apiTypesList">
+              <mat-option [value]="type.value">{{type.type}}</mat-option>
+            </ng-container>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="apiUrl w-full">
+        <mat-form-field appearance="outline" class="w-full">
+          <input type="text" matInput formControlName="apiUrl" placeholder="API Url">
+        </mat-form-field>
+      </div>
+    </form>
+  </div>
+
+  <div class="vai-api-tabs mt-1">
+    <ng-container *ngIf="!delayTabLoad">
+      <mat-tab-group>
+        <mat-tab label="Params">
+          <ws-app-via-api-params-table [tableListFormGroup]="paramsFormGroup"
+            [paramsType]="'params'"></ws-app-via-api-params-table>
+        </mat-tab>
+        <mat-tab label="Headers">
+          <ws-app-via-api-params-table [tableListFormGroup]="headersFormGroup"
+            [paramsType]="'headers'"></ws-app-via-api-params-table>
+        </mat-tab>
+        <mat-tab label="Body">
+          <ws-app-via-api-params-table [tableListFormGroup]="bodyFormGroup"
+            [paramsType]="'body'"></ws-app-via-api-params-table>
+        </mat-tab>
+      </mat-tab-group>
+    </ng-container>
+  </div>
+</div> -->
+
+<div class="flex gap-4">
+  <div class="flex flex-col gap-1 w-full h-full">
+    <div class="header">
+      Configure Courses API
+    </div>
+    <div class="viaApi">
+      <form [formGroup]="servicesFormGroup">
+        <div class="flex flex-column gap-14">
+          <div class="flex flex-column gap-1 w-full">
+            <div class="flex items-center gap-1 required">
+              <span class="lable">Service Name</span>
+            </div>
+            <mat-form-field class="w-full services-input-form">
+              <input formControlName="serviceName" matInput placeholder="Type here">
+              <mat-error [hidden]="false" aria-label="Event title Error|Explains event title is required "
+                *ngIf="getControlValidation('serviceName', 'required')">
+                Service Name is mandatory
+              </mat-error>
+              <mat-error [hidden]="false" aria-label="Event title Error|Explains event title is required "
+                *ngIf="getControlValidation('serviceName', 'pattern')">
+                Only ( a-z/A-Z/0-9 . - _ $ / : [ ]' !) characters are supported
+              </mat-error>
+              <mat-hint class="w-full flex justify-between items-center">
+                <span class="input-note">Only ( a-z/A-Z/0-9 . - _ $ / : [ ]' !) characters are supported</span>
+              </mat-hint>
+            </mat-form-field>
+          </div>
+
+          <div class="flex flex-column gap-1 w-full"
+            [ngClass]="{'disableControl': providerDetails?.serviceRegistryDetails?.contentApisId}">
+            <div class="flex items-center gap-1 required">
+              <span class="lable">Service Code</span>
+            </div>
+            <mat-form-field class="w-full services-input-form">
+              <input class="serviceCode" formControlName="serviceCode" matInput placeholder="Type here" maxlength="6">
+              <mat-error [hidden]="false" aria-label="Event title Error|Explains event title is required "
+                *ngIf="getControlValidation('serviceCode', 'required')">
+                Service Code is mandatory
+              </mat-error>
+              <mat-error [hidden]="false" aria-label="Event title Error|Explains event title is required "
+                *ngIf="getControlValidation('serviceCode', 'pattern')">
+                Only ( a-z/A-Z/0-9) characters are supported
+              </mat-error>
+              <mat-hint class="w-full flex justify-between items-center">
+                <span class="input-note">Only ( a-z/A-Z/0-9) characters are supported</span>
+              </mat-hint>
+            </mat-form-field>
+          </div>
+
+          <div class="flex flex-column gap-1 w-full">
+            <div class="flex items-center gap-1 required">
+              <span class="lable">Service Description</span>
+              <mat-icon class="info-icon"
+                matTooltip="We recomment you to give description in 300-500 characters">info_outline</mat-icon>
+            </div>
+            <mat-form-field class="w-full description">
+              <textarea matInput rows="6" formControlName="serviceDescription" maxlength="500"
+                placeholder="Type the decription in fewer than 500 characters" i18n-placeholder></textarea>
+              <mat-error [hidden]="false" aria-label="Event title Error|Explains event title is required "
+                *ngIf="getControlValidation('serviceDescription', 'required')">
+                Description is mandatory
+              </mat-error>
+              <mat-error [hidden]="false" aria-label="Event title Error|Explains event title is required "
+                *ngIf="getControlValidation('serviceDescription', 'pattern')">
+                Only ( a-z/A-Z/0-9 . - _ $ / : [ ] ' , !) characters are supported
+              </mat-error>
+              <mat-hint class="w-full flex justify-between items-center">
+                <span class="input-note">Only ( a-z/A-Z/0-9 . - _ $ / : [ ] ' , !) characters are supported</span>
+                <span class="input-note">{{getTextLength('serviceDescription')}}/500</span>
+              </mat-hint>
+            </mat-form-field>
+          </div>
+
+          <div class="flex flex-col gap-4 mb-6">
+            <mat-slide-toggle formControlName="strictCache" (change)="onToggleChange()">
+              <span class="lable">Has authentication Expirey</span>
+            </mat-slide-toggle>
+            <ng-container *ngIf="servicesFormGroup?.controls?.strictCache.value">
+              <div class="flex flex-column gap-1 w-full mb-6">
+                <div class="flex items-center gap-1 required">
+                  <span class="lable">Expirey time in minutes</span>
+                </div>
+                <mat-form-field class="w-full description">
+                  <input matInput formControlName="strictCacheTimeInMinutes" type="number" placeholder="minutes"
+                    i18n-placeholder>
+                  <mat-error [hidden]="false" aria-label="Event title Error|Explains event title is required "
+                    *ngIf="getControlValidation('serviceDescription', 'required')">
+                    Time is mandatory
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+      </form>
+
+      <div class="linkLable required flex items-center mt-8">
+        Link
+        <mat-icon class="info-icon">info_outline</mat-icon>
+      </div>
+
+      <div class="flex gap-4 viaApiUrl">
+        <form [formGroup]="viaApiFormGroup" class="flex w-full gap-0">
+          <div class="apiTypeSelect">
+            <mat-form-field appearance="outline" class="w-full">
+              <mat-select class="event-select" formControlName="apiType" placeholder="Select">
+                <ng-container *ngFor="let type of apiTypesList">
+                  <mat-option [value]="type.value">{{type.type}}</mat-option>
+                </ng-container>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="apiUrl w-full">
+            <mat-form-field appearance="outline" class="w-full">
+              <input type="text" matInput formControlName="apiUrl" placeholder="API Url">
+            </mat-form-field>
+          </div>
+        </form>
+      </div>
+
+      <div class="vai-api-tabs mt-1">
+        <ng-container *ngIf="!delayTabLoad">
+          <mat-tab-group>
+            <mat-tab label="Params">
+              <ws-app-via-api-params-table [tableListFormGroup]="paramsFormGroup"
+                [paramsType]="'params'"></ws-app-via-api-params-table>
+            </mat-tab>
+            <mat-tab label="Headers">
+              <ws-app-via-api-params-table [tableListFormGroup]="headersFormGroup"
+                [paramsType]="'headers'"></ws-app-via-api-params-table>
+            </mat-tab>
+            <mat-tab label="Body">
+              <ws-app-via-api-params-table [tableListFormGroup]="bodyFormGroup"
+                [paramsType]="'body'"></ws-app-via-api-params-table>
+            </mat-tab>
+          </mat-tab-group>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+
+  <div class="flex w-full flex-col gap-1 h-full">
+    <div>
+      <span class="header">Transform Content</span>
+    </div>
+    <div class="flex flex-col gap-4 transformation-box h-full"
+      [ngClass]="{'transformation-required': (!transformationsUpdated && configured)}">
+      <form [formGroup]="transforamtionForm">
+        <json-editor [options]="editorOptions" formControlName="transformContent" class="transformationEditor">
+        </json-editor>
+        <!-- <div class="flex flex-col gap-2">
+          <ng-container *ngFor="let transFormControl of transFormContentKeysAndControls">
+            <div class="flex gap-4 items-center">
+              <span class="lable">{{transFormControl.lable}}</span>
+              <span class="colun">:</span>
+              <mat-form-field appearance="outline" class="w-full">
+                <input type="text" matInput formControlName="{{transFormControl.controlName}}">
+              </mat-form-field>
+            </div>
+          </ng-container>
+        </div> -->
+      </form>
+      <div class="flex w-full justify-end mt-4">
+        <button mat-button class="save-properties" (click)="upDateTransforamtionDetails()">
+          {{!providerDetails?.transformContentViaApi ? 'Save Transform Content' : 'Upate Transform Content'}}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="flex justify-center items-center mt-6">
+  <button mat-button class="fetchData" (click)="configure()">Configure</button>
+</div>

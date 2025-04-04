@@ -1,7 +1,7 @@
 <mat-toolbar [color]="pageNavbar?.color" [ngStyle]="pageNavbar?.styles">
   <ws-widget-btn-page-back [widgetData]="{ url: 'home',titles:[{title:'About',url:'none'}] }"></ws-widget-btn-page-back>
   <!-- <span class="margin-left-xs text-truncate">
-    <span i18n="page title: about" class="margin-left-xs">About</span>
+    <span  class="margin-left-xs">About</span>
   </span> -->
 </mat-toolbar>
 
@@ -20,12 +20,11 @@
           </h2>
 
           <div *ngIf="videoLink" class="overview-intro ws-mat-primary-lite-background">
-            <iframe [src]="videoLink" i18n-title title="about-video" allow="fullscreen" class="about-video"
-              width="100%"></iframe>
+            <iframe [src]="videoLink" title="about-video" allow="fullscreen" class="about-video" width="100%"></iframe>
           </div>
         </div>
         <a *ngIf="aboutPage?.banner?.moreInfo" mat-raised-button type="button" [href]="aboutPage?.banner?.moreInfo"
-          target="_blank" color="primary" i18n="about first section action button">Read More
+          target="_blank" color="primary">Read More
         </a>
       </div>
     </div>
@@ -70,7 +69,6 @@
       <!-- <div class="overview-intro ws-mat-primary-lite-background">
           <iframe
             [src]="videoLink"
-            i18n-title
             title="about-video"
             allow="fullscreen"
             class="about-video"

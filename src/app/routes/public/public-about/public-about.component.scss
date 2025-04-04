@@ -157,7 +157,9 @@ $description-height-size: 1.2em;
     .header-title {
       display: flex;
       align-items: center;
+      /* stylelint-disable */
       display: block;
+      /* stylelint-enable */
     }
 
     .header-meta {

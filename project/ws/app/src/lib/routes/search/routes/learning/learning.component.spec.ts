@@ -1,24 +1,38 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing'
-
+import '@angular/compiler'
+import { ActivatedRoute, Router } from '@angular/router'
+import { ConfigurationsService, ValueService, UtilityService } from '@sunbird-cb/utils'
+import { SearchServService } from '../../services/search-serv.service'
 import { LearningComponent } from './learning.component'
 
 describe('LearningComponent', () => {
-  let component: LearningComponent
-  let fixture: ComponentFixture<LearningComponent>
+    let component: LearningComponent
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [LearningComponent],
-    }).compileComponents()
-  }))
+    const activated: Partial<ActivatedRoute> = {}
+    const router: Partial<Router> = {}
+    const valueSvc: Partial<ValueService> = {}
+    const searchServ: Partial<SearchServService> = {
+        getLanguageSearchIndex: jest.fn(),
+    }
+    const configSvc: Partial<ConfigurationsService> = {}
+    const utilitySvc: Partial<UtilityService> = {}
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(LearningComponent)
-    component = fixture.componentInstance
-    fixture.detectChanges()
-  })
+    beforeAll(() => {
+        component = new LearningComponent(
+            activated as ActivatedRoute,
+            router as Router,
+            valueSvc as ValueService,
+            searchServ as SearchServService,
+            configSvc as ConfigurationsService,
+            utilitySvc as UtilityService
+        )
+    })
 
-  it('should create', () => {
-    expect(component).toBeTruthy()
-  })
+    beforeEach(() => {
+        jest.clearAllMocks()
+        jest.resetAllMocks()
+    })
+
+    it('should create a instance of component', () => {
+        expect(component).toBeTruthy()
+    })
 })

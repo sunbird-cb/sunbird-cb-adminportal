@@ -25,7 +25,9 @@
   // width: 130px;
   background: #0075B7 !important;
   color: white !important;
+  /* stylelint-disable */
   font-family: 'Lato';
+  /* stylelint-enable */
   font-weight: 700;
   font-size: 14px;
 }
@@ -34,7 +36,9 @@
 }
 .sub-sector-name {
   font-size: 14px;
+  /* stylelint-disable */
   font-family: "Lato";
+  /* stylelint-enable */
 }
 
 mat-card.highlight {
@@ -152,7 +156,7 @@ input[type=number] {
       border-right-style: none;
       /* border: 1px solid currentColor; */
       min-width: 8px;
-      border-right-style: none;
+      // border-right-style: none;
     }
 
     .mat-form-field-outline-gap {
@@ -220,13 +224,17 @@ input[type=number] {
   font-size: 14px;
   margin-bottom: .5rem;
   font-weight: 700;
+  /* stylelint-disable */
   font-family: 'Lato';
+  /* stylelint-enable */
 }
 
 .form-input {
   font-size: 14px;
   font-weight: 400;
+  /* stylelint-disable */
   font-family: 'Lato';
+  /* stylelint-enable */
   line-height: 1.5;
 }
 
@@ -287,7 +295,9 @@ input.mat-input-element {
 
 .heading{
   font-weight: 600;
+  /* stylelint-disable */
   font-family: 'Montserrat';
+  /* stylelint-enable */
   font-size: 20px;
   display: block;
   padding: 15px 0;

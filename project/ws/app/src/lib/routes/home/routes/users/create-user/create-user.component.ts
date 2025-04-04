@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
-import { FormGroup, Validators, FormControl, AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms'
-import { MatSnackBar } from '@angular/material'
+import { UntypedFormGroup, Validators, UntypedFormControl, AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms'
+import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar'
 import { ConfigurationsService } from '@sunbird-cb/utils'
 import { IUserForm } from '../users.model'
 import { CreateUserService } from './create-user.service'
@@ -17,9 +17,9 @@ export class CreateUserComponent implements OnInit {
   roleList!: string[]
   rolesHash: any[] = []
   roles: string[] = []
-  registerUser!: FormGroup
+  registerUser!: UntypedFormGroup
   userForm = {}
-  keycloak = new FormControl(false)
+  keycloak = new UntypedFormControl(false)
   step = 0
   selectedSystemRoles: any = []
   isFetching = false
@@ -48,14 +48,14 @@ export class CreateUserComponent implements OnInit {
 
   ngOnInit() {
 
-    this.registerUser = new FormGroup(
+    this.registerUser = new UntypedFormGroup(
       {
-        firstname: new FormControl(null, [Validators.required]),
+        firstname: new UntypedFormControl(null, [Validators.required]),
         // lastname: new FormControl(null, [Validators.required]),
-        emailid: new FormControl(null, [Validators.required, Validators.email]),
+        emailid: new UntypedFormControl(null, [Validators.required, Validators.email]),
         // username: new FormControl(null, [Validators.required]),
-        password: new FormControl(null, [Validators.minLength(6)]),
-        cpassword: new FormControl(null, []),
+        password: new UntypedFormControl(null, [Validators.minLength(6)]),
+        cpassword: new UntypedFormControl(null, []),
       },
       {
         validators: this.validatePassword,
@@ -151,7 +151,7 @@ export class CreateUserComponent implements OnInit {
     }
   }
   resetAllCheckedRole() {
-    this.rolesHash.map(data => {
+    this.rolesHash.forEach(data => {
       data.selected = false
     })
     this.selectedSystemRoles = []

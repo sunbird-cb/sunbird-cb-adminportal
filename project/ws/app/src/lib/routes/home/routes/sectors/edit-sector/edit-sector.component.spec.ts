@@ -1,24 +1,46 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing'
+import { FormBuilder } from '@angular/forms'
+import { MatDialog } from '@angular/material/dialog'
+import { ActivatedRoute, Router } from '@angular/router'
+import { ConfigurationsService } from '@sunbird-cb/utils'
+import { SectorsService } from '../sectors.service'
+import { DomSanitizer } from '@angular/platform-browser'
+import { MatSnackBar } from '@angular/material/snack-bar'
 import { EditSectorComponent } from './edit-sector.component'
 
 describe('EditSectorComponent', () => {
-  let component: EditSectorComponent
-  let fixture: ComponentFixture<EditSectorComponent>
+    let component: EditSectorComponent
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [EditSectorComponent],
+    const dialog: Partial<MatDialog> = {}
+    const configSvc: Partial<ConfigurationsService> = {}
+    const router: Partial<Router> = {}
+    const formBuilder: Partial<FormBuilder> = {
+        group: jest.fn(),
+        array: jest.fn(),
+    }
+    const sectorsService: Partial<SectorsService> = {}
+    const sanitizer: Partial<DomSanitizer> = {}
+    const activatedRoute: Partial<ActivatedRoute> = {}
+    const snackBar: Partial<MatSnackBar> = {}
+
+    beforeAll(() => {
+        component = new EditSectorComponent(
+            dialog as MatDialog,
+            configSvc as ConfigurationsService,
+            router as Router,
+            formBuilder as FormBuilder,
+            sectorsService as SectorsService,
+            sanitizer as DomSanitizer,
+            activatedRoute as ActivatedRoute,
+            snackBar as MatSnackBar
+        )
     })
-      .compileComponents()
-  }))
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(EditSectorComponent)
-    component = fixture.componentInstance
-    fixture.detectChanges()
-  })
+    beforeEach(() => {
+        jest.clearAllMocks()
+        jest.resetAllMocks()
+    })
 
-  it('should create', () => {
-    expect(component).toBeTruthy()
-  })
+    it('should create a instance of component', () => {
+        expect(component).toBeTruthy()
+    })
 })

@@ -1,5 +1,5 @@
 export const sectorConstants = {
-  nameRegex: /^[a-zA-Z0-9.\-_$/:[\]' '!]+$/,
+  nameRegex: /^[a-zA-Z0-9.,\-_$/:[\]' '!]+$/,
   fileSize: 1024,
   fileCount: 1,
   width: 24,

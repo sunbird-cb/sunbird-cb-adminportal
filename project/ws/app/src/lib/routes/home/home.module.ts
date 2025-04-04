@@ -1,37 +1,34 @@
 import { CommsComponent } from './routes/comms/comms.component'
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core'
-import { CommonModule } from '@angular/common'
+import { CommonModule, DatePipe } from '@angular/common'
 import { PipeFilterModule, PipeHtmlTagRemovalModule, PipeOrderByModule, PipeRelativeTimeModule } from '@sunbird-cb/utils'
 import { MatGridListModule } from '@angular/material/grid-list'
 import { MatExpansionModule } from '@angular/material/expansion'
 import { MatDividerModule } from '@angular/material/divider'
 import { WidgetResolverModule } from '@sunbird-cb/resolver'
-import {
-  MatIconModule,
-  MatListModule,
-  MatFormFieldModule,
-  MatDialogModule,
-  MatSelectModule,
-  MatInputModule,
-  MatButtonModule,
-  MatSidenavModule,
-  MatChipsModule,
-  MatProgressSpinnerModule,
-  MatProgressBarModule,
-  MatCheckboxModule,
-  MatAutocompleteModule,
-  MatTableModule,
-  MatSortModule,
-  MatMenuModule,
-  MatPaginatorModule,
-  MAT_DIALOG_DATA,
-  MatDatepickerModule,
-  MatNativeDateModule,
-  MatButtonToggleModule,
-  MatRadioModule,
-  MatTooltipModule,
-} from '@angular/material'
-import { MatCardModule } from '@angular/material/card'
+import { MatLegacyAutocompleteModule as MatAutocompleteModule } from '@angular/material/legacy-autocomplete'
+import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button'
+import { MatButtonToggleModule } from '@angular/material/button-toggle'
+import { MatLegacyCheckboxModule as MatCheckboxModule } from '@angular/material/legacy-checkbox'
+import { MatLegacyChipsModule as MatChipsModule } from '@angular/material/legacy-chips'
+import { MatNativeDateModule } from '@angular/material/core'
+import { MatDatepickerModule } from '@angular/material/datepicker'
+import { MatDialogModule, MAT_DIALOG_DATA } from '@angular/material/dialog'
+import { MatLegacyFormFieldModule as MatFormFieldModule } from '@angular/material/legacy-form-field'
+import { MatIconModule } from '@angular/material/icon'
+import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input'
+import { MatLegacyListModule as MatListModule } from '@angular/material/legacy-list'
+import { MatLegacyMenuModule as MatMenuModule } from '@angular/material/legacy-menu'
+import { MatLegacyPaginatorModule as MatPaginatorModule } from '@angular/material/legacy-paginator'
+import { MatLegacyProgressBarModule as MatProgressBarModule } from '@angular/material/legacy-progress-bar'
+import { MatLegacyProgressSpinnerModule as MatProgressSpinnerModule } from '@angular/material/legacy-progress-spinner'
+import { MatLegacyRadioModule as MatRadioModule } from '@angular/material/legacy-radio'
+import { MatLegacySelectModule as MatSelectModule } from '@angular/material/legacy-select'
+import { MatSidenavModule } from '@angular/material/sidenav'
+import { MatSortModule } from '@angular/material/sort'
+import { MatLegacyTableModule as MatTableModule } from '@angular/material/legacy-table'
+import { MatLegacyTooltipModule as MatTooltipModule } from '@angular/material/legacy-tooltip'
+import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card'
 import { ReactiveFormsModule, FormsModule } from '@angular/forms'
 import { InitResolver } from './resolvers/init-resolve.service'
 import { RouterModule } from '@angular/router'
@@ -39,12 +36,12 @@ import { HomeRoutingModule } from './home.rounting.module'
 import { HomeComponent } from './routes/home/home.component'
 import { UsersViewComponent } from './routes/users-view/users-view.component'
 import {
-  AvatarPhotoModule,
-  BtnPageBackModuleAdmin,
-  UserAutocompleteModule,
-  BreadcrumbsOrgModule,
-  UIORGTableModule,
-  ScrollspyLeftMenuModule,
+    AvatarPhotoModule,
+    BtnPageBackModuleAdmin,
+    UserAutocompleteModule,
+    BreadcrumbsOrgModule,
+    UIORGTableModule,
+    ScrollspyLeftMenuModule,
 } from '@sunbird-cb/collection'
 // TO-DO need to enable for image crop
 // import { ImageCropModule } from './routes/image-crop/image-crop.module'
@@ -92,131 +89,140 @@ import { AssignListPopupComponent } from './routes/request/assign-list-popup/ass
 import { KCMMappingComponent } from './routes/kcm-mapping/kcm-mapping.component'
 import { TaxonomyEditorModule } from '@sunbird-cb/taxonomy-editor'
 import { SingleAssignPopupComponent } from './routes/request/single-assign-popup/single-assign-popup.component'
+import { DemoVideoPopupComponent } from './components/demo-video-popup/demo-video-popup.component'
+import { PublicGcpUrlPipe } from './pipes/public-gcp-url.pipe'
+import { SurveyComponent } from './routes/survey/survey.component'
+import { SurveyListComponent } from './routes/survey/survey-list/survey-list.component'
+import { SolutionSurveyUploadComponent } from './components/solution-survey-upload/solution-survey-upload.component'
+import { CapitalizePipe } from './pipes/capitalize.pipe'
+import { PipePublicURL } from './pipes/pipe-public-URL/pipe-public-URL.pipe'
+import { ConfirmationBoxComponent } from './components/confirmation-box/confirmation.box.component'
+import { SelectedDesignationPopupComponent } from './components/selected-designation-popup/selected-designation-popup.component'
+import { ConformationPopupDesignationComponent } from './components/conformation-popup/conformation-popup-designation.component'
+import { FileProgressComponent } from './components/file-progress/file-progress.component'
 @NgModule({
-  declarations: [
-    HomeComponent,
-    UsersViewComponent,
-    AboutComponent,
-    RolesAccessComponent,
-    DirectoryViewComponent,
-    OnboardingRequestsComponent,
-    EmailDomainsComponent,
-    RequestsApprovalComponent,
-    CreateMdoComponent,
-    UserPopupComponent,
-    UsersComponent,
-    OpenRolesDialogComponent,
-    EditDepartmentDialogComponent,
-    CreateUserComponent,
-    ModerationViewComponent,
-    RolesUsersComponent,
-    ReportsComponent,
-    CommsComponent,
-    AcbpReportsComponent,
-    GeneralReportsComponent,
-    SectorsComponent,
-    AddSectorComponent,
-    EditSectorComponent,
-    AddThumbnailComponent,
-    EventsListComponent,
-    EventListViewComponent,
-    EventThumbnailComponent,
-    CreateEventComponent,
-    SectorListViewComponent,
-    EditEventComponent,
-    ParticipantsComponent,
-    SuccessComponent,
-    AcsendingOrderPipe,
-    PipeEmailPipe,
-    RejectReasonDialogComponent,
-    AllRequestComponent,
-    RequestCopyDetailsComponent,
-    CompetencyViewComponent,
-    ConfirmationPopupComponent,
-    AssignListPopupComponent,
-    KCMMappingComponent,
-    SingleAssignPopupComponent,
-  ],
-  imports: [
-    CommonModule,
-    WidgetResolverModule,
-    ReactiveFormsModule,
-    HomeRoutingModule,
-    PositionsModule,
-    FormsModule,
-    RouterModule,
-    MatGridListModule,
-    MatExpansionModule,
-    MatFormFieldModule,
-    MatDividerModule,
-    MatIconModule,
-    MatCardModule,
-    MatChipsModule,
-    MatListModule,
-    MatSelectModule,
-    MatAutocompleteModule,
-    FormsModule,
-    ReactiveFormsModule,
-    MatInputModule,
-    MatDialogModule,
-    MatButtonModule,
-    MatButtonToggleModule,
-    MatSidenavModule,
-    MatCheckboxModule,
-    MatProgressSpinnerModule,
-    MatProgressBarModule,
-    PipeFilterModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    PipeHtmlTagRemovalModule,
-    PipeRelativeTimeModule,
-    AvatarPhotoModule,
-    BreadcrumbsOrgModule,
-    PipeOrderByModule,
-    BtnPageBackModuleAdmin,
-    WidgetResolverModule,
-    UserAutocompleteModule,
-    MatTooltipModule,
-    // TO-DO need to enable for image crop
-    // ImageCropModule,
-    UIAdminTableModule,
-    UIORGTableModule,
-    MatTableModule,
-    MatSortModule,
-    MatMenuModule,
-    MatPaginatorModule,
-    PipePublicURLModule,
-    ScrollspyLeftMenuModule,
-    MatRadioModule,
-    MatTooltipModule,
-    // TO-DO need to enable for image crop
-    // ImageCropModule,
-    NgMultiSelectDropDownModule.forRoot(),
-    TaxonomyEditorModule,
-  ],
-  entryComponents: [
-    UserPopupComponent,
-    OpenRolesDialogComponent,
-    EditDepartmentDialogComponent,
-    RejectReasonDialogComponent,
-    EventThumbnailComponent,
-    ParticipantsComponent,
-    AddThumbnailComponent,
-    CompetencyViewComponent,
-    ConfirmationPopupComponent,
-    SuccessComponent,
-    AssignListPopupComponent,
-    SingleAssignPopupComponent],
-  providers: [
-    // CKEditorService,
-    // LoaderService,
-    InitResolver,
-    { provide: MAT_DIALOG_DATA, useValue: {} },
-    MatDatepickerModule, MatNativeDateModule,
-    ConfirmationPopupComponent,
-  ],
-  exports: [AddThumbnailComponent],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    declarations: [
+        HomeComponent,
+        UsersViewComponent,
+        AboutComponent,
+        RolesAccessComponent,
+        DirectoryViewComponent,
+        OnboardingRequestsComponent,
+        EmailDomainsComponent,
+        RequestsApprovalComponent,
+        CreateMdoComponent,
+        UserPopupComponent,
+        UsersComponent,
+        OpenRolesDialogComponent,
+        EditDepartmentDialogComponent,
+        CreateUserComponent,
+        ModerationViewComponent,
+        RolesUsersComponent,
+        ReportsComponent,
+        CommsComponent,
+        AcbpReportsComponent,
+        GeneralReportsComponent,
+        SectorsComponent,
+        AddSectorComponent,
+        EditSectorComponent,
+        AddThumbnailComponent,
+        EventsListComponent,
+        EventListViewComponent,
+        EventThumbnailComponent,
+        CreateEventComponent,
+        SectorListViewComponent,
+        EditEventComponent,
+        ParticipantsComponent,
+        SuccessComponent,
+        AcsendingOrderPipe,
+        PipeEmailPipe,
+        RejectReasonDialogComponent,
+        AllRequestComponent,
+        RequestCopyDetailsComponent,
+        CompetencyViewComponent,
+        ConfirmationPopupComponent,
+        AssignListPopupComponent,
+        KCMMappingComponent,
+        SingleAssignPopupComponent,
+        DemoVideoPopupComponent,
+        PublicGcpUrlPipe,
+        SurveyComponent,
+        SurveyListComponent,
+        SolutionSurveyUploadComponent,
+        CapitalizePipe,
+        ConfirmationBoxComponent,
+        SelectedDesignationPopupComponent,
+        ConformationPopupDesignationComponent,
+        FileProgressComponent
+    ],
+    imports: [
+        CommonModule,
+        WidgetResolverModule,
+        ReactiveFormsModule,
+        HomeRoutingModule,
+        PositionsModule,
+        FormsModule,
+        RouterModule,
+        MatGridListModule,
+        MatExpansionModule,
+        MatFormFieldModule,
+        MatDividerModule,
+        MatIconModule,
+        MatCardModule,
+        MatChipsModule,
+        MatListModule,
+        MatSelectModule,
+        MatAutocompleteModule,
+        FormsModule,
+        ReactiveFormsModule,
+        MatInputModule,
+        MatDialogModule,
+        MatButtonModule,
+        MatButtonToggleModule,
+        MatSidenavModule,
+        MatCheckboxModule,
+        MatProgressSpinnerModule,
+        MatProgressBarModule,
+        PipeFilterModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+        PipeHtmlTagRemovalModule,
+        PipeRelativeTimeModule,
+        AvatarPhotoModule,
+        BreadcrumbsOrgModule,
+        PipeOrderByModule,
+        BtnPageBackModuleAdmin,
+        WidgetResolverModule,
+        UserAutocompleteModule,
+        MatTooltipModule,
+        // TO-DO need to enable for image crop
+        // ImageCropModule,
+        UIAdminTableModule,
+        UIORGTableModule,
+        MatTableModule,
+        MatSortModule,
+        MatMenuModule,
+        MatPaginatorModule,
+        PipePublicURLModule,
+        ScrollspyLeftMenuModule,
+        MatRadioModule,
+        MatTooltipModule,
+        // TO-DO need to enable for image crop
+        // ImageCropModule,
+        NgMultiSelectDropDownModule.forRoot(),
+        TaxonomyEditorModule,
+    ],
+    providers: [
+        // CKEditorService,
+        // LoaderService,
+        InitResolver,
+        { provide: MAT_DIALOG_DATA, useValue: {} },
+        MatDatepickerModule, MatNativeDateModule,
+        ConfirmationPopupComponent, PipePublicURL,
+        DatePipe
+    ],
+    exports: [AddThumbnailComponent],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class HomeModule {
 }

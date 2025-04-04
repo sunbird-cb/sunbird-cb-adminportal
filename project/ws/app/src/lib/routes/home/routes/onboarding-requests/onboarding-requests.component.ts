@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core'
+import { AfterViewChecked, ChangeDetectorRef, Component, OnInit } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
 import { RequestsService } from '../../services/onboarding-requests.service'
-import { PageEvent } from '@angular/material'
+import { LegacyPageEvent as PageEvent } from '@angular/material/legacy-paginator'
 import * as _ from 'lodash'
 
 @Component({
@@ -9,7 +9,7 @@ import * as _ from 'lodash'
   templateUrl: './onboarding-requests.component.html',
   styleUrls: ['./onboarding-requests.component.scss'],
 })
-export class OnboardingRequestsComponent implements OnInit {
+export class OnboardingRequestsComponent implements OnInit, AfterViewChecked {
   tabledata: any = []
   tabledataApproved: any = []
   tabledataPositions: any = []
@@ -25,7 +25,10 @@ export class OnboardingRequestsComponent implements OnInit {
   pendingListRecord?: number | 0
   totalRecords?: number | 0
 
-  constructor(private route: Router, private activatedRoute: ActivatedRoute, private requestService: RequestsService) {
+  constructor(private route: Router,
+              private activatedRoute: ActivatedRoute,
+              private requestService: RequestsService,
+              private cdr: ChangeDetectorRef) {
     // this.requestType = this.activatedRoute.snapshot.params.type
   }
 
@@ -43,7 +46,8 @@ export class OnboardingRequestsComponent implements OnInit {
         this.currentFilter = 'pending'
       }
       if (this.requestType === 'position') {
-        if (this.activatedRoute.snapshot.data && this.activatedRoute.snapshot.data.positionsList.data) {
+        if (this.activatedRoute.snapshot.data && this.activatedRoute.snapshot.data.positionsList
+          && this.activatedRoute.snapshot.data.positionsList.data) {
           const resData = this.activatedRoute.snapshot.data.positionsList.data
           resData.forEach((req: any) => {
             this.data.push(req)
@@ -53,7 +57,8 @@ export class OnboardingRequestsComponent implements OnInit {
           this.data = []
         }
       } else if (this.requestType === 'organisation') {
-        if (this.activatedRoute.snapshot.data && this.activatedRoute.snapshot.data.requestsList.data) {
+        if (this.activatedRoute.snapshot.data && this.activatedRoute.snapshot.data.requestsList
+          && this.activatedRoute.snapshot.data.requestsList.data) {
           const resData = this.activatedRoute.snapshot.data.requestsList.data
           this.formatData(resData, this.currentFilter)
         } else {
@@ -109,6 +114,10 @@ export class OnboardingRequestsComponent implements OnInit {
         actionColumnName: 'Edit',
       }
     })
+  }
+
+  ngAfterViewChecked(): void {
+    this.cdr.detectChanges()
   }
 
   getDisplayName() {
@@ -183,7 +192,8 @@ export class OnboardingRequestsComponent implements OnInit {
       case 'pending':
         this.data = []
         this.currentFilter = 'pending'
-        if (this.activatedRoute.snapshot.data && this.activatedRoute.snapshot.data.requestsList.data && this.requestType === 'organisation') {
+        if (this.activatedRoute.snapshot.data && this.activatedRoute.snapshot.data.requestsList
+          && this.activatedRoute.snapshot.data.requestsList.data && this.requestType === 'organisation') {
           const resData = this.activatedRoute.snapshot.data.requestsList.data
           this.formatData(resData, 'pending')
         } else {
@@ -193,7 +203,8 @@ export class OnboardingRequestsComponent implements OnInit {
       case 'approved':
         this.data = []
         this.currentFilter = 'approved'
-        if (this.activatedRoute.snapshot.data && this.activatedRoute.snapshot.data.aprovedrequestsList.data && this.requestType === 'organisation') {
+        if (this.activatedRoute.snapshot.data && this.activatedRoute.snapshot.data.aprovedrequestsList
+          && this.activatedRoute.snapshot.data.aprovedrequestsList.data && this.requestType === 'organisation') {
           const resData = this.activatedRoute.snapshot.data.aprovedrequestsList.data
           this.formatData(resData, 'approved')
         } else {
@@ -203,7 +214,8 @@ export class OnboardingRequestsComponent implements OnInit {
       case 'rejected':
         this.data = []
         this.currentFilter = 'rejected'
-        if (this.activatedRoute.snapshot.data && this.activatedRoute.snapshot.data.rejectedList.data && this.requestType === 'organisation') {
+        if (this.activatedRoute.snapshot.data && this.activatedRoute.snapshot.data.rejectedList
+          && this.activatedRoute.snapshot.data.rejectedList.data && this.requestType === 'organisation') {
           const resData = this.activatedRoute.snapshot.data.rejectedList.data
           this.formatData(resData, 'rejected')
         } else {
@@ -213,7 +225,8 @@ export class OnboardingRequestsComponent implements OnInit {
       case 'designations':
         this.data = []
         this.currentFilter = 'designations'
-        if (this.activatedRoute.snapshot.data && this.activatedRoute.snapshot.data.positionsList.data) {
+        if (this.activatedRoute.snapshot.data && this.activatedRoute.snapshot.data.positionsList
+          && this.activatedRoute.snapshot.data.positionsList.data) {
           const resData = this.activatedRoute.snapshot.data.positionsList.data
           resData.forEach((req: any) => {
             this.data.push(req)

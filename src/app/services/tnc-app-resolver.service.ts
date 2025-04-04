@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core'
-import { Resolve } from '@angular/router'
+
 import { Observable, of } from 'rxjs'
 import { map, catchError } from 'rxjs/operators'
 import { HttpClient } from '@angular/common/http'
@@ -7,7 +7,7 @@ import { NsTnc } from '../models/tnc.model'
 import { ConfigurationsService, IResolveResponse } from '@sunbird-cb/utils'
 
 @Injectable()
-export class TncAppResolverService implements Resolve<Observable<IResolveResponse<NsTnc.ITnc>> | IResolveResponse<NsTnc.ITnc>>  {
+export class TncAppResolverService   {
 
   constructor(
     private http: HttpClient,

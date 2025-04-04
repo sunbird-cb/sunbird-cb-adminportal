@@ -1,5 +1,5 @@
 import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange, ViewChild, ViewEncapsulation } from '@angular/core'
-import { FormControl } from '@angular/forms'
+import { UntypedFormControl } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router'
 import { ConfigurationsService } from '@sunbird-cb/utils'
 import { Observable } from 'rxjs'
@@ -18,7 +18,7 @@ export class SearchInputHomeComponent implements OnInit, OnChanges {
   @Input() placeHolder = ''
   @Input() ref = ''
   @Output() closed: EventEmitter<boolean> = new EventEmitter()
-  queryControl = new FormControl(this.activated.snapshot.queryParams.q || '')
+  queryControl = new UntypedFormControl(this.activated.snapshot.queryParams.q || '')
   languageSearch: string[] = []
   filteredOptions$: Observable<string[]> = this.queryControl.valueChanges.pipe(
     startWith(this.queryControl.value),
@@ -26,7 +26,7 @@ export class SearchInputHomeComponent implements OnInit, OnChanges {
     distinctUntilChanged(),
     switchMap(() => []),
   )
-  @ViewChild('searchInput', { static: false }) searchInputElem: ElementRef<any> = {} as ElementRef<any>
+  @ViewChild('searchInput') searchInputElem: ElementRef<any> = {} as ElementRef<any>
   autoCompleteResults: ISearchAutoComplete[] = []
   searchLocale = this.getActiveLocale()
   lang = ''
@@ -116,7 +116,7 @@ export class SearchInputHomeComponent implements OnInit, OnChanges {
   ngOnChanges() {
     for (const change in SimpleChange) {
       if (change === 'placeHolder') {
-        this.placeHolder = this.placeHolder
+        this.placeHolder = this.placeHolder // NOSONAR
       }
     }
   }

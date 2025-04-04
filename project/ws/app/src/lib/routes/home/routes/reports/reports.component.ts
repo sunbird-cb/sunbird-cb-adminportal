@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core'
 import { NSProfileDataV2 } from '../../models/profile-v2.model'
-import { MatDialog } from '@angular/material/dialog'
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog'
 import { ActivatedRoute, Router } from '@angular/router'
 import { ConfigurationsService, EventService, WsEvents } from '@sunbird-cb/utils'
 /* tslint:disable */
@@ -15,7 +15,7 @@ import { UIDirectoryTableComponent } from '../../../../head/ui-admin-table/direc
 })
 export class ReportsComponent implements OnInit {
 
-  @ViewChild(UIDirectoryTableComponent, { static: false })
+  @ViewChild(UIDirectoryTableComponent)
   searchInputvalue!: UIDirectoryTableComponent
 
   currentFilter = 'ministry'
@@ -31,6 +31,7 @@ export class ReportsComponent implements OnInit {
   departmentHeaderArray: any = []
   isStateAdmin = false
   key = 'ministry'
+  currentRoute: string = ''
   constructor(
     public dialog: MatDialog,
     private route: ActivatedRoute,
@@ -47,6 +48,8 @@ export class ReportsComponent implements OnInit {
         && data.profile.data.length > 0
         && data.profile.data[0]
     })
+
+    this.currentRoute = router.url
   }
 
   ngOnInit() {
@@ -96,7 +99,7 @@ export class ReportsComponent implements OnInit {
   }
   getAllDepartments(queryText: any) {
     const query = queryText ? queryText : ''
-    this.directoryService.getAllDepartmentsKong(query).subscribe(res => {
+    this.directoryService.getAllDepartmentsKong(query, { limit: 20, offset: 0 }).subscribe(res => {
       this.wholeData2 = res.result.response.content
       if (this.departmentHearders && this.departmentHearders.length) {
         this.getDepartDataByKey(this.currentFilter)
@@ -104,12 +107,14 @@ export class ReportsComponent implements OnInit {
     })
   }
   onRoleClick(role: any) {
-    this.router.navigate([`/app/roles/${role.id}/users`], { queryParams: { currentDept: this.currentFilter, roleId: role.id, depatName: role.mdo, deptType: role.type, path: 'reports' } })
+    if (role && role.data && role.data.id) {
+      this.router.navigate([`/app/roles/${role.data.id}/users`], { queryParams: { subOrgType: this.currentFilter, roleId: role.data.id, depatName: role.data.mdo, deptType: role.data.type, path: 'reports' } })
+    }
   }
 
   filter(value: string) {
     if (value !== 'survey') {
-      this.searchInputvalue && this.searchInputvalue.searchInput ? this.searchInputvalue.searchInput.nativeElement.value = '' : ''
+      this.searchInputvalue && this.searchInputvalue.searchInput ? this.searchInputvalue.searchInput.nativeElement.value = '' : '' //NOSONAR
     }
     let key = ''
     let index = 1
@@ -140,7 +145,7 @@ export class ReportsComponent implements OnInit {
       label: key,
     }
     if (value !== 'survey') {
-      this.searchInputvalue ? this.searchInputvalue.applyFilter('') : ''
+      this.searchInputvalue ? this.searchInputvalue.applyFilter('') : '' //NOSONAR
       this.getAllDepartments('')
       this.getDepartDataByKey(key)
       this.raiseTabTelemetry(key, data)

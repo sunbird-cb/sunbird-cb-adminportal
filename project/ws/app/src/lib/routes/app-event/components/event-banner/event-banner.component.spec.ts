@@ -1,25 +1,29 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing'
 
+import { ChangeDetectorRef } from '@angular/core'
+import { Router, ActivatedRoute } from '@angular/router'
 import { EventBannerComponent } from './event-banner.component'
 
 describe('EventBannerComponent', () => {
-  let component: EventBannerComponent
-  let fixture: ComponentFixture<EventBannerComponent>
+    let component: EventBannerComponent
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [EventBannerComponent],
+    const router: Partial<Router> = {}
+    const route: Partial<ActivatedRoute> = {}
+    const changeDetector: Partial<ChangeDetectorRef> = {}
+
+    beforeAll(() => {
+        component = new EventBannerComponent(
+            router as Router,
+            route as ActivatedRoute,
+            changeDetector as ChangeDetectorRef
+        )
     })
-    .compileComponents()
-  }))
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(EventBannerComponent)
-    component = fixture.componentInstance
-    fixture.detectChanges()
-  })
+    beforeEach(() => {
+        jest.clearAllMocks()
+        jest.resetAllMocks()
+    })
 
-  it('should create', () => {
-    expect(component).toBeTruthy()
-  })
+    it('should create a instance of component', () => {
+        expect(component).toBeTruthy()
+    })
 })

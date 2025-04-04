@@ -1,7 +1,8 @@
 
 import { Component, OnInit } from '@angular/core'
-import { FormControl, FormGroup, Validators } from '@angular/forms'
-import { MatDialog, MatSnackBar } from '@angular/material'
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms'
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog'
+import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar'
 import { ActivatedRoute, Router } from '@angular/router'
 import { DialogConfirmComponent } from '../../../../../../../../../../../src/app/component/dialog-confirm/dialog-confirm.component'
 import { PositionsService } from '../../services/position.service'
@@ -15,7 +16,7 @@ import { PositionsService } from '../../services/position.service'
   /* tslint:enable */
 })
 export class PositionsNewComponent implements OnInit {
-  positionForm!: FormGroup
+  positionForm!: UntypedFormGroup
   posData: any
 
   constructor(
@@ -30,13 +31,13 @@ export class PositionsNewComponent implements OnInit {
       // console.log('currentState', currentState.extras.state.row)
       this.posData = currentState.extras.state.row
     }
-    this.positionForm = new FormGroup({
-      fullname: new FormControl({ value: this.posData.firstName, disabled: true }, []),
-      email: new FormControl({ value: this.posData.email, disabled: true }, []),
-      mobile: new FormControl({ value: this.posData.mobile, disabled: true }, []),
-      position: new FormControl(this.posData.position, [Validators.required, Validators.maxLength(500), Validators.pattern(/^[\w]+([-_\s]{1}[a-z0-9]+)*$/i)]),
-      description: new FormControl(this.posData.description, [Validators.required, Validators.maxLength(500), Validators.pattern(/^[\w]+([-_\s]{1}[a-z0-9]+)*$/i)]),
-      wfId: new FormControl(this.posData.wfId),
+    this.positionForm = new UntypedFormGroup({
+      fullname: new UntypedFormControl({ value: this.posData.firstName, disabled: true }, []),
+      email: new UntypedFormControl({ value: this.posData.email, disabled: true }, []),
+      mobile: new UntypedFormControl({ value: this.posData.mobile, disabled: true }, []),
+      position: new UntypedFormControl(this.posData.position, [Validators.required, Validators.maxLength(500), Validators.pattern(/^[\w]+([-_\s]{1}[a-z0-9]+)*$/i)]),
+      description: new UntypedFormControl(this.posData.description, [Validators.required, Validators.maxLength(500), Validators.pattern(/^[\w]+([-_\s]{1}[a-z0-9]+)*$/i)]),
+      wfId: new UntypedFormControl(this.posData.wfId),
     })
   }
   ngOnInit(): void {

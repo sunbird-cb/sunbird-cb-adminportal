@@ -3,8 +3,8 @@ import {
   AfterViewInit, OnChanges, SimpleChanges, Inject, ChangeDetectorRef, AfterViewChecked,
 } from '@angular/core'
 import { SelectionModel } from '@angular/cdk/collections'
-import { MatTableDataSource } from '@angular/material/table'
-import { MatPaginator } from '@angular/material'
+import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table'
+import { MatLegacyPaginator as MatPaginator } from '@angular/material/legacy-paginator'
 import { MatSort } from '@angular/material/sort'
 import * as _ from 'lodash'
 import { ITableData, IColums, IAction } from '../interfaces/interfaces'
@@ -32,10 +32,10 @@ export class EventListViewComponent implements OnInit, AfterViewInit, OnChanges,
   @Input() data?: []
   @Input() isUpload?: boolean
   @Input() isCreate?: boolean
-  @Input() currentFilter?: ''
+  @Input() currentFilter = ''
 
   @Input() columns?: IColums[]
-  @Input() needCheckBox?: Boolean
+  @Input() needCheckBox?: boolean
   @Input() needHash?: boolean
   @Input() actions?: IAction[]
   @Output() clicked?: EventEmitter<any>
@@ -52,7 +52,7 @@ export class EventListViewComponent implements OnInit, AfterViewInit, OnChanges,
   pageSizeOptions = [20, 30, 40]
   finalImg: any
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator
-  @ViewChild(MatSort, { static: false }) set matSort(sort: MatSort) {
+  @ViewChild(MatSort) set matSort(sort: MatSort) {
     if (!this.dataSource.sort) {
       this.dataSource.sort = sort
     }

@@ -12,13 +12,13 @@
 
 <ng-container *ngIf="displayType === 'advanced'">
   <mat-card *ngIf="content" class="advanced-view relative">
-    <div *ngIf="content.status === 'Deleted' || content.status === 'Expired'" i18n-aria-label
-      aria-label="Content expired or deleted" class="status-danger"></div>
+    <div *ngIf="content.status === 'Deleted' || content.status === 'Expired'" aria-label="Content expired or deleted"
+      class="status-danger"></div>
     <mat-card-content>
       <div class="flex flex-middle" [title]="content.name">
         <a (click)="raiseTelemetry()" [routerLink]="(content | pipeContentRoute).url"
           [queryParams]="(content | pipeContentRoute).queryParams" class="image-section">
-          <img i18n-alt alt="thumbnail" class="mat-lite-background" [src]="content.appIcon"
+          <img alt="thumbnail" class="mat-lite-background" [src]="content.appIcon"
             [wsUtilsDefaultThumbnail]="defaultThumbnail" />
         </a>
         <div class="width-expand card-content">
@@ -41,20 +41,21 @@
               | <span class="ws-mat-primary-text font-normal">Paid Content</span></span>
           </div>
           <div>
-            <span *ngIf="content.duration">{{ content.duration | pipeDurationTransform }} | </span>
+            <span *ngIf="content.duration">{{ content.duration | pipeDurationTransform:
+              'time24' }} | </span>
             <!-- | pipeDurationTransform -->
             <span *ngIf="content.lastUpdatedOn" class="hidden-inline-s">{{
               content.lastUpdatedOn | date: "MMM'' yy"
-            }}</span>
+              }}</span>
             <!-- commented earlier -->
             <!-- <span *ngIf="content.me_totalSessionsCount > 1"> | {{ content.me_totalSessionsCount | countTransform }} views</span> -->
           </div>
           <div *ngIf="content.trainingLHubCount" class="mat-body-2">
             <span>{{ content.trainingLHubCount }}</span>
             <span>
-              <ng-container *ngIf="content?.trainingLHubCount > 1" i18n>
+              <ng-container *ngIf="content?.trainingLHubCount > 1">
                 trainings available</ng-container>
-              <ng-container *ngIf="content?.trainingLHubCount === 1" i18n>
+              <ng-container *ngIf="content?.trainingLHubCount === 1">
                 training available</ng-container>
             </span>
           </div>
@@ -67,7 +68,7 @@
           </div>
         </div>
         <div class="width-auto">
-          <button aria-label="Toggle Expand" i18n-aria-label (click)="isExpanded = !isExpanded" mat-icon-button>
+          <button aria-label="Toggle Expand" (click)="isExpanded = !isExpanded" mat-icon-button>
             <mat-icon>{{ isExpanded ? 'expand_less' : 'expand_more' }}</mat-icon>
           </button>
         </div>

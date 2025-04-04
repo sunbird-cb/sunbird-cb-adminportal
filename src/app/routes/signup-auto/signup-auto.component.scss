@@ -6,7 +6,9 @@
     padding: $size-m;
     @extend %page-center;
     @extend %height-mat-toolbar-sibling;
+    /* stylelint-disable */
     box-sizing: border-box;
+    /* stylelint-enable */
 
     .msg {
         // font: 16px/28px Poppins-regular;

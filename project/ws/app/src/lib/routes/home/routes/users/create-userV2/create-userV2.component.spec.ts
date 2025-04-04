@@ -1,23 +1,26 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing'
-
+import { MatSnackBar } from '@angular/material/snack-bar'
+import { TenantAdminService } from '../../../services/tenant-admin.service'
 import { CreateUserV2Component } from './create-userV2.component'
 
-describe('CreateUserComponentV2', () => {
-  let component: CreateUserV2Component
-  let fixture: ComponentFixture<CreateUserV2Component>
+describe('CreateUserV2Component', () => {
+    let component: CreateUserV2Component
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [CreateUserV2Component],
+    const snackBar: Partial<MatSnackBar> = {}
+    const tenantAdminSvc: Partial<TenantAdminService> = {}
+
+    beforeAll(() => {
+        component = new CreateUserV2Component(
+            snackBar as MatSnackBar,
+            tenantAdminSvc as TenantAdminService
+        )
     })
-      .compileComponents()
-  }))
-  beforeEach(() => {
-    fixture = TestBed.createComponent(CreateUserV2Component)
-    component = fixture.componentInstance
-    fixture.detectChanges()
-  })
-  it('should create', () => {
-    expect(component).toBeTruthy()
-  })
+
+    beforeEach(() => {
+        jest.clearAllMocks()
+        jest.resetAllMocks()
+    })
+
+    it('should create a instance of component', () => {
+        expect(component).toBeTruthy()
+    })
 })

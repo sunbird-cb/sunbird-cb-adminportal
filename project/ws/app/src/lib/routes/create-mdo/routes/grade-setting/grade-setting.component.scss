@@ -1,0 +1,12 @@
+.grade-list-wrapper {
+  border: 1px solid #00000014;
+  border-radius: 8px;
+  background: #1b4ca10a;
+  .item {
+    padding: 15px 16px 15px;
+    border-radius: 64px;
+    background: #ffffff;
+    border: 1px solid #00000029;
+    min-width: 215px;
+  }
+}

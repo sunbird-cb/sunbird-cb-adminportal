@@ -247,7 +247,7 @@ $card-standard-width: 268px;
     width: calc(100% + #{2 * $card-padding - 2});
     margin-left: -#{$card-padding - 1};
     // margin-top: -$card-padding;
-    display: flex;
+    // display: flex;
     // width: calc(100% + 30px);
     // margin-left: -15px;
     margin-top: 62px;
@@ -272,7 +272,7 @@ $card-standard-width: 268px;
       margin-right: auto;
       margin-left: auto;
       display: block;
-      margin: auto;
+      // margin: auto;
       max-width: 58px;
       max-height: -webkit-fill-available;
     }
@@ -365,7 +365,7 @@ $card-standard-width: 268px;
     display: block;
     width: calc(100% + #{2 * $card-padding - 2});
     margin-left: -#{$card-padding - 1};
-    display: flex;
+    // display: flex;
     margin-top: 62px;
     background: bisque;
   }
@@ -388,7 +388,7 @@ $card-standard-width: 268px;
       margin-right: auto;
       margin-left: auto;
       display: block;
-      margin: auto;
+      // margin: auto;
       max-width: 58px;
       max-height: -webkit-fill-available;
     }
@@ -699,7 +699,7 @@ $title-line-count: 2;
   border-radius: 4px;
   margin: 0 12px;
   color: #848484 !important;
-  font-family: 'Lato';
+  font-family: "Lato-Regular", sans-serif;
   font-weight: 700;
   font-size: 14px;
 }

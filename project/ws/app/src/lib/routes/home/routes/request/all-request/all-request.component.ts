@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core'
-import { MatDialog, MatSnackBar, MatTableDataSource } from '@angular/material'
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog'
+import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar'
+import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table'
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser'
 import { Router } from '@angular/router'
 import { RequestServiceService } from '../request-service.service'
@@ -7,11 +9,11 @@ import { AssignListPopupComponent } from '../assign-list-popup/assign-list-popup
 import { ConfirmationPopupComponent } from '../confirmation-popup/confirmation-popup.component'
 import { SingleAssignPopupComponent } from '../single-assign-popup/single-assign-popup.component'
 export enum statusValue {
-  Assigned= 'Assigned',
+  Assigned = 'Assigned',
   Unassigned = 'Unassigned',
   Inprogress = 'InProgress',
   invalid = 'Invalid',
-  fullfill= 'Fulfill',
+  fullfill = 'Fulfill',
 }
 @Component({
   selector: 'ws-app-all-request',
@@ -36,7 +38,7 @@ export class AllRequestComponent implements OnInit {
   invalid = false
   dataSource: any
   displayedColumns: string[] = ['RequestId', 'title', 'requestedBy',
-  'requestType', 'requestStatus', 'assignee', 'requestedOn', 'interests', 'action']
+    'requestType', 'requestStatus', 'assignee', 'requestedOn', 'interests', 'action']
   dialogRef: any
   queryParams: any
   statusCards: any[] = []
@@ -48,10 +50,10 @@ export class AllRequestComponent implements OnInit {
     private router: Router,
     private requestService: RequestServiceService,
     private snackBar: MatSnackBar,
-    private dialog: MatDialog) {}
+    private dialog: MatDialog) { }
   ngOnInit() {
     this.getRequestList()
-     this.getStatusCount()
+    this.getStatusCount()
   }
 
   sanitizeHtml(html: string): SafeHtml {
@@ -90,13 +92,13 @@ export class AllRequestComponent implements OnInit {
           }
         })
 
-          }
+      }
     })
 
   }
 
   getRequestList() {
-    const request = {
+    const request: any = {
       filterCriteriaMap: {},
       requestedFields: [],
       facets: [],
@@ -107,30 +109,30 @@ export class AllRequestComponent implements OnInit {
     }
     this.requestService.getRequestList(request).subscribe((res: any) => {
       if (res.data) {
-      this.requestListData = res.data
-      if (this.requestListData) {
-        this.requestCount = res.totalCount
+        this.requestListData = res.data
+        if (this.requestListData) {
+          this.requestCount = res.totalCount
 
-        this.requestListData.map((data: any) => {
-          // if (data.createdOn) {
-          //   data.createdOn = this.datePipe.transform(data.createdOn, 'MMM d, y')
-          // }
-          if (data.assignedProvider) {
-            data.assignedProvider = data.assignedProvider.providerName
-          }
-          if (data.status === 'Unassigned') {
-            this.isUnassigned = true
-          } else if (data.status === 'Assigned') {
-            this.isAssigned = true
-          } else if (data.status === 'Inprogress') {
-            this.inProgress = true
-          } else if (data.status === 'invalid') {
-            this.invalid = true
-          }
-        })
-        this.dataSource = new MatTableDataSource<any>(this.requestListData)
+          this.requestListData.forEach((data: any) => {
+            // if (data.createdOn) {
+            //   data.createdOn = this.datePipe.transform(data.createdOn, 'MMM d, y')
+            // }
+            if (data.assignedProvider) {
+              data.assignedProvider = data.assignedProvider.providerName
+            }
+            if (data.status === 'Unassigned') {
+              this.isUnassigned = true
+            } else if (data.status === 'Assigned') {
+              this.isAssigned = true
+            } else if (data.status === 'Inprogress') {
+              this.inProgress = true
+            } else if (data.status === 'invalid') {
+              this.invalid = true
+            }
+          })
+          this.dataSource = new MatTableDataSource<any>(this.requestListData)
+        }
       }
-    }
     })
 
   }
@@ -158,58 +160,58 @@ export class AllRequestComponent implements OnInit {
         element.status !== this.statusKey.invalid &&
         element.status !== this.statusKey.fullfill) {
         this.onClickMenu(element, 'assignContent')
+      }
     }
+
+  }
+
+  getPointerEventsStyle(element: any) {
+    return {
+      'pointer-events': (element.status !== this.statusKey.Inprogress &&
+        element.status !== this.statusKey.invalid &&
+        element.status !== this.statusKey.fullfill) ? 'auto' : 'none',
+
     }
-
-}
-
-getPointerEventsStyle(element: any) {
- return {
-  'pointer-events': (element.status !== this.statusKey.Inprogress &&
-    element.status !== this.statusKey.invalid &&
-    element.status !== this.statusKey.fullfill) ? 'auto' : 'none',
-
- }
-}
+  }
 
   onClickMenu(item: any, action: string) {
-  switch (action) {
-    case 'viewContent':
+    switch (action) {
+      case 'viewContent':
 
-      this.queryParams = {
-      id: item.demand_id,
-      name: 'view',
-    }
-      this.router.navigate(['/app/home/request-details'], { queryParams: this.queryParams })
-      break
-    case 'invalidContent':
-       this.showConformationPopUp(item, action)
-      break
-    case 'assignContent':
-       this.openAssignlistPopup(item)
-      break
-    case 'reAssignContent':
-      // this.showConformationModal(_event.row, _event.action)
-      // this.openAssignlistPopup(item)
-      if (item.requestType === 'Broadcast') {
+        this.queryParams = {
+          id: item.demand_id,
+          name: 'view',
+        }
+        this.router.navigate(['/app/home/request-details'], { queryParams: this.queryParams })
+        break
+      case 'invalidContent':
+        this.showConformationPopUp(item, action)
+        break
+      case 'assignContent':
         this.openAssignlistPopup(item)
-      } else {
-        this.openSingleReassignPopup(item)
-        // this.queryParams = {
-        //   id: item.demand_id,
-        //   name: 'reassign',
-        // }
-        //   this.router.navigate(['/app/home/request-details'], { queryParams: this.queryParams })
-      }
-      break
-    case 'copyContent':
+        break
+      case 'reAssignContent':
+        // this.showConformationModal(_event.row, _event.action)
+        // this.openAssignlistPopup(item)
+        if (item.requestType === 'Broadcast') {
+          this.openAssignlistPopup(item)
+        } else {
+          this.openSingleReassignPopup(item)
+          // this.queryParams = {
+          //   id: item.demand_id,
+          //   name: 'reassign',
+          // }
+          //   this.router.navigate(['/app/home/request-details'], { queryParams: this.queryParams })
+        }
+        break
+      case 'copyContent':
         this.queryParams = {
           id: item.demand_id,
           name: 'copy',
         }
-          this.router.navigate(['/app/home/request-details'], { queryParams: this.queryParams })
-      break
-  }
+        this.router.navigate(['/app/home/request-details'], { queryParams: this.queryParams })
+        break
+    }
 
   }
 
@@ -228,7 +230,7 @@ getPointerEventsStyle(element: any) {
           this.getRequestList()
         },         1000)
 
-         this.snackBar.open('Re-assign submitted Successfully')
+        this.snackBar.open('Re-assign submitted Successfully')
       } else {
         // this.snackBar.open('error')
       }
@@ -247,39 +249,39 @@ getPointerEventsStyle(element: any) {
     this.pageNo = event.pageIndex
     this.pageSize = event.pageSize
     this.getRequestList()
-    }
+  }
 
-    showConformationPopUp(_selectedRow: any, _type: any) {
-      this.dialogRef = this.dialog.open(ConfirmationPopupComponent, {
-        disableClose: true,
-        data: {
-          type: 'conformation',
-          icon: 'radio_on',
-          title: (_type === 'invalidContent') ? 'Are you sure you want to mark this as invalid.' :
-            (_type === 'publishContent') ? 'Are you sure you want to publish the plan?' : '',
-          subTitle: '',
-          primaryAction: 'Yes',
-          secondaryAction: 'No',
-        },
-        autoFocus: false,
-      })
+  showConformationPopUp(_selectedRow: any, _type: any) {
+    this.dialogRef = this.dialog.open(ConfirmationPopupComponent, {
+      disableClose: true,
+      data: {
+        type: 'conformation',
+        icon: 'radio_on',
+        title: (_type === 'invalidContent') ? 'Are you sure you want to mark this as invalid.' :
+          (_type === 'publishContent') ? 'Are you sure you want to publish the plan?' : '',
+        subTitle: '',
+        primaryAction: 'Yes',
+        secondaryAction: 'No',
+      },
+      autoFocus: false,
+    })
 
-      this.dialogRef.afterClosed().subscribe((_res: any) => {
-        if (_res === 'confirmed') {
-          if (_type === 'invalidContent') {
-            this.invalidContent(_selectedRow)
-          }
-          //  else if (_type === 'publishContent') {
-          //   this.publishContentData(_selectedRow)
-          // }
+    this.dialogRef.afterClosed().subscribe((_res: any) => {
+      if (_res === 'confirmed') {
+        if (_type === 'invalidContent') {
+          this.invalidContent(_selectedRow)
         }
-      })
+        //  else if (_type === 'publishContent') {
+        //   this.publishContentData(_selectedRow)
+        // }
+      }
+    })
   }
 
   invalidContent(row: any) {
     const request = {
-     demand_id: row.demand_id,
-     newStatus: 'Invalid',
+      demand_id: row.demand_id,
+      newStatus: 'Invalid',
     }
     this.requestService.markAsInvalid(request).subscribe(res => {
       if (res) {
@@ -290,30 +292,30 @@ getPointerEventsStyle(element: any) {
         this.snackBar.open('Marked as Invalid')
       }
 
-     }
-   )
-
-   }
-
-    openAssignlistPopup(item: any) {
-      this.dialogRef = this.dialog.open(AssignListPopupComponent, {
-        disableClose: true,
-        width: '90%',
-        height: '70vh',
-        data: item,
-        autoFocus: false,
-      })
-
-      this.dialogRef.afterClosed().subscribe((_res: any) => {
-        if (_res && _res.data === 'confirmed') {
-          setTimeout(() => {
-            this.getRequestList()
-          },         1000)
-           this.snackBar.open('Assigned submitted Successfully')
-        } else {
-          // this.snackBar.open('error')
-        }
-      })
     }
+    )
+
+  }
+
+  openAssignlistPopup(item: any) {
+    this.dialogRef = this.dialog.open(AssignListPopupComponent, {
+      disableClose: true,
+      width: '90%',
+      height: '70vh',
+      data: item,
+      autoFocus: false,
+    })
+
+    this.dialogRef.afterClosed().subscribe((_res: any) => {
+      if (_res && _res.data === 'confirmed') {
+        setTimeout(() => {
+          this.getRequestList()
+        },         1000)
+        this.snackBar.open('Assigned submitted Successfully')
+      } else {
+        // this.snackBar.open('error')
+      }
+    })
+  }
 
 }

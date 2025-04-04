@@ -8,6 +8,8 @@ const API_END_POINTS = {
   UPDATE_DEPARTMENT: '/apis/protected/v8/portal/spv/department',
   ASSIGN_ADMIN_TO_CREATED_DEPARTMENT: '/apis/proxies/v8/user/private/v1/assign/role',
   GET_DEPARTMENT_BY_ID: '/apis/protected/v8/portal/deptAction/',
+  CUSTOM_SELF_REGISTRATION_QR: '/apis/proxies/v8/customselfregistration',
+  REGISTERED_LINKS_LIST: '/apis/proxies/v8/customselfregistration/listallqrs',
 }
 
 const DEPARTMENT_NAME = 'igot'
@@ -63,5 +65,13 @@ export class CreateMDOService {
       },
     }
     return this.http.post<any>(`${API_END_POINTS.ASSIGN_ADMIN_TO_CREATED_DEPARTMENT}`, departmentData)
+  }
+
+  generateSelfRegistrationQRCode(request: any): Observable<any> {
+    return this.http.post<any>(`${API_END_POINTS.CUSTOM_SELF_REGISTRATION_QR}`, request)
+  }
+
+  getListOfRegisteedLinks(request: any) {
+    return this.http.post<any>(`${API_END_POINTS.REGISTERED_LINKS_LIST}`, request)
   }
 }

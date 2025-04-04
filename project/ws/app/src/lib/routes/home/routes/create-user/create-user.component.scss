@@ -240,7 +240,7 @@ input[type=number] {
       border-right-style: none;
       /* border: 1px solid currentColor; */
       min-width: 8px;
-      border-right-style: none;
+      // border-right-style: none;
     }
 
     .mat-form-field-outline-gap {
@@ -308,13 +308,13 @@ input[type=number] {
   font-size: 14px;
   margin-bottom: .5rem;
   font-weight: 700;
-  font-family: 'Lato';
+  font-family: 'Lato', sans-serif;
 }
 
 .form-input {
   font-size: 14px;
   font-weight: 400;
-  font-family: 'Lato';
+  font-family: 'Lato', sans-serif;
 }
 
 input.mat-input-element {
@@ -331,7 +331,7 @@ input.mat-input-element {
   margin: 0 !important;
 }
 
-::ng-deep.mat-chip {
+::ng-deep .mat-chip {
   font-weight: normal;
   background: #F1F9FF 0% 0% no-repeat padding-box !important;
   border-radius: 12px !important;
@@ -353,7 +353,7 @@ input.mat-input-element {
   }
 }
 
-::ng-deeptextarea.mat-input-element {
+::ng-deep textarea.mat-input-element {
   padding: 8px 0;
 }
 
@@ -538,7 +538,7 @@ input.mat-input-element {
 
 .heading{
   font-weight: 600;
-  font-family: 'Montserrat';
+  font-family: 'Montserrat', sans-serif;
   font-size: 1.25rem;
   display: block;
   padding: 0px 0px 1rem 0;
@@ -578,7 +578,7 @@ input.mat-input-element {
   ::ng-deep.mat-option-text{
     color: black;
   }
-  ::ng-deep.mat-option .mat-option-multipl  e{
+  ::ng-deep.mat-option .mat-option-multiple{
     color: yellow;
   }
 

@@ -1,24 +1,31 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing'
-
+import { ActivatedRoute, Router } from '@angular/router'
+import { ConfigurationsService } from '@sunbird-cb/utils'
+import { SearchServService } from '../../services/search-serv.service'
 import { FilterDisplayComponent } from './filter-display.component'
 
 describe('FilterDisplayComponent', () => {
-  let component: FilterDisplayComponent
-  let fixture: ComponentFixture<FilterDisplayComponent>
+    let component: FilterDisplayComponent
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [FilterDisplayComponent],
-    }).compileComponents()
-  }))
+    const activated: Partial<ActivatedRoute> = {}
+    const router: Partial<Router> = {}
+    const searchServ: Partial<SearchServService> = {}
+    const configSvc: Partial<ConfigurationsService> = {}
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(FilterDisplayComponent)
-    component = fixture.componentInstance
-    fixture.detectChanges()
-  })
+    beforeAll(() => {
+        component = new FilterDisplayComponent(
+            activated as ActivatedRoute,
+            router as Router,
+            searchServ as SearchServService,
+            configSvc as ConfigurationsService
+        )
+    })
 
-  it('should create', () => {
-    expect(component).toBeTruthy()
-  })
+    beforeEach(() => {
+        jest.clearAllMocks()
+        jest.resetAllMocks()
+    })
+
+    it('should create a instance of component', () => {
+        expect(component).toBeTruthy()
+    })
 })

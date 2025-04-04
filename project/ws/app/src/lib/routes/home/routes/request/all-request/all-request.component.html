@@ -22,7 +22,7 @@
       <div class="sidenav-content">
         <div class="table-class">
           <ng-container *ngIf="dataSource?.filteredData?.length > 0">
-            <table mat-table [dataSource]="dataSource">
+            <table mat-table [dataSource]="dataSource"> <!-- //NOSONAR -->
               <ng-container matColumnDef="RequestId">
                 <th mat-header-cell *matHeaderCellDef class="row-heading">Request ID </th>
                 <td mat-cell class="title-class" *matCellDef="let element">{{element?.demand_id}}</td>

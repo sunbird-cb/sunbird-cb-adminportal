@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
-import { Observable } from 'rxjs'
+import { Observable, Subject } from 'rxjs'
 import { map, retry } from 'rxjs/operators'
 /* tslint:disable */
 import _ from 'lodash'
@@ -23,12 +23,15 @@ const API_END_POINTS = {
   NEW_USER_UN_BLOCK_API: '/apis/proxies/v8/user/v1/unblock',
   SEARCH_USER_TABLE: '/apis/proxies/v8/user/v1/search',
   ALL_USERS_BY_DEPARTMENT: '/apis/protected/v8/portal/spv/department',
+  GET_ALL_USERS_V3: '/apis/proxies/v8/user/v3/search',
+  ADD_USER_TO_DEPARTMENT_MENTOR: '/apis/proxies/v8/user/private/v1/assign/role',
 }
 
 @Injectable({
   providedIn: 'root',
 })
 export class UsersService {
+  mentorList$ = new Subject()
   constructor(private http: HttpClient) { }
   getUsersByDepartment(userId: string): Observable<any> {
     return this.http.get<any>(`${API_END_POINTS.ALL_USERS_BY_DEPARTMENT}/${userId}/?allUsers=true`)
@@ -96,7 +99,7 @@ export class UsersService {
   }
 
   searchMDOLeaders(userRootOrgId: string): Observable<any> {
-    const req = {
+    const req: any = {
       request: {
         filters: {
           status: 1,
@@ -176,5 +179,19 @@ export class UsersService {
     }
 
     return this.http.post<any>(`${API_END_POINTS.SEARCH_USER_TABLE}`, reqBody)
+  }
+
+  getAllValidUsers(filter: object): Observable<any> {
+    // console.log()
+    return this.http.post<any>(`${API_END_POINTS.GET_ALL_USERS}`, filter).pipe(map(res => _.get(res, 'result.response')))
+  }
+
+  getAllUsersV3(filter: object): Observable<any> {
+    // console.log()
+    return this.http.post<any>(`${API_END_POINTS.GET_ALL_USERS_V3}`, filter).pipe(map(res => _.get(res, 'result.response')))
+  }
+
+  addUserToDepartmentMentor(req: any): Observable<any> {
+    return this.http.post<any>(`${API_END_POINTS.ADD_USER_TO_DEPARTMENT_MENTOR}`, req)
   }
 }

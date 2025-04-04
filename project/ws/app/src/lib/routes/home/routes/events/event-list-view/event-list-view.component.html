@@ -31,11 +31,11 @@
                         {{element[col.key]}} {{col.isList}}
                     </span>
                     <span *ngIf="!col.isList && col.key == 'eventName'" class="h-400-r-14-l color-87 textclass">
-                        <img src="{{element.eventThumbnail | pipePublicURL }}" height="40" width="50"
-                            *ngIf="element.eventThumbnail" (click)="showImageDialog(element.eventThumbnail)"
+                        <img alt="event-thumbnail" src="{{element.eventThumbnail | pipePublicURL }}" height="40"
+                            width="50" *ngIf="element.eventThumbnail" (click)="showImageDialog(element.eventThumbnail)"
                             class="cursor">
-                        <img src="/assets/icons/Events_default.png" *ngIf="!element.eventThumbnail" height="40"
-                            width="50" class="cursor">
+                        <img alt="default" src="/assets/icons/Events_default.png" *ngIf="!element.eventThumbnail"
+                            height="40" width="50" class="cursor">
                         <span class="margin-left-m">{{element[col.key]}} {{col.isList}}</span>
                     </span>
                 </mat-cell>
@@ -44,9 +44,9 @@
                 <mat-header-cell *matHeaderCellDef class="clr-darkish-blue action-header">
 
                 </mat-header-cell>
+                <!-- *ngIf="(currentFilter !== 'archive') && (row && row.canArchive)" -->
                 <mat-cell *matCellDef="let row" class="action-cell">
-                    <button type="button" mat-icon-button i18n-aria-label aria-label="action items"
-                        *ngIf="currentFilter !== 'archive' && row && row.canArchive" [matMenuTriggerFor]="cardMenu"
+                    <button type="button" mat-icon-button aria-label="action items" [matMenuTriggerFor]="cardMenu"
                         [matMenuTriggerData]="{'data':row}" class="action-btn">
                         <mat-icon>more_horiz</mat-icon>
                     </button>
@@ -74,11 +74,11 @@
 <mat-menu #cardMenu="matMenu">
     <ng-template matMenuContent let-rowData="data">
         <button *ngIf="rowData && rowData.canArchive" (click)="buttonClick('update event',rowData)" mat-menu-item
-            name="channel-analytics-button" class="ws-mat-primary-text" i18n-aria-label aria-label="Analytics">
+            name="channel-analytics-button" class="ws-mat-primary-text" aria-label="Analytics">
             <mat-icon class="margin-right-xs">create</mat-icon><span>Update event</span>
         </button>
         <button *ngIf="rowData && rowData.canArchive" (click)="buttonClick('archive',rowData)" mat-menu-item
-            name="channel-analytics-button" class="ws-mat-primary-text" i18n-aria-label aria-label="Analytics">
+            name="channel-analytics-button" class="ws-mat-primary-text" aria-label="Analytics">
             <mat-icon class="margin-right-xs">archive</mat-icon><span>Archive event</span>
         </button>
     </ng-template>

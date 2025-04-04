@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core'
-import { SearchApiService } from '../../apis/search-api.service'
+// import { SearchApiService } from '../../apis/search-api.service'
 import { Router, ActivatedRoute } from '@angular/router'
 import { SearchServService } from '../../services/search-serv.service'
 import { Subscription } from 'rxjs'
@@ -27,7 +27,7 @@ export class SocialComponent implements OnInit, OnDestroy {
   filtersResponse: IFilterUnitResponse[] = []
   searchResults: ISocialSearchResult = {} as ISocialSearchResult
   searchRequestObject: ISearchSocialSearchPartialRequest = {
-    userId: this.authSvc.userId || '',
+    userId: '',
     query: '',
     pageNo: 0,
     pageSize: 10,
@@ -68,7 +68,7 @@ export class SocialComponent implements OnInit, OnDestroy {
   constructor(
     private activated: ActivatedRoute,
     private router: Router,
-    private authSvc: SearchApiService,
+    // private authSvc: SearchApiService,
     private valueSvc: ValueService,
     private searchSrv: SearchServService,
   ) { }

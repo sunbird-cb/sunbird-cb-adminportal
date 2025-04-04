@@ -1,24 +1,32 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing'
 
+import { MatDialogRef } from '@angular/material/dialog'
+import { MatSnackBar } from '@angular/material/snack-bar'
+import { FeedbackService } from '../../services/feedback.service'
 import { BtnContentFeedbackDialogV2Component } from './btn-content-feedback-dialog-v2.component'
 
 describe('BtnContentFeedbackDialogV2Component', () => {
-  let component: BtnContentFeedbackDialogV2Component
-  let fixture: ComponentFixture<BtnContentFeedbackDialogV2Component>
+    let component: BtnContentFeedbackDialogV2Component
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [BtnContentFeedbackDialogV2Component],
-    }).compileComponents()
-  }))
+    const content: any = {}
+    const dialogRef: Partial<MatDialogRef<BtnContentFeedbackDialogV2Component>> = {}
+    const feedbackApi: Partial<FeedbackService> = {}
+    const snackbar: Partial<MatSnackBar> = {}
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(BtnContentFeedbackDialogV2Component)
-    component = fixture.componentInstance
-    fixture.detectChanges()
-  })
+    beforeAll(() => {
+        component = new BtnContentFeedbackDialogV2Component(
+            content as any,
+            dialogRef as MatDialogRef<BtnContentFeedbackDialogV2Component>,
+            feedbackApi as FeedbackService,
+            snackbar as MatSnackBar
+        )
+    })
 
-  it('should create', () => {
-    expect(component).toBeTruthy()
-  })
+    beforeEach(() => {
+        jest.clearAllMocks()
+        jest.resetAllMocks()
+    })
+
+    it('should create a instance of component', () => {
+        expect(component).toBeTruthy()
+    })
 })

@@ -1,24 +1,28 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing'
-
+import { ConfigurationsService, EventService } from '@sunbird-cb/utils'
+import { DomSanitizer } from '@angular/platform-browser'
 import { LearningCardComponent } from './learning-card.component'
 
 describe('LearningCardComponent', () => {
-  let component: LearningCardComponent
-  let fixture: ComponentFixture<LearningCardComponent>
+    let component: LearningCardComponent
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [LearningCardComponent],
-    }).compileComponents()
-  }))
+    const events: Partial<EventService> = {}
+    const configSvc: Partial<ConfigurationsService> = {}
+    const domSanitizer: Partial<DomSanitizer> = {}
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(LearningCardComponent)
-    component = fixture.componentInstance
-    fixture.detectChanges()
-  })
+    beforeAll(() => {
+        component = new LearningCardComponent(
+            events as EventService,
+            configSvc as ConfigurationsService,
+            domSanitizer as DomSanitizer
+        )
+    })
 
-  it('should create', () => {
-    expect(component).toBeTruthy()
-  })
+    beforeEach(() => {
+        jest.clearAllMocks()
+        jest.resetAllMocks()
+    })
+
+    it('should create a instance of component', () => {
+        expect(component).toBeTruthy()
+    })
 })

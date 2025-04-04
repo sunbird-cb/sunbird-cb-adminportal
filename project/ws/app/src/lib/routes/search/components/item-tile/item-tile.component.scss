@@ -151,7 +151,9 @@ a {
     border: 1px solid $color-thin-gray;
     font-size: 12px;
     display: inline-block;
+    /* stylelint-disable */
     padding: 2px 3px;
+    /* stylelint-enable */
     margin: 2px 1px;
     // @include font-size(9px);
   }

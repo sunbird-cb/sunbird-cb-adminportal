@@ -1,25 +1,24 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing'
 
+import { ConfigurationsService } from '@sunbird-cb/utils'
 import { ContactHomeComponent } from './contact-home.component'
 
 describe('ContactHomeComponent', () => {
-  let component: ContactHomeComponent
-  let fixture: ComponentFixture<ContactHomeComponent>
+    let component: ContactHomeComponent
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ContactHomeComponent],
+    const configSvc: Partial<ConfigurationsService> = {}
+
+    beforeAll(() => {
+        component = new ContactHomeComponent(
+            configSvc as ConfigurationsService
+        )
     })
-    .compileComponents()
-  }))
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(ContactHomeComponent)
-    component = fixture.componentInstance
-    fixture.detectChanges()
-  })
+    beforeEach(() => {
+        jest.clearAllMocks()
+        jest.resetAllMocks()
+    })
 
-  it('should create', () => {
-    expect(component).toBeTruthy()
-  })
+    it('should create a instance of component', () => {
+        expect(component).toBeTruthy()
+    })
 })

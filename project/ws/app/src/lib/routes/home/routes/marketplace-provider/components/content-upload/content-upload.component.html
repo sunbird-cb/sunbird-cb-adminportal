@@ -1,0 +1,114 @@
+<div>
+  <ws-app-help-center-guide [helpCenterGuide]="helpCenterGuide"></ws-app-help-center-guide>
+</div>
+<mat-card class="content-upload m-1 mb-5">
+  <div class="flex flex-col mb-6">
+    <div class="flex gap-1 items-center">
+      <span class="header">Manage Course Catalog</span>
+    </div>
+  </div>
+  <mat-card-content>
+    <div class="flex flex-col w-full gap-10">
+      <div class="flex flex-col gap-4">
+        <span class="instruction-text mb-2">Open & follow these instruction</span>
+        <span class="instruction-text">1.Please ensure the course catalog file is named correctly and data is
+          accurate.</span>
+        <span class="instruction-text">2.Download the log report from 'Download Log' for details on the uploaded
+          file.</span>
+      </div>
+
+      <div class="flex gap-2">
+        <button mat-button (click)="uploadMode = 'viaCsv'"
+          [ngClass]="uploadMode === 'viaCsv' ? 'mode-selected' : 'mode-unselected'">Via CSV</button>
+        <button mat-button (click)="uploadMode = 'viaApi'"
+          [ngClass]="uploadMode === 'viaApi' ? 'mode-selected' : 'mode-unselected'">Via API</button>
+      </div>
+      <ng-container *ngIf="!delayTabLoad">
+        <mat-tab-group [(selectedIndex)]="viaApiTabIndex">
+          <mat-tab label="Transform Content">
+            <div class="w-full mt-4">
+              <ng-container *ngIf="uploadMode === 'viaCsv'; else viaApiContent">
+                <ws-app-transformations [providerDetails]="providerDetails" [transformationType]="'trasformContentJson'"
+                  (loadProviderDetails)="sendDetailsUpdateEvent()" (loadTablesData)="getTablesData()">
+                </ws-app-transformations>
+              </ng-container>
+              <ng-template #viaApiContent>
+                <ws-app-via-api [providerDetails]="providerDetails" [viaApiTabIndex]="viaApiTabIndex" [tabIndex]="0"
+                  (loadProviderDetails)="sendDetailsUpdateEvent()"></ws-app-via-api>
+              </ng-template>
+            </div>
+          </mat-tab>
+          <mat-tab label="Transform Progress">
+            <div class="w-full mt-4">
+              <!-- <ng-container *ngIf="uploadMode === 'viaCsv'; else viaApiProgress"> -->
+              <ws-app-transformations [providerDetails]="providerDetails" [transformationType]="'transformProgressJson'"
+                (loadProviderDetails)="sendDetailsUpdateEvent()" (loadTablesData)="getTablesData()">
+              </ws-app-transformations>
+
+              <!-- </ng-container>
+              <ng-template #viaApiProgress>
+                <ws-app-via-api [providerDetails]="providerDetails" [viaApiTabIndex]="viaApiTabIndex" [tabIndex]="1"
+                  (loadProviderDetails)="sendDetailsUpdateEvent()"></ws-app-via-api>
+              </ng-template> -->
+            </div>
+          </mat-tab>
+          <mat-tab label="Transform Certificate">
+            <div class="w-full mt-4">
+              <!-- <ng-container *ngIf="uploadMode === 'viaCsv'; else viaApiCertificate"> -->
+              <ws-app-transformations [providerDetails]="providerDetails"
+                [transformationType]="'trasformCertificateUrl'" (loadProviderDetails)="sendDetailsUpdateEvent()"
+                (loadTablesData)="getTablesData()">
+              </ws-app-transformations>
+
+              <!-- </ng-container>
+              <ng-template #viaApiCertificate>
+                <ws-app-via-api [providerDetails]="providerDetails" [viaApiTabIndex]="viaApiTabIndex" [tabIndex]="2"
+                  (loadProviderDetails)="sendDetailsUpdateEvent()"></ws-app-via-api>
+              </ng-template> -->
+            </div>
+          </mat-tab>
+        </mat-tab-group>
+      </ng-container>
+    </div>
+  </mat-card-content>
+</mat-card>
+
+<ng-container *ngIf="!delayTabLoad">
+  <mat-tab-group [ngClass]="{'hideTabs': uploadMode === 'viaApi'}">
+    <mat-tab label="Upload Status">
+      <div class="w-full mt-3 flex flex-col">
+        <ng-container *ngIf="!showUploadedStatusLoader; else showLoader">
+          <div>
+            <ws-app-courses-table [tableData]="contentTableData" [data]="uploadedContentList"
+              [menuItems]="contenetMenuItems" (actionsClick)="contentEvents($event)"></ws-app-courses-table>
+          </div>
+        </ng-container>
+      </div>
+    </mat-tab>
+    <mat-tab label="Not Published Courses">
+      <ng-container *ngIf="!showUploadedStatusLoader; else showLoader">
+        <div class="w-full mt-4 flex flex-col gap-1">
+          <ws-app-courses-table [tableData]="unPublishedCoursesTableData" [data]="unPublishedCoursesList"
+            [menuItems]="unpublishedCoursesMenuItems" [paginationDetails]="unPublishedCoursesTablePaginationDetails"
+            (searchKey)="searchCourses(false, $event)" (pageChange)="pageChange($event, 'notPublished')"
+            (actionsClick)="contentEvents($event)"></ws-app-courses-table>
+        </div>
+      </ng-container>
+    </mat-tab>
+    <mat-tab label="Published Courses">
+      <ng-container *ngIf="!showPublishedCoursesLoader; else showLoader">
+        <div class="w-full mt-4 flex flex-col gap-1">
+          <ws-app-courses-table [tableData]="publishedCoursesTableData" [data]="publishedCoursesList"
+            [paginationDetails]="publishedCoursesTablePaginationDetails" (searchKey)="searchCourses(true, $event)"
+            (pageChange)="pageChange($event, 'published')"></ws-app-courses-table>
+        </div>
+      </ng-container>
+    </mat-tab>
+  </mat-tab-group>
+</ng-container>
+
+<ng-template #showLoader>
+  <div class="w-full flex items-center justify-center dataLoader">
+    <mat-spinner [diameter]="50" class="dataSpinner"></mat-spinner>
+  </div>
+</ng-template>

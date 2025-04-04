@@ -33,6 +33,7 @@ import { EditSectorComponent } from './routes/sectors/edit-sector/edit-sector.co
 import { AllRequestComponent } from './routes/request/all-request/all-request.component'
 import { RequestCopyDetailsComponent } from './routes/request/request-copy-details/request-copy-details.component'
 import { KCMMappingComponent } from './routes/kcm-mapping/kcm-mapping.component'
+import { SurveyComponent } from './routes/survey/survey.component'
 
 const routes: Routes = [
   {
@@ -64,7 +65,7 @@ const routes: Routes = [
       },
       {
         path: '',
-        redirectTo: 'directory/mdo',
+        // redirectTo: 'directory/mdo',
         // redirectTo: 'users/active',
         component: DirectoryViewComponent,
         // component: UsersViewComponent,
@@ -135,11 +136,21 @@ const routes: Routes = [
       {
         path: 'directory',
         // pathMatch: 'full',
-        redirectTo: 'directory/mdo',
+        // redirectTo: 'directory/mdo',
         component: DirectoryViewComponent,
         data: {
           // pageId: 'app/directory',
           module: 'Directory',
+          pageType: 'feature',
+          pageKey: 'Directory',
+        },
+      },
+      {
+        path: 'organisation',
+        // redirectTo: 'directory/organisation',
+        component: DirectoryViewComponent,
+        data: {
+          module: 'Onboarding',
           pageType: 'feature',
           pageKey: 'Directory',
         },
@@ -225,7 +236,7 @@ const routes: Routes = [
       },
       {
         path: 'requests',
-        redirectTo: 'requests/:type',
+        // redirectTo: 'requests/:type',
         component: OnboardingRequestsComponent,
         data: {
           pageId: 'home/requests',
@@ -396,6 +407,24 @@ const routes: Routes = [
           configService: ConfigResolveService,
           pageData: PageResolve,
         },
+      },
+      {
+        path: 'survey',
+        component: SurveyComponent,
+        data: {
+          pageId: 'home/survey',
+          module: 'Survey',
+          pageType: 'feature',
+          pageKey: 'survey',
+        },
+        resolve: {
+          configService: ConfigResolveService,
+          pageData: PageResolve,
+        },
+      },
+      {
+        path: 'marketplace-providers',
+        loadChildren: () => import('./routes/marketplace-provider/marketplace-provider.module').then(u => u.MarketplaceProviderModule),
       },
 
     ],

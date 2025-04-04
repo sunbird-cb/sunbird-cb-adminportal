@@ -46,7 +46,7 @@ export class EventBannerComponent implements OnDestroy, OnChanges, OnInit {
     this.currentSubscription = timer(0, 60000)
       .subscribe(() => {
         this.allRemainingTime = []
-        this.sessionTime.map(
+        this.sessionTime.forEach(
           (v: number, index: number) => {
             this.sessionTime[index] = v - 60000
             this.allRemainingTime.push(this.convertMinutes(this.sessionTime[index]))

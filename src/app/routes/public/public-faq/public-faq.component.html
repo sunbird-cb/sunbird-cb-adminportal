@@ -1,11 +1,11 @@
 <mat-toolbar [color]="pageNavbar.color" [ngStyle]="pageNavbar?.styles">
   <ws-widget-btn-page-back [widgetData]="{ url: 'home',titles:[{title:'FAQ',url:'none'}] }"></ws-widget-btn-page-back>
   <!-- <span class="margin-left-xs text-truncate">
-    <span i18n="page title: about" class="margin-left-xs">FAQ</span>
+    <span  class="margin-left-xs">FAQ</span>
   </span> -->
 </mat-toolbar>
 <div *ngIf="!isFaqFeature">
-  <h1 i18n class="mat-title margin-top-xl text-center">
+  <h1 class="mat-title margin-top-xl text-center">
     Frequently asked questions can be configured here.
   </h1>
 </div>
@@ -14,7 +14,7 @@
     <mat-nav-list>
       <a mat-list-item aria-label="Login Related Faqs" class="" [routerLink]="'/public/faq/login'"
         routerLinkActive="faq-active-class mat-toolbar mat-stroked-button" (click)="sideNavOnClick()"
-        i18n="page faq side nav item one" accesskey="1">Login</a>
+        accesskey="1">Login</a>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
@@ -23,7 +23,7 @@
         <mat-icon>menu</mat-icon>
       </button>
       <h2 class="mat-subheading-2 margin-remove px-2" [ngSwitch]="currentTab">
-        <span *ngSwitchCase="'login'" i18n="page faq mobile top nav item one" accesskey="1">Login</span>
+        <span *ngSwitchCase="'login'" accesskey="1">Login</span>
       </h2>
     </div>
   </mat-sidenav-content>

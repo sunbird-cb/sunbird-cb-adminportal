@@ -1,25 +1,33 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing'
 
+import { ConfigurationsService } from '@sunbird-cb/utils'
+import { DomSanitizer } from '@angular/platform-browser'
+import { Router } from '@angular/router'
 import { HomeComponent } from './home.component'
+import { of } from 'rxjs'
 
 describe('HomeComponent', () => {
-  let component: HomeComponent
-  let fixture: ComponentFixture<HomeComponent>
+    let component: HomeComponent
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [HomeComponent],
+    const configSvc: Partial<ConfigurationsService> = {}
+    const domSanitizer: Partial<DomSanitizer> = {}
+    const router: Partial<Router> = {
+        events: of(),
+    }
+
+    beforeAll(() => {
+        component = new HomeComponent(
+            configSvc as ConfigurationsService,
+            domSanitizer as DomSanitizer,
+            router as Router
+        )
     })
-    .compileComponents()
-  }))
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(HomeComponent)
-    component = fixture.componentInstance
-    fixture.detectChanges()
-  })
+    beforeEach(() => {
+        jest.clearAllMocks()
+        jest.resetAllMocks()
+    })
 
-  it('should create', () => {
-    expect(component).toBeTruthy()
-  })
+    it('should create a instance of component', () => {
+        expect(component).toBeTruthy()
+    })
 })

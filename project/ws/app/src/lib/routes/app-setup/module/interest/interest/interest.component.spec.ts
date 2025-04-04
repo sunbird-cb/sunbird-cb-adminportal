@@ -1,25 +1,37 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing'
-
+import '@angular/compiler'
+import { ActivatedRoute, Router } from '@angular/router'
+import { WidgetContentService, BtnPlaylistService } from '@sunbird-cb/collection'
+import { ConfigurationsService } from '@sunbird-cb/utils'
+import { MatSnackBar } from '@angular/material/snack-bar'
 import { InterestComponent } from './interest.component'
 
 describe('InterestComponent', () => {
-  let component: InterestComponent
-  let fixture: ComponentFixture<InterestComponent>
+    let component: InterestComponent
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [InterestComponent],
+    const activateRoute: Partial<ActivatedRoute> = {}
+    const contentSvc: Partial<WidgetContentService> = {}
+    const playlistSvc: Partial<BtnPlaylistService> = {}
+    const configSvc: Partial<ConfigurationsService> = {}
+    const router: Partial<Router> = {}
+    const snackbar: Partial<MatSnackBar> = {}
+
+    beforeAll(() => {
+        component = new InterestComponent(
+            activateRoute as ActivatedRoute,
+            contentSvc as WidgetContentService,
+            playlistSvc as BtnPlaylistService,
+            configSvc as ConfigurationsService,
+            router as Router,
+            snackbar as MatSnackBar
+        )
     })
-    .compileComponents()
-  }))
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(InterestComponent)
-    component = fixture.componentInstance
-    fixture.detectChanges()
-  })
+    beforeEach(() => {
+        jest.clearAllMocks()
+        jest.resetAllMocks()
+    })
 
-  it('should create', () => {
-    expect(component).toBeTruthy()
-  })
+    it('should create a instance of component', () => {
+        expect(component).toBeTruthy()
+    })
 })

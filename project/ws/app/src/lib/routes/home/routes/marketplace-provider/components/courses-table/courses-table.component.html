@@ -1,0 +1,155 @@
+<div class="courses-table flex flex-column gap-4">
+  <div class="flex justify-between">
+    <ng-container *ngIf="showSearchBox">
+      <div class="search">
+        <div class=rsearch>
+          <mat-icon class="search-icon">search</mat-icon>
+          <input class="sinput" type="Standard" label="" [formControl]="searchControl" placeholder="Search">
+        </div>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="showDeleteAll">
+      <button mat-button class="delete-all" (click)="deleteAllSelected()">
+        <mat-icon>delete</mat-icon>
+        Delete All<span *ngIf="selectedRowData.length"> ({{selectedRowData.length}})</span>
+      </button>
+    </ng-container>
+
+  </div>
+
+  <div class="example-table-container">
+    <ng-container *ngIf="!showLoader; else tableLoader">
+      <mat-table #table matSort [dataSource]="dataSource" class="example-table table1 responsiveTable"
+        *ngIf="dataSource.filteredData.length > 0">
+
+        <ng-container matColumnDef="{{col.key}}" *ngFor="let col of tableColumns">
+          <ng-container [ngSwitch]="col.cellType">
+            <ng-container *ngSwitchCase="'select'">
+              <mat-header-cell *matHeaderCellDef mat-sort-header class="table-checkbox-column">
+                <mat-checkbox [(ngModel)]="allSelected" (change)="selectAll()">
+                </mat-checkbox>
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element" class="table-checkbox-column">
+                <mat-checkbox [(ngModel)]="element['isChecked']" (change)="onCheckboxChange(element)">
+                </mat-checkbox>
+              </mat-cell>
+            </ng-container>
+
+            <ng-container *ngSwitchCase="'text'">
+              <mat-header-cell *matHeaderCellDef mat-sort-header class="table-header-text"> {{col.displayName}}
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element" class="py-2">
+                <ng-container *ngIf="col.imageKey">
+                  <img class="imageCell" [src]="element[col.imageKey]" alt="logo">
+                </ng-container>
+                <span [ngClass]="col.cellClass" class="cources-table-cell">
+                  {{element[col.key]}}
+                </span>
+              </mat-cell>
+            </ng-container>
+
+            <ng-container *ngSwitchCase="'authentication'">
+              <mat-header-cell *matHeaderCellDef mat-sort-header class="table-header-text"> {{col.displayName}}
+                <mat-icon class="header-info-icon"
+                  matTooltip="This icon indicates the authentication status of the partner with iGOT. Please connect with the technical team for further information.">info_outline</mat-icon>
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                <ng-container *ngIf="element[col.key]; else notAuthenticated">
+                  <div class="authenticated flex gap-2 justify-between items-center">
+                    Authenticated
+                    <mat-icon class="checkCircle">check_circle_outline</mat-icon>
+                  </div>
+                </ng-container>
+                <ng-template #notAuthenticated>
+                  <div class="not-authenticated flex gap-2 justify-between items-center">
+                    Pending
+                    <img class="pending-img" src="/assets/icons/deactivate.svg" alt="pending">
+                  </div>
+                </ng-template>
+              </mat-cell>
+            </ng-container>
+
+            <ng-container *ngSwitchCase="'status'">
+              <mat-header-cell *matHeaderCellDef mat-sort-heade class="table-header-text" r> {{col.displayName}}
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                <div class="flex justify-center items-center" [ngClass]="{
+                    'statusLive': element[col.key] === 'Live',
+                    'statusFailed': element[col.key] === 'Failed',
+                    'statusPending': element[col.key] === 'In Progress'}">
+                  {{element[col.key]}}
+                </div>
+              </mat-cell>
+            </ng-container>
+
+            <ng-container *ngSwitchCase="'delete-btn'">
+              <mat-header-cell *matHeaderCellDef mat-sort-header class="table-header-text"> {{col.displayName}}
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                <button mat-button class="delete-btn" [ngClass]="{'disable-delete': element['isActive'] }"
+                  (click)="buttonClick('delete', element)">
+                  <mat-icon class="delete-icon">delete</mat-icon>
+                </button>
+              </mat-cell>
+            </ng-container>
+
+            <ng-container *ngSwitchCase="'menu'">
+              <mat-header-cell *matHeaderCellDef mat-sort-header class="justify-center table-menu-column">
+                <img src="/assets/icons/folder_icon.svg" alt="">
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element" class="justify-center table-menu-column">
+                <ng-container *ngIf="element['status'] === 'In Progress'; else menuBtn">
+                  <mat-icon matTooltip="Refresh" class="refreshIcon"
+                    (click)="buttonClick('refresh', element)">refresh</mat-icon>
+                </ng-container>
+                <ng-template #menuBtn>
+                  <mat-icon mat-icon-button i18n-aria-label aria-label="action items" [matMenuTriggerFor]="cardMenu"
+                    class="horizontalMenu"> more_horiz
+                  </mat-icon>
+                  <mat-menu #cardMenu="matMenu">
+                    <ng-template matMenuContent>
+                      <ng-container *ngFor="let item of menuItems">
+                        <div mat-menu-item [ngClass]="{'disableMenu': element['disableMenu']}"
+                          [disabled]="element['disableMenu'] === true" (click)="buttonClick(item.action, element)">
+                          <button class="flex item-btn items-center" mat-icon-button i18n-aria-label
+                            aria-label="Analytics">
+                            <mat-icon *ngIf="item.icon" class="menu-item-icon">{{item.icon}}</mat-icon>
+                            {{item.btnText}}
+                          </button>
+                        </div>
+                      </ng-container>
+                    </ng-template>
+                  </mat-menu>
+                </ng-template>
+              </mat-cell>
+            </ng-container>
+
+          </ng-container>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="columnsList"></mat-header-row>
+
+        <mat-row *matRowDef="let row; columns: columnsList">
+        </mat-row>
+
+      </mat-table>
+      <div class="no-cbp-data" *ngIf="dataSource.filteredData.length === 0 && searchControl.value">
+        <div class="mat-subheading-1 margin-remove">No results found</div>
+        <div>Try adjusting your search to find what you are looking for.</div>
+      </div>
+      <mat-card class="flex-1" *ngIf="dataSource.filteredData.length === 0 && !searchControl.value">
+        <span class="mat-subtitle">{{noDataMessage}}</span>
+      </mat-card>
+    </ng-container>
+    <ng-template #tableLoader>
+      <div class="w-full flex items-center justify-center coursesTableLoader">
+        <mat-spinner [diameter]="50" class="coursesTableSpinner"></mat-spinner>
+      </div>
+    </ng-template>
+  </div>
+  <ng-container *ngIf="showPagination">
+    <mat-paginator [length]="paginationDetails.totalCount" [pageSize]="paginationDetails.pageSize"
+      [pageSizeOptions]="pageSizeOptions" [pageIndex]="paginationDetails.pageIndex" (page)="onChangePage($event)">
+    </mat-paginator>
+  </ng-container>

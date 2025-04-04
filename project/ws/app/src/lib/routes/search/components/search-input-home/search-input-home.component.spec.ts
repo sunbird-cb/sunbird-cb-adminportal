@@ -1,24 +1,55 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing'
-
+import { ActivatedRoute, Router } from '@angular/router'
+import { ConfigurationsService } from '@sunbird-cb/utils'
+import { SearchServService } from '../../services/search-serv.service'
 import { SearchInputHomeComponent } from './search-input-home.component'
+import { of } from 'rxjs'
 
-describe('SearchInputComponent', () => {
-  let component: SearchInputHomeComponent
-  let fixture: ComponentFixture<SearchInputHomeComponent>
+describe('SearchInputHomeComponent', () => {
+    let component: SearchInputHomeComponent
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [SearchInputHomeComponent],
-    }).compileComponents()
-  }))
+    const activated: Partial<ActivatedRoute> = {
+        snapshot: {
+            parent: {
+                data: {
+                    configSvc: {
+                        userProfile: {
+                            userId: 'sampleId',
+                        },
+                        unMappedUser: {
+                            roles: ['PUBLIC', 'STATE_ADMIN'],
+                        },
+                    },
+                },
+            },
+            params: of({ tab: 'verified' }),
+            queryParams: of({ roleId: 'testRoleId' }),
+        } as any,
+        params: of({ tab: 'verified' }),
+        queryParams: of({ roleId: 'testRoleId' }),
+    }
+    const router: Partial<Router> = {}
+    const searchServSvc: Partial<SearchServService> = {
+        getLanguageSearchIndex: jest.fn(),
+    }
+    const configSvc: Partial<ConfigurationsService> = {}
+    const route: Partial<ActivatedRoute> = {}
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(SearchInputHomeComponent)
-    component = fixture.componentInstance
-    fixture.detectChanges()
-  })
+    beforeAll(() => {
+        component = new SearchInputHomeComponent(
+            activated as ActivatedRoute,
+            router as Router,
+            searchServSvc as SearchServService,
+            configSvc as ConfigurationsService,
+            route as ActivatedRoute
+        )
+    })
 
-  it('should create', () => {
-    expect(component).toBeTruthy()
-  })
+    beforeEach(() => {
+        jest.clearAllMocks()
+        jest.resetAllMocks()
+    })
+
+    it('should create a instance of component', () => {
+        expect(component).toBeTruthy()
+    })
 })

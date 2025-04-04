@@ -7,9 +7,12 @@ export class LoaderService {
 
   private doubleBack = new BehaviorSubject(false)
   currentState = this.doubleBack.asObservable()
-
+  $currentState = this.changeLoad.asObservable()
   changeLoadState(state: boolean) {
     this.doubleBack.next(state)
+  }
+  changeLoaderState(state: boolean) {
+    this.changeLoad.next(state)
   }
 
 }

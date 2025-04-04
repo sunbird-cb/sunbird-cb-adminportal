@@ -39,14 +39,18 @@ table tr {
                     width: 100%;
                     font-size: 16px;
                     .title-text {
+                      /* stylelint-disable */
                         font-family: Lato;
+                        /* stylelint-enable */
                         font-size: 16px;
                         font-weight: 400;
                         line-height: 19.2px;
                         text-align: left;
                     }
                     .icon-cls{
+                      /* stylelint-disable */
                             font-family: Montserrat;
+                            /* stylelint-enable */
                             font-size: 20px;
                             font-weight: 600;
                             line-height: 24.38px;
@@ -56,7 +60,9 @@ table tr {
 
                   }
                   .status-value {
+                    /* stylelint-disable */
                     font-family: Montserrat;
+                    /* stylelint-enable */
                     font-size: 20px;
                     font-weight: 600;
                     line-height: 24.38px;
@@ -94,7 +100,9 @@ table .table-row-data {
 }
 
 table tr .row-heading {
+  /* stylelint-disable */
     font-family: 'Lato';
+    /* stylelint-enable */
     font-weight: 400;
     font-size: 14px !important;
     line-height: 21px;
@@ -106,7 +114,9 @@ table tr .row-heading {
 
 .action-btn-view {
   color: #1B4CA1;
+  /* stylelint-disable */
   font-family: Lato;
+  /* stylelint-enable */
   font-size: 14px;
   font-weight: 400;
   line-height: 16.8px;
@@ -132,14 +142,16 @@ table tr .row-heading {
 }
 
 .title-class {
+  /* stylelint-disable */
   font-family: Lato;
+  /* stylelint-enable */
   font-size: 14px !important;
   font-weight: 400;
   line-height: 21px;
   color: rgba(0, 0, 0, 0.6) !important;
   width: 13% !important;
   padding: 0 13px !important;
-  
+
 }
 
 .status-unassigned {

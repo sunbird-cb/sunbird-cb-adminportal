@@ -1,0 +1,65 @@
+.header {
+  color: #000000DE;
+  /* stylelint-enable */
+  font: 600 16px Montserrat;
+  /* stylelint-disable */
+}
+
+.onboard-btn {
+  width: 150px;
+  height: 40px;
+  /* stylelint-enable */
+  font: 700 14px Lato;
+  /* stylelint-disable */
+  color: #FFFFFF !important;
+  background-color: #1B4CA1 !important;
+}
+
+.emptyShelf-img{
+  width: 417px;
+  height: 366px;
+}
+
+.no-content-text {
+  /* stylelint-enable */
+  font: 600 20px Montserrat;
+  /* stylelint-disable */
+  color: #000000DE;
+}
+
+.search {
+
+  .search-icon {
+    position: absolute;
+    top: 9px;
+    font-size: 20px;
+    left: 10px;
+  }
+
+  .rsearch {
+    display: flex;
+    position: relative;
+    flex: 1 1 auto;
+  }
+
+  .sinput {
+    width: 315px;
+    border-radius: 4px;
+    border: 1px solid #d5d0d0;
+    padding: 9px 9px 9px 35px;
+    margin-top: 0;
+    /* stylelint-enable */
+    font: normal 14px Lato;
+    /* stylelint-disable */
+    font-weight: 400;
+  }
+}
+
+.MarketplaceLoader {
+  height: calc(100vh - 300px);
+
+  .MarketplaceSpinner {
+    position: unset !important;
+    margin: 0px !important;
+  }
+}

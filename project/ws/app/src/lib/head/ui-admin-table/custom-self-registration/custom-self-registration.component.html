@@ -1,0 +1,144 @@
+<mat-sidenav-container class="nav-container" autosize name="auth-tool-exp">
+  <mat-sidenav-content>
+    <div class="filter-overlay-12 ">
+      <div class="filter-12">
+        <div class="flex justify-between right-sidenav-header px-5 pt-5 pb-4">
+          <div>{{ initialData?.title }}</div>
+          <mat-icon class="closeIcon" (click)="closeNaveBar()">close</mat-icon>
+        </div>
+
+        <div class="px-5 pt-6 mb-24 relative">
+          <ng-container>
+            <form [formGroup]="selfRegistrationForm">
+              <div class="flex items-center justify-between ">
+                <div class="flex flex-column gap-1 w-full formfield-rounded-full max-w-240">
+                  <div class="flex items-center gap-1 required">
+                    <span class="lable">Start Date</span>
+                  </div>
+                  <mat-form-field appearance="outline">
+                    <input matInput [matDatepicker]="startDate" [min]="todayDate" placeholder="Enter Start Date"
+                      formControlName="startDate">
+                    <mat-datepicker-toggle matSuffix [for]="startDate"></mat-datepicker-toggle>
+                    <mat-datepicker #startDate></mat-datepicker>
+                  </mat-form-field>
+                </div>
+                <div class="flex flex-column gap-1 w-full formfield-rounded-full max-w-240">
+                  <div class="flex items-center gap-1 required">
+                    <span class="lable">End Date</span>
+                  </div>
+                  <mat-form-field appearance="outline">
+                    <input matInput [matDatepicker]="endDate" placeholder="Enter End Date"
+                      [min]="this.selfRegistrationForm.get('startDate')?.value" formControlName="endDate">
+                    <mat-datepicker-toggle matSuffix [for]="endDate"></mat-datepicker-toggle>
+                    <mat-datepicker #endDate></mat-datepicker>
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <ng-container *ngIf="!initialData.QRGenerated">
+                <div class="flex justify-center items-center flex-column gap-6 mb-3">
+                  <button mat-flat-button class="mat-btn-flat" [disabled]="selfRegistrationForm.invalid"
+                    (click)="generateQRCodeLink()">Generate</button>
+
+                  <!-- <div class="mx-auto">
+                    <mat-spinner [diameter]="30" [strokeWidth]="3"></mat-spinner>
+                  </div> -->
+                </div>
+              </ng-container>
+
+              <ng-container *ngIf="initialData.QRGenerated">
+                <div class="flex justify-center items-center mb-4">
+                  <button mat-stroked-button class="mat-btn-outline" [disabled]="selfRegistrationForm.invalid"
+                    (click)="generateQRCodeLink()">Publish New
+                    Link </button>
+                </div>
+
+                <!-- <p class="text-xs note-text">Note: Publishing a new URL will automatically expire the old one. Please
+                  use the new URL for custom
+                  user registrations.</p> -->
+
+                <div class="wrapper-card p-4 rounded-lg">
+                  <div class="flex justify-between">
+                    <div class="flex gap-3 items-center">
+                      <mat-icon class="mr-2">link</mat-icon>
+                      <a class="brand-color cursor-pointer underline bg-inherit text-sm link-anchor"
+                        [href]="customRegistrationLinks.registrationLink"
+                        target="_blank">{{customRegistrationLinks.registrationLink}}</a>
+                    </div>
+                    <div class="badge "
+                      [ngClass]="latestRegisteredData.status && latestRegisteredData.status === 'active' ? 'active':'in-active'">
+                      {{latestRegisteredData.status && latestRegisteredData.status === 'active' ?
+                      'Active': 'Inactive'}}</div>
+                  </div>
+
+                  <div class="actions-buttons flex gap-4 items-center justify-center mt-4">
+                    <button mat-flat-button class="mat-btn-outline"
+                      (click)="copyLinkToClipboard(customRegistrationLinks.registrationLink)">Copy
+                      Link</button>
+                    <button mat-flat-button class="mat-btn-outline"
+                      (click)="sendViaEmail(customRegistrationLinks.registrationLink)">
+                      <mat-icon class="mr-2"> email</mat-icon>
+                      <span>Share on Mail</span>
+                    </button>
+
+                    <button mat-flat-button class="mat-btn-outline"
+                      (click)="sendViaWhatsApp(customRegistrationLinks.registrationLink)">
+                      <img src="/assets/icons/whatsapp.svg" alt="icon" class="mr-2" width="24" height="24">
+                      <span>Share on Whats app</span>
+                    </button>
+                  </div>
+                </div>
+
+                <div class="wrapper-card py-4 px-12 rounded-lg mt-4">
+                  <div class="flex justify-between">
+                    <div class="qr-scanner-cont">
+                      <img [src]="customRegistrationLinks?.qrRegistrationLink" alt="qr-scanner" width="180"
+                        height="180">
+                    </div>
+                    <div class="flex flex-column items-center justify-center gap-2">
+                      <button mat-flat-button class="mat-btn-outline w-full"
+                        (click)="downloadQRCode(customRegistrationLinks.qrRegistrationLink)">Download
+                        QR</button>
+                      <button mat-flat-button class="mat-btn-outline w-full"
+                        (click)="sendViaEmail(customRegistrationLinks.qrRegistrationLink)">
+                        <mat-icon class="mr-2"> email</mat-icon>
+                        <span>Share on Mail</span>
+                      </button>
+
+                      <button mat-flat-button class="mat-btn-outline w-full"
+                        (click)="sendViaWhatsApp(customRegistrationLinks.qrRegistrationLink)">
+                        <img src="/assets/icons/whatsapp.svg" alt="icon" class="mr-2" width="24" height="24">
+                        <span>Share on Whats app</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="wrapper-card p-4 rounded-lg mt-4">
+                  <div class="flex gap-4 items-center">
+                    <img src="/assets/icons/users.svg" alt="users" width="32" height="32">
+                    <span class="text-sm">Number of Users Onboarded: <strong
+                        class="ml-1">{{numberOfUsersOnboarded}}</strong></span>
+                  </div>
+                </div>
+              </ng-container>
+
+            </form>
+          </ng-container>
+
+          <ng-container *ngIf="!initialData.QRGenerated">
+            <div class="">
+              <img src="/assets/icons/qr-scanner-blurred.png" alt="bluerr" class="w-full">
+            </div>
+          </ng-container>
+        </div>
+
+        <ng-container *ngIf="initialData.QRGenerated">
+          <div class="right-sidenav-footer flex items-center justify-end gap-4 items-center px-5 pt-3 pb-5 bg-white">
+            <button mat-flat-button class="mat-btn-flat" (click)="closeNaveBar()">Close</button>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

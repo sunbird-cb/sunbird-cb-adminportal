@@ -1,0 +1,27 @@
+<div class="flex flex-4 flex-column">
+  <mat-card class="flex-custom">
+    <div class="flex flex-row" role="link" tabindex="0">
+      <div class="flex flex-1">
+        <mat-card-title class="flex-4 mobile-margin text-capitalize margin-remove-bottom">
+          <span class="mat-title">Surveys</span>
+        </mat-card-title>
+      </div>
+      <div class="flex flex-1 justify-end">
+        <button type="button" mat-button class="create-btn" (click)="onCreateClick()">
+          Create new
+        </button>
+      </div>
+
+    </div>
+    <mat-card-content>
+      <div class="flex flex-1" *ngIf="!loadSurveyList">
+        <mat-spinner strokeWidth="3" diameter="50"></mat-spinner>
+      </div>
+      <ng-container *ngIf="loadSurveyList">
+
+        <ws-app-survey-list [tableData]='tabledata' [data]='data' isCreate=true [currentFilter]="currentFilter"
+          [totalRecordsFlag]="data.length"></ws-app-survey-list>
+      </ng-container>
+    </mat-card-content>
+  </mat-card>
+</div>

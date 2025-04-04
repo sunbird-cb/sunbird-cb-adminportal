@@ -1,25 +1,32 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing'
 
+import { ChangeDetectorRef } from '@angular/core'
+import { ActivatedRoute, Router } from '@angular/router'
+import { RequestsService } from '../../services/onboarding-requests.service'
 import { OnboardingRequestsComponent } from './onboarding-requests.component'
 
 describe('OnboardingRequestsComponent', () => {
-  let component: OnboardingRequestsComponent
-  let fixture: ComponentFixture<OnboardingRequestsComponent>
+    let component: OnboardingRequestsComponent
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [OnboardingRequestsComponent],
+    const route: Partial<Router> = {}
+    const activatedRoute: Partial<ActivatedRoute> = {}
+    const requestService: Partial<RequestsService> = {}
+    const cdr: Partial<ChangeDetectorRef> = {}
+
+    beforeAll(() => {
+        component = new OnboardingRequestsComponent(
+            route as Router,
+            activatedRoute as ActivatedRoute,
+            requestService as RequestsService,
+            cdr as ChangeDetectorRef
+        )
     })
-      .compileComponents()
-  }))
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(OnboardingRequestsComponent)
-    component = fixture.componentInstance
-    fixture.detectChanges()
-  })
+    beforeEach(() => {
+        jest.clearAllMocks()
+        jest.resetAllMocks()
+    })
 
-  it('should create', () => {
-    expect(component).toBeTruthy()
-  })
+    it('should create a instance of component', () => {
+        expect(component).toBeTruthy()
+    })
 })

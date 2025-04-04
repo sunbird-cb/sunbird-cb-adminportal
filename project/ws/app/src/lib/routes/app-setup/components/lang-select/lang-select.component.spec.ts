@@ -1,25 +1,28 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing'
-
+import { Router } from '@angular/router'
+import { ConfigurationsService, UserPreferenceService } from '@sunbird-cb/utils'
 import { LangSelectComponent } from './lang-select.component'
 
 describe('LangSelectComponent', () => {
-  let component: LangSelectComponent
-  let fixture: ComponentFixture<LangSelectComponent>
+    let component: LangSelectComponent
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [LangSelectComponent],
+    const configSvc: Partial<ConfigurationsService> = {}
+    const router: Partial<Router> = {}
+    const userPrefSvc: Partial<UserPreferenceService> = {}
+
+    beforeAll(() => {
+        component = new LangSelectComponent(
+            configSvc as ConfigurationsService,
+            router as Router,
+            userPrefSvc as UserPreferenceService
+        )
     })
-    .compileComponents()
-  }))
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(LangSelectComponent)
-    component = fixture.componentInstance
-    fixture.detectChanges()
-  })
+    beforeEach(() => {
+        jest.clearAllMocks()
+        jest.resetAllMocks()
+    })
 
-  it('should create', () => {
-    expect(component).toBeTruthy()
-  })
+    it('should create a instance of component', () => {
+        expect(component).toBeTruthy()
+    })
 })

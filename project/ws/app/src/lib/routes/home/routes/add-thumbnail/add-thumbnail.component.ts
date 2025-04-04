@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Inject, Output, EventEmitter } from '@angular/core'
 import { Subscription } from 'rxjs'
-import { FormGroup, FormBuilder } from '@angular/forms'
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material'
+import { UntypedFormGroup, UntypedFormBuilder } from '@angular/forms'
+import { MatLegacyDialogRef as MatDialogRef, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/legacy-dialog'
 import { DomSanitizer } from '@angular/platform-browser'
 /* tslint:disable */
 import _ from 'lodash'
@@ -17,7 +17,7 @@ import { sectorConstants } from '../sectors/sectors-constats.model'
 export class AddThumbnailComponent implements OnInit {
   toggle: any = null
   currentParentId!: string
-  startForm!: FormGroup
+  startForm!: UntypedFormGroup
   public status = 'draft'
   userId!: string
   searchLanguage = ''
@@ -50,7 +50,7 @@ export class AddThumbnailComponent implements OnInit {
     private sectotsService: SectorsService,
     public dialogRef: MatDialogRef<AddThumbnailComponent>,
     private sanitizer: DomSanitizer,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     @Inject(MAT_DIALOG_DATA) public data: any,
   ) {
     this.isChecked = false

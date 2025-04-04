@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core'
-import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router'
+import { ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router'
 import { EMPTY, Observable } from 'rxjs'
 import { map, catchError } from 'rxjs/operators'
 import { AuthKeycloakService, IResolveResponse } from '@sunbird-cb/utils'
@@ -8,8 +8,7 @@ import { ProfileV2Service } from '../services/home.servive'
 
 @Injectable()
 export class DepartmentResolve
-  implements
-  Resolve<Observable<IResolveResponse<NSProfileDataV2.IProfile>> | IResolveResponse<NSProfileDataV2.IProfile>> {
+   {
   constructor(private profileService: ProfileV2Service, private router: Router, private authSvc: AuthKeycloakService) { }
 
   async resolve(

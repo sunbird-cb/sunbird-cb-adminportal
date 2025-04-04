@@ -1,25 +1,21 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing'
-
+import '@angular/compiler'
 import { BtnChannelAnalyticsComponent } from './btn-channel-analytics.component'
 
 describe('BtnChannelAnalyticsComponent', () => {
-  let component: BtnChannelAnalyticsComponent
-  let fixture: ComponentFixture<BtnChannelAnalyticsComponent>
+    let component: BtnChannelAnalyticsComponent
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [BtnChannelAnalyticsComponent],
+    beforeAll(() => {
+        component = new BtnChannelAnalyticsComponent(
+
+        )
     })
-      .compileComponents()
-  }))
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(BtnChannelAnalyticsComponent)
-    component = fixture.componentInstance
-    fixture.detectChanges()
-  })
+    beforeEach(() => {
+        jest.clearAllMocks()
+        jest.resetAllMocks()
+    })
 
-  it('should create', () => {
-    expect(component).toBeTruthy()
-  })
+    it('should create a instance of component', () => {
+        expect(component).toBeTruthy()
+    })
 })

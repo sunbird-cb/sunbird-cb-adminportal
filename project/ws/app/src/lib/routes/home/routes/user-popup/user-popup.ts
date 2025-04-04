@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core'
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog'
+import { MatLegacyDialogRef as MatDialogRef, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/legacy-dialog'
 // tslint:disable-next-line:import-spacing
 // import  *  as  contentQuality  from  './content-quality.json'
 export interface IDialogData {
@@ -16,7 +16,7 @@ export class UserPopupComponent implements OnInit {
 
   selectedUser: any = []
   dataSources: any
-  finalArray = []
+  finalArray: any = []
   tabledata: any = []
   dataTable: any = []
   score: any

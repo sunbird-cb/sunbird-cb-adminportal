@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core'
 import { SafeUrl, DomSanitizer } from '@angular/platform-browser'
-import { MatDialog } from '@angular/material'
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog'
 import { AppTourDialogComponent } from '@sunbird-cb/collection'
 import { Router, ActivatedRoute } from '@angular/router'
 import { Globals } from '../../globals'

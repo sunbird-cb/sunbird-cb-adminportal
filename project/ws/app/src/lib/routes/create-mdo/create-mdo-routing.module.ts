@@ -4,6 +4,7 @@ import { Routes, RouterModule } from '@angular/router'
 import { HomeComponent } from './routes/home/home.component'
 import { UsersComponent } from './routes/users/users.component'
 import { ConfigResolveService } from '../home/resolvers/config-resolver.service'
+import { PageResolve } from '@sunbird-cb/utils'
 
 const routes: Routes = [
   {
@@ -18,9 +19,14 @@ const routes: Routes = [
         component: UsersComponent,
         data: {
           pageType: 'feature',
-          pageKey: 'departmentUsers',
+          // pageKey: 'departmentUsers',
+          pageKey: 'my_designations',
           pageId: ':department',
           module: 'DepartmentUsers',
+        },
+        resolve: {
+          configService: ConfigResolveService,
+          pageData: PageResolve,
         },
       },
       {
@@ -34,6 +40,7 @@ const routes: Routes = [
         },
       },
     ],
+
   },
 ]
 

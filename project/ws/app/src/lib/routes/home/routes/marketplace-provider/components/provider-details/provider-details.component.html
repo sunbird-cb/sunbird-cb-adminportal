@@ -1,0 +1,188 @@
+<div>
+  <ws-app-help-center-guide [helpCenterGuide]="helpCenterGuide"></ws-app-help-center-guide>
+</div>
+
+<mat-card class="onboard-provider m-1">
+  <mat-card-title class="card-titel mb-7">Onboard Provider</mat-card-title>
+  <mat-card-content>
+    <form [formGroup]="providerFormGroup" class="w-full flex flex-column gap-6 " (ngSubmit)="submit()">
+      <div class="flex flex-column gap-1">
+        <span class="lable required">Logo
+          <mat-icon class="info-icon"
+            matTooltip="Image must be cropped to a 1:1 aspect ratio, sized between 300 KB and 2 MB, and in SVG or PNG format.">info_outline</mat-icon>
+        </span>
+        <div class="img-card">
+          <mat-icon (click)="thumbNailInput.click(); logoTouched = true"
+            class="img-icon flex justify-center items-center">photo_camera</mat-icon>
+          <input type="file" #thumbNailInput class="inputfile"
+            (change)="onThumbNailSelected($event.target.files[0]); thumbNailInput.value = null" accept=".svg, .png">
+          <canvas #canvas class="inputfile"></canvas>
+          <ng-container *ngIf="imageUrl">
+            <img class="thumbnailImg" [src]="imageUrl" alt="uploaded file" width="300px" height="auto">
+          </ng-container>
+        </div>
+        <mat-error [hidden]="false" *ngIf="!imageUrl && logoTouched" class="logoErrorMsg">
+          Logo is mandatory
+        </mat-error>
+      </div>
+      <div class="w-full flex gap-6 mb-6">
+        <div class="flex flex-column gap-1 w-full">
+          <div class="flex items-center gap-1 required">
+            <span class="lable">Contact Partner Name</span>
+          </div>
+          <mat-form-field class="w-full provider-input-form">
+            <input formControlName="contentPartnerName" matInput placeholder="Type here" maxlength="70">
+            <mat-error [hidden]="false" aria-label="Event title Error|Explains event title is required "
+              *ngIf="getControlValidation('contentPartnerName', 'required')">
+              Contact Partner Name is mandatory
+            </mat-error>
+            <mat-error [hidden]="false" aria-label="Event title Error|Explains event title is required "
+              *ngIf="getControlValidation('contentPartnerName', 'pattern')">
+              Only ( a-z/A-Z/0-9 . - _ $ / : [ ]' !) characters are supported
+            </mat-error>
+            <mat-hint class="w-full flex justify-between items-center">
+              <span class="input-note">Only ( a-z/A-Z/0-9 . - _ $ / : [ ]' !) characters are supported</span>
+              <span class="input-note">{{getTextLength('contentPartnerName')}}/70</span>
+            </mat-hint>
+          </mat-form-field>
+        </div>
+        <div class="flex flex-column gap-1 w-full" [ngClass]="{'disableControl': providerDetalsBeforUpdate}">
+          <div class="flex items-center gap-1 required">
+            <span class="lable">Partner Code</span>
+          </div>
+          <mat-form-field class="w-full provider-input-form">
+            <input class="partnerCode" formControlName="partnerCode" matInput placeholder="Type here" maxlength="6">
+            <mat-error [hidden]="false" aria-label="Event title Error|Explains event title is required "
+              *ngIf="getControlValidation('partnerCode', 'required')">
+              Partner Code is mandatory
+            </mat-error>
+            <mat-error [hidden]="false" aria-label="Event title Error|Explains event title is required "
+              *ngIf="getControlValidation('partnerCode', 'pattern')">
+              Only ( a-z/A-Z/0-9) characters are supported
+            </mat-error>
+            <mat-hint class="w-full flex justify-between items-center">
+              <span class="input-note">Only ( a-z/A-Z/0-9) characters are supported</span>
+              <span class="input-note">{{getTextLength('partnerCode')}}/6</span>
+            </mat-hint>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="flex flex-column gap-1 w-full mb-6">
+        <div class="flex items-center gap-1 required">
+          <span class="lable">Website URL</span>
+        </div>
+        <mat-form-field class="w-full provider-input-form">
+          <input formControlName="websiteUrl" matInput placeholder="Type here" maxlength="70">
+          <mat-error [hidden]="false" aria-label="Event title Error|Explains event title is required "
+            *ngIf="getControlValidation('websiteUrl', 'required')">
+            Website URL is mandatory
+          </mat-error>
+          <mat-error [hidden]="false" aria-label="Event title Error|Explains event title is required "
+            *ngIf="getControlValidation('websiteUrl', 'pattern')">
+            Only ( a-z/A-Z/0-9 . - _ $ / : [ ]' !) characters are supported
+          </mat-error>
+          <mat-hint class="w-full flex justify-between items-center">
+            <span class="input-note">Only ( a-z/A-Z/0-9 . - _ $ / : [ ]' !) characters are supported</span>
+            <span class="input-note">{{getTextLength('websiteUrl')}}/70</span>
+          </mat-hint>
+        </mat-form-field>
+      </div>
+
+      <div class="flex flex-column gap-1 w-full mb-6">
+        <div class="flex items-center gap-1 required">
+          <span class="lable">Description</span>
+          <mat-icon class="info-icon"
+            matTooltip="We recomment you to give description in 300-500 characters">info_outline</mat-icon>
+        </div>
+        <mat-form-field class="w-full description">
+          <textarea matInput rows="6" formControlName="description" maxlength="500"
+            placeholder="Type the decription in fewer than 500 characters" i18n-placeholder></textarea>
+          <mat-error [hidden]="false" aria-label="Event title Error|Explains event title is required "
+            *ngIf="getControlValidation('description', 'required')">
+            Description is mandatory
+          </mat-error>
+          <mat-error [hidden]="false" aria-label="Event title Error|Explains event title is required "
+            *ngIf="getControlValidation('description', 'pattern')">
+            Only ( a-z/A-Z/0-9 . - _ $ / : [ ] ' , !) characters are supported
+          </mat-error>
+          <mat-hint class="w-full flex justify-between items-center">
+            <span class="input-note">Only ( a-z/A-Z/0-9 . - _ $ / : [ ] ' , !) characters are supported</span>
+            <span class="input-note">{{getTextLength('description')}}/500</span>
+          </mat-hint>
+        </mat-form-field>
+      </div>
+
+      <div class="flex flex-column gap-2">
+        <span class="lable flex items-center">Provider Specific Tips
+          <span class="VisibleToLearner">(Visible to Learners)</span>
+          <mat-icon class="info-icon"
+            matTooltip="Tips will be available for learners accessing any course from this provider. For example, with Cornell courses: Progress and certificates are visible only after completing the course and passing the assessment.">info_outline</mat-icon>
+        </span>
+
+        <a class="addTips flex gap-2" (click)="addTips()">
+          <mat-icon class="addTipsIcon">add_circle</mat-icon>
+          <span class="addTipsText">Add tips</span>
+        </a>
+
+        <div class="flex flex-column gap-4" formArrayName="providerTips">
+          <ng-container *ngFor="let tip of getTipsList.controls; let i = index">
+            <div class="flex gap-0">
+              <div class="tipsCard flex items-center">
+                <mat-form-field class="w-full">
+                  <input [id]="'item-' + i" [formControlName]="i" matInput placeholder="Type here">
+                </mat-form-field>
+              </div>
+              <button type="button" mat-button (click)="removeTipAtIndex(i)"
+                class="removeTipBox flex justify-center items-center">
+                <mat-icon class="removeIcon">close</mat-icon>
+              </button>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+
+      <div class="flex flex-column gap-1 w-full">
+        <div class="flex items-center gap-1">
+          <span class="lable">Partnership Agreement</span>
+        </div>
+        <ng-container *ngIf="!pdfUploaded; else fileUploaded">
+          <div class="fileUploadCard w-full flex justify-center items-center flex-column gap-2" wsAuthDragDrop
+            (fileDropped)="onDrop($event)">
+            <img src="/assets/icons/pdf.svg" alt="pdf icon" class="pdfImg">
+            <a class="browseFileText mt-5" (click)="fileInput.click()">Browse files</a>
+            <span class="fileUploadDescription">or</span>
+            <span class="fileUploadDescription">Drag file to upload</span>
+            <div class="flex flex-column gap-1 justify-center items-center w-full mt-5">
+              <span class="fileSizeText">Max file size: 100 MB</span>
+              <span class="fileTypeText">Supported file types: <span class="fileType">PDF</span></span>
+            </div>
+          </div>
+          <input type="file" #fileInput class="inputfile" accept=".pdf"
+            (change)="onDrop($event.target.files[0]); fileInput.value = null" />
+        </ng-container>
+        <ng-template #fileUploaded>
+          <div class="flex items-center my-2 fileUploadedCard">
+            <mat-icon class="removePdf" matTooltip="Remove PDF" (click)="removePdf()">close</mat-icon>
+            <img src="/assets/icons/samplePdf.svg" alt="uploaded pdf" class="samplePdf">
+            <div class="flex flex-column justify-between pdfDetails">
+              <span class="pdfName">{{fileName}}</span>
+              <ng-container *ngIf="fileUploadedDate">
+                <span class="fileUplaodedDate">File uploaded : {{fileUploadedDate}}</span>
+              </ng-container>
+              <span class="documentAttached flex items-center">
+                <mat-icon class="greenTick">check_circle</mat-icon>
+                Document attached
+              </span>
+            </div>
+          </div>
+        </ng-template>
+      </div>
+
+      <div class="flex items-center gap-4">
+        <button mat-button type="button" class="cancelBtn" (click)="navigateToProvidersDashboard()">Cancel</button>
+        <button mat-button type="submit" class="saveBtn">{{providerDetalsBeforUpdate ? 'Update' : 'Save'}}</button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>

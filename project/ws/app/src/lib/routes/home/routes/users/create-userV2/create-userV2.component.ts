@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core'
-import { FormGroup, FormControl, Validators } from '@angular/forms'
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms'
 import { Subscription } from 'rxjs'
-import { MatSnackBar } from '@angular/material'
+import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar'
 import { TenantAdminService } from '../../../services/tenant-admin.service'
 
 @Component({
@@ -10,8 +10,8 @@ import { TenantAdminService } from '../../../services/tenant-admin.service'
   styleUrls: ['./create-userV2.component.scss'],
 })
 export class CreateUserV2Component implements OnInit, OnDestroy {
-  createUserForm: FormGroup
-  unseenCtrl!: FormControl
+  createUserForm: UntypedFormGroup
+  unseenCtrl!: UntypedFormControl
   unseenCtrlSub!: Subscription
   uploadSaveData = false
   fetching = false
@@ -23,12 +23,12 @@ export class CreateUserV2Component implements OnInit, OnDestroy {
     private snackBar: MatSnackBar,
     private tenantAdminSvc: TenantAdminService,
   ) {
-    this.createUserForm = new FormGroup({
-      fname: new FormControl('', [Validators.required]),
-      lname: new FormControl('', [Validators.required]),
+    this.createUserForm = new UntypedFormGroup({
+      fname: new UntypedFormControl('', [Validators.required]),
+      lname: new UntypedFormControl('', [Validators.required]),
       // mobile: new FormControl('', [Validators.required, Validators.minLength(10)]),
-      email: new FormControl('', [Validators.required, Validators.email]),
-      department: new FormControl('', [Validators.required]),
+      email: new UntypedFormControl('', [Validators.required, Validators.email]),
+      department: new UntypedFormControl('', [Validators.required]),
     })
   }
 

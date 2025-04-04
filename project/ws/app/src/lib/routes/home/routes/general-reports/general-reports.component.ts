@@ -1,11 +1,13 @@
 import { Component, OnInit, ViewChild } from '@angular/core'
-import { MatDialog } from '@angular/material/dialog'
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog'
 import { ConfigurationsService } from '@sunbird-cb/utils'
-import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE, MatSnackBar } from '@angular/material'
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core'
+import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar'
 import { environment } from '../../../../../../../../../src/environments/environment'
 /* tslint:disable */
 import _ from 'lodash'
-import { MatPaginator, MatTableDataSource } from '@angular/material'
+import { MatLegacyPaginator as MatPaginator } from '@angular/material/legacy-paginator'
+import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table'
 import { DatePipe } from '@angular/common'
 import { MomentDateAdapter } from '@angular/material-moment-adapter'
 import moment from 'moment'
@@ -35,14 +37,14 @@ export const MY_FORMATS = {
 })
 export class GeneralReportsComponent implements OnInit {
 
-  @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator | null = null
+  @ViewChild(MatPaginator) paginator: MatPaginator | null = null
   currentUser!: string | null
   tabledata: any = []
   dataSource: MatTableDataSource<any>
   reportSectionData: any = []
   todayDate: any
   maxDate: any
-  reportData = []
+  reportData: any = []
   buckets: any
   displayLoader = false
 

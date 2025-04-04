@@ -1,0 +1,143 @@
+.nav-container {
+  position: relative;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  // min-height: calc(100vh - 164px);
+}
+
+.filter-12 {
+  height: calc(100% - 60px);
+  border: 1px solid #ccc;
+  right: 0;
+  top: 57px;
+  background: #fff;
+  z-index: 10000 !important;
+  position: fixed;
+  overflow-y: auto;
+  width: 590px;
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
+}
+
+.right-sidenav-header {
+  /* stylelint-enable */
+  font: 600 20px 'Montserrat';
+  /* stylelint-disable */
+  color: #000000de;
+  border-bottom: 2px solid #00000014;
+
+  .closeIcon {
+    color: #666666;
+    font-size: 24px;
+    cursor: pointer;
+  }
+}
+
+.right-sidenav-footer {
+  border-top: 2px solid#00000014;
+  width: 550px;
+  position: fixed;
+  top: calc(100% - 72px);
+}
+
+:host ::ng-deep .formfield-rounded-full {
+  .mat-form-field-appearance-outline .mat-form-field-outline-end {
+    border-left-style: solid;
+    border-radius: 30px;
+    height: 50px;
+  }
+
+  .mat-form-field-appearance-outline .mat-form-field-infix {
+    padding-left: 10px;
+  }
+
+  .mat-form-field-appearance-outline .mat-form-field-outline-start {
+    min-width: 0px;
+    border: 0px;
+  }
+
+  .mat-form-field-outline {
+    height: 50px;
+    border-radius: 30px;
+  }
+
+  .mat-form-field-flex {
+    height: 50px;
+    align-items: center;
+  }
+
+  .mat-radio-button .mat-radio-container .mat-radio-inner-circle {
+    background-color: #1b4ca1 !important;
+    width: 19.5px !important;
+    transform: scale(0.7) !important;
+  }
+
+  .active-radio-button .mat-radio-button .mat-radio-container .mat-radio-outer-circle {
+    border-color: #1b4ca1 !important;
+  }
+}
+
+.max-w-240 {
+  max-width: 240px;
+}
+
+.note-text {
+  color: #666666;
+}
+
+.badge {
+  padding: 2px 16px;
+  border-radius: 35px;
+  font-size: 14px;
+  height: 21px;
+
+  &.active {
+    color: #1d8923;
+    background: #1d892329;
+  }
+
+  &.in-active {
+    color: #00000099;
+    background: #00000029;
+  }
+}
+
+.wrapper-card {
+  background: #0000000a;
+  border: 1px solid #00000014;
+}
+
+.bg-inherit {
+  background: inherit !important;
+}
+
+.link-anchor {
+  max-width: 375px;
+  word-wrap: break-word;
+  white-space: normal;
+}
+
+.center-position {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+
+}
+
+:host ::ng-deep button.mat-focus-indicator.mat-btn-outline.mat-flat-button.mat-button-base:hover {
+  background-color: #1b4ca1 !important;
+  color: #fff !important;
+
+  mat-icon,
+  span {
+    color: #fff !important;
+  }
+
+  img {
+    filter: brightness(0) invert(1);
+  }
+}

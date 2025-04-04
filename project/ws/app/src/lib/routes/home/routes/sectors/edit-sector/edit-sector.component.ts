@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core'
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
-import { MatDialog } from '@angular/material/dialog'
+import { UntypedFormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms'
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog'
 import { ActivatedRoute, Router } from '@angular/router'
 import { ConfigurationsService } from '@sunbird-cb/utils'
 import * as _ from 'lodash'
 import { SectorsService } from '../sectors.service'
 import { DomSanitizer } from '@angular/platform-browser'
-import { MatSnackBar } from '@angular/material/snack-bar'
+import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar'
 import { sectorConstants } from '../sectors-constats.model'
 
 @Component({
@@ -17,30 +17,32 @@ import { sectorConstants } from '../sectors-constats.model'
 export class EditSectorComponent implements OnInit {
 
   currentUser!: string | null
-  addSectorForm: FormGroup
+  addSectorForm: UntypedFormGroup
   disableCreateButton = false
   myreg = sectorConstants.nameRegex
   isDisabled = true
-  myForm: FormGroup
+  myForm: UntypedFormGroup
   subSectors: any = []
   sectorDetails: any
   id: any
   loading = false
 
+  noHtmlCharacter = new RegExp(/<[^>]*>|(function[^\s]+)|(javascript:[^\s]+)/i)
+
   constructor(
     public dialog: MatDialog,
     private configSvc: ConfigurationsService,
     private router: Router,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private sectorsService: SectorsService,
     private sanitizer: DomSanitizer,
     private activatedRoute: ActivatedRoute,
     private snackBar: MatSnackBar,
   ) {
     this.currentUser = this.configSvc.userProfile && this.configSvc.userProfile.userId
-    this.addSectorForm = new FormGroup({
-      sectorTitle: new FormControl({ value: '', disabled: this.isDisabled }, [Validators.required, Validators.pattern(this.myreg)]),
-      imgUrl: new FormControl('', [Validators.required]),
+    this.addSectorForm = new UntypedFormGroup({
+      sectorTitle: new UntypedFormControl({ value: '', disabled: this.isDisabled }, [Validators.required, Validators.pattern(this.myreg)]),
+      imgUrl: new UntypedFormControl('', [Validators.required]),
     })
 
     this.myForm = this.formBuilder.group({
@@ -49,7 +51,7 @@ export class EditSectorComponent implements OnInit {
   }
   // Initialize the textbox
   get textboxes() {
-    return this.myForm.get('textboxes') as FormArray
+    return this.myForm.get('textboxes') as UntypedFormArray
   }
   // Dynamically add textbox for sub sectors
   addTextbox(value: string = '') {
@@ -129,5 +131,14 @@ export class EditSectorComponent implements OnInit {
       return this.sanitizer.bypassSecurityTrustResourceUrl(this.sectorsService.getChangedArtifactUrl(url))
     }
     return '/assets/instances/eagle/app_logos/default.png'
+  }
+
+  validateInput(event: string) {
+    const regexMatch = event.match(this.noHtmlCharacter)
+    if (regexMatch) {
+      this.myForm.controls['textboxes'].setErrors({ required: true })
+      this.snackBar.open('HTML or Js is not allowed')
+    }
+
   }
 }

@@ -1,6 +1,7 @@
 import { Component, OnInit, Inject, ViewChild, ElementRef } from '@angular/core'
-import { MAT_DIALOG_DATA, MatDialogRef, MatSnackBar } from '@angular/material'
-import { FormGroup, Validators, FormControl } from '@angular/forms'
+import { MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog'
+import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar'
+import { UntypedFormGroup, Validators, UntypedFormControl } from '@angular/forms'
 import { TenantAdminService } from '../../../../services/tenant-admin.service'
 
 @Component({
@@ -10,10 +11,10 @@ import { TenantAdminService } from '../../../../services/tenant-admin.service'
   styleUrls: ['./edit-department-dialog.component.scss'],
 })
 export class EditDepartmentDialogComponent implements OnInit {
-  editForm: FormGroup
+  editForm: UntypedFormGroup
   uploadSaveData = false
   processing = false
-  departments = []
+  departments: any = []
   userDepartment = ''
   @ViewChild('toastSuccess', { static: true }) toastSuccess!: ElementRef<any>
   @ViewChild('toastError', { static: true }) toastError!: ElementRef<any>
@@ -24,8 +25,8 @@ export class EditDepartmentDialogComponent implements OnInit {
     private snackBar: MatSnackBar,
   ) {
     this.userDepartment = this.data.department
-    this.editForm = new FormGroup({
-      department: new FormControl('', [Validators.required]),
+    this.editForm = new UntypedFormGroup({
+      department: new UntypedFormControl('', [Validators.required]),
     })
   }
 

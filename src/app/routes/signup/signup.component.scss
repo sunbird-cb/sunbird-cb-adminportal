@@ -5,5 +5,7 @@
     padding: $size-m;
     @extend %page-center;
     @extend %height-mat-toolbar-sibling;
+    /* stylelint-disable */
     box-sizing: border-box;
+    /* stylelint-enable */
 }
